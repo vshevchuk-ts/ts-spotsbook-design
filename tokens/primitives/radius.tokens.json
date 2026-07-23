@@ -2,40 +2,40 @@
   "radius": {
     "none": {
       "$type": "dimension",
-      "$value": "{dim.0}"
+      "$value": "{spacing.0}"
     },
     "xxs": {
       "$type": "dimension",
-      "$value": "{dim.0_5}"
+      "$value": "{spacing.0_5}"
     },
     "xs": {
       "$type": "dimension",
-      "$value": "{dim.1}"
+      "$value": "{spacing.1}"
     },
     "sm": {
       "$type": "dimension",
-      "$value": "{dim.1_5}"
+      "$value": "{spacing.1_5}"
     },
     "default": {
       "$type": "dimension",
-      "$value": "{dim.2}",
+      "$value": "{spacing.2}",
       "$description": "Its own rung on the scale (8px, the base grid unit) — not an alias for sm or md. Default radius for ordinary controls (buttons, inputs, cards) unless a component calls for a named size explicitly."
     },
     "md": {
       "$type": "dimension",
-      "$value": "{dim.3}"
+      "$value": "{spacing.3}"
     },
     "lg": {
       "$type": "dimension",
-      "$value": "{dim.4}"
+      "$value": "{spacing.4}"
     },
     "xl": {
       "$type": "dimension",
-      "$value": "{dim.6}"
+      "$value": "{spacing.6}"
     },
     "full": {
       "$type": "dimension",
-      "$value": "{dim.max}"
+      "$value": "{spacing.max}"
     }
   }
 }

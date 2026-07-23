@@ -4,13 +4,13 @@
       "$description": "Selectable-options dropdown (ARIA listbox/option) — the panel Select opens, and reusable anywhere else a multi/single-select list is needed. Distinct from Menu: options carry persistent selection state (checked/selected), Menu's items are one-shot actions. Same panel shell as Menu/Popover (border.default + shadow.sm + radius.default, native popover attribute) — only the option row and two optional header pieces (search, select-all/clear-all) are new. Single-select shows a trailing checkmark on the selected option (check.svg, fill.primary) and closes on pick, like a native <select>. Multi-select shows a real Checkbox marker per option (identical tokens to the actual Checkbox component: dim.5 box, radius.xs, borderWidth dim.0_5, fill.primary when checked) and stays open across picks. Search reuses Search component's own sm-size tokens verbatim (height/paddingX/iconSize/gap, surface.sunken bg) rather than re-deriving a new small-input recipe. Select-all/Clear-all row only makes sense for multi-select — clear-all uses text-style.link-sm (the same underlined-link style already defined for exactly this kind of inline action), not a button.",
       "radius": { "$type": "dimension", "$value": "{radius.default}" },
       "optionRadius": { "$type": "dimension", "$value": "{radius.xs}", "$description": "Concentric with the panel, same reasoning as Menu's itemRadius." },
-      "padding": { "$type": "dimension", "$value": "{dim.1}", "$description": "4px outer padding around the option list, same as Menu." },
-      "gap": { "$type": "dimension", "$value": "{dim.0_5}", "$description": "2px between options, same as Menu." },
-      "optionPaddingX": { "$type": "dimension", "$value": "{dim.2}" },
-      "optionPaddingY": { "$type": "dimension", "$value": "{dim.2}" },
-      "optionGap": { "$type": "dimension", "$value": "{dim.2}", "$description": "8px between a marker (checkbox/checkmark) and the option label." },
-      "checkmarkSize": { "$type": "dimension", "$value": "{dim.4}" },
-      "maxHeight": { "$type": "dimension", "$value": "{dim.72}", "$description": "288px — long option lists scroll inside the panel rather than growing it indefinitely." },
+      "padding": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px outer padding around the option list, same as Menu." },
+      "gap": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px between options, same as Menu." },
+      "optionPaddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+      "optionPaddingY": { "$type": "dimension", "$value": "{spacing.2}" },
+      "optionGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between a marker (checkbox/checkmark) and the option label." },
+      "checkmarkSize": { "$type": "dimension", "$value": "{spacing.4}" },
+      "maxHeight": { "$type": "dimension", "$value": "{spacing.72}", "$description": "288px — long option lists scroll inside the panel rather than growing it indefinitely." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
       "shadow": { "$type": "shadow", "$value": "{shadow.sm}" },
@@ -33,13 +33,13 @@
       },
       "checkbox": {
         "$description": "Multi-select marker — literally the real Checkbox component's own tokens, not re-derived, so a Listbox option's checkbox is pixel-identical to a standalone Checkbox.",
-        "box": { "$type": "dimension", "$value": "{dim.5}" },
+        "box": { "$type": "dimension", "$value": "{spacing.5}" },
         "radius": { "$type": "dimension", "$value": "{radius.xs}" },
-        "borderWidth": { "$type": "dimension", "$value": "{dim.0_5}" }
+        "borderWidth": { "$type": "dimension", "$value": "{spacing.0_5}" }
       },
       "search": {
         "$description": "Reuses Search component's own sm size + default state tokens verbatim — see search.tokens.json, not re-declared here.",
-        "gapBelow": { "$type": "dimension", "$value": "{dim.1}", "$description": "4px between the search field and the divider under it." }
+        "gapBelow": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between the search field and the divider under it." }
       },
       "selectAllRow": {
         "label": { "$type": "typography", "$value": "{text-style.body-sm}" },

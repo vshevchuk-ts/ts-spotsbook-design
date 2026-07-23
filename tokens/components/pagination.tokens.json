@@ -4,11 +4,11 @@
       "$description": "Page-number row + prev/next arrows + an ellipsis for collapsed ranges. First and last page numbers are always shown as real numbers, never collapsed behind the ellipsis — replaces the jump-to-first/jump-to-last double-arrow buttons the previous ad-hoc implementation had with the same capability (click the visible '1' or the visible last-page number) using one control instead of two. Single size only, unlike button/input/select's sm/base/lg — this is a compact utility control for tables/lists, not something that needs an emphasis ladder. Rows-per-page isn't a separate control here — it composes component.select (sm) directly, see tools/build-pagination-doc.mjs.",
       "item": {
         "$description": "One shared shape for page-number buttons AND the prev/next arrow buttons — same size/radius/typography, only the content (digit vs chevron icon) and state differ.",
-        "size": { "$type": "dimension", "$value": "{dim.8}" },
-        "minWidth": { "$type": "dimension", "$value": "{dim.8}" },
-        "paddingX": { "$type": "dimension", "$value": "{dim.1_5}" },
-        "gap": { "$type": "dimension", "$value": "{dim.1}" },
-        "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+        "size": { "$type": "dimension", "$value": "{spacing.8}" },
+        "minWidth": { "$type": "dimension", "$value": "{spacing.8}" },
+        "paddingX": { "$type": "dimension", "$value": "{spacing.1_5}" },
+        "gap": { "$type": "dimension", "$value": "{spacing.1}" },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
         "radius": { "$type": "dimension", "$value": "{radius.default}" },
         "label": {
           "$type": "typography",
@@ -21,7 +21,7 @@
       },
       "bar": {
         "$description": "The two pieces (rows-per-page selector, page-range nav) almost always appear together — a table/list footer — not as isolated controls. Full-width: justify-content: space-between (structural, no token needed). Not full-width / inline: this gap is the minimum breathing room between the two groups so they don't crowd each other.",
-        "gap": { "$type": "dimension", "$value": "{dim.6}" }
+        "gap": { "$type": "dimension", "$value": "{spacing.6}" }
       },
       "state": {
         "default": {

@@ -17,7 +17,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").dim;
+const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
 const shadowPrim = load("tokens/primitives/shadow.tokens.json").shadow;
 const typo = load("tokens/primitives/typography.tokens.json");
@@ -27,8 +27,7 @@ const modal = load("tokens/components/modal.tokens.json").component.modal;
 
 const registry = {
   color: colorPrim,
-  dim,
-  radius: radiusPrim,
+  spacing: dim,  radius: radiusPrim,
   shadow: shadowPrim,
   family: typo.family,
   weight: typo.weight,
@@ -108,16 +107,16 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .modal__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .modal__close:hover { background: ${cv("fill.neutralHover")}; }
 .modal__close:active { background: ${cv("fill.neutralActive")}; }
-.modal__close:focus-visible { outline: ${px(resolve("dim.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("dim.0_5"))}; }
+.modal__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .modal__close-icon { width: 20px; height: 20px; display: block; }
 
-.ov-btn { box-sizing: border-box; height: ${px(resolve("dim.10"))}; padding: 0 ${px(resolve("dim.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: ${cv("family.sans")}; ${typoCss(resolveToken(get("text-style.heading-base")))} }
+.ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: ${cv("family.sans")}; ${typoCss(resolveToken(get("text-style.heading-base")))} }
 .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
 .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
 .ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
 .ov-btn--danger { background: ${cv("fill.danger")}; color: ${cv("text.onFill")}; font-weight: 600; }
 .ov-btn--danger:hover { background: ${cv("fill.dangerHover")}; }
-.ov-btn:focus-visible { outline: ${px(resolve("dim.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("dim.0_5"))}; }`;
+.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
@@ -232,8 +231,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Modal</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Modal</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;

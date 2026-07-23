@@ -4,12 +4,12 @@
       "$description": "Single size only, same rationale as Checkbox/Radio — a fixed-size control, not a field grid. Native <input type=\"checkbox\"> stays in the DOM (visually hidden, clip-rect technique) so keyboard/forms/screen-readers work for free — only the paired track+thumb are repainted via :checked/:disabled/:focus-visible on the real input, same pattern as Checkbox/Radio. Unlike Checkbox/Radio, the track is always filled (never transparent/outlined) at rest — every reference checked (Radix, MUI, Ant, iOS) draws an off switch as a filled gray pill, not a hollow one, since the track itself is the whole affordance. No indeterminate state — that's a Checkbox-specific tri-state concept with no switch equivalent. Thumb is a flat white circle, no shadow — consistent with the rest of this system having no shadow/elevation token; contrast against the track color alone provides definition, same flat aesthetic as everything else.",
       "radius": { "$type": "dimension", "$value": "{radius.full}" },
       "size": {
-        "trackWidth": { "$type": "dimension", "$value": "{dim.9}", "$description": "36px." },
-        "trackHeight": { "$type": "dimension", "$value": "{dim.5}", "$description": "20px — same footprint as Checkbox's box / Radio's circle, so all three line up when used near each other." },
-        "thumb": { "$type": "dimension", "$value": "{dim.4}", "$description": "16px — leaves a 2px inset on every side of the 20px track height." },
-        "thumbInset": { "$type": "dimension", "$value": "{dim.0_5}", "$description": "2px gap between the thumb and the track's own edge, on all sides." },
-        "borderWidth": { "$type": "dimension", "$value": "{dim.0_5}", "$description": "2px, only used for the focus ring's own additive outline — the track itself has no border, it's a solid fill." },
-        "gap": { "$type": "dimension", "$value": "{dim.2}", "$description": "Track-to-label gap, 8px — same as Checkbox/Radio." }
+        "trackWidth": { "$type": "dimension", "$value": "{spacing.9}", "$description": "36px." },
+        "trackHeight": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px — same footprint as Checkbox's box / Radio's circle, so all three line up when used near each other." },
+        "thumb": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px — leaves a 2px inset on every side of the 20px track height." },
+        "thumbInset": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px gap between the thumb and the track's own edge, on all sides." },
+        "borderWidth": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px, only used for the focus ring's own additive outline — the track itself has no border, it's a solid fill." },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "Track-to-label gap, 8px — same as Checkbox/Radio." }
       },
       "label": {
         "$type": "typography",
@@ -29,8 +29,8 @@
         },
         "focused": {
           "ringColor": { "$type": "color", "$value": "{border.focus}" },
-          "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-          "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+          "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+          "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Same additive-ring pattern as Button/Checkbox/Radio/Card."
         },
         "checked": {

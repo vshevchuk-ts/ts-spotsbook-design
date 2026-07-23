@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Button</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Button</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -73,25 +73,25 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-fill-primary: #077fec;
-  --tok-fill-primary-hover: #0468c4;
-  --tok-fill-primary-active: #01519c;
-  --tok-text-on-fill: #ffffff;
-  --tok-icon-on-fill: #ffffff;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-text-default: #181818;
-  --tok-icon-default: #525252;
-  --tok-text-secondary: #696969;
-  --tok-icon-secondary: #808080;
-  --tok-fill-disabled: #e8e8e8;
-  --tok-text-disabled: #b4b4b4;
-  --tok-icon-disabled: #b4b4b4;
-  --tok-border-focus: #0468c4;
-  --tok-color-white: #ffffff;
-  --tok-text-primary: #0468c4;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-fill-primary: #FB8C33;
+  --tok-fill-primary-hover: #FB8C33;
+  --tok-fill-primary-active: #FB8C33;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-on-fill: #FFFFFF;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-icon-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-disabled: #282E3E;
+  --tok-text-disabled: #8E929F;
+  --tok-icon-disabled: #8E929F;
+  --tok-border-focus: #FB8C33;
+  --tok-color-white: #FFFFFF;
+  --tok-text-primary: #FB8C33;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .btn {
@@ -110,7 +110,7 @@
   padding: 0 8px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.4;
 }
@@ -122,7 +122,7 @@
   padding: 0 12px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -134,7 +134,7 @@
   padding: 0 16px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.4;
 }
@@ -184,8 +184,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -217,11 +217,6 @@
     <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
-    <a class="navlink" href="attachment.html">Attachment</a>
-    <a class="navlink" href="message.html">Message</a>
-    <a class="navlink" href="bubble.html">Bubble</a>
-    <a class="navlink" href="thread-list-item.html">ThreadListItem</a>
-    <a class="navlink" href="composer.html">Composer</a>
   </nav>
   <main>
     <h1>Button</h1>
@@ -239,25 +234,25 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One <code class="tok">:root</code> block of color custom properties, then a shared <code class="tok">.btn</code> base + <code class="tok">--sm/--base/--lg</code> size modifiers (used by all three variants — sizes are identical), then <code class="tok">.btn--primary</code> / <code class="tok">.btn--secondary</code> / <code class="tok">.btn--ghost</code> color modifiers. States are plain pseudo-classes, not separate classes. Dimensions (height/padding/gap/font-size) stay literal px in the size modifiers — those are baked layout decisions per size, not values a consumer re-themes at runtime the way colors are.</p>
     <pre class="code"><code>:root {
-  --tok-fill-primary: #077fec;
-  --tok-fill-primary-hover: #0468c4;
-  --tok-fill-primary-active: #01519c;
-  --tok-text-on-fill: #ffffff;
-  --tok-icon-on-fill: #ffffff;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-text-default: #181818;
-  --tok-icon-default: #525252;
-  --tok-text-secondary: #696969;
-  --tok-icon-secondary: #808080;
-  --tok-fill-disabled: #e8e8e8;
-  --tok-text-disabled: #b4b4b4;
-  --tok-icon-disabled: #b4b4b4;
-  --tok-border-focus: #0468c4;
-  --tok-color-white: #ffffff;
-  --tok-text-primary: #0468c4;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-fill-primary: #FB8C33;
+  --tok-fill-primary-hover: #FB8C33;
+  --tok-fill-primary-active: #FB8C33;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-on-fill: #FFFFFF;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-icon-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-disabled: #282E3E;
+  --tok-text-disabled: #8E929F;
+  --tok-icon-disabled: #8E929F;
+  --tok-border-focus: #FB8C33;
+  --tok-color-white: #FFFFFF;
+  --tok-text-primary: #FB8C33;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .btn {
@@ -276,7 +271,7 @@
   padding: 0 8px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.4;
 }
@@ -288,7 +283,7 @@
   padding: 0 12px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -300,7 +295,7 @@
   padding: 0 16px;
   gap: 8px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.4;
 }

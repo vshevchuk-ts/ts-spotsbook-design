@@ -7,14 +7,14 @@ import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const dim = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/dimension.tokens.json"))).dim;
+const spacing = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/dimension.tokens.json"))).spacing;
 const radius = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/radius.tokens.json"))).radius;
 const z = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/z-index.tokens.json"))).z;
 const shadow = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/shadow.tokens.json"))).shadow;
 
 function resolveDim(ref) {
   const key = ref.replace(/[{}]/g, "").split(".")[1];
-  return dim[key].$value;
+  return spacing[key].$value;
 }
 function px(d) {
   return `${d.value}${d.unit}`;
@@ -25,7 +25,7 @@ function px(d) {
 // insertion order — a quirk of the spec, not something worth fighting in the
 // source file. Sort explicitly by resolved px value for display instead of
 // trusting object key order (true of the raw token JSON too, not just here).
-const dimRows = Object.entries(dim)
+const spacingRows = Object.entries(spacing)
   .filter(([k]) => !k.startsWith("$"))
   .sort((a, b) => a[1].$value.value - b[1].$value.value);
 const radiusRows = Object.entries(radius).filter(([k]) => !k.startsWith("$"));
@@ -36,7 +36,7 @@ function shadowCss(v) {
   return `${px2(v.offsetX)} ${px2(v.offsetY)} ${px2(v.blur)} ${px2(v.spread)} ${v.color}`;
 }
 
-const dimLegend = [
+const spacingLegend = [
   ["0_5 (2px)", "Hairline gaps — icon-to-text micro adjustments."],
   ["1 – 1_5 (4–6px)", "Tight inline spacing — icon-to-label inside a compact control."],
   ["2 (8px)", "The base gap — the single most-used spacing value in the whole scale: default gap between buttons, cards, form fields; standard icon-to-label spacing."],
@@ -82,8 +82,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — layout</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — layout</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -149,20 +149,20 @@ const html = `<!doctype html>
     ${renderNav("layout")}
   </nav>
   <main>
-    <h1>Layout — dimensions, radius, z-index</h1>
+    <h1>Layout — spacing, radius, z-index</h1>
     <p class="sub">tokens/primitives/dimension.tokens.json + radius.tokens.json + z-index.tokens.json · generated</p>
 
-    <h3 class="sub-section">Dimensions</h3>
+    <h3 class="sub-section">Spacing</h3>
     <div class="legend">
-      ${dimLegend.map(([k, v]) => `<div class="row"><b>${k}</b><span>${v}</span></div>`).join("\n      ")}
+      ${spacingLegend.map(([k, v]) => `<div class="row"><b>${k}</b><span>${v}</span></div>`).join("\n      ")}
     </div>
     <table class="scale">
       <tr><th>Token</th><th>Value</th><th style="width:40%">Preview</th></tr>
-      ${dimRows
+      ${spacingRows
         .map(([k, v]) => {
           const d = v.$value;
           const barWidth = Math.min(d.value, 240);
-          return `<tr><td><code class="tok">--dim-${k}</code></td><td>${px(d)}</td><td><div class="dim-bar" style="width:${barWidth}px"></div></td></tr>`;
+          return `<tr><td><code class="tok">--spacing-${k}</code></td><td>${px(d)}</td><td><div class="dim-bar" style="width:${barWidth}px"></div></td></tr>`;
         })
         .join("\n      ")}
     </table>

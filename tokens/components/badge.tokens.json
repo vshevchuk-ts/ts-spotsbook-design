@@ -6,8 +6,8 @@
       "size": {
         "$description": "Height/paddingX/label ladder deliberately mirrors Counter's own sm/base/lg (dim.4/5/6 height, size.xs/sm/base label) — resolved from Counter's real values, not re-guessed — so the two small-pill components sit at identical heights when they appear side by side (e.g. a Badge next to a Counter in a list row).",
         "sm": {
-          "height": { "$type": "dimension", "$value": "{dim.4}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.1}" },
+          "height": { "$type": "dimension", "$value": "{spacing.4}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.1}" },
           "label": {
             "$type": "typography",
             "$value": {
@@ -20,8 +20,8 @@
           }
         },
         "base": {
-          "height": { "$type": "dimension", "$value": "{dim.5}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.1_5}" },
+          "height": { "$type": "dimension", "$value": "{spacing.5}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.1_5}" },
           "label": {
             "$type": "typography",
             "$value": {
@@ -34,8 +34,8 @@
           }
         },
         "lg": {
-          "height": { "$type": "dimension", "$value": "{dim.6}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.1_5}" },
+          "height": { "$type": "dimension", "$value": "{spacing.6}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.1_5}" },
           "label": {
             "$type": "typography",
             "$value": {

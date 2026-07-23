@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Box</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Box</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -78,13 +78,13 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-page: #ffffff;
-  --tok-surface-default: #ffffff;
-  --tok-surface-sunken: #e8e8e8;
-  --tok-surface-overlay: rgba(21, 25, 30, 0.5);
-  --tok-border-default: #d1d1d1;
-  --tok-text-secondary: #696969;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-page: #11141C;
+  --tok-surface-default: #1C202B;
+  --tok-surface-sunken: #282E3E;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
+  --tok-border-default: #282E3E;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .box { box-sizing: border-box; }
@@ -103,8 +103,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -136,11 +136,6 @@
     <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
-    <a class="navlink" href="attachment.html">Attachment</a>
-    <a class="navlink" href="message.html">Message</a>
-    <a class="navlink" href="bubble.html">Bubble</a>
-    <a class="navlink" href="thread-list-item.html">ThreadListItem</a>
-    <a class="navlink" href="composer.html">Composer</a>
   </nav>
   <main>
     <h1>Box</h1>
@@ -157,13 +152,13 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-page: #ffffff;
-  --tok-surface-default: #ffffff;
-  --tok-surface-sunken: #e8e8e8;
-  --tok-surface-overlay: rgba(21, 25, 30, 0.5);
-  --tok-border-default: #d1d1d1;
-  --tok-text-secondary: #696969;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-page: #11141C;
+  --tok-surface-default: #1C202B;
+  --tok-surface-sunken: #282E3E;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
+  --tok-border-default: #282E3E;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .box { box-sizing: border-box; }
@@ -216,15 +211,15 @@
     <div class="table-wrap">
     <table class="scale">
       <tr><th>Token</th><th>Alias</th><th>Value</th><th>Preview</th></tr>
-      <tr><td><code class="tok">radius.none</code></td><td class="ctx">{dim.0}</td><td>0px</td><td><div class="box box--default box--border radius-demo" style="border-radius:0px"></div></td></tr>
-      <tr><td><code class="tok">radius.xxs</code></td><td class="ctx">{dim.0_5}</td><td>2px</td><td><div class="box box--default box--border radius-demo" style="border-radius:2px"></div></td></tr>
-      <tr><td><code class="tok">radius.xs</code></td><td class="ctx">{dim.1}</td><td>4px</td><td><div class="box box--default box--border radius-demo" style="border-radius:4px"></div></td></tr>
-      <tr><td><code class="tok">radius.sm</code></td><td class="ctx">{dim.1_5}</td><td>6px</td><td><div class="box box--default box--border radius-demo" style="border-radius:6px"></div></td></tr>
-      <tr><td><code class="tok">radius.default</code></td><td class="ctx">{dim.2}</td><td>8px</td><td><div class="box box--default box--border radius-demo" style="border-radius:8px"></div></td></tr>
-      <tr><td><code class="tok">radius.md</code></td><td class="ctx">{dim.3}</td><td>12px</td><td><div class="box box--default box--border radius-demo" style="border-radius:12px"></div></td></tr>
-      <tr><td><code class="tok">radius.lg</code></td><td class="ctx">{dim.4}</td><td>16px</td><td><div class="box box--default box--border radius-demo" style="border-radius:16px"></div></td></tr>
-      <tr><td><code class="tok">radius.xl</code></td><td class="ctx">{dim.6}</td><td>24px</td><td><div class="box box--default box--border radius-demo" style="border-radius:24px"></div></td></tr>
-      <tr><td><code class="tok">radius.full</code></td><td class="ctx">{dim.max}</td><td>999px</td><td><div class="box box--default box--border radius-demo" style="border-radius:999px"></div></td></tr>
+      <tr><td><code class="tok">radius.none</code></td><td class="ctx">{spacing.0}</td><td>0px</td><td><div class="box box--default box--border radius-demo" style="border-radius:0px"></div></td></tr>
+      <tr><td><code class="tok">radius.xxs</code></td><td class="ctx">{spacing.0_5}</td><td>2px</td><td><div class="box box--default box--border radius-demo" style="border-radius:2px"></div></td></tr>
+      <tr><td><code class="tok">radius.xs</code></td><td class="ctx">{spacing.1}</td><td>4px</td><td><div class="box box--default box--border radius-demo" style="border-radius:4px"></div></td></tr>
+      <tr><td><code class="tok">radius.sm</code></td><td class="ctx">{spacing.1_5}</td><td>6px</td><td><div class="box box--default box--border radius-demo" style="border-radius:6px"></div></td></tr>
+      <tr><td><code class="tok">radius.default</code></td><td class="ctx">{spacing.2}</td><td>8px</td><td><div class="box box--default box--border radius-demo" style="border-radius:8px"></div></td></tr>
+      <tr><td><code class="tok">radius.md</code></td><td class="ctx">{spacing.3}</td><td>12px</td><td><div class="box box--default box--border radius-demo" style="border-radius:12px"></div></td></tr>
+      <tr><td><code class="tok">radius.lg</code></td><td class="ctx">{spacing.4}</td><td>16px</td><td><div class="box box--default box--border radius-demo" style="border-radius:16px"></div></td></tr>
+      <tr><td><code class="tok">radius.xl</code></td><td class="ctx">{spacing.6}</td><td>24px</td><td><div class="box box--default box--border radius-demo" style="border-radius:24px"></div></td></tr>
+      <tr><td><code class="tok">radius.full</code></td><td class="ctx">{spacing.max}</td><td>999px</td><td><div class="box box--default box--border radius-demo" style="border-radius:999px"></div></td></tr>
     </table>
     </div>
 

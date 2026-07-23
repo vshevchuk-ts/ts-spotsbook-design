@@ -18,9 +18,9 @@ function ramp(fam) {
     .map(([step, tok]) => ({
       step,
       hex: tok.$value,
-      L: tok.$extensions["hp.design/oklch"].l,
-      H: tok.$extensions["hp.design/oklch"].h,
-      onWhite: tok.$extensions["hp.design/contrast"].onWhite,
+      L: tok.$extensions["turbo.sportsbook/x"].l,
+      H: tok.$extensions["turbo.sportsbook/x"].h,
+      onWhite: tok.$extensions["turbo.sportsbook/x"].onWhite,
     }))
     .sort((a, b) => Number(a.step) - Number(b.step));
 }
@@ -40,8 +40,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — colors</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — colors</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;

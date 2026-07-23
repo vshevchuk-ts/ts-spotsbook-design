@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Card</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Card</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -77,20 +77,20 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-fill-primary: #077fec;
-  --tok-bg-primary: #d9eaff;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-fill-primary: #FB8C33;
+  --tok-bg-primary: rgba(251, 140, 51, 0.12);
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
 .card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-border-default); }
 .card__footer { padding-top: 12px; border-top: 1px solid var(--tok-border-default); display: flex; gap: 8px; }
-.card__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.card__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .card__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
@@ -102,8 +102,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -135,11 +135,6 @@
     <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
-    <a class="navlink" href="attachment.html">Attachment</a>
-    <a class="navlink" href="message.html">Message</a>
-    <a class="navlink" href="bubble.html">Bubble</a>
-    <a class="navlink" href="thread-list-item.html">ThreadListItem</a>
-    <a class="navlink" href="composer.html">Composer</a>
   </nav>
   <main>
     <h1>Card</h1>
@@ -155,20 +150,20 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-fill-primary: #077fec;
-  --tok-bg-primary: #d9eaff;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-fill-primary: #FB8C33;
+  --tok-bg-primary: rgba(251, 140, 51, 0.12);
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
 .card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-border-default); }
 .card__footer { padding-top: 12px; border-top: 1px solid var(--tok-border-default); display: flex; gap: 8px; }
-.card__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.card__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .card__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }

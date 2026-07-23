@@ -21,6 +21,8 @@ function px(dim) {
   return `${dim.value}${dim.unit}`;
 }
 
+const fontSans = typo.family.sans.$value; // resolved family, e.g. "Rubik" — never hardcode
+
 const styleRows = Object.entries(styles)
   .filter(([k]) => !k.startsWith("$"))
   .map(([name, tok]) => {
@@ -29,16 +31,16 @@ const styleRows = Object.entries(styles)
     const size = resolve(v.fontSize).$value;
     const leading = resolve(v.lineHeight).$value;
     const tracking = resolve(v.letterSpacing).$value;
-    const ext = tok.$extensions?.["hp.design/text"] || {};
+    const ext = tok.$extensions?.["turbo.sportsbook/text"] || {};
     return { name, weight, size: px(size), leading, tracking: px(tracking), ...ext };
   });
 
 const sampleText = {
-  body: "Registration for the fall term opens on Monday, July 20.",
-  heading: "Academic advising",
-  title: "Question about fall registration",
-  link: "View pricing",
-  label: "Assigned to me",
+  body: "Cash out is available until the final whistle on this market.",
+  heading: "Match winner",
+  title: "Manchester City vs Fulham",
+  link: "View all markets",
+  label: "Freebet",
 };
 function sampleFor(name) {
   if (name.startsWith("body")) return sampleText.body;
@@ -59,8 +61,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — typography</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — typography</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -129,7 +131,8 @@ const html = `<!doctype html>
     <h2 class="section">Primitives</h2>
     <table class="scale">
       <tr><th>Family</th><th>Value</th></tr>
-      ${familyRows.map(([k, v]) => `<tr><td><code class="tok">--sans</code></td><td style="font-family:'Sora', sans-serif">${v.$value}</td></tr>`).join("\n      ")}
+      ${familyRows.map(([k, v]) => `<tr><td><code class="tok">--sans</code></td><td style="font-family:'${fontSans}', sans-serif">${v.$value}</td></tr>`).join("\n      ")}
+      <tr><td><code class="tok">Cyrillic</code></td><td style="font-family:'${fontSans}', sans-serif">Ставка прийнята · Матч у прямому ефірі · Вивести кошти</td></tr>
     </table>
     <table class="scale" style="margin-top:1.2rem">
       <tr><th>Weight</th><th>Value</th></tr>
@@ -158,7 +161,7 @@ const html = `<!doctype html>
     </div>
     ${styleRows
       .map((r) => {
-        const css = `font-family:'Sora', sans-serif;font-weight:${r.weight};font-size:${r.size};line-height:${r.leading};letter-spacing:${r.tracking};${r.textDecoration ? `text-decoration:${r.textDecoration};` : ""}${r.textTransform ? `text-transform:${r.textTransform};` : ""}`;
+        const css = `font-family:'${fontSans}', sans-serif;font-weight:${r.weight};font-size:${r.size};line-height:${r.leading};letter-spacing:${r.tracking};${r.textDecoration ? `text-decoration:${r.textDecoration};` : ""}${r.textTransform ? `text-transform:${r.textTransform};` : ""}`;
         return `<div class="specimen">
       <div class="meta"><b>${r.name}</b>${r.weight} · ${r.size} · lh ${r.leading} · tr ${r.tracking}${r.textTransform ? " · " + r.textTransform : ""}${r.textDecoration ? " · " + r.textDecoration : ""}</div>
       <div class="sample" style="${css}">${sampleFor(r.name)}</div>

@@ -9,7 +9,7 @@
       },
       "label": {
         "$description": "The horizontal-with-label variant (a line, the label, a line — e.g. an 'OR' divider between a form and a social-login row). Vertical dividers don't get a label variant — rare/awkward in every reference checked, always just a plain line filling the available height.",
-        "gap": { "$type": "dimension", "$value": "{dim.2}" },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}" },
         "color": { "$type": "color", "$value": "{text.secondary}" },
         "text": {
           "$type": "typography",

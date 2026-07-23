@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — layout</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — layout</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -67,8 +67,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -100,17 +100,12 @@
     <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
-    <a class="navlink" href="attachment.html">Attachment</a>
-    <a class="navlink" href="message.html">Message</a>
-    <a class="navlink" href="bubble.html">Bubble</a>
-    <a class="navlink" href="thread-list-item.html">ThreadListItem</a>
-    <a class="navlink" href="composer.html">Composer</a>
   </nav>
   <main>
-    <h1>Layout — dimensions, radius, z-index</h1>
+    <h1>Layout — spacing, radius, z-index</h1>
     <p class="sub">tokens/primitives/dimension.tokens.json + radius.tokens.json + z-index.tokens.json · generated</p>
 
-    <h3 class="sub-section">Dimensions</h3>
+    <h3 class="sub-section">Spacing</h3>
     <div class="legend">
       <div class="row"><b>0_5 (2px)</b><span>Hairline gaps — icon-to-text micro adjustments.</span></div>
       <div class="row"><b>1 – 1_5 (4–6px)</b><span>Tight inline spacing — icon-to-label inside a compact control.</span></div>
@@ -123,41 +118,41 @@
     </div>
     <table class="scale">
       <tr><th>Token</th><th>Value</th><th style="width:40%">Preview</th></tr>
-      <tr><td><code class="tok">--dim-0</code></td><td>0px</td><td><div class="dim-bar" style="width:0px"></div></td></tr>
-      <tr><td><code class="tok">--dim-0_5</code></td><td>2px</td><td><div class="dim-bar" style="width:2px"></div></td></tr>
-      <tr><td><code class="tok">--dim-1</code></td><td>4px</td><td><div class="dim-bar" style="width:4px"></div></td></tr>
-      <tr><td><code class="tok">--dim-1_5</code></td><td>6px</td><td><div class="dim-bar" style="width:6px"></div></td></tr>
-      <tr><td><code class="tok">--dim-2</code></td><td>8px</td><td><div class="dim-bar" style="width:8px"></div></td></tr>
-      <tr><td><code class="tok">--dim-2_5</code></td><td>10px</td><td><div class="dim-bar" style="width:10px"></div></td></tr>
-      <tr><td><code class="tok">--dim-3</code></td><td>12px</td><td><div class="dim-bar" style="width:12px"></div></td></tr>
-      <tr><td><code class="tok">--dim-3_5</code></td><td>14px</td><td><div class="dim-bar" style="width:14px"></div></td></tr>
-      <tr><td><code class="tok">--dim-4</code></td><td>16px</td><td><div class="dim-bar" style="width:16px"></div></td></tr>
-      <tr><td><code class="tok">--dim-5</code></td><td>20px</td><td><div class="dim-bar" style="width:20px"></div></td></tr>
-      <tr><td><code class="tok">--dim-6</code></td><td>24px</td><td><div class="dim-bar" style="width:24px"></div></td></tr>
-      <tr><td><code class="tok">--dim-7</code></td><td>28px</td><td><div class="dim-bar" style="width:28px"></div></td></tr>
-      <tr><td><code class="tok">--dim-8</code></td><td>32px</td><td><div class="dim-bar" style="width:32px"></div></td></tr>
-      <tr><td><code class="tok">--dim-9</code></td><td>36px</td><td><div class="dim-bar" style="width:36px"></div></td></tr>
-      <tr><td><code class="tok">--dim-10</code></td><td>40px</td><td><div class="dim-bar" style="width:40px"></div></td></tr>
-      <tr><td><code class="tok">--dim-11</code></td><td>44px</td><td><div class="dim-bar" style="width:44px"></div></td></tr>
-      <tr><td><code class="tok">--dim-12</code></td><td>48px</td><td><div class="dim-bar" style="width:48px"></div></td></tr>
-      <tr><td><code class="tok">--dim-14</code></td><td>56px</td><td><div class="dim-bar" style="width:56px"></div></td></tr>
-      <tr><td><code class="tok">--dim-16</code></td><td>64px</td><td><div class="dim-bar" style="width:64px"></div></td></tr>
-      <tr><td><code class="tok">--dim-20</code></td><td>80px</td><td><div class="dim-bar" style="width:80px"></div></td></tr>
-      <tr><td><code class="tok">--dim-24</code></td><td>96px</td><td><div class="dim-bar" style="width:96px"></div></td></tr>
-      <tr><td><code class="tok">--dim-28</code></td><td>112px</td><td><div class="dim-bar" style="width:112px"></div></td></tr>
-      <tr><td><code class="tok">--dim-32</code></td><td>128px</td><td><div class="dim-bar" style="width:128px"></div></td></tr>
-      <tr><td><code class="tok">--dim-36</code></td><td>144px</td><td><div class="dim-bar" style="width:144px"></div></td></tr>
-      <tr><td><code class="tok">--dim-40</code></td><td>160px</td><td><div class="dim-bar" style="width:160px"></div></td></tr>
-      <tr><td><code class="tok">--dim-44</code></td><td>176px</td><td><div class="dim-bar" style="width:176px"></div></td></tr>
-      <tr><td><code class="tok">--dim-48</code></td><td>192px</td><td><div class="dim-bar" style="width:192px"></div></td></tr>
-      <tr><td><code class="tok">--dim-52</code></td><td>208px</td><td><div class="dim-bar" style="width:208px"></div></td></tr>
-      <tr><td><code class="tok">--dim-56</code></td><td>224px</td><td><div class="dim-bar" style="width:224px"></div></td></tr>
-      <tr><td><code class="tok">--dim-60</code></td><td>240px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
-      <tr><td><code class="tok">--dim-64</code></td><td>256px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
-      <tr><td><code class="tok">--dim-72</code></td><td>288px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
-      <tr><td><code class="tok">--dim-80</code></td><td>320px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
-      <tr><td><code class="tok">--dim-96</code></td><td>384px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
-      <tr><td><code class="tok">--dim-max</code></td><td>999px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-0</code></td><td>0px</td><td><div class="dim-bar" style="width:0px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-0_5</code></td><td>2px</td><td><div class="dim-bar" style="width:2px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-1</code></td><td>4px</td><td><div class="dim-bar" style="width:4px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-1_5</code></td><td>6px</td><td><div class="dim-bar" style="width:6px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-2</code></td><td>8px</td><td><div class="dim-bar" style="width:8px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-2_5</code></td><td>10px</td><td><div class="dim-bar" style="width:10px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-3</code></td><td>12px</td><td><div class="dim-bar" style="width:12px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-3_5</code></td><td>14px</td><td><div class="dim-bar" style="width:14px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-4</code></td><td>16px</td><td><div class="dim-bar" style="width:16px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-5</code></td><td>20px</td><td><div class="dim-bar" style="width:20px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-6</code></td><td>24px</td><td><div class="dim-bar" style="width:24px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-7</code></td><td>28px</td><td><div class="dim-bar" style="width:28px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-8</code></td><td>32px</td><td><div class="dim-bar" style="width:32px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-9</code></td><td>36px</td><td><div class="dim-bar" style="width:36px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-10</code></td><td>40px</td><td><div class="dim-bar" style="width:40px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-11</code></td><td>44px</td><td><div class="dim-bar" style="width:44px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-12</code></td><td>48px</td><td><div class="dim-bar" style="width:48px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-14</code></td><td>56px</td><td><div class="dim-bar" style="width:56px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-16</code></td><td>64px</td><td><div class="dim-bar" style="width:64px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-20</code></td><td>80px</td><td><div class="dim-bar" style="width:80px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-24</code></td><td>96px</td><td><div class="dim-bar" style="width:96px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-28</code></td><td>112px</td><td><div class="dim-bar" style="width:112px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-32</code></td><td>128px</td><td><div class="dim-bar" style="width:128px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-36</code></td><td>144px</td><td><div class="dim-bar" style="width:144px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-40</code></td><td>160px</td><td><div class="dim-bar" style="width:160px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-44</code></td><td>176px</td><td><div class="dim-bar" style="width:176px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-48</code></td><td>192px</td><td><div class="dim-bar" style="width:192px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-52</code></td><td>208px</td><td><div class="dim-bar" style="width:208px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-56</code></td><td>224px</td><td><div class="dim-bar" style="width:224px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-60</code></td><td>240px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-64</code></td><td>256px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-72</code></td><td>288px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-80</code></td><td>320px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-96</code></td><td>384px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
+      <tr><td><code class="tok">--spacing-max</code></td><td>999px</td><td><div class="dim-bar" style="width:240px"></div></td></tr>
     </table>
 
     <h3 class="sub-section">Radius</h3>
@@ -172,15 +167,15 @@
     </div>
     <table class="scale">
       <tr><th>Token</th><th>Aliases</th><th>Value</th><th>Preview</th></tr>
-      <tr><td><code class="tok">--radius-none</code></td><td class="ctx">{dim.0}</td><td>0px</td><td><div class="radius-box" style="border-radius:0px"></div></td></tr>
-      <tr><td><code class="tok">--radius-xxs</code></td><td class="ctx">{dim.0_5}</td><td>2px</td><td><div class="radius-box" style="border-radius:2px"></div></td></tr>
-      <tr><td><code class="tok">--radius-xs</code></td><td class="ctx">{dim.1}</td><td>4px</td><td><div class="radius-box" style="border-radius:4px"></div></td></tr>
-      <tr><td><code class="tok">--radius-sm</code></td><td class="ctx">{dim.1_5}</td><td>6px</td><td><div class="radius-box" style="border-radius:6px"></div></td></tr>
-      <tr><td><code class="tok">--radius-default</code></td><td class="ctx">{dim.2}</td><td>8px</td><td><div class="radius-box" style="border-radius:8px"></div></td></tr>
-      <tr><td><code class="tok">--radius-md</code></td><td class="ctx">{dim.3}</td><td>12px</td><td><div class="radius-box" style="border-radius:12px"></div></td></tr>
-      <tr><td><code class="tok">--radius-lg</code></td><td class="ctx">{dim.4}</td><td>16px</td><td><div class="radius-box" style="border-radius:16px"></div></td></tr>
-      <tr><td><code class="tok">--radius-xl</code></td><td class="ctx">{dim.6}</td><td>24px</td><td><div class="radius-box" style="border-radius:24px"></div></td></tr>
-      <tr><td><code class="tok">--radius-full</code></td><td class="ctx">{dim.max}</td><td>999px</td><td><div class="radius-box" style="border-radius:999px"></div></td></tr>
+      <tr><td><code class="tok">--radius-none</code></td><td class="ctx">{spacing.0}</td><td>0px</td><td><div class="radius-box" style="border-radius:0px"></div></td></tr>
+      <tr><td><code class="tok">--radius-xxs</code></td><td class="ctx">{spacing.0_5}</td><td>2px</td><td><div class="radius-box" style="border-radius:2px"></div></td></tr>
+      <tr><td><code class="tok">--radius-xs</code></td><td class="ctx">{spacing.1}</td><td>4px</td><td><div class="radius-box" style="border-radius:4px"></div></td></tr>
+      <tr><td><code class="tok">--radius-sm</code></td><td class="ctx">{spacing.1_5}</td><td>6px</td><td><div class="radius-box" style="border-radius:6px"></div></td></tr>
+      <tr><td><code class="tok">--radius-default</code></td><td class="ctx">{spacing.2}</td><td>8px</td><td><div class="radius-box" style="border-radius:8px"></div></td></tr>
+      <tr><td><code class="tok">--radius-md</code></td><td class="ctx">{spacing.3}</td><td>12px</td><td><div class="radius-box" style="border-radius:12px"></div></td></tr>
+      <tr><td><code class="tok">--radius-lg</code></td><td class="ctx">{spacing.4}</td><td>16px</td><td><div class="radius-box" style="border-radius:16px"></div></td></tr>
+      <tr><td><code class="tok">--radius-xl</code></td><td class="ctx">{spacing.6}</td><td>24px</td><td><div class="radius-box" style="border-radius:24px"></div></td></tr>
+      <tr><td><code class="tok">--radius-full</code></td><td class="ctx">{spacing.max}</td><td>999px</td><td><div class="radius-box" style="border-radius:999px"></div></td></tr>
     </table>
 
     <h3 class="sub-section">Z-index</h3>

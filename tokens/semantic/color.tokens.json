@@ -1,353 +1,147 @@
 {
   "surface": {
-    "$description": "Page structure — canvas, cards/panels, recessed fields, backdrops. page and default are both literal white deliberately — cards read as 'raised' via border.default, not a background shift. Use default/page for the vast majority of the UI; sunken is for genuinely recessed elements only, used sparingly.",
-    "page": {
-      "$type": "color",
-      "$value": "{color.white}",
-      "$description": "Page canvas — the dominant background color across the whole product."
-    },
-    "default": {
-      "$type": "color",
-      "$value": "{color.white}",
-      "$description": "Default raised surface — cards, panels. Same value as surface.page on purpose; separated from the page by border.default, not a darker background."
-    },
-    "sunken": {
-      "$type": "color",
-      "$value": "{color.gray.100}",
-      "$description": "Inputs, table row stripes, code blocks — recessed relative to a default surface. Reach for this rarely; it's the exception, not the norm."
-    },
-    "overlay": {
-      "$type": "color",
-      "$value": "rgba(21, 25, 30, 0.5)",
-      "$description": "Modal/drawer backdrop scrim. The one legitimate opacity use in this system — it must composite over arbitrary page content, unlike bg.* tints which sit on a known surface."
-    },
-    "disabled": {
-      "$type": "color",
-      "$value": "{color.gray.100}",
-      "$description": "Disabled control background."
-    },
-    "inverse": {
-      "$type": "color",
-      "$value": "{color.gray.900}",
-      "$description": "The one dark surface role in an otherwise light-themed system — Tooltip's background. Pair with text.onFill/icon.onFill (white), never text.default. Added 2026-07-21 for the overlay-family components; not a general 'dark mode' token, scoped to small inverse-context UI."
-    }
-  },
-  "bg": {
-    "$description": "Passive status surfaces (banners, badges, notification chips) — solid light tints, not opacity. Pair with the matching text.* or icon.* color at the same role, never with text.default.",
-    "primary": {
-      "$type": "color",
-      "$value": "{color.blue.100}"
-    },
-    "success": {
-      "$type": "color",
-      "$value": "{color.green.100}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{color.red.100}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{color.amber.100}"
-    },
-    "neutral": {
-      "$type": "color",
-      "$value": "{color.gray.100}"
-    },
-    "ai": {
-      "$type": "color",
-      "$value": "{color.violet.100}",
-      "$description": "Added 2026-07-22 for Composer's AI Assist button — a genuine cross-product need (Message Center's composer and the future AI chat product both want a distinct 'this is the AI feature' accent), same bar surface.inverse was added under. violet was already an unused-as-semantic-role primitive family, picked over the 4 existing status roles on purpose — none of primary/success/danger/warning mean 'AI', reusing one would misattribute the feature to an unrelated status."
-    }
-  },
-  "border": {
-    "$description": "Hairlines, dividers, and role-colored outlines. border.focus is always blue regardless of the focused element's own role.",
-    "default": {
-      "$type": "color",
-      "$value": "{color.gray.200}",
-      "$description": "Default hairline — card edges, dividers, input borders at rest."
-    },
-    "strong": {
-      "$type": "color",
-      "$value": "{color.gray.300}",
-      "$description": "Emphasized divider, input border on hover."
-    },
-    "focus": {
-      "$type": "color",
-      "$value": "{color.blue.600}",
-      "$description": "Focus ring — always this color regardless of the focused element's own role."
-    },
-    "primary": {
-      "$type": "color",
-      "$value": "{color.blue.200}"
-    },
-    "success": {
-      "$type": "color",
-      "$value": "{color.green.200}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{color.red.200}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{color.amber.200}"
-    }
-  },
-  "text": {
-    "$description": "Content color. Role text (primary/success/danger/warning) sits at each family's 600 step — AA text-safe (≥4.5:1). muted is a deliberate exception, see its own note.",
-    "default": {
-      "$type": "color",
-      "$value": "{color.gray.950}",
-      "$description": "Default body/heading/title text."
-    },
-    "secondary": {
-      "$type": "color",
-      "$value": "{color.gray.600}",
-      "$description": "Supporting text — still AA text-safe (>=4.5:1)."
-    },
-    "muted": {
-      "$type": "color",
-      "$value": "{color.gray.500}",
-      "$description": "Placeholders, captions, timestamps — intentionally below AA text contrast (~3.9:1); never use for content the user must read to complete a task."
-    },
-    "disabled": {
-      "$type": "color",
-      "$value": "{color.gray.300}"
-    },
-    "onFill": {
-      "$type": "color",
-      "$value": "{color.white}",
-      "$description": "Text/label sitting on a solid fill.* color (button labels, filled badges). Literal white, not a ramp step — none of the fill.* colors are dark enough to need anything else. Must be paired with semibold/bold weight: at fill's 500 step, contrast against white lands at 3.7-4.4:1 (large-text/UI-component AA, not the 4.5:1 small-text threshold) — checked directly, true for every role, not just one."
-    },
-    "primary": {
-      "$type": "color",
-      "$value": "{color.blue.600}"
-    },
-    "success": {
-      "$type": "color",
-      "$value": "{color.green.600}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{color.red.600}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{color.amber.600}"
-    },
-    "ai": {
-      "$type": "color",
-      "$value": "{color.violet.600}",
-      "$description": "Pairs with bg.ai — same 600-step AA-safe convention every other text.* role already uses."
-    }
-  },
-  "icon": {
-    "$description": "Mirrors text.* but one step lighter/less saturated where noted — icons are graphical elements (WCAG 3:1 UI-component rule), not small text (4.5:1), so role icons sit at each family's 500 step, not 600.",
-    "default": {
-      "$type": "color",
-      "$value": "{color.gray.700}"
-    },
-    "secondary": {
-      "$type": "color",
-      "$value": "{color.gray.500}"
-    },
-    "muted": {
-      "$type": "color",
-      "$value": "{color.gray.400}"
-    },
-    "disabled": {
-      "$type": "color",
-      "$value": "{color.gray.300}",
-      "$description": "Matches text.disabled — icon and label go equally quiet together on a disabled control."
-    },
-    "onFill": {
-      "$type": "color",
-      "$value": "{color.white}"
-    },
-    "primary": {
-      "$type": "color",
-      "$value": "{color.blue.500}"
-    },
-    "success": {
-      "$type": "color",
-      "$value": "{color.green.500}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{color.red.500}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{color.amber.500}"
-    },
-    "ai": {
-      "$type": "color",
-      "$value": "{color.violet.500}",
-      "$description": "Pairs with text.ai/bg.ai — same 500-step convention every other role icon already uses."
-    }
+    "$description": "Neutral elevation backgrounds — the grey container palette. Three levels only: page → card → raised. surface-6 is deliberately NOT here (it is a fill/outline color, see the fill/outline groups); use it as a background only for exceptions. Distinct from `bg` (which is the colored status/active tint washes, not neutral containers).",
+    "page": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "The page background — the darkest surface everything sits on." },
+    "card": { "$type": "color", "$value": "{color.base.surface-2}", "$description": "Cards, popups, drawers, modals — the first elevation above the page." },
+    "raised": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Sub elements raised above a card — filled inputs, secondary buttons, chips, filled counters." },
+    "overlay": { "$type": "color", "$value": "{color.sub.black-6}", "$description": "The scrim behind modals/drawers — the page color at 50%." },
+    "default": { "$type": "color", "$value": "{surface.card}", "$description": "COMPAT alias → surface.card. Legacy name from the light-theme system; migrate to surface.card." },
+    "sunken": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. In a dark system there is no 'sunken'; the recessed-field look is now surface.raised. Migrate." },
+    "disabled": { "$type": "color", "$value": "{surface.card}", "$description": "COMPAT alias → surface.card. Disabled surfaces should move to an opacity treatment (darken/lighten) in the component pass." },
+    "inverse": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. There is no light/inverse surface in this dark system; Tooltip stands out via surface.raised + shadow. Migrate." }
   },
   "fill": {
-    "$description": "Solid, saturated backgrounds for interactive controls (buttons, checkboxes, toggles, filled badges) — pairs with text.onFill / icon.onFill, never with text.default. Label text on any fill.* must be semibold or bold — see text.onFill.",
-    "primary": {
-      "$type": "color",
-      "$value": "{color.blue.500}"
-    },
-    "primaryHover": {
-      "$type": "color",
-      "$value": "{color.blue.600}"
-    },
-    "primaryActive": {
-      "$type": "color",
-      "$value": "{color.blue.700}"
-    },
-    "neutral": {
-      "$type": "color",
-      "$value": "{color.gray.100}",
-      "$description": "Secondary/neutral button fill — pairs with text.default, not text.onFill (too light for white text)."
-    },
-    "neutralHover": {
-      "$type": "color",
-      "$value": "{color.gray.200}"
-    },
-    "neutralActive": {
-      "$type": "color",
-      "$value": "{color.gray.300}"
-    },
-    "success": {
-      "$type": "color",
-      "$value": "{status.success}"
-    },
-    "successHover": {
-      "$type": "color",
-      "$value": "{color.green.600}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{status.danger}"
-    },
-    "dangerHover": {
-      "$type": "color",
-      "$value": "{color.red.600}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{status.warning}"
-    },
-    "warningHover": {
-      "$type": "color",
-      "$value": "{color.amber.600}"
-    },
-    "ai": {
-      "$type": "color",
-      "$value": "{color.violet.500}",
-      "$description": "Solid AI accent, for a hypothetical fully-filled AI button — Composer's own AI Assist button actually uses the pale bg.ai tint (see Composer's own tokens), not this; kept for parity with every other role having both a tint and a solid step available."
-    },
-    "aiHover": {
-      "$type": "color",
-      "$value": "{color.violet.600}"
-    },
-    "disabled": {
-      "$type": "color",
-      "$value": "{color.gray.100}"
-    }
+    "$description": "Solid brand/status fills for buttons, toggles, active markers. Hover/pressed are NOT separate tokens here — they are an opacity overlay (see darken/lighten), matching how the Theme Editor layers a translucent black/white sheet on top.",
+    "active": { "$type": "color", "$value": "{color.base.active-1}", "$description": "The flat active fill — primary buttons, selected states, active markers, when NOT using the gradient." },
+    "activeGradient": { "$type": "gradient", "$value": "linear-gradient(90deg, #FB8C33 0%, #FB8C33 100%)", "$description": "The active gradient — active-1 → active-2 at 90°. Primary buttons and outlines that opt into the gradient look; also reused as the border on hover states. Collapses to a flat color when active-1 = active-2 (as in Pro)." },
+    "accent": { "$type": "color", "$value": "{color.base.accent}", "$description": "Solid accent fill — the secondary brand pop." },
+    "positive": { "$type": "color", "$value": "{color.status.positive}", "$description": "Solid positive fill — win/confirm affordances." },
+    "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Solid negative fill — lose/destructive affordances." },
+    "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Solid warning fill — cashout/attention affordances." },
+    "primary": { "$type": "color", "$value": "{fill.active}", "$description": "COMPAT alias → fill.active. 'primary' was the light-theme brand name; the primary interactive color here is the theme's active color. Migrate." },
+    "primaryHover": { "$type": "color", "$value": "{fill.active}", "$description": "COMPAT alias → fill.active. Hover is now a darken/lighten overlay, not a darker fill token. Migrate the component to overlay." },
+    "primaryActive": { "$type": "color", "$value": "{fill.active}", "$description": "COMPAT alias → fill.active. Pressed is now a darken overlay. Migrate." },
+    "success": { "$type": "color", "$value": "{fill.positive}", "$description": "COMPAT alias → fill.positive. Migrate (success → positive)." },
+    "danger": { "$type": "color", "$value": "{fill.negative}", "$description": "COMPAT alias → fill.negative. Migrate (danger → negative)." },
+    "neutral": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. Neutral/secondary button fills are just the raised surface now. Migrate." },
+    "neutralHover": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised (+ lighten overlay in the component pass). Migrate." },
+    "neutralActive": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised (+ darken overlay in the component pass). Migrate." },
+    "disabled": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. Disabled fills should move to an opacity treatment. Migrate." }
+  },
+  "bg": {
+    "$description": "Colored 12%-opacity tint washes — the pale status/active backgrounds behind chips, labels, selected rows. The color counterpart to the neutral `surface` group. Built on the sub-* opacity primitives, so they inherit the theme's active/accent/status hues automatically.",
+    "active": { "$type": "color", "$value": "{color.sub.active-2}", "$description": "Active tint — selected/active row or chip background, freebet." },
+    "accent": { "$type": "color", "$value": "{color.sub.accent-2}", "$description": "Accent tint — the live label background." },
+    "positive": { "$type": "color", "$value": "{color.sub.positive-2}", "$description": "Positive tint — win chip/row background." },
+    "negative": { "$type": "color", "$value": "{color.sub.negative-2}", "$description": "Negative tint — error/lose chip/row background." },
+    "warning": { "$type": "color", "$value": "{color.sub.warning-2}", "$description": "Warning tint — cashout/attention chip background." },
+    "primary": { "$type": "color", "$value": "{bg.active}", "$description": "COMPAT alias → bg.active. Migrate (primary → active)." },
+    "success": { "$type": "color", "$value": "{bg.positive}", "$description": "COMPAT alias → bg.positive. Migrate." },
+    "danger": { "$type": "color", "$value": "{bg.negative}", "$description": "COMPAT alias → bg.negative. Migrate." },
+    "neutral": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. A neutral tag has no colored tint; it uses the raised surface. Migrate." }
+  },
+  "outline": {
+    "$description": "Border/hairline/outline colors. Two neutral weights (default = surface-4, strong = surface-6) plus the active/accent/status border colors. Renamed from the old `border` group.",
+    "default": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Default hairline — soft dividers and rest-state borders." },
+    "strong": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "Strong border — outline-button borders, lines, emphasized dividers, hover borders." },
+    "active": { "$type": "color", "$value": "{color.base.active-2}", "$description": "Active border — focus rings, selected outlines, active-tab underline." },
+    "accent": { "$type": "color", "$value": "{color.base.accent}", "$description": "Accent border." },
+    "positive": { "$type": "color", "$value": "{color.status.positive}", "$description": "Positive border." },
+    "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Negative/error border." },
+    "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Warning border." }
+  },
+  "border": {
+    "$description": "COMPAT group → all aliases to `outline`. The group was renamed border → outline; these keep current components resolving until the component pass migrates them.",
+    "default": { "$type": "color", "$value": "{outline.default}", "$description": "COMPAT alias → outline.default." },
+    "strong": { "$type": "color", "$value": "{outline.strong}", "$description": "COMPAT alias → outline.strong." },
+    "focus": { "$type": "color", "$value": "{outline.active}", "$description": "COMPAT alias → outline.active. The focus ring is the active color now. Migrate." },
+    "success": { "$type": "color", "$value": "{outline.positive}", "$description": "COMPAT alias → outline.positive." },
+    "danger": { "$type": "color", "$value": "{outline.negative}", "$description": "COMPAT alias → outline.negative." },
+    "warning": { "$type": "color", "$value": "{outline.warning}", "$description": "COMPAT alias → outline.warning." }
+  },
+  "text": {
+    "$description": "Text colors. default/secondary are the two greys; contrast is dark text for placing ON a light/contrast surface; forActiveBg is text placed on an active-colored fill (dark or white depending on how bright the theme's active color is).",
+    "default": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Default body text — max contrast (white) on the dark surfaces." },
+    "secondary": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Secondary/muted text — captions, metadata, placeholders." },
+    "contrast": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "Contrast text — dark text for the rare light/contrast surface." },
+    "forActiveBg": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "Text placed on an active-colored fill. In Pro the active color is bright orange, so this is dark (surface-0); in a theme with a dark active color it flips to white. Theme-dependent — see the deferred text.forLabelBg for the label equivalent." },
+    "active": { "$type": "color", "$value": "{color.base.active-1}", "$description": "Active text — links, active tab labels, active values." },
+    "accent": { "$type": "color", "$value": "{color.base.accent}", "$description": "Accent text." },
+    "positive": { "$type": "color", "$value": "{color.status.positive}", "$description": "Positive text — winnings, gains, positive odds movement." },
+    "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Negative text — losses, errors, negative odds movement." },
+    "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Warning text." },
+    "onFill": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Text on a dark solid fill (e.g. the Tooltip). For text on the ACTIVE fill use text.forActiveBg instead." },
+    "primary": { "$type": "color", "$value": "{text.active}", "$description": "COMPAT alias → text.active. Migrate (primary → active)." },
+    "success": { "$type": "color", "$value": "{text.positive}", "$description": "COMPAT alias → text.positive. Migrate." },
+    "danger": { "$type": "color", "$value": "{text.negative}", "$description": "COMPAT alias → text.negative. Migrate." },
+    "muted": { "$type": "color", "$value": "{text.secondary}", "$description": "COMPAT alias → text.secondary. There is one muted grey; muted collapses into secondary. Migrate." },
+    "disabled": { "$type": "color", "$value": "{text.secondary}", "$description": "COMPAT alias → text.secondary. Disabled text should move to an opacity treatment. Migrate." }
+  },
+  "icon": {
+    "$description": "Icon colors — mirrors `text`. default is contrast (white) for content icons; use icon.secondary for chrome/field icons.",
+    "default": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Default content icons — contrast (white)." },
+    "secondary": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Secondary/chrome icons — field icons, close ×, info circles." },
+    "contrast": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "Dark icon for a light/contrast surface." },
+    "active": { "$type": "color", "$value": "{color.base.active-1}", "$description": "Active icon." },
+    "accent": { "$type": "color", "$value": "{color.base.accent}", "$description": "Accent icon." },
+    "positive": { "$type": "color", "$value": "{color.status.positive}", "$description": "Positive icon." },
+    "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Negative icon." },
+    "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Warning icon." },
+    "onFill": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Icon on a dark solid fill." },
+    "primary": { "$type": "color", "$value": "{icon.active}", "$description": "COMPAT alias → icon.active. Migrate." },
+    "danger": { "$type": "color", "$value": "{icon.negative}", "$description": "COMPAT alias → icon.negative. Migrate." },
+    "muted": { "$type": "color", "$value": "{icon.secondary}", "$description": "COMPAT alias → icon.secondary. Migrate." },
+    "disabled": { "$type": "color", "$value": "{icon.secondary}", "$description": "COMPAT alias → icon.secondary. Migrate." }
+  },
+  "betStatus": {
+    "$description": "My-bets settlement statuses. win/loose/cashout reuse the editable positive/negative/warning; halfWin/halfLoose/refund/pending use the four file-only extra status hues (color-4..7). These are the colored dots/labels on a bet row.",
+    "win": { "$type": "color", "$value": "{color.status.positive}", "$description": "Bet won — positive." },
+    "loose": { "$type": "color", "$value": "{color.status.negative}", "$description": "Bet lost — negative." },
+    "halfWin": { "$type": "color", "$value": "{color.status.color-4}", "$description": "Half win (partial) — teal (color-4)." },
+    "halfLoose": { "$type": "color", "$value": "{color.status.color-5}", "$description": "Half lose (partial) — orange (color-5)." },
+    "refund": { "$type": "color", "$value": "{color.status.color-6}", "$description": "Refund / void — purple (color-6)." },
+    "cashout": { "$type": "color", "$value": "{color.status.warning}", "$description": "Cashed out — warning." },
+    "pending": { "$type": "color", "$value": "{color.status.color-7}", "$description": "Pending / unsettled — grey (color-7)." }
+  },
+  "label": {
+    "$description": "Small inline labels/badges on cards and rows. Some are colored tints (live/freebet), some solid status (postponed/reviewing), plus the score chip and the two counter states. NOTE: a dedicated text.forLabelBg (light/dark per theme, deferred) will handle text ON these label backgrounds.",
+    "live": { "$type": "color", "$value": "{color.sub.accent-2}", "$description": "Live indicator — accent tint." },
+    "freebet": { "$type": "color", "$value": "{color.sub.active-2}", "$description": "Freebet — active tint. (In some themes this is the accent tint; Pro uses active.)" },
+    "postponed": { "$type": "color", "$value": "{color.status.warning}", "$description": "Postponed — warning." },
+    "reviewing": { "$type": "color", "$value": "{color.status.warning}", "$description": "Under review — warning." },
+    "score": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "Score chip background — one of the sanctioned surface-6-as-background exceptions." },
+    "inactiveCounter": { "$type": "color", "$value": "{color.sub.white-2}", "$description": "Inactive counter background — a faint lighten wash." },
+    "activeCounter": { "$type": "color", "$value": "{color.base.active-2}", "$description": "Active counter background — the active color." }
+  },
+  "darken": {
+    "$description": "Translucent black overlays (built on the page color) laid OVER an element to darken it — pressed states, and the darker half of hover treatments. In code this is an rgba layer / alpha change, not a color swap. Steps 2/4/6/8 = 12/24/50/80%.",
+    "2": { "$type": "color", "$value": "{color.sub.black-2}", "$description": "Darken 12% — pressed overlay, subtle." },
+    "4": { "$type": "color", "$value": "{color.sub.black-4}", "$description": "Darken 24%." },
+    "6": { "$type": "color", "$value": "{color.sub.black-6}", "$description": "Darken 50%." },
+    "8": { "$type": "color", "$value": "{color.sub.black-8}", "$description": "Darken 80%." }
+  },
+  "lighten": {
+    "$description": "Translucent white overlays laid OVER an element to lighten it — hover states on dark surfaces. In code this is an rgba layer / alpha change. Steps 2/4 = 12/24%.",
+    "2": { "$type": "color", "$value": "{color.sub.white-2}", "$description": "Lighten 12% — the default hover overlay on dark surfaces." },
+    "4": { "$type": "color", "$value": "{color.sub.white-4}", "$description": "Lighten 24% — stronger hover/active." }
+  },
+  "shadow": {
+    "$description": "Shadow colors — the same page-color black steps as `darken`, used as box-shadow colors rather than overlays. Steps 2/4/6/8 = 12/24/50/80%.",
+    "2": { "$type": "color", "$value": "{color.sub.black-2}", "$description": "Softest shadow." },
+    "4": { "$type": "color", "$value": "{color.sub.black-4}", "$description": "Soft shadow." },
+    "6": { "$type": "color", "$value": "{color.sub.black-6}", "$description": "Medium shadow." },
+    "8": { "$type": "color", "$value": "{color.sub.black-8}", "$description": "Heaviest shadow." }
+  },
+  "additional": {
+    "$description": "One-off semantic roles that do not fit the groups above.",
+    "favorites": { "$type": "color", "$value": "{color.status.warning}", "$description": "Favorite/star — warning (gold)." },
+    "preloader": { "$type": "color", "$value": "{color.base.active-1}", "$description": "Loading spinner/skeleton accent — the active color." }
   },
   "status": {
-    "$description": "Reserved state meaning (good/warning/danger/info) for badges, alerts, form validation. Never reuse a chart-series color for status, and never reuse status for 'series 4' — see tokens/primitives/chart-series.tokens.json's own rule. Always pair with an icon + label, not color alone.",
-    "success": {
-      "$type": "color",
-      "$value": "{color.green.500}"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "{color.amber.500}"
-    },
-    "danger": {
-      "$type": "color",
-      "$value": "{color.red.500}"
-    },
-    "info": {
-      "$type": "color",
-      "$value": "{color.blue.500}"
-    }
-  },
-  "avatar": {
-    "$description": "Categorical identity tints for Avatar's initials fallback — a person with no photo gets one of these 8 hues assigned deterministically (hash their name to a slot), so distinct people read as distinct colors across a list instead of every fallback avatar being the same gray. Same hue order and reasoning as tokens/primitives/chart-series.tokens.json (validated CVD-safe adjacency) but a separate token set on purpose: chart-series sits at the 500 step for saturated lines/bars on a white plot area, this sits at 100 (bg, pastel) / 600 (text, AA-safe — same step text.primary/success/danger/warning already use) for a quiet fallback badge, not a data mark. Don't reuse chart-series' own tokens here, and don't reuse these for charts.",
-    "blue": {
-      "bg": { "$type": "color", "$value": "{color.blue.100}" },
-      "text": { "$type": "color", "$value": "{color.blue.600}" }
-    },
-    "green": {
-      "bg": { "$type": "color", "$value": "{color.green.100}" },
-      "text": { "$type": "color", "$value": "{color.green.600}" }
-    },
-    "magenta": {
-      "bg": { "$type": "color", "$value": "{color.magenta.100}" },
-      "text": { "$type": "color", "$value": "{color.magenta.600}" }
-    },
-    "amber": {
-      "bg": { "$type": "color", "$value": "{color.amber.100}" },
-      "text": { "$type": "color", "$value": "{color.amber.600}" }
-    },
-    "teal": {
-      "bg": { "$type": "color", "$value": "{color.teal.100}" },
-      "text": { "$type": "color", "$value": "{color.teal.600}" }
-    },
-    "orange": {
-      "bg": { "$type": "color", "$value": "{color.orange.100}" },
-      "text": { "$type": "color", "$value": "{color.orange.600}" }
-    },
-    "violet": {
-      "bg": { "$type": "color", "$value": "{color.violet.100}" },
-      "text": { "$type": "color", "$value": "{color.violet.600}" }
-    },
-    "red": {
-      "bg": { "$type": "color", "$value": "{color.red.100}" },
-      "text": { "$type": "color", "$value": "{color.red.600}" }
-    }
-  },
-  "tag": {
-    "$description": "Decorative, non-semantic categorical color for generic tagging/labeling (Badge's 'color' axis, e.g. a Notion/Linear/GitHub-style label picker) — deliberately separate from the 5 meaningful status roles (bg.*/fill.* primary/success/warning/danger + this group's own gray). Picking tag.orange means 'I want an orange label', not 'this is a warning'. Two intensities per hue: tint (pale bg + colored text, same 100/600 pairing bg.*/text.* already use) and solid (saturated bg + text.onFill, same 500-step + white pairing fill.* already uses) — same contrast trade-off already accepted for fill.primary/success/danger/warning (3.7-4.4:1 large-text/UI-component AA, not 4.5:1 small-text; pair with semibold/bold label weight). 4 of the 10 hues (blue/red/green/amber) are pure aliases of the existing primary/danger/success/warning role tokens, not new colors — 'color=blue' and 'role=primary' render identically on purpose, since blue already means primary/info everywhere else in this system. gray aliases role=neutral for tint only — see gray's own $description for why solid diverges. Only orange/violet/magenta/teal/brown are genuinely new leaf references. Same hue order as chart-series/avatar for one consistent categorical rhythm across the system.",
-    "gray": {
-      "tint": { "bg": { "$type": "color", "$value": "{bg.neutral}" }, "text": { "$type": "color", "$value": "{text.default}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.gray.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } },
-      "$description": "The one hue that ISN'T a full role alias — tint matches role=neutral (bg.neutral/text.default) but solid diverges deliberately: fill.neutral (gray.100) is the same pale value as the tint bg, so a 'solid gray' badge built from it would look identical to the tint one, not actually filled. Uses color.gray.500 + text.onFill instead — the same saturated-500-step + white-text pattern every other solid hue already uses, gray included. role=neutral's own solid stays on fill.neutral/text.default on purpose (matches Button secondary's established pale-even-when-emphasized precedent) — a neutral *status* has no 'urgent solid' need the way a decorative gray *tag* does, so this is the one place role and color genuinely diverge rather than alias."
-    },
-    "blue": {
-      "tint": { "bg": { "$type": "color", "$value": "{bg.primary}" }, "text": { "$type": "color", "$value": "{text.primary}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{fill.primary}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "red": {
-      "tint": { "bg": { "$type": "color", "$value": "{bg.danger}" }, "text": { "$type": "color", "$value": "{text.danger}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{fill.danger}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "green": {
-      "tint": { "bg": { "$type": "color", "$value": "{bg.success}" }, "text": { "$type": "color", "$value": "{text.success}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{fill.success}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "amber": {
-      "tint": { "bg": { "$type": "color", "$value": "{bg.warning}" }, "text": { "$type": "color", "$value": "{text.warning}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{fill.warning}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "orange": {
-      "tint": { "bg": { "$type": "color", "$value": "{color.orange.100}" }, "text": { "$type": "color", "$value": "{color.orange.600}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.orange.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "violet": {
-      "tint": { "bg": { "$type": "color", "$value": "{color.violet.100}" }, "text": { "$type": "color", "$value": "{color.violet.600}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.violet.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "magenta": {
-      "tint": { "bg": { "$type": "color", "$value": "{color.magenta.100}" }, "text": { "$type": "color", "$value": "{color.magenta.600}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.magenta.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "teal": {
-      "tint": { "bg": { "$type": "color", "$value": "{color.teal.100}" }, "text": { "$type": "color", "$value": "{color.teal.600}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.teal.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    },
-    "brown": {
-      "tint": { "bg": { "$type": "color", "$value": "{color.brown.100}" }, "text": { "$type": "color", "$value": "{color.brown.600}" } },
-      "solid": { "bg": { "$type": "color", "$value": "{color.brown.500}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
-    }
+    "$description": "COMPAT group → aliases into fill. The old system exposed a `status` group that fill.* referenced; kept so nothing dangles until the component pass. Migrate to fill.positive/negative/warning/accent.",
+    "success": { "$type": "color", "$value": "{fill.positive}", "$description": "COMPAT alias → fill.positive." },
+    "warning": { "$type": "color", "$value": "{fill.warning}", "$description": "COMPAT alias → fill.warning." },
+    "danger": { "$type": "color", "$value": "{fill.negative}", "$description": "COMPAT alias → fill.negative." },
+    "info": { "$type": "color", "$value": "{fill.accent}", "$description": "COMPAT alias → fill.accent." }
   }
 }

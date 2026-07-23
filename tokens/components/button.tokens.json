@@ -8,26 +8,26 @@
         "size": {
           "sm": {
             "$description": "32px. Icon-only variant is 32×32 (square = height, no paddingX applied).",
-            "height": { "$type": "dimension", "$value": "{dim.8}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.2}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+            "height": { "$type": "dimension", "$value": "{spacing.8}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-sm}" }
           },
           "base": {
             "$description": "40px, the default size. Icon-only variant is 40×40.",
-            "height": { "$type": "dimension", "$value": "{dim.10}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.3}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.5}" },
+            "height": { "$type": "dimension", "$value": "{spacing.10}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.3}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.5}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-base}" }
           },
           "lg": {
             "$description": "48px. Icon-only variant is 48×48.",
-            "height": { "$type": "dimension", "$value": "{dim.12}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.4}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.6}" },
+            "height": { "$type": "dimension", "$value": "{spacing.12}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.6}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-md}" }
           },
           "$description": "paddingX and iconSize scale with height along the same 4px grid the size step itself moves on (height +8 → paddingX +4, iconSize +4); gap between icon and label stays a flat 8px at every size, per spec. Icon sizes (16/20/24) resolve to 50% of button height at every step, which is why they don't need independent tuning as more sizes get added."
@@ -46,8 +46,8 @@
           },
           "focused": {
             "ringColor": { "$type": "color", "$value": "{border.focus}" },
-            "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-            "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+            "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+            "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Additive outline (keyboard focus only) on top of whatever default/hover/pressed fill is already showing — not a fill swap, so it composes with any of the three above."
           },
           "disabled": {
@@ -63,26 +63,26 @@
         "size": {
           "sm": {
             "$description": "32px. Icon-only variant is 32×32 (square = height, no paddingX applied).",
-            "height": { "$type": "dimension", "$value": "{dim.8}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.2}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+            "height": { "$type": "dimension", "$value": "{spacing.8}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-sm}" }
           },
           "base": {
             "$description": "40px, the default size. Icon-only variant is 40×40.",
-            "height": { "$type": "dimension", "$value": "{dim.10}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.3}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.5}" },
+            "height": { "$type": "dimension", "$value": "{spacing.10}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.3}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.5}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-base}" }
           },
           "lg": {
             "$description": "48px. Icon-only variant is 48×48.",
-            "height": { "$type": "dimension", "$value": "{dim.12}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.4}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.6}" },
+            "height": { "$type": "dimension", "$value": "{spacing.12}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.6}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-md}" }
           },
           "$description": "Identical to primary.size — see that block's own $description for the scaling rule."
@@ -102,8 +102,8 @@
           },
           "focused": {
             "ringColor": { "$type": "color", "$value": "{border.focus}" },
-            "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-            "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+            "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+            "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Same ring treatment as primary — border.focus is always blue regardless of the button's own role, per that token's own rule."
           },
           "disabled": {
@@ -120,26 +120,26 @@
         "size": {
           "sm": {
             "$description": "32px. Icon-only variant is 32×32 (square = height, no paddingX applied).",
-            "height": { "$type": "dimension", "$value": "{dim.8}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.2}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+            "height": { "$type": "dimension", "$value": "{spacing.8}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-sm}" }
           },
           "base": {
             "$description": "40px, the default size. Icon-only variant is 40×40.",
-            "height": { "$type": "dimension", "$value": "{dim.10}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.3}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.5}" },
+            "height": { "$type": "dimension", "$value": "{spacing.10}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.3}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.5}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-base}" }
           },
           "lg": {
             "$description": "48px. Icon-only variant is 48×48.",
-            "height": { "$type": "dimension", "$value": "{dim.12}" },
-            "paddingX": { "$type": "dimension", "$value": "{dim.4}" },
-            "gap": { "$type": "dimension", "$value": "{dim.2}" },
-            "iconSize": { "$type": "dimension", "$value": "{dim.6}" },
+            "height": { "$type": "dimension", "$value": "{spacing.12}" },
+            "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+            "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.6}" },
             "label": { "$type": "typography", "$value": "{text-style.heading-md}" }
           },
           "$description": "Identical to primary.size — see that block's own $description for the scaling rule."
@@ -158,8 +158,8 @@
           },
           "focused": {
             "ringColor": { "$type": "color", "$value": "{border.focus}" },
-            "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-            "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+            "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+            "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Same ring treatment as primary/secondary — border.focus is always blue regardless of the button's own role."
           },
           "disabled": {

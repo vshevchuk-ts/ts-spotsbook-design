@@ -3,8 +3,8 @@
     "popover": {
       "$description": "Non-modal floating panel anchored to a trigger — unlike Tooltip, carries real interactive content (so it needs outside-click + Escape dismissal, which a pure-CSS :hover approach can't give it). Uses the native `popover` HTML attribute + `popovertarget` (Popover API): free top-layer rendering (no z-index needed), free outside-click/Escape dismissal, no JS state management required — only a small script to position the panel under its trigger (the Popover API itself doesn't do anchor positioning without the newer, less broadly supported CSS anchor-positioning API). Border AND shadow both present, unlike Card (border-only, doesn't float) and unlike Tooltip (shadow-only, no border) — Popover floats (needs shadow.sm, same reasoning as Tooltip) but also carries structured content worth a crisp edge (border.default, same as Card). No entrance/exit animation — instant show/hide; kept out on purpose to stay focused on the core native-dismissal behavior rather than animation polish. No arrow/caret, same call as Tooltip.",
       "radius": { "$type": "dimension", "$value": "{radius.default}" },
-      "padding": { "$type": "dimension", "$value": "{dim.4}", "$description": "16px — same as Card's own content padding." },
-      "gap": { "$type": "dimension", "$value": "{dim.2}", "$description": "8px offset between the trigger's edge and the popover panel — one step more than Tooltip's 6px, proportionate to Popover being a bigger, more substantial panel." },
+      "padding": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px — same as Card's own content padding." },
+      "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px offset between the trigger's edge and the popover panel — one step more than Tooltip's 6px, proportionate to Popover being a bigger, more substantial panel." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
       "shadow": { "$type": "shadow", "$value": "{shadow.sm}" },

@@ -17,7 +17,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").dim;
+const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
 const shadowPrim = load("tokens/primitives/shadow.tokens.json").shadow;
 const typo = load("tokens/primitives/typography.tokens.json");
@@ -27,8 +27,7 @@ const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
 
 const registry = {
   color: colorPrim,
-  dim,
-  radius: radiusPrim,
+  spacing: dim,  radius: radiusPrim,
   shadow: shadowPrim,
   family: typo.family,
   weight: typo.weight,
@@ -136,8 +135,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Tooltip</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Tooltip</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;

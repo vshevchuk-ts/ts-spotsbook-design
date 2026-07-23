@@ -4,10 +4,10 @@
       "$description": "Single size only (no sm/base/lg grid, per explicit spec — this isn't a field like Input/Select, it's a fixed-size control). Native <input type=\"checkbox\"> stays in the DOM (visually hidden, not display:none) so keyboard/forms/screen-readers work for free — only its box is repainted via CSS, same approach Radix/MUI/Ant use. The checkmark and indeterminate dash are the Material icons already in assets/icons/material-filled (check.svg / remove.svg) — not a bespoke asset. Unchecked box stays on surface.default (not filled) so disabled's surface.disabled swap is an actual visible change, unlike Input where default and disabled already share the same gray.100 value.",
       "radius": { "$type": "dimension", "$value": "{radius.xs}", "$description": "4px — noticeably tighter than radius.default (8px used by buttons/inputs/cards), the near-universal checkbox-corner convention across Material/Ant/MUI." },
       "size": {
-        "box": { "$type": "dimension", "$value": "{dim.5}" },
-        "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
-        "borderWidth": { "$type": "dimension", "$value": "{dim.0_5}", "$description": "2px literal-equivalent (dim.0_5) — thicker than the 1px hairline used by Input/Select/Search because a 1px outline nearly disappears at a 20px box; same reasoning Material applies." },
-        "gap": { "$type": "dimension", "$value": "{dim.2}", "$description": "Box-to-label gap, 8px — same flat gap Button uses between its icon and label." }
+        "box": { "$type": "dimension", "$value": "{spacing.5}" },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
+        "borderWidth": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px literal-equivalent (dim.0_5) — thicker than the 1px hairline used by Input/Select/Search because a 1px outline nearly disappears at a 20px box; same reasoning Material applies." },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "Box-to-label gap, 8px — same flat gap Button uses between its icon and label." }
       },
       "label": {
         "$type": "typography",
@@ -26,8 +26,8 @@
         },
         "focused": {
           "ringColor": { "$type": "color", "$value": "{border.focus}" },
-          "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-          "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+          "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+          "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Additive outline on top of whatever default/hover/checked look is already showing, same composable-ring pattern as Button."
         },
         "checked": {
@@ -63,9 +63,9 @@
       },
       "group": {
         "$description": "CheckboxGroup composes plain Checkbox items under an optional heading + helper text — no group-level error/validation state (not asked for; Checkbox itself has no error state either).",
-        "gapVertical": { "$type": "dimension", "$value": "{dim.3}", "$description": "12px between stacked items." },
-        "gapHorizontal": { "$type": "dimension", "$value": "{dim.5}", "$description": "20px between items laid out in a row." },
-        "labelGap": { "$type": "dimension", "$value": "{dim.2}", "$description": "8px between the group heading and the first item, and between helper text and the last item." },
+        "gapVertical": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px between stacked items." },
+        "gapHorizontal": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px between items laid out in a row." },
+        "labelGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the group heading and the first item, and between helper text and the last item." },
         "label": { "$type": "typography", "$value": "{text-style.heading-sm}" },
         "labelColor": { "$type": "color", "$value": "{text.default}" },
         "helper": { "$type": "typography", "$value": "{text-style.body-sm}" },

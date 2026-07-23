@@ -4,10 +4,10 @@
       "$description": "Single size only, same rationale as Checkbox — a fixed-size control, not a field grid. Native <input type=\"radio\"> stays in the DOM (visually hidden) so grouping/keyboard/forms work for free. Unlike Checkbox, the checked state never fills the whole circle — only the outline recolors plus a small inner dot appears, the convention every reference (Radix/MUI/Ant/Material) uses to keep radio visually distinct from checkbox at a glance. The dot is a plain CSS circle (border-radius + background), not an icon asset — there's no glyph simple enough to need one.",
       "radius": { "$type": "dimension", "$value": "{radius.full}" },
       "size": {
-        "circle": { "$type": "dimension", "$value": "{dim.5}", "$description": "20px outer circle — same footprint as Checkbox's box, so the two line up when used near each other." },
-        "dot": { "$type": "dimension", "$value": "{dim.2}", "$description": "8px inner dot, 40% of the circle — visibly smaller than the outline it sits in, per every reference checked." },
-        "borderWidth": { "$type": "dimension", "$value": "{dim.0_5}", "$description": "2px, same reasoning as Checkbox's borderWidth — a 1px ring nearly disappears at this size." },
-        "gap": { "$type": "dimension", "$value": "{dim.2}" }
+        "circle": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px outer circle — same footprint as Checkbox's box, so the two line up when used near each other." },
+        "dot": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px inner dot, 40% of the circle — visibly smaller than the outline it sits in, per every reference checked." },
+        "borderWidth": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px, same reasoning as Checkbox's borderWidth — a 1px ring nearly disappears at this size." },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}" }
       },
       "label": {
         "$type": "typography",
@@ -26,8 +26,8 @@
         },
         "focused": {
           "ringColor": { "$type": "color", "$value": "{border.focus}" },
-          "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-          "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" },
+          "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+          "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Same additive-ring pattern as Button/Checkbox."
         },
         "checked": {
@@ -56,9 +56,9 @@
       },
       "group": {
         "$description": "RadioGroup composes plain Radio items under an optional heading + helper text — no group-level error state, same as CheckboxGroup.",
-        "gapVertical": { "$type": "dimension", "$value": "{dim.3}" },
-        "gapHorizontal": { "$type": "dimension", "$value": "{dim.5}" },
-        "labelGap": { "$type": "dimension", "$value": "{dim.2}" },
+        "gapVertical": { "$type": "dimension", "$value": "{spacing.3}" },
+        "gapHorizontal": { "$type": "dimension", "$value": "{spacing.5}" },
+        "labelGap": { "$type": "dimension", "$value": "{spacing.2}" },
         "label": { "$type": "typography", "$value": "{text-style.heading-sm}" },
         "labelColor": { "$type": "color", "$value": "{text.default}" },
         "helper": { "$type": "typography", "$value": "{text-style.body-sm}" },

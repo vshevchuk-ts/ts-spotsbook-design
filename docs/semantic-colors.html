@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — semantic colors</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — semantic colors</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -40,30 +40,48 @@
   .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
   .navlink:hover { background: var(--bg-card-hover); }
   .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
-  .navlink.disabled { color: var(--text-muted); cursor: default; pointer-events: none; }
   .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
   .tag { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border: 0.5px solid var(--border-strong); border-radius: 4px; padding: 1px 5px; }
-  main { flex: 1; padding: 3rem 3rem 4rem; max-width: 1080px; }
+  main { flex: 1; padding: 3rem 3rem 4rem; max-width: 960px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2rem; }
-  h3.sub-section { font-size: 15px; font-weight: 600; margin: 2.4rem 0 0.6rem; text-transform: lowercase; font-family: var(--mono); }
-  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 10px 14px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 0.6rem; }
-  .legend .row { display: flex; }
-  .group-desc { font-size: 12px; color: var(--text-muted); margin: 0 0 0.8rem; }
-  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-  .tok-card { border-radius: 10px; padding: 14px 14px 12px; min-height: 76px; display: flex; flex-direction: column; border: 0.5px solid rgba(0,0,0,0.08); }
-  .tok-name { font-family: var(--mono); font-size: 12px; font-weight: 600; }
-  .tok-alias { font-family: var(--mono); font-size: 10.5px; opacity: 0.75; margin-top: 8px; }
-  .tok-hex { font-family: var(--mono); font-size: 10.5px; opacity: 0.85; margin-top: 1px; }
-  .tok-desc-wrap { grid-column: 1 / -1; }
-  .tok-desc { font-size: 11.5px; color: var(--text-muted); margin: -4px 0 4px; max-width: 70ch; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.6rem; max-width: 72ch; line-height: 1.5; }
+  .group { margin: 2.4rem 0 0; }
+  .gname { font-size: 15px; font-weight: 600; margin: 0 0 3px; font-family: var(--mono); }
+  .gdesc { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 0.7rem; max-width: 78ch; line-height: 1.5; }
+  .toks { border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  details.tok { border-bottom: 0.5px solid var(--border); background: var(--bg-card); }
+  details.tok:last-child { border-bottom: none; }
+  details.tok > summary { display: grid; grid-template-columns: 14px 30px 180px 190px 1fr; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; list-style: none; }
+  details.tok > summary::-webkit-details-marker { display: none; }
+  details.tok > summary:hover { background: var(--bg-card-hover); }
+  .chev { font-family: var(--mono); font-size: 15px; color: var(--text-muted); transition: transform 0.12s ease; line-height: 1; text-align: center; }
+  details.tok[open] > summary .chev { transform: rotate(90deg); }
+  .sw { position: relative; display: flex; width: 28px; height: 24px; border-radius: 6px; border: 0.5px solid var(--border-strong); overflow: hidden; }
+  .sw-in { display: block; width: 100%; height: 100%; }
+  .sw-half { flex: 1; min-width: 0; }
+  .sw-check { background-image: linear-gradient(45deg, #bbb 25%, transparent 25%), linear-gradient(-45deg, #bbb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #bbb 75%), linear-gradient(-45deg, transparent 75%, #bbb 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0; background-color: #fff; }
+  .tname { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+  .talias-sum { font-family: var(--mono); font-size: 11px; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .trole { font-size: 12px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tbody { padding: 4px 14px 16px 56px; }
+  .tdesc { font-size: 12.5px; color: var(--text-secondary); margin: 6px 0 10px; max-width: 74ch; line-height: 1.55; }
+  .tresolves { font-size: 11.5px; color: var(--text-muted); margin: 0 0 12px; }
+  .tresolves code, .used-list code { font-family: var(--mono); background: var(--bg-card-hover); border: 0.5px solid var(--border); border-radius: 4px; padding: 0.5px 5px; font-size: 11px; }
+  .used-h { font-size: 11.5px; font-weight: 600; color: var(--text-secondary); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .used-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .used-list li { display: flex; gap: 10px; align-items: baseline; font-size: 12px; flex-wrap: wrap; }
+  .used-list li > a { font-weight: 600; color: var(--accent); text-decoration: none; min-width: 96px; }
+  .used-list li > a:hover { text-decoration: underline; }
+  .ctx { display: flex; gap: 5px; flex-wrap: wrap; align-items: baseline; }
+  .ctx .more { font-size: 10.5px; color: var(--text-muted); }
+  .used.none { font-size: 12px; color: var(--text-muted); font-style: italic; margin: 0; }
 </style>
 </head>
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -95,630 +113,1053 @@
     <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
-    <a class="navlink" href="attachment.html">Attachment</a>
-    <a class="navlink" href="message.html">Message</a>
-    <a class="navlink" href="bubble.html">Bubble</a>
-    <a class="navlink" href="thread-list-item.html">ThreadListItem</a>
-    <a class="navlink" href="composer.html">Composer</a>
   </nav>
   <main>
     <h1>Semantic colors</h1>
-    <p class="sub">tokens/semantic/color.tokens.json · aliases tokens/primitives/color.tokens.json · generated</p>
-    
-    <h3 class="sub-section">surface</h3>
-    <div class="legend"><div class="row"><span>Page structure — canvas, cards/panels, recessed fields, backdrops. page and default are both literal white deliberately — cards read as 'raised' via border.default, not a background shift. Use default/page for the vast majority of the UI; sunken is for genuinely recessed elements only, used sparingly.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">surface.page</code>
-        <span class="tok-alias">color.white</span>
-        <span class="tok-hex">#ffffff</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Page canvas — the dominant background color across the whole product.</p></div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">surface.default</code>
-        <span class="tok-alias">color.white</span>
-        <span class="tok-hex">#ffffff</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Default raised surface — cards, panels. Same value as surface.page on purpose; separated from the page by border.default, not a darker background.</p></div>
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">surface.sunken</code>
-        <span class="tok-alias">color.gray.100</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Inputs, table row stripes, code blocks — recessed relative to a default surface. Reach for this rarely; it's the exception, not the norm.</p></div>
-      <div class="tok-card" style="background:rgba(21, 25, 30, 0.5);color:#141414">
-        <code class="tok-name">surface.overlay</code>
-        <span class="tok-alias">literal</span>
-        <span class="tok-hex">rgba(21, 25, 30, 0.5)</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Modal/drawer backdrop scrim. The one legitimate opacity use in this system — it must composite over arbitrary page content, unlike bg.* tints which sit on a known surface.</p></div>
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">surface.disabled</code>
-        <span class="tok-alias">color.gray.100</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Disabled control background.</p></div>
-      <div class="tok-card" style="background:#2b2b2b;color:#fdfdfd">
-        <code class="tok-name">surface.inverse</code>
-        <span class="tok-alias">color.gray.900</span>
-        <span class="tok-hex">#2b2b2b</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">The one dark surface role in an otherwise light-themed system — Tooltip's background. Pair with text.onFill/icon.onFill (white), never text.default. Added 2026-07-21 for the overlay-family components; not a general 'dark mode' token, scoped to small inverse-context UI.</p></div>
-    </div>
-
-    <h3 class="sub-section">bg</h3>
-    <div class="legend"><div class="row"><span>Passive status surfaces (banners, badges, notification chips) — solid light tints, not opacity. Pair with the matching text.* or icon.* color at the same role, never with text.default.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#d9eaff;color:#141414">
-        <code class="tok-name">bg.primary</code>
-        <span class="tok-alias">color.blue.100</span>
-        <span class="tok-hex">#d9eaff</span>
-      </div>
-      <div class="tok-card" style="background:#acffc2;color:#141414">
-        <code class="tok-name">bg.success</code>
-        <span class="tok-alias">color.green.100</span>
-        <span class="tok-hex">#acffc2</span>
-      </div>
-      <div class="tok-card" style="background:#ffdfde;color:#141414">
-        <code class="tok-name">bg.danger</code>
-        <span class="tok-alias">color.red.100</span>
-        <span class="tok-hex">#ffdfde</span>
-      </div>
-      <div class="tok-card" style="background:#ffe2c5;color:#141414">
-        <code class="tok-name">bg.warning</code>
-        <span class="tok-alias">color.amber.100</span>
-        <span class="tok-hex">#ffe2c5</span>
-      </div>
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">bg.neutral</code>
-        <span class="tok-alias">color.gray.100</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div>
-      <div class="tok-card" style="background:#e8e4ff;color:#141414">
-        <code class="tok-name">bg.ai</code>
-        <span class="tok-alias">color.violet.100</span>
-        <span class="tok-hex">#e8e4ff</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Added 2026-07-22 for Composer's AI Assist button — a genuine cross-product need (Message Center's composer and the future AI chat product both want a distinct 'this is the AI feature' accent), same bar surface.inverse was added under. violet was already an unused-as-semantic-role primitive family, picked over the 4 existing status roles on purpose — none of primary/success/danger/warning mean 'AI', reusing one would misattribute the feature to an unrelated status.</p></div>
-    </div>
-
-    <h3 class="sub-section">border</h3>
-    <div class="legend"><div class="row"><span>Hairlines, dividers, and role-colored outlines. border.focus is always blue regardless of the focused element's own role.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#d1d1d1;color:#141414">
-        <code class="tok-name">border.default</code>
-        <span class="tok-alias">color.gray.200</span>
-        <span class="tok-hex">#d1d1d1</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Default hairline — card edges, dividers, input borders at rest.</p></div>
-      <div class="tok-card" style="background:#b4b4b4;color:#141414">
-        <code class="tok-name">border.strong</code>
-        <span class="tok-alias">color.gray.300</span>
-        <span class="tok-hex">#b4b4b4</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Emphasized divider, input border on hover.</p></div>
-      <div class="tok-card" style="background:#0468c4;color:#fdfdfd">
-        <code class="tok-name">border.focus</code>
-        <span class="tok-alias">color.blue.600</span>
-        <span class="tok-hex">#0468c4</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Focus ring — always this color regardless of the focused element's own role.</p></div>
-      <div class="tok-card" style="background:#b2d4fe;color:#141414">
-        <code class="tok-name">border.primary</code>
-        <span class="tok-alias">color.blue.200</span>
-        <span class="tok-hex">#b2d4fe</span>
-      </div>
-      <div class="tok-card" style="background:#75ef9c;color:#141414">
-        <code class="tok-name">border.success</code>
-        <span class="tok-alias">color.green.200</span>
-        <span class="tok-hex">#75ef9c</span>
-      </div>
-      <div class="tok-card" style="background:#febebd;color:#141414">
-        <code class="tok-name">border.danger</code>
-        <span class="tok-alias">color.red.200</span>
-        <span class="tok-hex">#febebd</span>
-      </div>
-      <div class="tok-card" style="background:#fec486;color:#141414">
-        <code class="tok-name">border.warning</code>
-        <span class="tok-alias">color.amber.200</span>
-        <span class="tok-hex">#fec486</span>
-      </div>
-    </div>
-
-    <h3 class="sub-section">text</h3>
-    <div class="legend"><div class="row"><span>Content color. Role text (primary/success/danger/warning) sits at each family's 600 step — AA text-safe (≥4.5:1). muted is a deliberate exception, see its own note.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#181818;color:#fdfdfd">
-        <code class="tok-name">text.default</code>
-        <span class="tok-alias">color.gray.950</span>
-        <span class="tok-hex">#181818</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Default body/heading/title text.</p></div>
-      <div class="tok-card" style="background:#696969;color:#fdfdfd">
-        <code class="tok-name">text.secondary</code>
-        <span class="tok-alias">color.gray.600</span>
-        <span class="tok-hex">#696969</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Supporting text — still AA text-safe (>=4.5:1).</p></div>
-      <div class="tok-card" style="background:#808080;color:#fdfdfd">
-        <code class="tok-name">text.muted</code>
-        <span class="tok-alias">color.gray.500</span>
-        <span class="tok-hex">#808080</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Placeholders, captions, timestamps — intentionally below AA text contrast (~3.9:1); never use for content the user must read to complete a task.</p></div>
-      <div class="tok-card" style="background:#b4b4b4;color:#141414">
-        <code class="tok-name">text.disabled</code>
-        <span class="tok-alias">color.gray.300</span>
-        <span class="tok-hex">#b4b4b4</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">text.onFill</code>
-        <span class="tok-alias">color.white</span>
-        <span class="tok-hex">#ffffff</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Text/label sitting on a solid fill.* color (button labels, filled badges). Literal white, not a ramp step — none of the fill.* colors are dark enough to need anything else. Must be paired with semibold/bold weight: at fill's 500 step, contrast against white lands at 3.7-4.4:1 (large-text/UI-component AA, not the 4.5:1 small-text threshold) — checked directly, true for every role, not just one.</p></div>
-      <div class="tok-card" style="background:#0468c4;color:#fdfdfd">
-        <code class="tok-name">text.primary</code>
-        <span class="tok-alias">color.blue.600</span>
-        <span class="tok-hex">#0468c4</span>
-      </div>
-      <div class="tok-card" style="background:#057e3f;color:#fdfdfd">
-        <code class="tok-name">text.success</code>
-        <span class="tok-alias">color.green.600</span>
-        <span class="tok-hex">#057e3f</span>
-      </div>
-      <div class="tok-card" style="background:#c11435;color:#fdfdfd">
-        <code class="tok-name">text.danger</code>
-        <span class="tok-alias">color.red.600</span>
-        <span class="tok-hex">#c11435</span>
-      </div>
-      <div class="tok-card" style="background:#935a03;color:#fdfdfd">
-        <code class="tok-name">text.warning</code>
-        <span class="tok-alias">color.amber.600</span>
-        <span class="tok-hex">#935a03</span>
-      </div>
-      <div class="tok-card" style="background:#743ed8;color:#fdfdfd">
-        <code class="tok-name">text.ai</code>
-        <span class="tok-alias">color.violet.600</span>
-        <span class="tok-hex">#743ed8</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Pairs with bg.ai — same 600-step AA-safe convention every other text.* role already uses.</p></div>
-    </div>
-
-    <h3 class="sub-section">icon</h3>
-    <div class="legend"><div class="row"><span>Mirrors text.* but one step lighter/less saturated where noted — icons are graphical elements (WCAG 3:1 UI-component rule), not small text (4.5:1), so role icons sit at each family's 500 step, not 600.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#525252;color:#fdfdfd">
-        <code class="tok-name">icon.default</code>
-        <span class="tok-alias">color.gray.700</span>
-        <span class="tok-hex">#525252</span>
-      </div>
-      <div class="tok-card" style="background:#808080;color:#fdfdfd">
-        <code class="tok-name">icon.secondary</code>
-        <span class="tok-alias">color.gray.500</span>
-        <span class="tok-hex">#808080</span>
-      </div>
-      <div class="tok-card" style="background:#989898;color:#fdfdfd">
-        <code class="tok-name">icon.muted</code>
-        <span class="tok-alias">color.gray.400</span>
-        <span class="tok-hex">#989898</span>
-      </div>
-      <div class="tok-card" style="background:#b4b4b4;color:#141414">
-        <code class="tok-name">icon.disabled</code>
-        <span class="tok-alias">color.gray.300</span>
-        <span class="tok-hex">#b4b4b4</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Matches text.disabled — icon and label go equally quiet together on a disabled control.</p></div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">icon.onFill</code>
-        <span class="tok-alias">color.white</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#077fec;color:#fdfdfd">
-        <code class="tok-name">icon.primary</code>
-        <span class="tok-alias">color.blue.500</span>
-        <span class="tok-hex">#077fec</span>
-      </div>
-      <div class="tok-card" style="background:#0a994e;color:#fdfdfd">
-        <code class="tok-name">icon.success</code>
-        <span class="tok-alias">color.green.500</span>
-        <span class="tok-hex">#0a994e</span>
-      </div>
-      <div class="tok-card" style="background:#de394b;color:#fdfdfd">
-        <code class="tok-name">icon.danger</code>
-        <span class="tok-alias">color.red.500</span>
-        <span class="tok-hex">#de394b</span>
-      </div>
-      <div class="tok-card" style="background:#b26f07;color:#fdfdfd">
-        <code class="tok-name">icon.warning</code>
-        <span class="tok-alias">color.amber.500</span>
-        <span class="tok-hex">#b26f07</span>
-      </div>
-      <div class="tok-card" style="background:#8a5af4;color:#fdfdfd">
-        <code class="tok-name">icon.ai</code>
-        <span class="tok-alias">color.violet.500</span>
-        <span class="tok-hex">#8a5af4</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Pairs with text.ai/bg.ai — same 500-step convention every other role icon already uses.</p></div>
-    </div>
-
-    <h3 class="sub-section">fill</h3>
-    <div class="legend"><div class="row"><span>Solid, saturated backgrounds for interactive controls (buttons, checkboxes, toggles, filled badges) — pairs with text.onFill / icon.onFill, never with text.default. Label text on any fill.* must be semibold or bold — see text.onFill.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#077fec;color:#fdfdfd">
-        <code class="tok-name">fill.primary</code>
-        <span class="tok-alias">color.blue.500</span>
-        <span class="tok-hex">#077fec</span>
-      </div>
-      <div class="tok-card" style="background:#0468c4;color:#fdfdfd">
-        <code class="tok-name">fill.primaryHover</code>
-        <span class="tok-alias">color.blue.600</span>
-        <span class="tok-hex">#0468c4</span>
-      </div>
-      <div class="tok-card" style="background:#01519c;color:#fdfdfd">
-        <code class="tok-name">fill.primaryActive</code>
-        <span class="tok-alias">color.blue.700</span>
-        <span class="tok-hex">#01519c</span>
-      </div>
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">fill.neutral</code>
-        <span class="tok-alias">color.gray.100</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Secondary/neutral button fill — pairs with text.default, not text.onFill (too light for white text).</p></div>
-      <div class="tok-card" style="background:#d1d1d1;color:#141414">
-        <code class="tok-name">fill.neutralHover</code>
-        <span class="tok-alias">color.gray.200</span>
-        <span class="tok-hex">#d1d1d1</span>
-      </div>
-      <div class="tok-card" style="background:#b4b4b4;color:#141414">
-        <code class="tok-name">fill.neutralActive</code>
-        <span class="tok-alias">color.gray.300</span>
-        <span class="tok-hex">#b4b4b4</span>
-      </div>
-      <div class="tok-card" style="background:#0a994e;color:#fdfdfd">
-        <code class="tok-name">fill.success</code>
-        <span class="tok-alias">status.success</span>
-        <span class="tok-hex">#0a994e</span>
-      </div>
-      <div class="tok-card" style="background:#057e3f;color:#fdfdfd">
-        <code class="tok-name">fill.successHover</code>
-        <span class="tok-alias">color.green.600</span>
-        <span class="tok-hex">#057e3f</span>
-      </div>
-      <div class="tok-card" style="background:#de394b;color:#fdfdfd">
-        <code class="tok-name">fill.danger</code>
-        <span class="tok-alias">status.danger</span>
-        <span class="tok-hex">#de394b</span>
-      </div>
-      <div class="tok-card" style="background:#c11435;color:#fdfdfd">
-        <code class="tok-name">fill.dangerHover</code>
-        <span class="tok-alias">color.red.600</span>
-        <span class="tok-hex">#c11435</span>
-      </div>
-      <div class="tok-card" style="background:#b26f07;color:#fdfdfd">
-        <code class="tok-name">fill.warning</code>
-        <span class="tok-alias">status.warning</span>
-        <span class="tok-hex">#b26f07</span>
-      </div>
-      <div class="tok-card" style="background:#935a03;color:#fdfdfd">
-        <code class="tok-name">fill.warningHover</code>
-        <span class="tok-alias">color.amber.600</span>
-        <span class="tok-hex">#935a03</span>
-      </div>
-      <div class="tok-card" style="background:#8a5af4;color:#fdfdfd">
-        <code class="tok-name">fill.ai</code>
-        <span class="tok-alias">color.violet.500</span>
-        <span class="tok-hex">#8a5af4</span>
-      </div><div class="tok-desc-wrap"><p class="tok-desc">Solid AI accent, for a hypothetical fully-filled AI button — Composer's own AI Assist button actually uses the pale bg.ai tint (see Composer's own tokens), not this; kept for parity with every other role having both a tint and a solid step available.</p></div>
-      <div class="tok-card" style="background:#743ed8;color:#fdfdfd">
-        <code class="tok-name">fill.aiHover</code>
-        <span class="tok-alias">color.violet.600</span>
-        <span class="tok-hex">#743ed8</span>
-      </div>
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">fill.disabled</code>
-        <span class="tok-alias">color.gray.100</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div>
-    </div>
-
-    <h3 class="sub-section">status</h3>
-    <div class="legend"><div class="row"><span>Reserved state meaning (good/warning/danger/info) for badges, alerts, form validation. Never reuse a chart-series color for status, and never reuse status for 'series 4' — see tokens/primitives/chart-series.tokens.json's own rule. Always pair with an icon + label, not color alone.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#0a994e;color:#fdfdfd">
-        <code class="tok-name">status.success</code>
-        <span class="tok-alias">color.green.500</span>
-        <span class="tok-hex">#0a994e</span>
-      </div>
-      <div class="tok-card" style="background:#b26f07;color:#fdfdfd">
-        <code class="tok-name">status.warning</code>
-        <span class="tok-alias">color.amber.500</span>
-        <span class="tok-hex">#b26f07</span>
-      </div>
-      <div class="tok-card" style="background:#de394b;color:#fdfdfd">
-        <code class="tok-name">status.danger</code>
-        <span class="tok-alias">color.red.500</span>
-        <span class="tok-hex">#de394b</span>
-      </div>
-      <div class="tok-card" style="background:#077fec;color:#fdfdfd">
-        <code class="tok-name">status.info</code>
-        <span class="tok-alias">color.blue.500</span>
-        <span class="tok-hex">#077fec</span>
-      </div>
-    </div>
-
-    <h3 class="sub-section">avatar</h3>
-    <div class="legend"><div class="row"><span>Categorical identity tints for Avatar's initials fallback — a person with no photo gets one of these 8 hues assigned deterministically (hash their name to a slot), so distinct people read as distinct colors across a list instead of every fallback avatar being the same gray. Same hue order and reasoning as tokens/primitives/chart-series.tokens.json (validated CVD-safe adjacency) but a separate token set on purpose: chart-series sits at the 500 step for saturated lines/bars on a white plot area, this sits at 100 (bg, pastel) / 600 (text, AA-safe — same step text.primary/success/danger/warning already use) for a quiet fallback badge, not a data mark. Don't reuse chart-series' own tokens here, and don't reuse these for charts.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#d9eaff;color:#141414">
-        <code class="tok-name">avatar.blue.bg</code>
-        <span class="tok-alias">color.blue.100</span>
-        <span class="tok-hex">#d9eaff</span>
-      </div>
-      <div class="tok-card" style="background:#0468c4;color:#fdfdfd">
-        <code class="tok-name">avatar.blue.text</code>
-        <span class="tok-alias">color.blue.600</span>
-        <span class="tok-hex">#0468c4</span>
-      </div>
-      <div class="tok-card" style="background:#acffc2;color:#141414">
-        <code class="tok-name">avatar.green.bg</code>
-        <span class="tok-alias">color.green.100</span>
-        <span class="tok-hex">#acffc2</span>
-      </div>
-      <div class="tok-card" style="background:#057e3f;color:#fdfdfd">
-        <code class="tok-name">avatar.green.text</code>
-        <span class="tok-alias">color.green.600</span>
-        <span class="tok-hex">#057e3f</span>
-      </div>
-      <div class="tok-card" style="background:#ffddec;color:#141414">
-        <code class="tok-name">avatar.magenta.bg</code>
-        <span class="tok-alias">color.magenta.100</span>
-        <span class="tok-hex">#ffddec</span>
-      </div>
-      <div class="tok-card" style="background:#b51c79;color:#fdfdfd">
-        <code class="tok-name">avatar.magenta.text</code>
-        <span class="tok-alias">color.magenta.600</span>
-        <span class="tok-hex">#b51c79</span>
-      </div>
-      <div class="tok-card" style="background:#ffe2c5;color:#141414">
-        <code class="tok-name">avatar.amber.bg</code>
-        <span class="tok-alias">color.amber.100</span>
-        <span class="tok-hex">#ffe2c5</span>
-      </div>
-      <div class="tok-card" style="background:#935a03;color:#fdfdfd">
-        <code class="tok-name">avatar.amber.text</code>
-        <span class="tok-alias">color.amber.600</span>
-        <span class="tok-hex">#935a03</span>
-      </div>
-      <div class="tok-card" style="background:#88fffe;color:#141414">
-        <code class="tok-name">avatar.teal.bg</code>
-        <span class="tok-alias">color.teal.100</span>
-        <span class="tok-hex">#88fffe</span>
-      </div>
-      <div class="tok-card" style="background:#057878;color:#fdfdfd">
-        <code class="tok-name">avatar.teal.text</code>
-        <span class="tok-alias">color.teal.600</span>
-        <span class="tok-hex">#057878</span>
-      </div>
-      <div class="tok-card" style="background:#ffe1d5;color:#141414">
-        <code class="tok-name">avatar.orange.bg</code>
-        <span class="tok-alias">color.orange.100</span>
-        <span class="tok-hex">#ffe1d5</span>
-      </div>
-      <div class="tok-card" style="background:#ae4103;color:#fdfdfd">
-        <code class="tok-name">avatar.orange.text</code>
-        <span class="tok-alias">color.orange.600</span>
-        <span class="tok-hex">#ae4103</span>
-      </div>
-      <div class="tok-card" style="background:#e8e4ff;color:#141414">
-        <code class="tok-name">avatar.violet.bg</code>
-        <span class="tok-alias">color.violet.100</span>
-        <span class="tok-hex">#e8e4ff</span>
-      </div>
-      <div class="tok-card" style="background:#743ed8;color:#fdfdfd">
-        <code class="tok-name">avatar.violet.text</code>
-        <span class="tok-alias">color.violet.600</span>
-        <span class="tok-hex">#743ed8</span>
-      </div>
-      <div class="tok-card" style="background:#ffdfde;color:#141414">
-        <code class="tok-name">avatar.red.bg</code>
-        <span class="tok-alias">color.red.100</span>
-        <span class="tok-hex">#ffdfde</span>
-      </div>
-      <div class="tok-card" style="background:#c11435;color:#fdfdfd">
-        <code class="tok-name">avatar.red.text</code>
-        <span class="tok-alias">color.red.600</span>
-        <span class="tok-hex">#c11435</span>
-      </div>
-    </div>
-
-    <h3 class="sub-section">tag</h3>
-    <div class="legend"><div class="row"><span>Decorative, non-semantic categorical color for generic tagging/labeling (Badge's 'color' axis, e.g. a Notion/Linear/GitHub-style label picker) — deliberately separate from the 5 meaningful status roles (bg.*/fill.* primary/success/warning/danger + this group's own gray). Picking tag.orange means 'I want an orange label', not 'this is a warning'. Two intensities per hue: tint (pale bg + colored text, same 100/600 pairing bg.*/text.* already use) and solid (saturated bg + text.onFill, same 500-step + white pairing fill.* already uses) — same contrast trade-off already accepted for fill.primary/success/danger/warning (3.7-4.4:1 large-text/UI-component AA, not 4.5:1 small-text; pair with semibold/bold label weight). 4 of the 10 hues (blue/red/green/amber) are pure aliases of the existing primary/danger/success/warning role tokens, not new colors — 'color=blue' and 'role=primary' render identically on purpose, since blue already means primary/info everywhere else in this system. gray aliases role=neutral for tint only — see gray's own $description for why solid diverges. Only orange/violet/magenta/teal/brown are genuinely new leaf references. Same hue order as chart-series/avatar for one consistent categorical rhythm across the system.</span></div></div>
-    <div class="swatch-grid">
-      <div class="tok-card" style="background:#e8e8e8;color:#141414">
-        <code class="tok-name">tag.gray.tint.bg</code>
-        <span class="tok-alias">bg.neutral</span>
-        <span class="tok-hex">#e8e8e8</span>
-      </div>
-      <div class="tok-card" style="background:#181818;color:#fdfdfd">
-        <code class="tok-name">tag.gray.tint.text</code>
-        <span class="tok-alias">text.default</span>
-        <span class="tok-hex">#181818</span>
-      </div>
-      <div class="tok-card" style="background:#808080;color:#fdfdfd">
-        <code class="tok-name">tag.gray.solid.bg</code>
-        <span class="tok-alias">color.gray.500</span>
-        <span class="tok-hex">#808080</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.gray.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#d9eaff;color:#141414">
-        <code class="tok-name">tag.blue.tint.bg</code>
-        <span class="tok-alias">bg.primary</span>
-        <span class="tok-hex">#d9eaff</span>
-      </div>
-      <div class="tok-card" style="background:#0468c4;color:#fdfdfd">
-        <code class="tok-name">tag.blue.tint.text</code>
-        <span class="tok-alias">text.primary</span>
-        <span class="tok-hex">#0468c4</span>
-      </div>
-      <div class="tok-card" style="background:#077fec;color:#fdfdfd">
-        <code class="tok-name">tag.blue.solid.bg</code>
-        <span class="tok-alias">fill.primary</span>
-        <span class="tok-hex">#077fec</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.blue.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#ffdfde;color:#141414">
-        <code class="tok-name">tag.red.tint.bg</code>
-        <span class="tok-alias">bg.danger</span>
-        <span class="tok-hex">#ffdfde</span>
-      </div>
-      <div class="tok-card" style="background:#c11435;color:#fdfdfd">
-        <code class="tok-name">tag.red.tint.text</code>
-        <span class="tok-alias">text.danger</span>
-        <span class="tok-hex">#c11435</span>
-      </div>
-      <div class="tok-card" style="background:#de394b;color:#fdfdfd">
-        <code class="tok-name">tag.red.solid.bg</code>
-        <span class="tok-alias">fill.danger</span>
-        <span class="tok-hex">#de394b</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.red.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#acffc2;color:#141414">
-        <code class="tok-name">tag.green.tint.bg</code>
-        <span class="tok-alias">bg.success</span>
-        <span class="tok-hex">#acffc2</span>
-      </div>
-      <div class="tok-card" style="background:#057e3f;color:#fdfdfd">
-        <code class="tok-name">tag.green.tint.text</code>
-        <span class="tok-alias">text.success</span>
-        <span class="tok-hex">#057e3f</span>
-      </div>
-      <div class="tok-card" style="background:#0a994e;color:#fdfdfd">
-        <code class="tok-name">tag.green.solid.bg</code>
-        <span class="tok-alias">fill.success</span>
-        <span class="tok-hex">#0a994e</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.green.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#ffe2c5;color:#141414">
-        <code class="tok-name">tag.amber.tint.bg</code>
-        <span class="tok-alias">bg.warning</span>
-        <span class="tok-hex">#ffe2c5</span>
-      </div>
-      <div class="tok-card" style="background:#935a03;color:#fdfdfd">
-        <code class="tok-name">tag.amber.tint.text</code>
-        <span class="tok-alias">text.warning</span>
-        <span class="tok-hex">#935a03</span>
-      </div>
-      <div class="tok-card" style="background:#b26f07;color:#fdfdfd">
-        <code class="tok-name">tag.amber.solid.bg</code>
-        <span class="tok-alias">fill.warning</span>
-        <span class="tok-hex">#b26f07</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.amber.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#ffe1d5;color:#141414">
-        <code class="tok-name">tag.orange.tint.bg</code>
-        <span class="tok-alias">color.orange.100</span>
-        <span class="tok-hex">#ffe1d5</span>
-      </div>
-      <div class="tok-card" style="background:#ae4103;color:#fdfdfd">
-        <code class="tok-name">tag.orange.tint.text</code>
-        <span class="tok-alias">color.orange.600</span>
-        <span class="tok-hex">#ae4103</span>
-      </div>
-      <div class="tok-card" style="background:#d35006;color:#fdfdfd">
-        <code class="tok-name">tag.orange.solid.bg</code>
-        <span class="tok-alias">color.orange.500</span>
-        <span class="tok-hex">#d35006</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.orange.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#e8e4ff;color:#141414">
-        <code class="tok-name">tag.violet.tint.bg</code>
-        <span class="tok-alias">color.violet.100</span>
-        <span class="tok-hex">#e8e4ff</span>
-      </div>
-      <div class="tok-card" style="background:#743ed8;color:#fdfdfd">
-        <code class="tok-name">tag.violet.tint.text</code>
-        <span class="tok-alias">color.violet.600</span>
-        <span class="tok-hex">#743ed8</span>
-      </div>
-      <div class="tok-card" style="background:#8a5af4;color:#fdfdfd">
-        <code class="tok-name">tag.violet.solid.bg</code>
-        <span class="tok-alias">color.violet.500</span>
-        <span class="tok-hex">#8a5af4</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.violet.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#ffddec;color:#141414">
-        <code class="tok-name">tag.magenta.tint.bg</code>
-        <span class="tok-alias">color.magenta.100</span>
-        <span class="tok-hex">#ffddec</span>
-      </div>
-      <div class="tok-card" style="background:#b51c79;color:#fdfdfd">
-        <code class="tok-name">tag.magenta.tint.text</code>
-        <span class="tok-alias">color.magenta.600</span>
-        <span class="tok-hex">#b51c79</span>
-      </div>
-      <div class="tok-card" style="background:#d13d91;color:#fdfdfd">
-        <code class="tok-name">tag.magenta.solid.bg</code>
-        <span class="tok-alias">color.magenta.500</span>
-        <span class="tok-hex">#d13d91</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.magenta.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#88fffe;color:#141414">
-        <code class="tok-name">tag.teal.tint.bg</code>
-        <span class="tok-alias">color.teal.100</span>
-        <span class="tok-hex">#88fffe</span>
-      </div>
-      <div class="tok-card" style="background:#057878;color:#fdfdfd">
-        <code class="tok-name">tag.teal.tint.text</code>
-        <span class="tok-alias">color.teal.600</span>
-        <span class="tok-hex">#057878</span>
-      </div>
-      <div class="tok-card" style="background:#0a9393;color:#fdfdfd">
-        <code class="tok-name">tag.teal.solid.bg</code>
-        <span class="tok-alias">color.teal.500</span>
-        <span class="tok-hex">#0a9393</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.teal.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-      <div class="tok-card" style="background:#ffe1d1;color:#141414">
-        <code class="tok-name">tag.brown.tint.bg</code>
-        <span class="tok-alias">color.brown.100</span>
-        <span class="tok-hex">#ffe1d1</span>
-      </div>
-      <div class="tok-card" style="background:#925837;color:#fdfdfd">
-        <code class="tok-name">tag.brown.tint.text</code>
-        <span class="tok-alias">color.brown.600</span>
-        <span class="tok-hex">#925837</span>
-      </div>
-      <div class="tok-card" style="background:#ac704e;color:#fdfdfd">
-        <code class="tok-name">tag.brown.solid.bg</code>
-        <span class="tok-alias">color.brown.500</span>
-        <span class="tok-hex">#ac704e</span>
-      </div>
-      <div class="tok-card" style="background:#ffffff;color:#141414">
-        <code class="tok-name">tag.brown.solid.text</code>
-        <span class="tok-alias">text.onFill</span>
-        <span class="tok-hex">#ffffff</span>
-      </div>
-    </div>
+    <p class="sub">One accordion per semantic token — click a row (the <code>›</code> chevron) to open it. The summary shows the swatch, the token name, and the <strong>primitive it aliases</strong> (in blue) — resolved hex/rgba lives inside on expand. Translucent tokens (the 12% tints, darken/lighten, shadows) render split: the left half over the page color (real look), the right half on a <strong>checkerboard</strong> so the transparency is obvious rather than reading as a flat dark color. Expand for the full note, the resolved value, and every component that uses it — with a link and the in-component context. COMPAT aliases (old names kept alive during the component migration) are hidden here but still route their usages to the canonical token. Values are baked to the <strong>Pro</strong> theme. Source: <code>tokens/semantic/color.tokens.json</code> → <code>tokens/primitives/color.tokens.json</code>.</p>
+    <section class="group">
+    <h3 class="gname">surface</h3>
+    <p class="gdesc">Neutral elevation backgrounds — the grey container palette. Three levels only: page → card → raised. surface-6 is deliberately NOT here (it is a fill/outline color, see the fill/outline groups); use it as a background only for exceptions. Distinct from `bg` (which is the colored status/active tint washes, not neutral containers).</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#11141C"></span></span>
+        <code class="tname">surface.page</code>
+        <code class="talias-sum">→ color.base.surface-0</code>
+        <span class="trole">The page background — the darkest surface everything sits on.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#11141C</code> &nbsp;·&nbsp; alias of <code>color.base.surface-0</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#1C202B"></span></span>
+        <code class="tname">surface.card</code>
+        <code class="talias-sum">→ color.base.surface-2</code>
+        <span class="trole">Cards, popups, drawers, modals — the first elevation above the page.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#1C202B</code> &nbsp;·&nbsp; alias of <code>color.base.surface-2</code></p>
+        <p class="used-h">Used in 15 components:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>state · checked</code> <code>state · checkedHover</code> <code>state · disabled</code> <code>state · disabledChecked</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code> <code>state · checked</code> <code>state · disabled</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · active</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#282E3E"></span></span>
+        <code class="tname">surface.raised</code>
+        <code class="talias-sum">→ color.base.surface-4</code>
+        <span class="trole">Sub elements raised above a card — filled inputs, secondary buttons, chips, filled counters.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#282E3E</code> &nbsp;·&nbsp; alias of <code>color.base.surface-4</code></p>
+        <p class="used-h">Used in 17 components:</p><ul class="used-list"><li><a href="avatar.html">Avatar</a><span class="ctx"><code>fallback · generic</code></span></li><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code> <code>role · neutral · solid</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · disabled</code> <code>secondary · state · default</code> <code>secondary · state · hover</code> <code>secondary · state · pressed</code> <code>secondary · state · disabled</code> <code>ghost · state · hover</code> <span class="more">+1</span></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · disabledChecked</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedDisabled</code> <code>removable · remove</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onNeutral · state · inactive</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · hover</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · hover</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · hover</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · disabledChecked</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented</code> <code>segmented · state · hover</code></span></li><li><a href="tooltip.html">Tooltip</a><span class="ctx"><code>—</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+    </span>
+        <code class="tname">surface.overlay</code>
+        <code class="talias-sum">→ color.sub.black-6</code>
+        <span class="trole">The scrim behind modals/drawers — the page color at 50%.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.5)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-6</code></p>
+        <p class="used-h">Used in 3 components:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li></ul>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">fill</h3>
+    <p class="gdesc">Solid brand/status fills for buttons, toggles, active markers. Hover/pressed are NOT separate tokens here — they are an opacity overlay (see darken/lighten), matching how the Theme Editor layers a translucent black/white sheet on top.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">fill.active</code>
+        <code class="talias-sum">→ color.base.active-1</code>
+        <span class="trole">The flat active fill — primary buttons, selected states, active markers, when NOT using the gradient.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-1</code></p>
+        <p class="used-h">Used in 10 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · primary · solid</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · default</code> <code>primary · state · hover</code> <code>primary · state · pressed</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>interactive · state · hover</code> <code>interactive · state · pressed</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · hover</code> <code>state · checked</code> <code>state · indeterminate</code> <code>state · checkedHover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · hover</code> <code>toggle · checked</code> <code>toggle · checkedHover</code> <code>toggle · checkedOutline</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onPrimary · state · inactive</code> <code>onNeutral · state · active</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · selected</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · active</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · hover</code> <code>state · checked</code> <code>state · checkedHover</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · checked</code> <code>state · checkedHover</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:linear-gradient(90deg, #FB8C33 0%, #FB8C33 100%)"></span></span>
+        <code class="tname">fill.activeGradient</code>
+        <code class="talias-sum">linear-gradient(90deg, #FB8C33 0%, #FB8C33 100%)</code>
+        <span class="trole">The active gradient — active-1 → active-2 at 90°.</span>
+      </summary>
+      <div class="tbody">
+        <p class="tdesc">Primary buttons and outlines that opt into the gradient look; also reused as the border on hover states. Collapses to a flat color when active-1 = active-2 (as in Pro).</p>
+        <p class="tresolves">Resolves to <code>linear-gradient(90deg, #FB8C33 0%, #FB8C33 100%)</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#31A8FF"></span></span>
+        <code class="tname">fill.accent</code>
+        <code class="talias-sum">→ color.base.accent</code>
+        <span class="trole">Solid accent fill — the secondary brand pop.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#31A8FF</code> &nbsp;·&nbsp; alias of <code>color.base.accent</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00A828"></span></span>
+        <code class="tname">fill.positive</code>
+        <code class="talias-sum">→ color.status.positive</code>
+        <span class="trole">Solid positive fill — win/confirm affordances.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00A828</code> &nbsp;·&nbsp; alias of <code>color.status.positive</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · success · solid</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#F90643"></span></span>
+        <code class="tname">fill.negative</code>
+        <code class="talias-sum">→ color.status.negative</code>
+        <span class="trole">Solid negative fill — lose/destructive affordances.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · danger · solid</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">fill.warning</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Solid warning fill — cashout/attention affordances.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · warning · solid</code></span></li></ul>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">bg</h3>
+    <p class="gdesc">Colored 12%-opacity tint washes — the pale status/active backgrounds behind chips, labels, selected rows. The color counterpart to the neutral `surface` group. Built on the sub-* opacity primitives, so they inherit the theme's active/accent/status hues automatically.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span>
+    </span>
+        <code class="tname">bg.active</code>
+        <code class="talias-sum">→ color.sub.active-2</code>
+        <span class="trole">Active tint — selected/active row or chip background, freebet.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(251, 140, 51, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.active-2</code></p>
+        <p class="used-h">Used in 3 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · primary · tint</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>interactive · state · pressed</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedOutline</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span>
+    </span>
+        <code class="tname">bg.accent</code>
+        <code class="talias-sum">→ color.sub.accent-2</code>
+        <span class="trole">Accent tint — the live label background.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(49, 168, 255, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.accent-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(0, 168, 40, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(0, 168, 40, 0.12)"></span></span>
+    </span>
+        <code class="tname">bg.positive</code>
+        <code class="talias-sum">→ color.sub.positive-2</code>
+        <span class="trole">Positive tint — win chip/row background.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(0, 168, 40, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.positive-2</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · success · tint</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(249, 6, 67, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(249, 6, 67, 0.12)"></span></span>
+    </span>
+        <code class="tname">bg.negative</code>
+        <code class="talias-sum">→ color.sub.negative-2</code>
+        <span class="trole">Negative tint — error/lose chip/row background.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(249, 6, 67, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.negative-2</code></p>
+        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · danger · tint</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · destructive</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 193, 46, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 193, 46, 0.12)"></span></span>
+    </span>
+        <code class="tname">bg.warning</code>
+        <code class="talias-sum">→ color.sub.warning-2</code>
+        <span class="trole">Warning tint — cashout/attention chip background.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(255, 193, 46, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.warning-2</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · warning · tint</code></span></li></ul>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">outline</h3>
+    <p class="gdesc">Border/hairline/outline colors. Two neutral weights (default = surface-4, strong = surface-6) plus the active/accent/status border colors. Renamed from the old `border` group.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#282E3E"></span></span>
+        <code class="tname">outline.default</code>
+        <code class="talias-sum">→ color.base.surface-4</code>
+        <span class="trole">Default hairline — soft dividers and rest-state borders.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#282E3E</code> &nbsp;·&nbsp; alias of <code>color.base.surface-4</code></p>
+        <p class="used-h">Used in 17 components:</p><ul class="used-list"><li><a href="avatar.html">Avatar</a><span class="ctx"><code>—</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>—</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>state · disabled</code> <code>state · disabledChecked</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>—</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>underline</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#3E4351"></span></span>
+        <code class="tname">outline.strong</code>
+        <code class="talias-sum">→ color.base.surface-6</code>
+        <span class="trole">Strong border — outline-button borders, lines, emphasized dividers, hover borders.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#3E4351</code> &nbsp;·&nbsp; alias of <code>color.base.surface-6</code></p>
+        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · hover</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · hover</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · hover</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · hover</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · hover</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">outline.active</code>
+        <code class="talias-sum">→ color.base.active-2</code>
+        <span class="trole">Active border — focus rings, selected outlines, active-tab underline.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-2</code></p>
+        <p class="used-h">Used in 10 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · focused</code> <code>secondary · state · focused</code> <code>ghost · state · focused</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>interactive · state · focused</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · focused</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>focus</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · focus</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · focused</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · focus</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · focus</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · focused</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>underline</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#31A8FF"></span></span>
+        <code class="tname">outline.accent</code>
+        <code class="talias-sum">→ color.base.accent</code>
+        <span class="trole">Accent border.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#31A8FF</code> &nbsp;·&nbsp; alias of <code>color.base.accent</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00A828"></span></span>
+        <code class="tname">outline.positive</code>
+        <code class="talias-sum">→ color.status.positive</code>
+        <span class="trole">Positive border.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00A828</code> &nbsp;·&nbsp; alias of <code>color.status.positive</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#F90643"></span></span>
+        <code class="tname">outline.negative</code>
+        <code class="talias-sum">→ color.status.negative</code>
+        <span class="trole">Negative/error border.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
+        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="input.html">Input</a><span class="ctx"><code>state · error</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · error</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">outline.warning</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Warning border.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">text</h3>
+    <p class="gdesc">Text colors. default/secondary are the two greys; contrast is dark text for placing ON a light/contrast surface; forActiveBg is text placed on an active-colored fill (dark or white depending on how bright the theme's active color is).</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFFFFF"></span></span>
+        <code class="tname">text.default</code>
+        <code class="talias-sum">→ color.base.contrast</code>
+        <span class="trole">Default body text — max contrast (white) on the dark surfaces.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFFFFF</code> &nbsp;·&nbsp; alias of <code>color.base.contrast</code></p>
+        <p class="used-h">Used in 18 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code> <code>role · neutral · solid</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onNeutral · state · inactive</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · default</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · hover</code> <code>segmented · state · active</code> <code>underline · state · hover</code> <code>underline · state · active</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#8E929F"></span></span>
+        <code class="tname">text.secondary</code>
+        <code class="talias-sum">→ color.base.secondary</code>
+        <span class="trole">Secondary/muted text — captions, metadata, placeholders.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#8E929F</code> &nbsp;·&nbsp; alias of <code>color.base.secondary</code></p>
+        <p class="used-h">Used in 17 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · disabled</code> <code>secondary · state · disabled</code> <code>ghost · state · default</code> <code>ghost · state · disabled</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · disabled</code> <code>state · disabledChecked</code> <code>group</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · disabled</code> <code>toggle · checkedDisabled</code> <code>removable · disabled</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code> <code>state · populated</code> <code>state · disabled</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · disabled</code> <code>selectAllRow</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>ellipsis</code> <code>state · disabled</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · disabled</code> <code>state · disabledChecked</code> <code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code> <code>state · populated</code> <code>state · disabled</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>label</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · default</code> <code>segmented · state · disabled</code> <code>underline · state · default</code> <code>underline · state · disabled</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#11141C"></span></span>
+        <code class="tname">text.contrast</code>
+        <code class="talias-sum">→ color.base.surface-0</code>
+        <span class="trole">Contrast text — dark text for the rare light/contrast surface.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#11141C</code> &nbsp;·&nbsp; alias of <code>color.base.surface-0</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#11141C"></span></span>
+        <code class="tname">text.forActiveBg</code>
+        <code class="talias-sum">→ color.base.surface-0</code>
+        <span class="trole">Text placed on an active-colored fill.</span>
+      </summary>
+      <div class="tbody">
+        <p class="tdesc">In Pro the active color is bright orange, so this is dark (surface-0); in a theme with a dark active color it flips to white. Theme-dependent — see the deferred text.forLabelBg for the label equivalent.</p>
+        <p class="tresolves">Resolves to <code>#11141C</code> &nbsp;·&nbsp; alias of <code>color.base.surface-0</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">text.active</code>
+        <code class="talias-sum">→ color.base.active-1</code>
+        <span class="trole">Active text — links, active tab labels, active values.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-1</code></p>
+        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · primary · tint</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedOutline</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onPrimary · state · active</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · focus</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>selectAllRow</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · focus</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#31A8FF"></span></span>
+        <code class="tname">text.accent</code>
+        <code class="talias-sum">→ color.base.accent</code>
+        <span class="trole">Accent text.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#31A8FF</code> &nbsp;·&nbsp; alias of <code>color.base.accent</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00A828"></span></span>
+        <code class="tname">text.positive</code>
+        <code class="talias-sum">→ color.status.positive</code>
+        <span class="trole">Positive text — winnings, gains, positive odds movement.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00A828</code> &nbsp;·&nbsp; alias of <code>color.status.positive</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · success · tint</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#F90643"></span></span>
+        <code class="tname">text.negative</code>
+        <code class="talias-sum">→ color.status.negative</code>
+        <span class="trole">Negative text — losses, errors, negative odds movement.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
+        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · danger · tint</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · destructive</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">text.warning</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Warning text.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · warning · tint</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFFFFF"></span></span>
+        <code class="tname">text.onFill</code>
+        <code class="talias-sum">→ color.base.contrast</code>
+        <span class="trole">Text on a dark solid fill (e.g.</span>
+      </summary>
+      <div class="tbody">
+        <p class="tdesc">the Tooltip). For text on the ACTIVE fill use text.forActiveBg instead.</p>
+        <p class="tresolves">Resolves to <code>#FFFFFF</code> &nbsp;·&nbsp; alias of <code>color.base.contrast</code></p>
+        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · primary · solid</code> <code>role · success · solid</code> <code>role · warning · solid</code> <code>role · danger · solid</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checked</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onPrimary · state · inactive</code> <code>onNeutral · state · active</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · active</code></span></li><li><a href="tooltip.html">Tooltip</a><span class="ctx"><code>—</code></span></li></ul>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">icon</h3>
+    <p class="gdesc">Icon colors — mirrors `text`. default is contrast (white) for content icons; use icon.secondary for chrome/field icons.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFFFFF"></span></span>
+        <code class="tname">icon.default</code>
+        <code class="talias-sum">→ color.base.contrast</code>
+        <span class="trole">Default content icons — contrast (white).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFFFFF</code> &nbsp;·&nbsp; alias of <code>color.base.contrast</code></p>
+        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>state · populated</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#8E929F"></span></span>
+        <code class="tname">icon.secondary</code>
+        <code class="talias-sum">→ color.base.secondary</code>
+        <span class="trole">Secondary/chrome icons — field icons, close ×, info circles.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#8E929F</code> &nbsp;·&nbsp; alias of <code>color.base.secondary</code></p>
+        <p class="used-h">Used in 11 components:</p><ul class="used-list"><li><a href="avatar.html">Avatar</a><span class="ctx"><code>fallback · generic</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · disabled</code> <code>secondary · state · disabled</code> <code>ghost · state · default</code> <code>ghost · state · disabled</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · disabledChecked</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · disabled</code> <code>removable · disabled</code> <code>removable · remove</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · disabled</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#11141C"></span></span>
+        <code class="tname">icon.contrast</code>
+        <code class="talias-sum">→ color.base.surface-0</code>
+        <span class="trole">Dark icon for a light/contrast surface.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#11141C</code> &nbsp;·&nbsp; alias of <code>color.base.surface-0</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">icon.active</code>
+        <code class="talias-sum">→ color.base.active-1</code>
+        <span class="trole">Active icon.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-1</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedOutline</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#31A8FF"></span></span>
+        <code class="tname">icon.accent</code>
+        <code class="talias-sum">→ color.base.accent</code>
+        <span class="trole">Accent icon.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#31A8FF</code> &nbsp;·&nbsp; alias of <code>color.base.accent</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00A828"></span></span>
+        <code class="tname">icon.positive</code>
+        <code class="talias-sum">→ color.status.positive</code>
+        <span class="trole">Positive icon.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00A828</code> &nbsp;·&nbsp; alias of <code>color.status.positive</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#F90643"></span></span>
+        <code class="tname">icon.negative</code>
+        <code class="talias-sum">→ color.status.negative</code>
+        <span class="trole">Negative icon.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="menu.html">Menu</a><span class="ctx"><code>state · destructive</code></span></li></ul>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">icon.warning</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Warning icon.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFFFFF"></span></span>
+        <code class="tname">icon.onFill</code>
+        <code class="talias-sum">→ color.base.contrast</code>
+        <span class="trole">Icon on a dark solid fill.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFFFFF</code> &nbsp;·&nbsp; alias of <code>color.base.contrast</code></p>
+        <p class="used-h">Used in 3 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · default</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · checked</code> <code>state · indeterminate</code> <code>state · checkedHover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checked</code></span></li></ul>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">betStatus</h3>
+    <p class="gdesc">My-bets settlement statuses. win/loose/cashout reuse the editable positive/negative/warning; halfWin/halfLoose/refund/pending use the four file-only extra status hues (color-4..7). These are the colored dots/labels on a bet row.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00A828"></span></span>
+        <code class="tname">betStatus.win</code>
+        <code class="talias-sum">→ color.status.positive</code>
+        <span class="trole">Bet won — positive.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00A828</code> &nbsp;·&nbsp; alias of <code>color.status.positive</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#F90643"></span></span>
+        <code class="tname">betStatus.loose</code>
+        <code class="talias-sum">→ color.status.negative</code>
+        <span class="trole">Bet lost — negative.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#00BAAF"></span></span>
+        <code class="tname">betStatus.halfWin</code>
+        <code class="talias-sum">→ color.status.color-4</code>
+        <span class="trole">Half win (partial) — teal (color-4).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#00BAAF</code> &nbsp;·&nbsp; alias of <code>color.status.color-4</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FF601B"></span></span>
+        <code class="tname">betStatus.halfLoose</code>
+        <code class="talias-sum">→ color.status.color-5</code>
+        <span class="trole">Half lose (partial) — orange (color-5).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FF601B</code> &nbsp;·&nbsp; alias of <code>color.status.color-5</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#AB35FF"></span></span>
+        <code class="tname">betStatus.refund</code>
+        <code class="talias-sum">→ color.status.color-6</code>
+        <span class="trole">Refund / void — purple (color-6).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#AB35FF</code> &nbsp;·&nbsp; alias of <code>color.status.color-6</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">betStatus.cashout</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Cashed out — warning.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#A1A1A1"></span></span>
+        <code class="tname">betStatus.pending</code>
+        <code class="talias-sum">→ color.status.color-7</code>
+        <span class="trole">Pending / unsettled — grey (color-7).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#A1A1A1</code> &nbsp;·&nbsp; alias of <code>color.status.color-7</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">label</h3>
+    <p class="gdesc">Small inline labels/badges on cards and rows. Some are colored tints (live/freebet), some solid status (postponed/reviewing), plus the score chip and the two counter states. NOTE: a dedicated text.forLabelBg (light/dark per theme, deferred) will handle text ON these label backgrounds.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span>
+    </span>
+        <code class="tname">label.live</code>
+        <code class="talias-sum">→ color.sub.accent-2</code>
+        <span class="trole">Live indicator — accent tint.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(49, 168, 255, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.accent-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span>
+    </span>
+        <code class="tname">label.freebet</code>
+        <code class="talias-sum">→ color.sub.active-2</code>
+        <span class="trole">Freebet — active tint.</span>
+      </summary>
+      <div class="tbody">
+        <p class="tdesc">(In some themes this is the accent tint; Pro uses active.)</p>
+        <p class="tresolves">Resolves to <code>rgba(251, 140, 51, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.active-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">label.postponed</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Postponed — warning.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">label.reviewing</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Under review — warning.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#3E4351"></span></span>
+        <code class="tname">label.score</code>
+        <code class="talias-sum">→ color.base.surface-6</code>
+        <span class="trole">Score chip background — one of the sanctioned surface-6-as-background exceptions.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#3E4351</code> &nbsp;·&nbsp; alias of <code>color.base.surface-6</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span>
+    </span>
+        <code class="tname">label.inactiveCounter</code>
+        <code class="talias-sum">→ color.sub.white-2</code>
+        <span class="trole">Inactive counter background — a faint lighten wash.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(255, 255, 255, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.white-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">label.activeCounter</code>
+        <code class="talias-sum">→ color.base.active-2</code>
+        <span class="trole">Active counter background — the active color.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">darken</h3>
+    <p class="gdesc">Translucent black overlays (built on the page color) laid OVER an element to darken it — pressed states, and the darker half of hover treatments. In code this is an rgba layer / alpha change, not a color swap. Steps 2/4/6/8 = 12/24/50/80%.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span>
+    </span>
+        <code class="tname">darken.2</code>
+        <code class="talias-sum">→ color.sub.black-2</code>
+        <span class="trole">Darken 12% — pressed overlay, subtle.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span>
+    </span>
+        <code class="tname">darken.4</code>
+        <code class="talias-sum">→ color.sub.black-4</code>
+        <span class="trole">Darken 24%.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.24)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-4</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+    </span>
+        <code class="tname">darken.6</code>
+        <code class="talias-sum">→ color.sub.black-6</code>
+        <span class="trole">Darken 50%.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.5)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-6</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span>
+    </span>
+        <code class="tname">darken.8</code>
+        <code class="talias-sum">→ color.sub.black-8</code>
+        <span class="trole">Darken 80%.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.8)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-8</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">lighten</h3>
+    <p class="gdesc">Translucent white overlays laid OVER an element to lighten it — hover states on dark surfaces. In code this is an rgba layer / alpha change. Steps 2/4 = 12/24%.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span>
+    </span>
+        <code class="tname">lighten.2</code>
+        <code class="talias-sum">→ color.sub.white-2</code>
+        <span class="trole">Lighten 12% — the default hover overlay on dark surfaces.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(255, 255, 255, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.white-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 255, 255, 0.24)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 255, 255, 0.24)"></span></span>
+    </span>
+        <code class="tname">lighten.4</code>
+        <code class="talias-sum">→ color.sub.white-4</code>
+        <span class="trole">Lighten 24% — stronger hover/active.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(255, 255, 255, 0.24)</code> &nbsp;·&nbsp; alias of <code>color.sub.white-4</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">shadow</h3>
+    <p class="gdesc">Shadow colors — the same page-color black steps as `darken`, used as box-shadow colors rather than overlays. Steps 2/4/6/8 = 12/24/50/80%.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span>
+    </span>
+        <code class="tname">shadow.2</code>
+        <code class="talias-sum">→ color.sub.black-2</code>
+        <span class="trole">Softest shadow.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-2</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span>
+    </span>
+        <code class="tname">shadow.4</code>
+        <code class="talias-sum">→ color.sub.black-4</code>
+        <span class="trole">Soft shadow.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.24)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-4</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span>
+    </span>
+        <code class="tname">shadow.6</code>
+        <code class="talias-sum">→ color.sub.black-6</code>
+        <span class="trole">Medium shadow.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.5)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-6</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw sw-alpha" title="translucent — shown on a checkerboard, and over the page color, so the transparency is visible">
+      <span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span>
+      <span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span>
+    </span>
+        <code class="tname">shadow.8</code>
+        <code class="talias-sum">→ color.sub.black-8</code>
+        <span class="trole">Heaviest shadow.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>rgba(17, 20, 28, 0.8)</code> &nbsp;·&nbsp; alias of <code>color.sub.black-8</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
+<section class="group">
+    <h3 class="gname">additional</h3>
+    <p class="gdesc">One-off semantic roles that do not fit the groups above.</p>
+    <div class="toks"><details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FFC12E"></span></span>
+        <code class="tname">additional.favorites</code>
+        <code class="talias-sum">→ color.status.warning</code>
+        <span class="trole">Favorite/star — warning (gold).</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details>
+<details class="tok">
+      <summary>
+        <span class="chev" aria-hidden="true">›</span>
+        <span class="sw"><span class="sw-in" style="background:#FB8C33"></span></span>
+        <code class="tname">additional.preloader</code>
+        <code class="talias-sum">→ color.base.active-1</code>
+        <span class="trole">Loading spinner/skeleton accent — the active color.</span>
+      </summary>
+      <div class="tbody">
+        
+        <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-1</code></p>
+        <p class="used none">Not yet referenced by any component token.</p>
+      </div>
+    </details></div>
+  </section>
   </main>
 </div>
 </body>

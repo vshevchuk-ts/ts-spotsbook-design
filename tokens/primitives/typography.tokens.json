@@ -2,22 +2,25 @@
   "family": {
     "sans": {
       "$type": "fontFamily",
-      "$value": "Sora",
-      "$description": "Latin/Latin-ext only on Google Fonts — no Cyrillic. Confirmed fine: product is English-only."
+      "$value": "Rubik",
+      "$description": "The Pro theme's UI font. Each theme swaps the family (Blue=Inter, Pro=Rubik, Gold=Exo, Alien=Jost) — baked to Rubik here. Rubik ships a Cyrillic subset, which the product needs (bet content is Russian/Ukrainian), unlike the previous Latin-only Sora."
     }
   },
   "weight": {
     "normal": {
       "$type": "fontWeight",
-      "$value": 400
+      "$value": 400,
+      "$description": "Body text and links."
     },
     "semibold": {
       "$type": "fontWeight",
-      "$value": 600
+      "$value": 500,
+      "$description": "heading-* styles (headings at body sizes). 500 is Rubik Medium — the Pro theme's 'semibold' step; the token name is kept for continuity across themes even though the value is 500 here."
     },
     "bold": {
       "$type": "fontWeight",
-      "$value": 700
+      "$value": 800,
+      "$description": "title-* and label-* styles — the strong step (Rubik ExtraBold), for team names, odds, section titles."
     }
   },
   "size": {

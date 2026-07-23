@@ -10,8 +10,8 @@
       },
       "size": {
         "sm": {
-          "diameter": { "$type": "dimension", "$value": "{dim.8}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+          "diameter": { "$type": "dimension", "$value": "{spacing.8}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
           "initials": {
             "$type": "typography",
             "$value": {
@@ -24,8 +24,8 @@
           }
         },
         "base": {
-          "diameter": { "$type": "dimension", "$value": "{dim.10}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.5}" },
+          "diameter": { "$type": "dimension", "$value": "{spacing.10}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.5}" },
           "initials": {
             "$type": "typography",
             "$value": {
@@ -38,8 +38,8 @@
           }
         },
         "lg": {
-          "diameter": { "$type": "dimension", "$value": "{dim.12}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.6}" },
+          "diameter": { "$type": "dimension", "$value": "{spacing.12}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.6}" },
           "initials": {
             "$type": "typography",
             "$value": {

@@ -3,11 +3,11 @@
     "grid": {
       "$description": "Layout primitive for arranging children in a CSS grid — display:grid + a curated gap scale, nothing else. Column count/sizing isn't tokenized: unlike gap (a real spacing-scale concept), a column count is a per-use structural decision (2 vs. 3 vs. 6 columns depends entirely on the content), not something that benefits from a fixed design-token scale — same reasoning Box applied to not tokenizing radius. No surface/border/padding of its own — Grid only arranges children; wrap it in a Box if the grid area itself needs a background/border. Gap steps deliberately mirror Box's padding scale exactly (same none/xs/sm/md/lg names, same dim aliases) since both are 'a slot from the spacing scale' — reusing one naming/value set instead of inventing a second.",
       "gap": {
-        "none": { "$type": "dimension", "$value": "{dim.0}" },
-        "xs": { "$type": "dimension", "$value": "{dim.2}", "$description": "8px — the base gap, per dim's own legend." },
-        "sm": { "$type": "dimension", "$value": "{dim.3}", "$description": "12px." },
-        "md": { "$type": "dimension", "$value": "{dim.4}", "$description": "16px — 'comfortable padding — card/input padding' per dim's own legend." },
-        "lg": { "$type": "dimension", "$value": "{dim.6}", "$description": "24px — gap between distinct components, per dim's own legend." }
+        "none": { "$type": "dimension", "$value": "{spacing.0}" },
+        "xs": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px — the base gap, per dim's own legend." },
+        "sm": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px." },
+        "md": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px — 'comfortable padding — card/input padding' per dim's own legend." },
+        "lg": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px — gap between distinct components, per dim's own legend." }
       }
     }
   }

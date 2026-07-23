@@ -18,7 +18,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").dim;
+const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
 const shadowPrim = load("tokens/primitives/shadow.tokens.json").shadow;
 const typo = load("tokens/primitives/typography.tokens.json");
@@ -29,8 +29,7 @@ const search = load("tokens/components/search.tokens.json").component.search;
 
 const registry = {
   color: colorPrim,
-  dim,
-  radius: radiusPrim,
+  spacing: dim,  radius: radiusPrim,
   shadow: shadowPrim,
   family: typo.family,
   weight: typo.weight,
@@ -103,7 +102,7 @@ const clearActionType = resolveToken(listbox.selectAllRow.clearAction);
 // textDecoration link-sm carries) gets silently dropped along the way —
 // fetch it directly from the token this one points at.
 const clearActionNode = get(listbox.selectAllRow.clearAction.$value);
-const clearActionDecoration = clearActionNode.$extensions?.["hp.design/text"]?.textDecoration;
+const clearActionDecoration = clearActionNode.$extensions?.["turbo.sportsbook/text"]?.textDecoration;
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -129,18 +128,18 @@ const css = `${rootVars}
 .listbox__cb-option:hover { background: ${cv("fill.neutralHover")}; }
 .listbox__cb-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .listbox__cb-box { box-sizing: border-box; width: ${cbBox}; height: ${cbBox}; border-radius: ${cbRadius}; border: ${cbBorderWidth} solid ${cv("border.default")}; background: ${cv("surface.default")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.listbox__cb-icon { width: ${px(resolve("dim.4"))}; height: ${px(resolve("dim.4"))}; display: none; }
+.listbox__cb-icon { width: ${px(resolve("spacing.4"))}; height: ${px(resolve("spacing.4"))}; display: none; }
 .listbox__cb-input:checked ~ .listbox__cb-box { background: ${cv("fill.primary")}; border-color: ${cv("fill.primary")}; }
 .listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: ${cv("icon.onFill")}; }
 .listbox__cb-label { color: ${cv("text.default")}; font-family: inherit; ${typoCss(labelType)} }
 
-.listbox__search-wrap { padding: ${px(resolve("dim.1"))} ${px(resolve("dim.1"))} ${searchGapBelow}; margin-bottom: ${px(resolve("dim.0_5"))}; border-bottom: 1px solid ${cv("border.default")}; }
+.listbox__search-wrap { padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.1"))} ${searchGapBelow}; margin-bottom: ${px(resolve("spacing.0_5"))}; border-bottom: 1px solid ${cv("border.default")}; }
 .listbox__search { display: flex; align-items: center; box-sizing: border-box; height: ${searchHeight}; padding: 0 ${searchPaddingX}; gap: ${searchGap}; border-radius: ${px(resolve("radius.default"))}; background: ${cv("surface.sunken")}; border: 1px solid ${cv("border.default")}; }
 .listbox__search-icon { width: ${searchIconSize}; height: ${searchIconSize}; color: ${cv("icon.default")}; flex-shrink: 0; }
 .listbox__search input { border: none; background: none; outline: none; width: 100%; color: ${cv("text.default")}; font-family: inherit; ${typoCss(searchValueType)} }
 .listbox__search input::placeholder { color: ${cv("text.muted")}; }
 
-.listbox__select-all { display: flex; align-items: center; justify-content: space-between; gap: ${px(resolve("dim.2"))}; padding: ${px(resolve("dim.1"))} ${px(resolve("dim.2"))}; }
+.listbox__select-all { display: flex; align-items: center; justify-content: space-between; gap: ${px(resolve("spacing.2"))}; padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.2"))}; }
 .listbox__select-all-label { color: ${cv("text.secondary")}; margin: 0; ${typoCss(selectAllLabelType)} }
 .listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: ${cv("text.primary")}; ${linkCss(clearActionType, clearActionDecoration)} }`;
 
@@ -216,7 +215,7 @@ const multiCode = `<button popovertarget="listbox-multi">Labels (2)</button>
   </ul>
 </div>`;
 
-const triggerGap = resolve("dim.2").value;
+const triggerGap = resolve("spacing.2").value;
 const positionScript = `document.querySelectorAll('[popovertarget]').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const panel = document.getElementById(trigger.getAttribute('popovertarget'));
@@ -231,8 +230,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Listbox</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Listbox</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -295,11 +294,11 @@ const html = `<!doctype html>
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .ov-btn { box-sizing: border-box; height: ${px(resolve("dim.10"))}; padding: 0 ${px(resolve("dim.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: var(--sans); ${typoCss(resolveToken(get("text-style.heading-base")))} }
+  .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: var(--sans); ${typoCss(resolveToken(get("text-style.heading-base")))} }
   .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
   .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
   .ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
-  .ov-btn:focus-visible { outline: ${px(resolve("dim.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("dim.0_5"))}; }
+  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

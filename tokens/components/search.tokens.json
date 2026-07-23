@@ -5,22 +5,22 @@
       "radius": { "$type": "dimension", "$value": "{radius.default}" },
       "size": {
         "sm": {
-          "height": { "$type": "dimension", "$value": "{dim.8}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.2}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.4}" }
+          "height": { "$type": "dimension", "$value": "{spacing.8}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.4}" }
         },
         "base": {
-          "height": { "$type": "dimension", "$value": "{dim.10}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.3}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.5}" }
+          "height": { "$type": "dimension", "$value": "{spacing.10}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.3}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.5}" }
         },
         "lg": {
-          "height": { "$type": "dimension", "$value": "{dim.12}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.4}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.6}" }
+          "height": { "$type": "dimension", "$value": "{spacing.12}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.6}" }
         },
         "$description": "Same grid as component.input.size, minus the label/labelGap fields — search never floats a label. value text is 16px at every size (see component-level $description) via the shared 'value' typography block below."
       },

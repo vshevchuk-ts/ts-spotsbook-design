@@ -140,7 +140,7 @@
         "letterSpacing": "{tracking.normal}"
       },
       "$extensions": {
-        "hp.design/text": {
+        "turbo.sportsbook/text": {
           "textDecoration": "underline"
         }
       }
@@ -155,7 +155,7 @@
         "letterSpacing": "{tracking.normal}"
       },
       "$extensions": {
-        "hp.design/text": {
+        "turbo.sportsbook/text": {
           "textDecoration": "underline"
         }
       }
@@ -170,7 +170,7 @@
         "letterSpacing": "{tracking.wide}"
       },
       "$extensions": {
-        "hp.design/text": {
+        "turbo.sportsbook/text": {
           "textTransform": "uppercase"
         }
       }
@@ -185,7 +185,7 @@
         "letterSpacing": "{tracking.wide}"
       },
       "$extensions": {
-        "hp.design/text": {
+        "turbo.sportsbook/text": {
           "textTransform": "uppercase"
         }
       }

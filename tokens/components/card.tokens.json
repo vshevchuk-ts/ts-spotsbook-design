@@ -5,8 +5,8 @@
       "radius": { "$type": "dimension", "$value": "{radius.default}", "$description": "8px — 'go-to radius for ordinary controls (buttons, inputs, cards)' per radius's own legend, not a new named size." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
-      "padding": { "$type": "dimension", "$value": "{dim.4}", "$description": "16px — same 'card/input padding' dim.4 step Box exposes." },
-      "gap": { "$type": "dimension", "$value": "{dim.3}", "$description": "12px between header/body/footer sections when more than one is present." },
+      "padding": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px — same 'card/input padding' dim.4 step Box exposes." },
+      "gap": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px between header/body/footer sections when more than one is present." },
       "divider": { "$type": "color", "$value": "{border.default}", "$description": "Header/footer separators are the same border.default hairline as the card's own edge — not Separator's full component (track/label variants aren't relevant here), just its resolved color role." },
       "title": { "$type": "typography", "$value": "{text-style.heading-base}" },
       "titleColor": { "$type": "color", "$value": "{text.default}" },
@@ -22,8 +22,8 @@
           },
           "focused": {
             "ringColor": { "$type": "color", "$value": "{border.focus}" },
-            "ringWidth": { "$type": "dimension", "$value": "{dim.1}" },
-            "ringOffset": { "$type": "dimension", "$value": "{dim.0_5}" }
+            "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+            "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" }
           }
         }
       }

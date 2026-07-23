@@ -20,7 +20,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").dim;
+const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
 const shadowPrim = load("tokens/primitives/shadow.tokens.json").shadow;
 const typo = load("tokens/primitives/typography.tokens.json");
@@ -30,8 +30,7 @@ const popover = load("tokens/components/popover.tokens.json").component.popover;
 
 const registry = {
   color: colorPrim,
-  dim,
-  radius: radiusPrim,
+  spacing: dim,  radius: radiusPrim,
   shadow: shadowPrim,
   family: typo.family,
   weight: typo.weight,
@@ -88,13 +87,13 @@ function typoCss(t) {
 const css = `${rootVars}
 
 .popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.default")}; border: 1px solid ${cv("border.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; }
-.popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: ${px(resolve("dim.2"))}; }
+.popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: ${px(resolve("spacing.2"))}; }
 .popover__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
 .popover__body { margin: 8px 0 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .popover__close:hover { background: ${cv("fill.neutralHover")}; }
 .popover__close:active { background: ${cv("fill.neutralActive")}; }
-.popover__close:focus-visible { outline: ${px(resolve("dim.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("dim.0_5"))}; }
+.popover__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .popover__close-icon { width: 18px; height: 18px; display: block; }
 .popover__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .popover__menu-item { border: none; background: none; text-align: left; width: 100%; padding: 8px; border-radius: 6px; cursor: pointer; color: ${cv("text.default")}; font-family: inherit; ${typoCss(bodyType)} }
@@ -159,8 +158,8 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Popover</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Popover</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;

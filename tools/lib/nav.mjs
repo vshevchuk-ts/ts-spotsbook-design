@@ -31,11 +31,6 @@ export const NAV_ITEMS = {
   avatar: { label: "Avatar", href: "avatar.html" },
   badge: { label: "Badge", href: "badge.html" },
   chip: { label: "Chip", href: "chip.html" },
-  attachment: { label: "Attachment", href: "attachment.html" },
-  message: { label: "Message", href: "message.html" },
-  bubble: { label: "Bubble", href: "bubble.html" },
-  "thread-list-item": { label: "ThreadListItem", href: "thread-list-item.html" },
-  composer: { label: "Composer", href: "composer.html" },
 };
 
 export function renderNav(activeKey) {
@@ -43,8 +38,8 @@ export function renderNav(activeKey) {
     const item = NAV_ITEMS[key];
     return `<a class="navlink${key === activeKey ? " active" : ""}" href="${item.href}">${item.label}</a>`;
   };
-  return `<p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+  return `<p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     ${link("overview")}
     <p class="nav-category">Tokens</p>
     ${link("colors")}
@@ -75,10 +70,5 @@ export function renderNav(activeKey) {
     ${link("listbox")}
     ${link("avatar")}
     ${link("badge")}
-    ${link("chip")}
-    ${link("attachment")}
-    ${link("message")}
-    ${link("bubble")}
-    ${link("thread-list-item")}
-    ${link("composer")}`;
+    ${link("chip")}`;
 }

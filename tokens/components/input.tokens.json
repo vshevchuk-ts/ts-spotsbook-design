@@ -6,10 +6,10 @@
       "size": {
         "sm": {
           "$description": "32px. No floating label — the box isn't tall enough to hold a 12px label + 16px value stacked and still read as anything but cramped. Placeholder disappears the moment the field is focused or has a value, same as a plain unlabeled input.",
-          "height": { "$type": "dimension", "$value": "{dim.8}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.2}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.4}" },
+          "height": { "$type": "dimension", "$value": "{spacing.8}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.2}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
           "value": {
             "$type": "typography",
             "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.md}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
@@ -17,11 +17,11 @@
         },
         "base": {
           "$description": "40px, the default size. Floating label: 12px, sitting directly above the 16px value with 0 gap between their line-boxes and 2px from the stack to the field's own top/bottom edges — vertically centered via flexbox rather than hand-computed padding, since 12px/16px text at leading.tight doesn't sum to a value that divides evenly into 40px, and flex-centering doesn't need it to.",
-          "height": { "$type": "dimension", "$value": "{dim.10}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.3}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.5}" },
-          "labelGap": { "$type": "dimension", "$value": "{dim.0}" },
+          "height": { "$type": "dimension", "$value": "{spacing.10}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.3}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.5}" },
+          "labelGap": { "$type": "dimension", "$value": "{spacing.0}" },
           "value": {
             "$type": "typography",
             "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.md}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
@@ -33,11 +33,11 @@
         },
         "lg": {
           "$description": "48px. Same 12px floating label as base, but with 4px between the label and value line-boxes and 4px from the stack to the field's top/bottom edges — more breathing room at the larger size. Same flex-centering approach as base.",
-          "height": { "$type": "dimension", "$value": "{dim.12}" },
-          "paddingX": { "$type": "dimension", "$value": "{dim.4}" },
-          "gap": { "$type": "dimension", "$value": "{dim.2}" },
-          "iconSize": { "$type": "dimension", "$value": "{dim.6}" },
-          "labelGap": { "$type": "dimension", "$value": "{dim.1}" },
+          "height": { "$type": "dimension", "$value": "{spacing.12}" },
+          "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+          "gap": { "$type": "dimension", "$value": "{spacing.2}" },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.6}" },
+          "labelGap": { "$type": "dimension", "$value": "{spacing.1}" },
           "value": {
             "$type": "typography",
             "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.md}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
