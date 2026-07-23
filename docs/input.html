@@ -72,6 +72,7 @@
 
   :root {
   --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
@@ -102,6 +103,7 @@
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
+.input--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .input--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .input--sm .input__icon { width: 16px; height: 16px; }
@@ -175,10 +177,18 @@
       <div class="row"><b>States</b><span>default → border.default · hover → border.strong · focus → border.focus + label turns text.primary (blue) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + *.disabled text/icon · error → border.danger.</span></div>
     </div>
 
+    <h2 class="big-section">Fill variants</h2>
+    <p class="section-desc">Two fills — <strong>filled</strong> (surface-4, the default: reads as raised on a card) and <strong>outlined</strong> (surface-0 background + surface-6 border: recedes into the page). Left icon is icon.default (secondary grey) either way.</p>
+    <div class="story-grid">
+      <div class="story"><h3>filled (default)</h3><div class="story-preview"><div class="input input--base"><svg class="input__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span class="input__placeholder">Search team</span></div></div></div>
+      <div class="story"><h3>outlined</h3><div class="story-preview"><div class="input input--base input--outlined"><svg class="input__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span class="input__placeholder">Search team</span></div></div></div>
+    </div>
+
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One <code class="tok">:root</code> block of color custom properties, then a base <code class="tok">.input</code> class + <code class="tok">--sm/--base/--lg</code> size modifiers, then state modifiers as plain classes (also wired to real <code class="tok">:hover</code> for bonus interactivity where it doesn't conflict with a specific demonstrated state).</p>
     <pre class="code"><code>:root {
   --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
@@ -209,6 +219,7 @@
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
+.input--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .input--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .input--sm .input__icon { width: 16px; height: 16px; }

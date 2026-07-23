@@ -72,6 +72,7 @@
 
   :root {
   --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
@@ -103,6 +104,7 @@
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
+.select--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }
@@ -181,6 +183,7 @@
     <p class="section-desc">Same structure as Input's stylesheet, plus <code class="tok">.select__chevron</code> — always rendered, pushed to the trailing edge.</p>
     <pre class="code"><code>:root {
   --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
@@ -212,6 +215,7 @@
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
+.select--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }

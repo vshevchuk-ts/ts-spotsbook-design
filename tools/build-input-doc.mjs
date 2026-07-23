@@ -61,7 +61,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
+  "surface.raised", "surface.page", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
   "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -113,6 +113,7 @@ const css = `${rootVars}
 .input__value { color: ${cv("text.default")}; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: ${cv("text.secondary")}; }
+.input--outlined { background: ${cv("surface.page")}; border-color: ${cv("outline.strong")}; }
 
 ${sizes
   .map((s) => {
@@ -279,6 +280,13 @@ const html = `<!doctype html>
       <div class="row"><b>Sizes</b><span>sm 32px (no floating label) / base 40px (default) / lg 48px. Value/placeholder text is 16px at every size — Safari on iOS auto-zooms the page on focus if it's smaller.</span></div>
       <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 12px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
       <div class="row"><b>States</b><span>default → border.default · hover → border.strong · focus → border.focus + label turns text.primary (blue) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + *.disabled text/icon · error → border.danger.</span></div>
+    </div>
+
+    <h2 class="big-section">Fill variants</h2>
+    <p class="section-desc">Two fills — <strong>filled</strong> (surface-4, the default: reads as raised on a card) and <strong>outlined</strong> (surface-0 background + surface-6 border: recedes into the page). Left icon is icon.default (secondary grey) either way.</p>
+    <div class="story-grid">
+      <div class="story"><h3>filled (default)</h3><div class="story-preview">${restingMarkup("base", { icon: true, placeholder: "Search team", live: true })}</div></div>
+      <div class="story"><h3>outlined</h3><div class="story-preview"><div class="input input--base input--outlined">${iconSearch}<span class="input__placeholder">Search team</span></div></div></div>
     </div>
 
     <h2 class="big-section">CSS</h2>

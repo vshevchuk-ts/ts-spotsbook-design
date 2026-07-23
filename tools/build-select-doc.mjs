@@ -59,7 +59,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
+  "surface.raised", "surface.page", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
   "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -111,6 +111,7 @@ const css = `${rootVars}
 .select__value { color: ${cv("text.default")}; }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: ${cv("text.secondary")}; }
+.select--outlined { background: ${cv("surface.page")}; border-color: ${cv("outline.strong")}; }
 
 ${sizes
   .map((s) => {

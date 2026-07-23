@@ -65,6 +65,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
+  "color.base.surface-4",
   "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "text.onFill", "text.forActiveBg", "icon.secondary",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active", "fill.activeHover", "fill.activePressed",
 ];
@@ -105,13 +106,14 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: ${cv("family.sans")}; }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: ${gap}; padding: ${padding}; border-bottom: 1px solid ${cv("outline.default")}; }
-.drawer__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: ${px(resolve("spacing.2"))}; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.10"))}; background: ${cv("color.base.surface-4")}; }
+.drawer__title { margin: 0; color: ${cv("text.default")}; text-align: center; ${typoCss(titleType)} }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: ${cv("color.white")}; color: ${cv("text.contrast")}; font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: ${padding}; }
 .drawer__body-text { margin: 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("outline.default")}; }
 
-.drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
+.drawer__close { position: absolute; right: ${px(resolve("spacing.2"))}; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .drawer__close:hover { background: ${cv("fill.neutralHover")}; }
 .drawer__close:active { background: ${cv("fill.neutralPressed")}; }
 .drawer__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
@@ -136,25 +138,21 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
       </div>`;
 }
 
-function drawerMarkup(id, placement, { withHeader = true, withFooter = true } = {}) {
+function drawerMarkup(id, placement, { withHeader = true, withCounter = false } = {}) {
   return `<button class="ov-btn ov-btn--secondary" data-drawer-open="${id}">Open drawer</button>
     <dialog class="drawer drawer--${placement}" id="${id}">
       <div class="drawer__content">
         ${withHeader ? `<div class="drawer__header">
-          <p class="drawer__title">Filters</p>
+          <p class="drawer__title">Filters${withCounter ? ` <span class="drawer__hcounter">3</span>` : ""}</p>
           <form method="dialog"><button class="drawer__close" aria-label="Close">${iconClose}</button></form>
         </div>` : ""}
         <div class="drawer__body">
           <p class="drawer__body-text">Drawer content goes here — forms, filters, details, whatever the trigger opened for.</p>
         </div>
-        ${withFooter ? `<div class="drawer__footer">
-          <form method="dialog"><button class="ov-btn ov-btn--secondary">Cancel</button></form>
-          <form method="dialog"><button class="ov-btn ov-btn--primary">Apply</button></form>
-        </div>` : ""}
       </div>
     </dialog>`;
 }
-function drawerCode(placement, { withHeader = true, withFooter = true } = {}) {
+function drawerCode(placement, { withHeader = true } = {}) {
   return `<button data-drawer-open="drawer-${placement}">Open drawer</button>
 <dialog class="drawer drawer--${placement}" id="drawer-${placement}">
   <div class="drawer__content">
@@ -165,11 +163,7 @@ ${withHeader ? `    <div class="drawer__header">
 ` : ""}    <div class="drawer__body">
       <p class="drawer__body-text">Drawer content goes here…</p>
     </div>
-${withFooter ? `    <div class="drawer__footer">
-      <form method="dialog"><button>Cancel</button></form>
-      <form method="dialog"><button>Apply</button></form>
-    </div>
-` : ""}  </div>
+  </div>
 </dialog>`;
 }
 
@@ -278,7 +272,7 @@ const html = `<!doctype html>
       <div class="row"><b>Native &lt;dialog&gt;</b><span>Real <code class="tok">showModal()</code> — free focus-trap, Escape-to-close, ::backdrop, top-layer (no z-index). These demos are genuinely interactive.</span></div>
       <div class="row"><b>Separate from Modal</b><span>Both are "&lt;dialog&gt; with showModal()" underneath, but sizing/positioning/radius differ enough (edge-attached vs. free-floating centered) to keep as separate token files — an explicit prior decision, not an oversight.</span></div>
       <div class="row"><b>No border, no radius on flush edges</b><span>3 of 4 edges sit against the viewport boundary — shadow.md + the backdrop scrim already read as a distinct layer; a border would be redundant, and radius would look odd on edges with nothing to round away from.</span></div>
-      <div class="row"><b>Header/footer optional</b><span>Same composition philosophy as <a href="card.html">Card</a> — a Drawer can be body-only. Each section (header/body/footer) is its own full-width band with its own padding, so the divider between sections spans the whole drawer edge to edge, not inset.</span></div>
+      <div class="row"><b>Header</b><span>A 40px band in surface-4 (distinct from the surface-2 body), no divider needed. The heading-base title is centered — optionally with a counter beside it — and the close button sits vertically centered on the right. The footer was removed. Header itself is still optional (a Drawer can be body-only).</span></div>
       <div class="row"><b>Real button states</b><span>Close (×) and the footer actions are genuine interactive elements — transparent/fill.neutral at rest → fill.neutralHover on hover → fill.neutralActive on press → a focus ring — the same recipe <a href="button.html">Button</a> itself uses, not unstyled placeholders.</span></div>
       <div class="row"><b>Native close</b><span><code class="tok">&lt;form method="dialog"&gt;</code> around each action button — the fully-declarative way to close a dialog, no onclick handler.</span></div>
       <div class="row"><b>Click-outside</b><span>Not native — showModal() only gives Escape for free. A small script (below) closes on backdrop click, same light-dismiss pattern MDN's own &lt;dialog&gt; docs recommend.</span></div>
@@ -299,7 +293,7 @@ const html = `<!doctype html>
     <h2 class="big-section">Placement</h2>
     <p class="section-desc">Click to open for real — try pressing Escape, clicking outside the panel, or clicking Cancel/Apply.</p>
     <div class="story-grid">
-      ${storyCard("right (default)", drawerMarkup("drawer-right", "right"), drawerCode("right"))}
+      ${storyCard("right (default)", drawerMarkup("drawer-right", "right", { withCounter: true }), drawerCode("right"), "Header is a 40px surface-4 band; the heading-base title is centered, with an optional counter beside it; the close (×) sits vertically centered at the right. No footer.")}
       ${storyCard("bottom", drawerMarkup("drawer-bottom", "bottom"), drawerCode("bottom"), "Same component, width:100% + max-height cap instead of the fixed 320px side width.")}
       ${storyCard("body only", drawerMarkup("drawer-plain", "right", { withHeader: false, withFooter: false }), drawerCode("plain", { withHeader: false, withFooter: false }), "No header, no footer, no close button — Escape and click-outside are the only ways to dismiss this one, which is exactly why click-outside isn't optional.")}
     </div>

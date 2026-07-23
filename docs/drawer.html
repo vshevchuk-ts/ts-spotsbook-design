@@ -70,6 +70,7 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
+  --tok-color-base-surface-4: #282E3E;
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
@@ -102,13 +103,14 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-outline-default); }
-.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 40px; background: var(--tok-color-base-surface-4); }
+.drawer__title { margin: 0; color: var(--tok-text-default); text-align: center; font-weight: 500; font-size: 14px; line-height: 1.4; }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-color-white); color: var(--tok-text-contrast); font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
 
-.drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
+.drawer__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
 .drawer__close:active { background: var(--tok-fill-neutral-pressed); }
 .drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
@@ -168,7 +170,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
       <div class="row"><b>Native &lt;dialog&gt;</b><span>Real <code class="tok">showModal()</code> — free focus-trap, Escape-to-close, ::backdrop, top-layer (no z-index). These demos are genuinely interactive.</span></div>
       <div class="row"><b>Separate from Modal</b><span>Both are "&lt;dialog&gt; with showModal()" underneath, but sizing/positioning/radius differ enough (edge-attached vs. free-floating centered) to keep as separate token files — an explicit prior decision, not an oversight.</span></div>
       <div class="row"><b>No border, no radius on flush edges</b><span>3 of 4 edges sit against the viewport boundary — shadow.md + the backdrop scrim already read as a distinct layer; a border would be redundant, and radius would look odd on edges with nothing to round away from.</span></div>
-      <div class="row"><b>Header/footer optional</b><span>Same composition philosophy as <a href="card.html">Card</a> — a Drawer can be body-only. Each section (header/body/footer) is its own full-width band with its own padding, so the divider between sections spans the whole drawer edge to edge, not inset.</span></div>
+      <div class="row"><b>Header</b><span>A 40px band in surface-4 (distinct from the surface-2 body), no divider needed. The heading-base title is centered — optionally with a counter beside it — and the close button sits vertically centered on the right. The footer was removed. Header itself is still optional (a Drawer can be body-only).</span></div>
       <div class="row"><b>Real button states</b><span>Close (×) and the footer actions are genuine interactive elements — transparent/fill.neutral at rest → fill.neutralHover on hover → fill.neutralActive on press → a focus ring — the same recipe <a href="button.html">Button</a> itself uses, not unstyled placeholders.</span></div>
       <div class="row"><b>Native close</b><span><code class="tok">&lt;form method="dialog"&gt;</code> around each action button — the fully-declarative way to close a dialog, no onclick handler.</span></div>
       <div class="row"><b>Click-outside</b><span>Not native — showModal() only gives Escape for free. A small script (below) closes on backdrop click, same light-dismiss pattern MDN's own &lt;dialog&gt; docs recommend.</span></div>
@@ -177,6 +179,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
+  --tok-color-base-surface-4: #282E3E;
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
@@ -209,13 +212,14 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-outline-default); }
-.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 40px; background: var(--tok-color-base-surface-4); }
+.drawer__title { margin: 0; color: var(--tok-text-default); text-align: center; font-weight: 500; font-size: 14px; line-height: 1.4; }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-color-white); color: var(--tok-text-contrast); font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
 
-.drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
+.drawer__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
 .drawer__close:active { background: var(--tok-fill-neutral-pressed); }
 .drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
@@ -256,15 +260,11 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     <dialog class="drawer drawer--right" id="drawer-right">
       <div class="drawer__content">
         <div class="drawer__header">
-          <p class="drawer__title">Filters</p>
+          <p class="drawer__title">Filters <span class="drawer__hcounter">3</span></p>
           <form method="dialog"><button class="drawer__close" aria-label="Close"><svg class="drawer__close-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></form>
         </div>
         <div class="drawer__body">
           <p class="drawer__body-text">Drawer content goes here — forms, filters, details, whatever the trigger opened for.</p>
-        </div>
-        <div class="drawer__footer">
-          <form method="dialog"><button class="ov-btn ov-btn--secondary">Cancel</button></form>
-          <form method="dialog"><button class="ov-btn ov-btn--primary">Apply</button></form>
         </div>
       </div>
     </dialog></div>
@@ -278,13 +278,9 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     &lt;div class="drawer__body"&gt;
       &lt;p class="drawer__body-text"&gt;Drawer content goes here…&lt;/p&gt;
     &lt;/div&gt;
-    &lt;div class="drawer__footer"&gt;
-      &lt;form method="dialog"&gt;&lt;button&gt;Cancel&lt;/button&gt;&lt;/form&gt;
-      &lt;form method="dialog"&gt;&lt;button&gt;Apply&lt;/button&gt;&lt;/form&gt;
-    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/dialog&gt;</code></pre>
-        
+        <p class="story-note">Header is a 40px surface-4 band; the heading-base title is centered, with an optional counter beside it; the close (×) sits vertically centered at the right. No footer.</p>
       </div>
       
       <div class="story">
@@ -299,10 +295,6 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
         <div class="drawer__body">
           <p class="drawer__body-text">Drawer content goes here — forms, filters, details, whatever the trigger opened for.</p>
         </div>
-        <div class="drawer__footer">
-          <form method="dialog"><button class="ov-btn ov-btn--secondary">Cancel</button></form>
-          <form method="dialog"><button class="ov-btn ov-btn--primary">Apply</button></form>
-        </div>
       </div>
     </dialog></div>
         <pre class="code"><code>&lt;button data-drawer-open="drawer-bottom"&gt;Open drawer&lt;/button&gt;
@@ -314,10 +306,6 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     &lt;/div&gt;
     &lt;div class="drawer__body"&gt;
       &lt;p class="drawer__body-text"&gt;Drawer content goes here…&lt;/p&gt;
-    &lt;/div&gt;
-    &lt;div class="drawer__footer"&gt;
-      &lt;form method="dialog"&gt;&lt;button&gt;Cancel&lt;/button&gt;&lt;/form&gt;
-      &lt;form method="dialog"&gt;&lt;button&gt;Apply&lt;/button&gt;&lt;/form&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/dialog&gt;</code></pre>
@@ -333,7 +321,6 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
         <div class="drawer__body">
           <p class="drawer__body-text">Drawer content goes here — forms, filters, details, whatever the trigger opened for.</p>
         </div>
-        
       </div>
     </dialog></div>
         <pre class="code"><code>&lt;button data-drawer-open="drawer-plain"&gt;Open drawer&lt;/button&gt;
