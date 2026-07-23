@@ -67,30 +67,30 @@
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--tok-border-default); background: var(--tok-surface-default); color: var(--tok-text-default); cursor: pointer; }
+  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--tok-outline-default); background: var(--tok-surface-card); color: var(--tok-text-default); cursor: pointer; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
+.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
 .popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .popover__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .popover__body { margin: 8px 0 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .popover__close:hover { background: var(--tok-fill-neutral-hover); }
-.popover__close:active { background: var(--tok-fill-neutral-active); }
-.popover__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.popover__close:active { background: var(--tok-fill-neutral-pressed); }
+.popover__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 .popover__close-icon { width: 18px; height: 18px; display: block; }
 .popover__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .popover__menu-item { border: none; background: none; text-align: left; width: 100%; padding: 8px; border-radius: 6px; cursor: pointer; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
@@ -148,25 +148,25 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
+.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
 .popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .popover__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .popover__body { margin: 8px 0 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .popover__close:hover { background: var(--tok-fill-neutral-hover); }
-.popover__close:active { background: var(--tok-fill-neutral-active); }
-.popover__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.popover__close:active { background: var(--tok-fill-neutral-pressed); }
+.popover__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 .popover__close-icon { width: 18px; height: 18px; display: block; }
 .popover__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .popover__menu-item { border: none; background: none; text-align: left; width: 100%; padding: 8px; border-radius: 6px; cursor: pointer; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }

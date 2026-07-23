@@ -70,54 +70,54 @@
   .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
   .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
   .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
-  .ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
-  .ov-btn:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+  .ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
+  .ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
-  --tok-surface-sunken: #282E3E;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-disabled: #8E929F;
-  --tok-text-muted: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-secondary: #8E929F;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-fill-primary: #FB8C33;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-active: #FB8C33;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.listbox { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 220px; }
+.listbox { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 220px; }
 .listbox__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; max-height: 288px; overflow: auto; }
 .listbox__option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .listbox__option:hover { background: var(--tok-fill-neutral-hover); }
-.listbox__checkmark { width: 16px; height: 16px; margin-left: auto; color: var(--tok-fill-primary); flex-shrink: 0; }
+.listbox__checkmark { width: 16px; height: 16px; margin-left: auto; color: var(--tok-fill-active); flex-shrink: 0; }
 
 .listbox__cb-option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border-radius: 4px; cursor: pointer; }
 .listbox__cb-option:hover { background: var(--tok-fill-neutral-hover); }
 .listbox__cb-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.listbox__cb-box { box-sizing: border-box; width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--tok-border-default); background: var(--tok-surface-default); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.listbox__cb-box { box-sizing: border-box; width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--tok-outline-default); background: var(--tok-surface-card); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .listbox__cb-icon { width: 16px; height: 16px; display: none; }
-.listbox__cb-input:checked ~ .listbox__cb-box { background: var(--tok-fill-primary); border-color: var(--tok-fill-primary); }
+.listbox__cb-input:checked ~ .listbox__cb-box { background: var(--tok-fill-active); border-color: var(--tok-fill-active); }
 .listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: var(--tok-icon-on-fill); }
 .listbox__cb-label { color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.listbox__search-wrap { padding: 4px 4px 4px; margin-bottom: 2px; border-bottom: 1px solid var(--tok-border-default); }
-.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: 32px; padding: 0 8px; gap: 8px; border-radius: 8px; background: var(--tok-surface-sunken); border: 1px solid var(--tok-border-default); }
+.listbox__search-wrap { padding: 4px 4px 4px; margin-bottom: 2px; border-bottom: 1px solid var(--tok-outline-default); }
+.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: 32px; padding: 0 8px; gap: 8px; border-radius: 8px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); }
 .listbox__search-icon { width: 16px; height: 16px; color: var(--tok-icon-default); flex-shrink: 0; }
 .listbox__search input { border: none; background: none; outline: none; width: 100%; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 16px; line-height: 1.2; }
-.listbox__search input::placeholder { color: var(--tok-text-muted); }
+.listbox__search input::placeholder { color: var(--tok-text-secondary); }
 
 .listbox__select-all { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 8px; }
 .listbox__select-all-label { color: var(--tok-text-secondary); margin: 0; font-weight: 400; font-size: 12px; line-height: 1.4; }
-.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: var(--tok-text-primary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; }
+.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: var(--tok-text-active); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -172,48 +172,48 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
-  --tok-surface-sunken: #282E3E;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-disabled: #8E929F;
-  --tok-text-muted: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-secondary: #8E929F;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-fill-primary: #FB8C33;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-active: #FB8C33;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.listbox { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 220px; }
+.listbox { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 220px; }
 .listbox__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; max-height: 288px; overflow: auto; }
 .listbox__option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .listbox__option:hover { background: var(--tok-fill-neutral-hover); }
-.listbox__checkmark { width: 16px; height: 16px; margin-left: auto; color: var(--tok-fill-primary); flex-shrink: 0; }
+.listbox__checkmark { width: 16px; height: 16px; margin-left: auto; color: var(--tok-fill-active); flex-shrink: 0; }
 
 .listbox__cb-option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border-radius: 4px; cursor: pointer; }
 .listbox__cb-option:hover { background: var(--tok-fill-neutral-hover); }
 .listbox__cb-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.listbox__cb-box { box-sizing: border-box; width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--tok-border-default); background: var(--tok-surface-default); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.listbox__cb-box { box-sizing: border-box; width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--tok-outline-default); background: var(--tok-surface-card); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .listbox__cb-icon { width: 16px; height: 16px; display: none; }
-.listbox__cb-input:checked ~ .listbox__cb-box { background: var(--tok-fill-primary); border-color: var(--tok-fill-primary); }
+.listbox__cb-input:checked ~ .listbox__cb-box { background: var(--tok-fill-active); border-color: var(--tok-fill-active); }
 .listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: var(--tok-icon-on-fill); }
 .listbox__cb-label { color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.listbox__search-wrap { padding: 4px 4px 4px; margin-bottom: 2px; border-bottom: 1px solid var(--tok-border-default); }
-.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: 32px; padding: 0 8px; gap: 8px; border-radius: 8px; background: var(--tok-surface-sunken); border: 1px solid var(--tok-border-default); }
+.listbox__search-wrap { padding: 4px 4px 4px; margin-bottom: 2px; border-bottom: 1px solid var(--tok-outline-default); }
+.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: 32px; padding: 0 8px; gap: 8px; border-radius: 8px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); }
 .listbox__search-icon { width: 16px; height: 16px; color: var(--tok-icon-default); flex-shrink: 0; }
 .listbox__search input { border: none; background: none; outline: none; width: 100%; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 16px; line-height: 1.2; }
-.listbox__search input::placeholder { color: var(--tok-text-muted); }
+.listbox__search input::placeholder { color: var(--tok-text-secondary); }
 
 .listbox__select-all { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 8px; }
 .listbox__select-all-label { color: var(--tok-text-secondary); margin: 0; font-weight: 400; font-size: 12px; line-height: 1.4; }
-.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: var(--tok-text-primary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; }</code></pre>
+.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: var(--tok-text-active); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; }</code></pre>
 
     <h2 class="big-section">Positioning script</h2>
     <p class="section-desc">Identical to Menu/Popover's.</p>

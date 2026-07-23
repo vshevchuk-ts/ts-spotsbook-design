@@ -60,8 +60,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "text.default", "text.onFill", "text.disabled", "text.muted", "fill.neutralHover", "fill.primary",
-  "surface.sunken", "border.default", "border.strong", "icon.default",
+  "text.default", "text.onFill", "text.disabled", "text.secondary", "fill.neutralHover", "fill.active",
+  "surface.raised", "outline.default", "outline.strong", "icon.default",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -118,13 +118,13 @@ const css = `${rootVars}
 }
 .page-item__icon { width: ${item.iconSize}; height: ${item.iconSize}; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: ${cv("fill.neutralHover")}; }
-.page-item--active { background: ${cv("fill.primary")}; color: ${cv("text.onFill")}; cursor: default; }
+.page-item--active { background: ${cv("fill.active")}; color: ${cv("text.onFill")}; cursor: default; }
 .page-item--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
-.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: ${item.size}; min-width: ${item.size}; color: ${cv("text.muted")}; ${typoCss(item.label)} }
+.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: ${item.size}; min-width: ${item.size}; color: ${cv("text.secondary")}; ${typoCss(item.label)} }
 .pagination { display: inline-flex; align-items: center; gap: ${item.gap}; }
 
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.sunken")}; border: 1px solid ${cv("border.default")}; border-radius: ${selectRadius}; font-family: ${cv("family.sans")}; cursor: pointer; height: ${sel.height}; padding: 0 ${sel.paddingX}; gap: ${sel.gap}; }
-.select:hover { border-color: ${cv("border.strong")}; }
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.raised")}; border: 1px solid ${cv("outline.default")}; border-radius: ${selectRadius}; font-family: ${cv("family.sans")}; cursor: pointer; height: ${sel.height}; padding: 0 ${sel.paddingX}; gap: ${sel.gap}; }
+.select:hover { border-color: ${cv("outline.strong")}; }
 .select__value { color: ${cv("text.default")}; ${typoCss(sel.value)} }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; width: ${sel.iconSize}; height: ${sel.iconSize}; }
 .rows-per-page { display: inline-flex; align-items: center; gap: ${px(resolve("spacing.2"))}; }
@@ -203,7 +203,7 @@ const itemStates = [
 ];
 const stateStories = itemStates
   .map((s) =>
-    storyCard(s.label, s.live(), s.code(), s.key === "active" ? "fill.primary — matches the button primary's own fill, not a new color." : s.key === "hover" ? "fill.neutralHover — reused from the secondary button's own hover fill." : "")
+    storyCard(s.label, s.live(), s.code(), s.key === "active" ? "fill.active — matches the button primary's own fill, not a new color." : s.key === "hover" ? "fill.neutralHover — reused from the secondary button's own hover fill." : "")
   )
   .join("\n");
 

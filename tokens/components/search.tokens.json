@@ -31,17 +31,17 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.sunken}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
-          "placeholder": { "$type": "color", "$value": "{text.muted}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
+          "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{border.strong}" }
+          "border": { "$type": "color", "$value": "{outline.strong}" }
         },
         "focus": {
-          "border": { "$type": "color", "$value": "{border.focus}" },
+          "border": { "$type": "color", "$value": "{outline.active}" },
           "$description": "No label to color here (search has none) — only the border reacts."
         },
         "populated": {
@@ -50,7 +50,7 @@
         },
         "disabled": {
           "bg": { "$type": "color", "$value": "{surface.disabled}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "placeholder": { "$type": "color", "$value": "{text.disabled}" },
           "value": { "$type": "color", "$value": "{text.disabled}" },
           "icon": { "$type": "color", "$value": "{icon.disabled}" },

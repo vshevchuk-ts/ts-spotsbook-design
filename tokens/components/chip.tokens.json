@@ -57,28 +57,28 @@
       "toggle": {
         "$description": "Filter-selection chip — click flips checked/unchecked, exactly the Checkbox/Radio/Switch mental model in pill form. 'checkedOutline' is a second checked treatment, not a state ladder rung: use it (instead of solid 'checked') when the chip carries a Counter — a chip summarizing 'N sub-selections inside' (e.g. a 'Filters' trigger chip showing the drawer's active-filter count) is an aggregate/trigger, not a single boolean, so filling it fully solid would overstate it. Solid checked = a real one-thing-is-on toggle (no counter). Outline checked reuses Badge's own tint recipe (bg.primary+text.primary) plus a border for the extra definition an interactive element needs that a passive Badge doesn't.",
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.default}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "text": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{fill.primary}" },
-          "$description": "fill.primary, not border.strong — same 'plain gray reads as too weak a cue' lesson Checkbox/Radio/Card's own unchecked-hover already applied. Toggle-specific: this previews 'clicking turns this on', which a passive removable chip's hover never means (see removable.hover below)."
+          "border": { "$type": "color", "$value": "{fill.active}" },
+          "$description": "fill.active, not border.strong — same 'plain gray reads as too weak a cue' lesson Checkbox/Radio/Card's own unchecked-hover already applied. Toggle-specific: this previews 'clicking turns this on', which a passive removable chip's hover never means (see removable.hover below)."
         },
         "checked": {
-          "bg": { "$type": "color", "$value": "{fill.primary}" },
+          "bg": { "$type": "color", "$value": "{fill.active}" },
           "text": { "$type": "color", "$value": "{text.onFill}" },
           "icon": { "$type": "color", "$value": "{icon.onFill}" }
         },
         "checkedHover": {
-          "bg": { "$type": "color", "$value": "{fill.primaryHover}" }
+          "bg": { "$type": "color", "$value": "{fill.activeHover}" }
         },
         "checkedOutline": {
-          "bg": { "$type": "color", "$value": "{bg.primary}" },
-          "border": { "$type": "color", "$value": "{fill.primary}" },
-          "text": { "$type": "color", "$value": "{text.primary}" },
-          "icon": { "$type": "color", "$value": "{icon.primary}" }
+          "bg": { "$type": "color", "$value": "{bg.active}" },
+          "border": { "$type": "color", "$value": "{fill.active}" },
+          "text": { "$type": "color", "$value": "{text.active}" },
+          "icon": { "$type": "color", "$value": "{icon.active}" }
         },
         "disabled": {
           "text": { "$type": "color", "$value": "{text.disabled}" },
@@ -93,13 +93,13 @@
       "removable": {
         "$description": "A selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient/tag chip. Existence IS the selection; there's no checked/unchecked ladder, only present-or-removed. Shares 'toggle.default''s exact visual (bg/border/text/icon) on purpose — both read as 'a quiet chip sitting on the page' at rest, no reason to invent a second resting look.",
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.default}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "text": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{border.strong}" },
+          "border": { "$type": "color", "$value": "{outline.strong}" },
           "$description": "Plain border.strong, deliberately NOT fill.primary — a removable chip isn't a toggle, hovering its body doesn't mean 'clicking turns this blue', so it gets the ordinary Card-style hover, not the toggle-specific activation cue."
         },
         "disabled": {
@@ -110,12 +110,12 @@
           "$description": "The trailing (×) button's own recipe — resolved from Popover/Drawer/Modal's own close-button tokens, not retyped: transparent → fill.neutralHover → fill.neutralActive, icon.secondary at rest.",
           "icon": { "$type": "color", "$value": "{icon.secondary}" },
           "hoverBg": { "$type": "color", "$value": "{fill.neutralHover}" },
-          "activeBg": { "$type": "color", "$value": "{fill.neutralActive}" }
+          "activeBg": { "$type": "color", "$value": "{fill.neutralPressed}" }
         }
       },
       "focus": {
         "$description": "Shared by both kinds — same system-wide ring (border.focus, dim.1 width, dim.0_5 offset) every focusable component uses.",
-        "ringColor": { "$type": "color", "$value": "{border.focus}" },
+        "ringColor": { "$type": "color", "$value": "{outline.active}" },
         "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
         "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" }
       }

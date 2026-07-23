@@ -62,7 +62,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.inverse", "text.onFill", "surface.default", "border.default", "text.default"];
+const colorPaths = ["surface.raised", "text.onFill", "surface.card", "outline.default", "text.default"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -85,10 +85,10 @@ function typoCss(t) {
 const css = `${rootVars}
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: ${paddingY} ${paddingX}; border-radius: ${radius}; background: ${cv("surface.inverse")}; color: ${cv("text.onFill")}; box-shadow: ${shadowCss}; white-space: nowrap; font-family: ${cv("family.sans")}; ${typoCss(labelType)}
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: ${paddingY} ${paddingX}; border-radius: ${radius}; background: ${cv("surface.raised")}; color: ${cv("text.onFill")}; box-shadow: ${shadowCss}; white-space: nowrap; font-family: ${cv("family.sans")}; ${typoCss(labelType)}
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: ${showDelay.value}${showDelay.unit}; }
-.tooltip::after { content: ""; position: absolute; width: ${px(arrowSize)}; height: ${px(arrowSize)}; background: ${cv("surface.inverse")}; transform: rotate(45deg); }
+.tooltip::after { content: ""; position: absolute; width: ${px(arrowSize)}; height: ${px(arrowSize)}; background: ${cv("surface.raised")}; transform: rotate(45deg); }
 
 .tooltip--top { bottom: calc(100% + ${gap}); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: ${arrowNeg}; left: 50%; margin-left: ${arrowNeg}; }
@@ -199,7 +199,7 @@ const html = `<!doctype html>
   .story-preview { min-height: 90px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid ${cv("border.default")}; background: ${cv("surface.default")}; color: ${cv("text.default")}; cursor: pointer; }
+  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid ${cv("outline.default")}; background: ${cv("surface.card")}; color: ${cv("text.default")}; cursor: pointer; }
   .demo-force-show .tooltip { opacity: 1 !important; transition-delay: 0s !important; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }

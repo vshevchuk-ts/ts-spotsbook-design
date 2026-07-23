@@ -5,7 +5,7 @@
       "radius": { "$type": "dimension", "$value": "{radius.full}" },
       "border": {
         "$type": "color",
-        "$value": "{border.default}",
+        "$value": "{outline.default}",
         "$description": "1px hairline — same 'separate with a border, not a shadow' convention as Card/Input/Select/Search. Applies to a photo and the generic no-name fallback, where it's load-bearing (a light-toned photo or the near-white neutral fallback can otherwise blend into surface.page's white). The 8 identity-color fallbacks (component.avatar.fallback.identity) override this to transparent at the CSS layer — same 'transparent' literal pattern Button ghost's unfilled rest state already uses — because a gray hairline read muddy on top of an already-saturated pastel; the color block itself provides enough separation from the page on its own."
       },
       "size": {

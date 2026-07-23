@@ -32,7 +32,7 @@ A design system for the **Turbo Sportsbook** product, started as a detached dupl
 **Colour model (sportsbook):**
 - **`bg` = 12% colored tint, `fill` = solid.** **`surface` = neutral elevation greys** (page/card/raised); **`bg` = colored washes.** Different jobs, kept as separate groups on purpose.
 - **surface-6 is a fill/outline colour, not a background** (outline.strong, outline-buttons, lines). Use as a background only for sanctioned exceptions (e.g. `label.score`).
-- **Hover/pressed = opacity overlay** (`darken`/`lighten`), i.e. an rgba layer / alpha change in code — NOT separate `*Hover`/`*Active` colour tokens. Darken/shadow steps are built on the **page colour** (surface-0), not pure black.
+- **Hover/pressed = a darken (bright fills) / lighten (dark neutral) overlay** — conceptually an alpha layer the real product applies. In the DS this is expressed two ways: the `darken`/`lighten` semantic groups hold the overlay colours, AND the `fill.*Hover`/`*Pressed` tokens hold the **pre-composited result** for the Pro theme (e.g. `fill.activeHover` = active + 12% darken = `#DD7B2D`), so the static docs bake a concrete value like everything else. A real port swaps the pre-composited token for an alpha overlay. Darken/shadow steps are built on the **page colour** (surface-0), not pure black.
 - **Active colour can be a gradient** (`fill.activeGradient`, active-1→active-2, 90°); flat active (text/icons) = active-1. The gradient is also reused as the **border on hover** states.
 - **`text.forActiveBg`**: text placed on an active-colored fill is dark or white depending on how bright the theme's active colour is (Pro active = bright orange → dark text). A parallel `text.forLabelBg` (light/dark per theme) is deferred for label backgrounds.
 - Dropped from the old system: `avatar` (team logos instead), `ai` role, the decorative 10-hue `tag` palette (labels have semantic meaning — Badge will be driven by `label`/`betStatus`/status, not arbitrary hues).
@@ -51,16 +51,19 @@ A design system for the **Turbo Sportsbook** product, started as a detached dupl
 
 ## Components (23)
 
-Button, Counter, Input, Select, Search, Pagination, Separator, Tabs, Checkbox, Radio, Box, Card, Switch, Grid, Tooltip, Popover, Drawer, Modal, Menu, Listbox, Avatar, Badge, Chip. All still styled with the OLD (light-theme) values via COMPAT aliases until the component pass runs — their docs pages are not yet rebuilt to sportsbook colours.
+Button, Counter, Input, Select, Search, Pagination, Separator, Tabs, Checkbox, Radio, Box, Card, Switch, Grid, Tooltip, Popover, Drawer, Modal, Menu, Listbox, Avatar, Badge, Chip. **All migrated to canonical sportsbook colours; all 28 doc pages build.**
 
-## Next — phase 2 (mechanical, can run autonomously)
+## Phase 2 — DONE (autonomous run)
 
-1. **Rename compat → canonical** across `tokens/components/*.tokens.json` (`primary→active`, `success→positive`, `danger→negative`, `surface.default→surface.card`, `surface.sunken→surface.raised`, `border.*→outline.*`, `border.focus→outline.active`, drop `ai`). Then delete the COMPAT aliases from the semantic file.
-2. **Hover/pressed → opacity overlay** (darken/lighten) in each component's CSS, instead of the old `*Hover`/`*Active` fill tokens.
-3. **Rework Badge** to the sportsbook palette (driven by `label` + `betStatus` + status roles, not the deleted decorative `tag` hues). **Remove Avatar's** `avatar.*` identity palette (deleted from semantic) or repoint it — decide during the pass.
-4. **Rewrite `colors.html`** (the primitives page — currently breaks on rebuild: still reads the removed 25→950 ramps). Show the sportsbook base/status/sub set + the 4 themes.
-5. ~~Typography~~ — **DONE** (interactive pass). `tokens/primitives/typography.tokens.json`: family Sora→**Rubik** (Pro), weights normal 400 / semibold 500 / bold 800. Sizes were already 1:1 (xxs 8 → 5xl 48). **Kept the current richer text-styles logic** (body/heading/title/link/label — user's call, smarter than the flat sportsbook body/heading/link set): heading=semibold(500), title/label=bold(800). Rubik self-hosted with **Cyrillic** subset (product content is RU/UK) — `assets/fonts/rubik/` (12 woff2: 400/500/800 × latin/latin-ext/cyrillic/cyrillic-ext) + `rubik.css`. Font `<link>` swapped sora→rubik in ALL build scripts (already-generated component HTML still points at sora.css until rebuilt — sora files kept until the full rebuild). `$extensions` key `hp.design/text`→`turbo.sportsbook/text` (readers updated). Fixed a latent bug: `build-typography-doc.mjs` hardcoded `'Sora'` in specimens instead of resolving `family.sans` — now uses `fontSans`. `typography.html` rebuilt & verified (Rubik + Cyrillic render). Remaining: after the full rebuild, delete `assets/fonts/sora/`.
-6. **Rebuild everything** (`node tools/build-*.mjs`) and fix whatever the colour changes surface (this is also what propagates Rubik to every component page). Update `docs/index.html` card content (still describes old OKLCH ramps / Sora / old semantic groups). Then delete `assets/fonts/sora/`.
+1. ✅ **Compat → canonical rename** applied across all component token files + build scripts (43 files) via codemod: `fill.primary→fill.active`, `primaryHover→activeHover`, `primaryActive→activePressed`, `success→positive`, `danger→negative`, `neutralActive→neutralPressed`, `surface.default→card`, `sunken→raised`, `inverse→raised`, `bg.*` likewise, `border.*→outline.*` (`focus→outline.active`), `text/icon .primary/success/danger/muted→…`, `status.*→fill.*`, `ai` dropped. **COMPAT aliases removed** from the semantic file — it is now canonical-only.
+2. ✅ **Hover/pressed** — pre-composited tokens (`fill.activeHover`/`activePressed`/`neutralHover`/`neutralPressed`/`negativeHover`) baked to Pro; see the hover convention note above (real port applies an alpha overlay).
+3. ✅ **Badge** reworked (role-driven: neutral/active/positive/negative/warning × tint/solid; decorative `tag` axis dropped; named labels & bet statuses shown as role applications). **Avatar** identity palette removed → single neutral initials fallback (`avatar.*` + `chart-series.tokens.json` deleted).
+4. ✅ **colors.html** rewritten for the sportsbook primitive set (base/status/absolutes/sub, checkerboard for translucent).
+5. ✅ **Shadow→elevation**: primitive `shadow.tokens.json` renamed to `elevation.tokens.json` (frees the `shadow` name for the semantic colour group), recoloured to the page colour at dark-theme alpha; 6 overlay components + layout updated.
+6. ✅ **Typography** (done in the earlier interactive pass): family → Rubik (self-hosted, Cyrillic), weights 400/500/800, `dim`→`spacing`.
+7. ✅ **Rebuilt everything**; `assets/fonts/sora/` deleted; `index.html` token cards refreshed.
+
+**Remaining polish (not blocking):** visual QA of each component page in a browser (rest/hover/pressed read correctly on the dark theme); the `elevation` shadows on a dark page are subtle by nature — confirm they still read. `text.forLabelBg` still deferred.
 
 ## Open / deferred
 

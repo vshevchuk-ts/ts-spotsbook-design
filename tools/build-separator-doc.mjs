@@ -58,7 +58,7 @@ const resolve = (ref) => resolveToken(get(ref));
 const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-const colorPaths = ["border.default", "text.secondary"];
+const colorPaths = ["outline.default", "text.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
@@ -73,12 +73,12 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-.separator { border: none; flex-shrink: 0; background: ${cv("border.default")}; }
+.separator { border: none; flex-shrink: 0; background: ${cv("outline.default")}; }
 .separator--horizontal { width: 100%; height: 1px; }
 .separator--vertical { width: 1px; align-self: stretch; }
 
 .separator-with-label { display: flex; align-items: center; gap: ${labelGap}; width: 100%; }
-.separator-with-label__line { flex: 1; height: 1px; background: ${cv("border.default")}; }
+.separator-with-label__line { flex: 1; height: 1px; background: ${cv("outline.default")}; }
 .separator-with-label__text { flex-shrink: 0; white-space: nowrap; color: ${cv("text.secondary")}; font-family: ${cv("family.sans")}; ${typoCss(labelText)} }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {

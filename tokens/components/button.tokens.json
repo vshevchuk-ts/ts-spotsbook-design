@@ -34,18 +34,18 @@
         },
         "state": {
           "default": {
-            "fill": { "$type": "color", "$value": "{fill.primary}" },
+            "fill": { "$type": "color", "$value": "{fill.active}" },
             "label": { "$type": "color", "$value": "{text.onFill}" },
             "icon": { "$type": "color", "$value": "{icon.onFill}" }
           },
           "hover": {
-            "fill": { "$type": "color", "$value": "{fill.primaryHover}" }
+            "fill": { "$type": "color", "$value": "{fill.activeHover}" }
           },
           "pressed": {
-            "fill": { "$type": "color", "$value": "{fill.primaryActive}" }
+            "fill": { "$type": "color", "$value": "{fill.activePressed}" }
           },
           "focused": {
-            "ringColor": { "$type": "color", "$value": "{border.focus}" },
+            "ringColor": { "$type": "color", "$value": "{outline.active}" },
             "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
             "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Additive outline (keyboard focus only) on top of whatever default/hover/pressed fill is already showing — not a fill swap, so it composes with any of the three above."
@@ -98,10 +98,10 @@
             "fill": { "$type": "color", "$value": "{fill.neutralHover}" }
           },
           "pressed": {
-            "fill": { "$type": "color", "$value": "{fill.neutralActive}" }
+            "fill": { "$type": "color", "$value": "{fill.neutralPressed}" }
           },
           "focused": {
-            "ringColor": { "$type": "color", "$value": "{border.focus}" },
+            "ringColor": { "$type": "color", "$value": "{outline.active}" },
             "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
             "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Same ring treatment as primary — border.focus is always blue regardless of the button's own role, per that token's own rule."
@@ -110,7 +110,7 @@
             "fill": { "$type": "color", "$value": "{fill.disabled}" },
             "label": { "$type": "color", "$value": "{text.disabled}" },
             "icon": { "$type": "color", "$value": "{icon.disabled}" },
-            "$description": "fill.disabled and fill.neutral are both {color.gray.100} — same value. Disabled secondary buttons don't get a background change, only the label/icon fading to text.disabled/icon.disabled; a deliberate consequence of reusing the universal fill.disabled token rather than a secondary-specific one, not a bug."
+            "$description": "fill.disabled and fill.neutral are both the raised surface (surface-4) — same value. Disabled secondary buttons don't get a background change, only the label/icon fading to text.disabled/icon.disabled; a deliberate consequence of reusing the universal fill.disabled token rather than a secondary-specific one, not a bug."
           }
         }
       },
@@ -154,10 +154,10 @@
             "fill": { "$type": "color", "$value": "{fill.neutralHover}" }
           },
           "pressed": {
-            "fill": { "$type": "color", "$value": "{fill.neutralActive}" }
+            "fill": { "$type": "color", "$value": "{fill.neutralPressed}" }
           },
           "focused": {
-            "ringColor": { "$type": "color", "$value": "{border.focus}" },
+            "ringColor": { "$type": "color", "$value": "{outline.active}" },
             "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
             "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
             "$description": "Same ring treatment as primary/secondary — border.focus is always blue regardless of the button's own role."

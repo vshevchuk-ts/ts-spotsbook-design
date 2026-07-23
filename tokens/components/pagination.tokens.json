@@ -17,7 +17,7 @@
       },
       "ellipsis": {
         "$description": "Non-interactive — no button chrome, no hover, just muted text marking a collapsed range.",
-        "color": { "$type": "color", "$value": "{text.muted}" }
+        "color": { "$type": "color", "$value": "{text.secondary}" }
       },
       "bar": {
         "$description": "The two pieces (rows-per-page selector, page-range nav) almost always appear together — a table/list footer — not as isolated controls. Full-width: justify-content: space-between (structural, no token needed). Not full-width / inline: this gap is the minimum breathing room between the two groups so they don't crowd each other.",
@@ -33,7 +33,7 @@
           "$description": "Reuses the secondary button's hover fill (gray.200) for the same subtle-gray-on-hover feedback, rather than inventing a new token for what's the same visual intent."
         },
         "active": {
-          "bg": { "$type": "color", "$value": "{fill.primary}" },
+          "bg": { "$type": "color", "$value": "{fill.active}" },
           "label": { "$type": "color", "$value": "{text.onFill}" },
           "$description": "The current page — filled solid blue, matching the user's own sketch for this component rather than shadcn's outline treatment."
         },

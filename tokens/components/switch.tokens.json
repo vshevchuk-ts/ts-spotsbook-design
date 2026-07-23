@@ -18,33 +18,33 @@
       },
       "state": {
         "default": {
-          "track": { "$type": "color", "$value": "{border.default}" },
-          "thumb": { "$type": "color", "$value": "{surface.default}" },
+          "track": { "$type": "color", "$value": "{outline.default}" },
+          "thumb": { "$type": "color", "$value": "{surface.card}" },
           "label": { "$type": "color", "$value": "{text.default}" },
           "$description": "Off, at rest — border.default as a solid fill (gray.200), not an outline. White thumb sits on the left."
         },
         "hover": {
-          "track": { "$type": "color", "$value": "{border.strong}" },
+          "track": { "$type": "color", "$value": "{outline.strong}" },
           "$description": "Off+hover darkens one gray step (border.strong) — unlike Checkbox/Radio's hollow box, the track is already a sizeable filled area at rest, so a plain gray-darken reads clearly here (the 'too weak a cue' problem was specific to a 2px hairline, not a full fill)."
         },
         "focused": {
-          "ringColor": { "$type": "color", "$value": "{border.focus}" },
+          "ringColor": { "$type": "color", "$value": "{outline.active}" },
           "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
           "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Same additive-ring pattern as Button/Checkbox/Radio/Card."
         },
         "checked": {
-          "track": { "$type": "color", "$value": "{fill.primary}" },
-          "thumb": { "$type": "color", "$value": "{surface.default}" },
+          "track": { "$type": "color", "$value": "{fill.active}" },
+          "thumb": { "$type": "color", "$value": "{surface.card}" },
           "$description": "Track fills fill.primary (blue.500, same brand blue as checked Checkbox/Radio), thumb stays white and slides to the right."
         },
         "checkedHover": {
-          "track": { "$type": "color", "$value": "{fill.primaryHover}" },
-          "$description": "fill.primaryHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover already use."
+          "track": { "$type": "color", "$value": "{fill.activeHover}" },
+          "$description": "fill.activeHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover already use."
         },
         "disabled": {
           "track": { "$type": "color", "$value": "{fill.disabled}" },
-          "thumb": { "$type": "color", "$value": "{surface.default}" },
+          "thumb": { "$type": "color", "$value": "{surface.card}" },
           "label": { "$type": "color", "$value": "{text.disabled}" },
           "$description": "Covers disabled in both off and on positions alike — fill.disabled (gray.100) either way, same pair Button secondary/Input/Checkbox already use for their own disabled states. Thumb stays white; only the track loses color."
         }

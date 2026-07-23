@@ -59,8 +59,8 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "surface.sunken", "surface.disabled", "border.default", "border.strong", "border.focus", "border.danger",
-  "text.muted", "text.default", "text.disabled", "text.primary", "icon.default", "icon.disabled",
+  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
+  "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -98,18 +98,18 @@ const css = `${rootVars}
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.sunken")};
-  border: 1px solid ${cv("border.default")};
+  background: ${cv("surface.raised")};
+  border: 1px solid ${cv("outline.default")};
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: pointer;
 }
 .select__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; }
-.select__placeholder { color: ${cv("text.muted")}; }
+.select__placeholder { color: ${cv("text.secondary")}; }
 .select__value { color: ${cv("text.default")}; }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
-.select__label { color: ${cv("text.muted")}; }
+.select__label { color: ${cv("text.secondary")}; }
 
 ${sizes
   .map((s) => {
@@ -126,13 +126,13 @@ ${sizes
   })
   .join("\n\n")}
 
-.select:not(.select--disabled):hover, .select--hover { border-color: ${cv("border.strong")}; }
-.select--focus { border-color: ${cv("border.focus")}; }
-.select--focus .select__label { color: ${cv("text.primary")}; }
+.select:not(.select--disabled):hover, .select--hover { border-color: ${cv("outline.strong")}; }
+.select--focus { border-color: ${cv("outline.active")}; }
+.select--focus .select__label { color: ${cv("text.active")}; }
 .select--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: ${cv("text.disabled")}; }
 .select--disabled .select__icon, .select--disabled .select__chevron { color: ${cv("icon.disabled")}; }
-.select--error { border-color: ${cv("border.danger")}; }`;
+.select--error { border-color: ${cv("outline.negative")}; }`;
 
 function restingMarkup(size, { icon = false, placeholder = "Country", live = true } = {}) {
   const ic = icon ? (live ? iconSearch : `<svg class="select__icon"><!-- icon: search --></svg>`) : "";
@@ -177,7 +177,7 @@ function contentStories() {
 
 const stateDefs = [
   { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused." },
-  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--hover"'), note: "border.strong." },
+  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--hover"'), note: "outline.strong." },
   { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="select select--base"', 'class="select select--base select--focus"'), note: "Trigger is focused (e.g. via keyboard) — label floats the same as input.state.focus." },
   { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { value: "Ukraine", live }), note: "Has a chosen value, not focused — label stays floated, colors revert to default." },
   { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--disabled"'), note: "surface.disabled equals surface.sunken — same pattern as input/secondary-button." },

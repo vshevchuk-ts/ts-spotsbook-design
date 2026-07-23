@@ -73,14 +73,14 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
-  --tok-fill-primary-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
   --tok-text-default: #FFFFFF;
   --tok-icon-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
@@ -88,9 +88,9 @@
   --tok-fill-disabled: #282E3E;
   --tok-text-disabled: #8E929F;
   --tok-icon-disabled: #8E929F;
-  --tok-border-focus: #FB8C33;
+  --tok-outline-active: #FB8C33;
   --tok-color-white: #FFFFFF;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -141,27 +141,27 @@
 .btn--lg.btn--icon-only { width: 48px; padding: 0; }
 .btn--lg .btn__icon { width: 24px; height: 24px; }
 
-.btn--primary { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); }
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }
 .btn--primary .btn__icon { color: var(--tok-icon-on-fill); }
-.btn--primary:not(:disabled):hover { background: var(--tok-fill-primary-hover); }
-.btn--primary:not(:disabled):active { background: var(--tok-fill-primary-active); }
-.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
+.btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
+.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--primary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--primary:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-active); }
-.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--secondary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--secondary:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
 .btn--ghost { background: transparent; color: var(--tok-text-secondary); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-active); }
-.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--ghost:disabled { background: transparent; color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--ghost:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
@@ -177,8 +177,8 @@
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-size: 14px; line-height: 1; }
-.counter--onPrimary.counter--inactive { background: var(--tok-fill-primary-active); color: var(--tok-text-on-fill); }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-active); color: var(--tok-text-default); }
+.counter--onPrimary.counter--inactive { background: var(--tok-fill-active-pressed); color: var(--tok-text-on-fill); }
+.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
 </style>
 </head>
 <body>
@@ -234,14 +234,14 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One <code class="tok">:root</code> block of color custom properties, then a shared <code class="tok">.btn</code> base + <code class="tok">--sm/--base/--lg</code> size modifiers (used by all three variants — sizes are identical), then <code class="tok">.btn--primary</code> / <code class="tok">.btn--secondary</code> / <code class="tok">.btn--ghost</code> color modifiers. States are plain pseudo-classes, not separate classes. Dimensions (height/padding/gap/font-size) stay literal px in the size modifiers — those are baked layout decisions per size, not values a consumer re-themes at runtime the way colors are.</p>
     <pre class="code"><code>:root {
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
-  --tok-fill-primary-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
   --tok-text-default: #FFFFFF;
   --tok-icon-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
@@ -249,9 +249,9 @@
   --tok-fill-disabled: #282E3E;
   --tok-text-disabled: #8E929F;
   --tok-icon-disabled: #8E929F;
-  --tok-border-focus: #FB8C33;
+  --tok-outline-active: #FB8C33;
   --tok-color-white: #FFFFFF;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -302,27 +302,27 @@
 .btn--lg.btn--icon-only { width: 48px; padding: 0; }
 .btn--lg .btn__icon { width: 24px; height: 24px; }
 
-.btn--primary { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); }
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }
 .btn--primary .btn__icon { color: var(--tok-icon-on-fill); }
-.btn--primary:not(:disabled):hover { background: var(--tok-fill-primary-hover); }
-.btn--primary:not(:disabled):active { background: var(--tok-fill-primary-active); }
-.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
+.btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
+.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--primary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--primary:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-active); }
-.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--secondary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--secondary:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
 .btn--ghost { background: transparent; color: var(--tok-text-secondary); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-active); }
-.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus); }
+.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--ghost:disabled { background: transparent; color: var(--tok-text-disabled); cursor: not-allowed; }
 .btn--ghost:disabled .btn__icon { color: var(--tok-icon-disabled); }
 
@@ -338,8 +338,8 @@
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-size: 14px; line-height: 1; }
-.counter--onPrimary.counter--inactive { background: var(--tok-fill-primary-active); color: var(--tok-text-on-fill); }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-active); color: var(--tok-text-default); }</code></pre>
+.counter--onPrimary.counter--inactive { background: var(--tok-fill-active-pressed); color: var(--tok-text-on-fill); }
+.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }</code></pre>
 
     
     <h2 class="big-section">Primary</h2>
@@ -450,38 +450,38 @@
         <div class="story-preview"><button class="btn btn--primary btn--base" style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--primary {
-  background: var(--tok-fill-primary);
+  background: var(--tok-fill-active);
 }</code></pre>
         
       </div>
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-primary-hover)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-hover)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--primary:hover {
-  background: var(--tok-fill-primary-hover);
+  background: var(--tok-fill-active-hover);
 }</code></pre>
         
       </div>
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-primary-active)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--primary:active {
-  background: var(--tok-fill-primary-active);
+  background: var(--tok-fill-active-pressed);
 }</code></pre>
         
       </div>
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--primary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);
+  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);
 }</code></pre>
         
       </div>
@@ -623,21 +623,21 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-active)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--secondary:active {
-  background: var(--tok-fill-neutral-active);
+  background: var(--tok-fill-neutral-pressed);
 }</code></pre>
         
       </div>
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--secondary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);
+  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);
 }</code></pre>
         
       </div>
@@ -779,21 +779,21 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-active)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--ghost:active {
-  background: var(--tok-fill-neutral-active);
+  background: var(--tok-fill-neutral-pressed);
 }</code></pre>
         
       </div>
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--ghost:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-border-focus);
+  box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);
 }</code></pre>
         
       </div>

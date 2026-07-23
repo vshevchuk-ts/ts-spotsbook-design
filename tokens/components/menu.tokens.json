@@ -10,10 +10,10 @@
       "itemPaddingY": { "$type": "dimension", "$value": "{spacing.2}" },
       "itemGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between an item's icon and its label — same flat gap Button uses." },
       "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
-      "bg": { "$type": "color", "$value": "{surface.default}" },
-      "border": { "$type": "color", "$value": "{border.default}" },
+      "bg": { "$type": "color", "$value": "{surface.card}" },
+      "border": { "$type": "color", "$value": "{outline.default}" },
       "shadow": { "$type": "shadow", "$value": "{elevation.sm}" },
-      "divider": { "$type": "color", "$value": "{border.default}" },
+      "divider": { "$type": "color", "$value": "{outline.default}" },
       "label": { "$type": "typography", "$value": "{text-style.body-base}" },
       "state": {
         "default": {
@@ -28,9 +28,9 @@
           "icon": { "$type": "color", "$value": "{icon.disabled}" }
         },
         "destructive": {
-          "text": { "$type": "color", "$value": "{text.danger}" },
-          "icon": { "$type": "color", "$value": "{icon.danger}" },
-          "hoverBg": { "$type": "color", "$value": "{bg.danger}", "$description": "Pale red tint (the same passive-surface role Card/badges would use), not fill.neutralHover — a destructive item's hover should read as 'still red', not revert to neutral gray." }
+          "text": { "$type": "color", "$value": "{text.negative}" },
+          "icon": { "$type": "color", "$value": "{icon.negative}" },
+          "hoverBg": { "$type": "color", "$value": "{bg.negative}", "$description": "Pale red tint (the same passive-surface role Card/badges would use), not fill.neutralHover — a destructive item's hover should read as 'still red', not revert to neutral gray." }
         }
       }
     }

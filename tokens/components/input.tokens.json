@@ -51,36 +51,36 @@
       "state": {
         "default": {
           "$description": "Empty, not focused. surface.sunken + border.default are each already documented ('Inputs...recessed' / 'input borders at rest') from the semantic-color session, before this component existed.",
-          "bg": { "$type": "color", "$value": "{surface.sunken}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
-          "placeholder": { "$type": "color", "$value": "{text.muted}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
+          "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{border.strong}" },
-          "$description": "border.strong's own token description already says 'input border on hover' — written before this component existed."
+          "border": { "$type": "color", "$value": "{outline.strong}" },
+          "$description": "outline.strong's own token description already says 'input border on hover' — written before this component existed."
         },
         "focus": {
-          "border": { "$type": "color", "$value": "{border.focus}" },
-          "label": { "$type": "color", "$value": "{text.primary}" },
+          "border": { "$type": "color", "$value": "{outline.active}" },
+          "label": { "$type": "color", "$value": "{text.active}" },
           "$description": "Floating label (base/lg only) turns brand-blue while focused — reverts to text.muted once blurred, even if still populated, so blue always means 'this is the active field', not 'this field has a value'."
         },
         "populated": {
           "$description": "Has a value, not focused — the base/lg floating label stays up (that's a layout state, not a color one) but every color reverts to default. Named 'populated' rather than 'filled' to avoid colliding with the unrelated fill.* token family.",
-          "label": { "$type": "color", "$value": "{text.muted}" }
+          "label": { "$type": "color", "$value": "{text.secondary}" }
         },
         "disabled": {
           "bg": { "$type": "color", "$value": "{surface.disabled}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "placeholder": { "$type": "color", "$value": "{text.disabled}" },
           "value": { "$type": "color", "$value": "{text.disabled}" },
           "icon": { "$type": "color", "$value": "{icon.disabled}" },
           "label": { "$type": "color", "$value": "{text.disabled}" },
-          "$description": "surface.disabled and surface.sunken are both {color.gray.100} — same value, same pattern as fill.disabled==fill.neutral on the secondary button. Disabled doesn't change the background, only the text/icon/label fading out."
+          "$description": "Disabled uses surface.disabled (the card surface); the disabled cue is the text/icon/label fading out, not a background shift — same pattern as the secondary button's fill.disabled."
         },
         "error": {
-          "border": { "$type": "color", "$value": "{border.danger}" },
+          "border": { "$type": "color", "$value": "{outline.negative}" },
           "$description": "Scoped to the field's own border only — a separate helper/error-message text element below the field isn't built here, wasn't asked for."
         }
       }

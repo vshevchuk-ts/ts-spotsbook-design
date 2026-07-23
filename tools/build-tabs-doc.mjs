@@ -61,8 +61,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralActive", "surface.sunken", "surface.default",
-  "border.default", "border.focus", "text.onFill", "fill.primary", "icon.default", "icon.disabled",
+  "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralPressed", "surface.raised", "surface.card",
+  "outline.default", "outline.active", "text.onFill", "fill.active", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -80,7 +80,7 @@ const sizes = ["sm", "base"].map((key) => {
 
 // ---- segmented ----
 const seg = {
-  trackBg: resolve("surface.sunken"),
+  trackBg: resolve("surface.raised"),
   trackRadius: px(resolve(tabs.segmented.trackRadius.$value)),
   trackPadding: px(resolve(tabs.segmented.trackPadding.$value)),
   pillRadius: px(resolve(tabs.segmented.pillRadius.$value)),
@@ -96,7 +96,7 @@ const counterSizes = ["sm", "base"].map((key) => {
   const s = counter.size[key];
   return { key, height: resolve(s.height.$value), minWidth: resolve(s.minWidth.$value), paddingX: resolve(s.paddingX.$value), label: resolveToken(s.label) };
 });
-// $value on each of these is itself a path string like "{fill.neutralActive}" —
+// $value on each of these is itself a path string like "{fill.neutralPressed}" —
 // read as-is (not resolved to hex) so it can be fed straight into cv() below.
 const stripBraces = (s) => s.replace(/[{}]/g, "");
 const counterOnNeutralPaths = {
@@ -122,17 +122,17 @@ ${sizes
 .tab--${s.key} .tab__icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`)
   .join("\n")}
 
-.tabs--segmented { display: inline-flex; align-items: center; gap: ${seg.trackPadding}; background: ${cv("surface.sunken")}; border-radius: ${seg.trackRadius}; padding: ${seg.trackPadding}; max-width: 100%; overflow-x: auto; }
+.tabs--segmented { display: inline-flex; align-items: center; gap: ${seg.trackPadding}; background: ${cv("surface.raised")}; border-radius: ${seg.trackRadius}; padding: ${seg.trackPadding}; max-width: 100%; overflow-x: auto; }
 .tabs--segmented .tab { border-radius: ${seg.pillRadius}; }
 .tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
-.tabs--segmented .tab--active { background: ${cv("surface.default")}; color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; }
+.tabs--segmented .tab--active { background: ${cv("surface.card")}; color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; }
 .tabs--segmented .tab--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: ${cv("icon.disabled")}; }
 
-.tabs--underline { display: inline-flex; align-items: stretch; gap: ${und.gap}; border-bottom: 1px solid ${cv("border.default")}; max-width: 100%; overflow-x: auto; }
+.tabs--underline { display: inline-flex; align-items: stretch; gap: ${und.gap}; border-bottom: 1px solid ${cv("outline.default")}; max-width: 100%; overflow-x: auto; }
 .tabs--underline .tab { border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: ${seg.pillRadius} ${seg.pillRadius} 0 0; }
 .tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
-.tabs--underline .tab--active { color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; border-bottom-color: ${cv("border.focus")}; }
+.tabs--underline .tab--active { color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; border-bottom-color: ${cv("outline.active")}; }
 .tabs--underline .tab--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 
 .counter { display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; font-family: ${cv("family.sans")}; font-weight: 700; border-radius: ${counterRadius}; }

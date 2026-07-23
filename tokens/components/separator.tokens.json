@@ -4,8 +4,8 @@
       "$description": "Purely presentational — no interactive states, unlike every other component built so far (buttons, fields, pagination all react to hover/focus/press; a divider never does). Horizontal and vertical orientation, per how Radix/shadcn/MUI/Mantine all model this component (researched, not guessed). One thickness only (1px, a literal in the generated CSS, not a token) — no design system scales hairline width the way it scales spacing or typography, checked across the same references.",
       "color": {
         "$type": "color",
-        "$value": "{border.default}",
-        "$description": "border.default's own $description already says '...card edges, dividers, input borders at rest' — written in the very first semantic-color session, before this component existed."
+        "$value": "{outline.default}",
+        "$description": "outline.default's own $description already says '...card edges, dividers, input borders at rest' — written in the very first semantic-color session, before this component existed."
       },
       "label": {
         "$description": "The horizontal-with-label variant (a line, the label, a line — e.g. an 'OR' divider between a form and a social-login row). Vertical dividers don't get a label variant — rare/awkward in every reference checked, always just a plain line filling the available height.",

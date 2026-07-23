@@ -48,28 +48,28 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.sunken}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
-          "placeholder": { "$type": "color", "$value": "{text.muted}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
+          "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" },
           "chevron": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{border.strong}" }
+          "border": { "$type": "color", "$value": "{outline.strong}" }
         },
         "focus": {
-          "border": { "$type": "color", "$value": "{border.focus}" },
-          "label": { "$type": "color", "$value": "{text.primary}" },
+          "border": { "$type": "color", "$value": "{outline.active}" },
+          "label": { "$type": "color", "$value": "{text.active}" },
           "$description": "Same as input.state.focus — keyboard focus on the trigger, before/without the menu necessarily being open."
         },
         "populated": {
           "$description": "Has a chosen value — label stays floated, colors revert to default.",
-          "label": { "$type": "color", "$value": "{text.muted}" }
+          "label": { "$type": "color", "$value": "{text.secondary}" }
         },
         "disabled": {
           "bg": { "$type": "color", "$value": "{surface.disabled}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "placeholder": { "$type": "color", "$value": "{text.disabled}" },
           "value": { "$type": "color", "$value": "{text.disabled}" },
           "icon": { "$type": "color", "$value": "{icon.disabled}" },
@@ -77,7 +77,7 @@
           "label": { "$type": "color", "$value": "{text.disabled}" }
         },
         "error": {
-          "border": { "$type": "color", "$value": "{border.danger}" }
+          "border": { "$type": "color", "$value": "{outline.negative}" }
         }
       }
     }

@@ -71,12 +71,12 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
   --tok-icon-default: #FFFFFF;
@@ -88,15 +88,15 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .search__clear { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); cursor: pointer; }
-.search__placeholder { color: var(--tok-text-muted); flex: 1; }
+.search__placeholder { color: var(--tok-text-secondary); flex: 1; }
 .search__value { color: var(--tok-text-default); flex: 1; font-weight: 400; font-size: 16px; line-height: 1.2; }
 .search__placeholder { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
@@ -109,8 +109,8 @@
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .search--lg .search__icon, .search--lg .search__clear { width: 24px; height: 24px; }
 
-.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-border-strong); }
-.search--focus { border-color: var(--tok-border-focus); }
+.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-outline-strong); }
+.search--focus { border-color: var(--tok-outline-active); }
 .search--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
 .search--disabled .search__icon, .search--disabled .search__clear { color: var(--tok-icon-disabled); }
@@ -168,12 +168,12 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One shared value/placeholder text style (16px at every size, no per-size label) plus size modifiers and state classes.</p>
     <pre class="code"><code>:root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
   --tok-icon-default: #FFFFFF;
@@ -185,15 +185,15 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .search__clear { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); cursor: pointer; }
-.search__placeholder { color: var(--tok-text-muted); flex: 1; }
+.search__placeholder { color: var(--tok-text-secondary); flex: 1; }
 .search__value { color: var(--tok-text-default); flex: 1; font-weight: 400; font-size: 16px; line-height: 1.2; }
 .search__placeholder { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
@@ -206,8 +206,8 @@
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .search--lg .search__icon, .search--lg .search__clear { width: 24px; height: 24px; }
 
-.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-border-strong); }
-.search--focus { border-color: var(--tok-border-focus); }
+.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-outline-strong); }
+.search--focus { border-color: var(--tok-outline-active); }
 .search--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
 .search--disabled .search__icon, .search--disabled .search__clear { color: var(--tok-icon-disabled); }</code></pre>
@@ -253,7 +253,7 @@
         <h3>hover</h3>
         <div class="story-preview"><div class="search search--base search--hover"><svg class="search__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span class="search__placeholder">Search</span></div></div>
         <pre class="code"><code>&lt;div class="search search--base search--hover"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">border.strong.</p>
+        <p class="story-note">outline.strong.</p>
       </div>
 
       <div class="story">

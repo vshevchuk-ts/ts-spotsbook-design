@@ -61,7 +61,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.sunken", "border.default", "text.secondary"];
+const colorPaths = ["surface.raised", "outline.default", "text.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -198,7 +198,7 @@ const html = `<!doctype html>
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .demo-grid { width: 100%; }
-  .grid-cell { background: ${cv("surface.sunken")}; border: 1px solid ${cv("border.default")}; border-radius: 6px; color: ${cv("text.secondary")}; font-family: var(--mono); font-size: 12px; display: flex; align-items: center; justify-content: center; height: 44px; }
+  .grid-cell { background: ${cv("surface.raised")}; border: 1px solid ${cv("outline.default")}; border-radius: 6px; color: ${cv("text.secondary")}; font-family: var(--mono); font-size: 12px; display: flex; align-items: center; justify-content: center; height: 44px; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

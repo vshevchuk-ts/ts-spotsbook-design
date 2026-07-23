@@ -70,12 +70,12 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -84,15 +84,15 @@
 
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-border-default); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-surface-default); transform: translateX(0); }
+.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-outline-default); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-surface-card); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.switch:hover .switch__track { background: var(--tok-border-strong); }
-.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
-.switch__input:checked ~ .switch__track { background: var(--tok-fill-primary); }
+.switch:hover .switch__track { background: var(--tok-outline-strong); }
+.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
-.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-primary-hover); }
+.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
 .switch__input:disabled ~ .switch__track { background: var(--tok-fill-disabled); cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }
@@ -150,12 +150,12 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -164,15 +164,15 @@
 
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-border-default); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-surface-default); transform: translateX(0); }
+.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-outline-default); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-surface-card); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.switch:hover .switch__track { background: var(--tok-border-strong); }
-.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
-.switch__input:checked ~ .switch__track { background: var(--tok-fill-primary); }
+.switch:hover .switch__track { background: var(--tok-outline-strong); }
+.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
-.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-primary-hover); }
+.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
 .switch__input:disabled ~ .switch__track { background: var(--tok-fill-disabled); cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }</code></pre>
@@ -200,27 +200,27 @@
         <h3>hover</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-1" />
-    <span class="switch__track" style="background:var(--tok-border-strong)"><span class="switch__thumb"></span></span>
+    <span class="switch__track" style="background:var(--tok-outline-strong)"><span class="switch__thumb"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-1" /&gt;
-    &lt;span class="switch__track" style="background:var(--tok-border-strong)"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="background:var(--tok-outline-strong)"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">border.strong — a plain gray-darken reads fine here since the track is already a sizeable filled area, unlike Checkbox/Radio's hairline border.</p>
+        <p class="story-note">outline.strong — a plain gray-darken reads fine here since the track is already a sizeable filled area, unlike Checkbox/Radio's hairline border.</p>
       </div>
 
       <div class="story">
         <h3>focused</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-2" />
-    <span class="switch__track" style="outline:4px solid var(--tok-border-focus); outline-offset:2px"><span class="switch__thumb"></span></span>
+    <span class="switch__track" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="switch__thumb"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-2" /&gt;
-    &lt;span class="switch__track" style="outline:4px solid var(--tok-border-focus); outline-offset:2px"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
         <p class="story-note">Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style.</p>
@@ -245,15 +245,15 @@
         <h3>checked + hover</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-4" checked />
-    <span class="switch__track" style="background:var(--tok-fill-primary-hover)"><span class="switch__thumb" style="transform:translateX(16px)"></span></span>
+    <span class="switch__track" style="background:var(--tok-fill-active-hover)"><span class="switch__thumb" style="transform:translateX(16px)"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-4" checked /&gt;
-    &lt;span class="switch__track" style="background:var(--tok-fill-primary-hover)"&gt;&lt;span class="switch__thumb" style="transform:translateX(16px)"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="background:var(--tok-fill-active-hover)"&gt;&lt;span class="switch__thumb" style="transform:translateX(16px)"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">fill.primaryHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover use.</p>
+        <p class="story-note">fill.activeHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover use.</p>
       </div>
 
       <div class="story">

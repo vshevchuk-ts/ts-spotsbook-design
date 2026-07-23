@@ -16,41 +16,41 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.default}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "label": { "$type": "color", "$value": "{text.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{fill.primary}" },
-          "$description": "border.strong (gray) read as too weak a hover cue in practice — same lesson learned building Card's interactive hover — so this uses fill.primary (blue.500) instead, same brand blue the checked state fills with."
+          "border": { "$type": "color", "$value": "{fill.active}" },
+          "$description": "outline.strong (gray) read as too weak a hover cue in practice — same lesson learned building Card's interactive hover — so this uses fill.primary (blue.500) instead, same brand blue the checked state fills with."
         },
         "focused": {
-          "ringColor": { "$type": "color", "$value": "{border.focus}" },
+          "ringColor": { "$type": "color", "$value": "{outline.active}" },
           "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
           "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Additive outline on top of whatever default/hover/checked look is already showing, same composable-ring pattern as Button."
         },
         "checked": {
-          "bg": { "$type": "color", "$value": "{fill.primary}" },
-          "border": { "$type": "color", "$value": "{fill.primary}" },
+          "bg": { "$type": "color", "$value": "{fill.active}" },
+          "border": { "$type": "color", "$value": "{fill.active}" },
           "icon": { "$type": "color", "$value": "{icon.onFill}" },
           "$description": "Border set to the same value as bg (fill.primary) — the box reads as fully filled, no visible ring around the fill."
         },
         "indeterminate": {
-          "bg": { "$type": "color", "$value": "{fill.primary}" },
-          "border": { "$type": "color", "$value": "{fill.primary}" },
+          "bg": { "$type": "color", "$value": "{fill.active}" },
+          "border": { "$type": "color", "$value": "{fill.active}" },
           "icon": { "$type": "color", "$value": "{icon.onFill}" },
           "$description": "Identical fill/border to checked — only the glyph differs (remove.svg dash instead of check.svg tick). Used for a parent 'select all' control when only some children are checked."
         },
         "checkedHover": {
-          "bg": { "$type": "color", "$value": "{fill.primaryHover}" },
-          "border": { "$type": "color", "$value": "{fill.primaryHover}" },
+          "bg": { "$type": "color", "$value": "{fill.activeHover}" },
+          "border": { "$type": "color", "$value": "{fill.activeHover}" },
           "icon": { "$type": "color", "$value": "{icon.onFill}" },
           "$description": "Covers checked+hover and indeterminate+hover alike — fill.primaryHover (blue.600) is the exact same darken-on-hover Button primary already uses for its own filled background, reused here rather than inventing a separate darkening."
         },
         "disabled": {
           "bg": { "$type": "color", "$value": "{surface.disabled}" },
-          "border": { "$type": "color", "$value": "{border.default}" },
+          "border": { "$type": "color", "$value": "{outline.default}" },
           "label": { "$type": "color", "$value": "{text.disabled}" }
         },
         "disabledChecked": {

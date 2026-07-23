@@ -66,14 +66,14 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
 const colorPaths = [
-  "fill.primary", "fill.primaryHover", "fill.primaryActive", "text.onFill", "icon.onFill",
-  "fill.neutral", "fill.neutralHover", "fill.neutralActive", "text.default", "icon.default",
+  "fill.active", "fill.activeHover", "fill.activePressed", "text.onFill", "icon.onFill",
+  "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "text.default", "icon.default",
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
-  "border.focus", "color.white", "text.primary",
+  "outline.active", "color.white", "text.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
-const fontSans = resolve("family.sans"); // e.g. "Sora"
+const fontSans = resolve("family.sans"); // e.g. "Rubik"
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
@@ -110,7 +110,7 @@ const focusOffset = resolve(button.primary.state.focused.ringOffset.$value);
 // token — the ring's inner box-shadow has to match whatever surface the button
 // actually sits on, which is inherently contextual. Called out explicitly in
 // the printed comment below so nobody copies --bg-card expecting it to exist.
-const ringShadow = `box-shadow: 0 0 0 ${px(focusOffset)} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${px(focusOffset)} + ${px(focusWidth)}) ${cv("border.focus")};`;
+const ringShadow = `box-shadow: 0 0 0 ${px(focusOffset)} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${px(focusOffset)} + ${px(focusWidth)}) ${cv("outline.active")};`;
 
 // ---- resolve counter (needed for the icon+text+counter variant) ----
 const counterRadius = px(resolve(counter.radius.$value));
@@ -124,8 +124,8 @@ const counterSizes = ["sm", "base", "lg"].map((key) => {
 // rather than quiet, so each button variant needs its matching counter surface.
 const counterSurfaceFor = { primary: "onPrimary", secondary: "onNeutral", ghost: "onNeutral" };
 const counterSurfaces = {
-  onPrimary: { inactiveBg: "fill.primaryActive", inactiveLabel: "text.onFill" },
-  onNeutral: { inactiveBg: "fill.neutralActive", inactiveLabel: "text.default" },
+  onPrimary: { inactiveBg: "fill.activePressed", inactiveLabel: "text.onFill" },
+  onNeutral: { inactiveBg: "fill.neutralPressed", inactiveLabel: "text.default" },
 };
 
 // ---- icons (placeholders for the preview only) ----
@@ -136,9 +136,9 @@ const iconArrow = fs.readFileSync(path.join(root, "assets/icons/material-filled/
 // fill: null means "no fill token — literal transparent", used by ghost (no
 // background at rest, and disabled shouldn't suddenly gain one it never had).
 const variants = {
-  primary: { label: "Primary", fill: "fill.primary", fillHover: "fill.primaryHover", fillActive: "fill.primaryActive", text: "text.onFill", icon: "icon.onFill" },
-  secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralActive", text: "text.default", icon: "icon.default" },
-  ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralActive", text: "text.secondary", icon: "icon.secondary" },
+  primary: { label: "Primary", fill: "fill.active", fillHover: "fill.activeHover", fillActive: "fill.activePressed", text: "text.onFill", icon: "icon.onFill" },
+  secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.default" },
+  ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.secondary", icon: "icon.secondary" },
 };
 
 function variantCss(key) {

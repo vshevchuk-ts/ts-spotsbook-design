@@ -30,7 +30,7 @@
       },
       "segmented": {
         "$description": "A track (surface.sunken — literally the same 'recessed' token as an input's own background) holding the tabs; the active tab sits on a raised white pill (surface.default) directly over the track, the exact sunken/default surface pairing cards already use for 'raised above the page'. pillRadius (8px) = trackRadius (12px) − trackPadding (4px) — concentric corners, not a coincidence: an inset shape needs a proportionally smaller radius to look correctly nested inside its parent's rounded corner. trackPadding doubles as the gap between adjacent pills — tight by design, they're meant to read as one contained control, unlike underline's own (looser) inter-tab gap.",
-        "trackBg": { "$type": "color", "$value": "{surface.sunken}" },
+        "trackBg": { "$type": "color", "$value": "{surface.raised}" },
         "trackRadius": { "$type": "dimension", "$value": "{radius.md}" },
         "trackPadding": { "$type": "dimension", "$value": "{spacing.1}" },
         "pillRadius": { "$type": "dimension", "$value": "{radius.default}" },
@@ -44,7 +44,7 @@
             "$description": "fill.neutralHover — one step darker than the track itself (surface.sunken/gray.100 → gray.200), same 'darker on hover so it stays visible' rule used everywhere else this session."
           },
           "active": {
-            "bg": { "$type": "color", "$value": "{surface.default}" },
+            "bg": { "$type": "color", "$value": "{surface.card}" },
             "label": { "$type": "color", "$value": "{text.default}" },
             "fontWeight": { "$type": "fontWeight", "$value": "{weight.semibold}" }
           },
@@ -55,8 +55,8 @@
       },
       "underline": {
         "$description": "No background at rest, plain text — the active tab is marked only by a 2px bottom bar (a literal in the generated CSS, not itself a scale value worth tokenizing — one visual step bolder than the 1px baseline it overlaps). A 1px baseline (border.default) spans the full tab list, matching how the current live product's own underline-style tabs use a full-width hairline; the active indicator sits directly over it. Hover DOES get a background (fill.neutralHover, the same token segmented's hover already uses) — text-color-only hover was tried first and found too subtle to notice; a light background pill on hover while keeping the colored bar exclusive to the active tab is the common pattern (GitHub, Notion, Linear all do this).",
-        "baselineColor": { "$type": "color", "$value": "{border.default}" },
-        "indicatorColor": { "$type": "color", "$value": "{border.focus}" },
+        "baselineColor": { "$type": "color", "$value": "{outline.default}" },
+        "indicatorColor": { "$type": "color", "$value": "{outline.active}" },
         "gap": { "$type": "dimension", "$value": "{spacing.6}" },
         "state": {
           "default": {

@@ -61,7 +61,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["border.default", "surface.raised", "text.secondary", "icon.secondary"];
+const colorPaths = ["outline.default", "surface.raised", "text.secondary", "icon.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -98,7 +98,7 @@ const photoB = photoDataUri("#38b06b", "#0a6b3a");
 
 const css = `${rootVars}
 
-.avatar { box-sizing: border-box; position: relative; display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; overflow: hidden; border-radius: ${radius}; border: 1px solid ${cv("border.default")}; font-family: ${cv("family.sans")}; user-select: none; }
+.avatar { box-sizing: border-box; position: relative; display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; overflow: hidden; border-radius: ${radius}; border: 1px solid ${cv("outline.default")}; font-family: ${cv("family.sans")}; user-select: none; }
 ${sizeDefs.map((s) => `.avatar--${s.key} { width: ${px(s.diameter)}; height: ${px(s.diameter)}; }`).join("\n")}
 .avatar__image { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar__initials { text-transform: uppercase; }

@@ -77,26 +77,26 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-bg-primary: rgba(251, 140, 51, 0.12);
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
-.card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-border-default); }
-.card__footer { padding-top: 12px; border-top: 1px solid var(--tok-border-default); display: flex; gap: 8px; }
+.card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
+.card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-outline-default); }
+.card__footer { padding-top: 12px; border-top: 1px solid var(--tok-outline-default); display: flex; gap: 8px; }
 .card__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .card__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
-.card--interactive:hover { border-color: var(--tok-fill-primary); }
-.card--interactive:active { background: var(--tok-bg-primary); border-color: var(--tok-fill-primary); }
-.card--interactive:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.card--interactive:hover { border-color: var(--tok-fill-active); }
+.card--interactive:active { background: var(--tok-bg-active); border-color: var(--tok-fill-active); }
+.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -150,26 +150,26 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-bg-primary: rgba(251, 140, 51, 0.12);
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
-.card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-border-default); }
-.card__footer { padding-top: 12px; border-top: 1px solid var(--tok-border-default); display: flex; gap: 8px; }
+.card { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); border-radius: 8px; padding: 16px; font-family: var(--tok-family-sans); }
+.card__header { padding-bottom: 12px; border-bottom: 1px solid var(--tok-outline-default); }
+.card__footer { padding-top: 12px; border-top: 1px solid var(--tok-outline-default); display: flex; gap: 8px; }
 .card__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .card__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
-.card--interactive:hover { border-color: var(--tok-fill-primary); }
-.card--interactive:active { background: var(--tok-bg-primary); border-color: var(--tok-fill-primary); }
-.card--interactive:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }</code></pre>
+.card--interactive:hover { border-color: var(--tok-fill-active); }
+.card--interactive:active { background: var(--tok-bg-active); border-color: var(--tok-fill-active); }
+.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }</code></pre>
 
     <h2 class="big-section">Static</h2>
     <p class="section-desc">The gray bars are docs-only placeholders standing in for arbitrary content, not a fixed set of "card types" — Card has no opinion on what goes inside. The printed code below each one shows real starter text instead of the bars.</p>
@@ -244,7 +244,7 @@
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><button class="card card--interactive demo-card" style="border-color:var(--tok-fill-primary)">
+        <div class="story-preview"><button class="card card--interactive demo-card" style="border-color:var(--tok-fill-active)">
       <p class="card__title"><span class="ph-line ph-line--title" style="width:60%"></span></p>
       <p class="card__body-text"><span class="ph-line ph-line--body" style="width:100%"></span><span class="ph-line ph-line--body" style="width:45%"></span></p>
     </button></div>
@@ -252,12 +252,12 @@
   &lt;p class="card__title"&gt;Marketing site&lt;/p&gt;
   &lt;p class="card__body-text"&gt;Last deployed 2 hours ago&lt;/p&gt;
 &lt;/button&gt;</code></pre>
-        <p class="story-note">fill.primary (blue.500) — the same brand blue Checkbox/Radio use when checked. border.strong (gray) read as too weak a cue; border.primary (pale blue.200) paired with a gray fill on pressed read muddy — two color languages at once. border.focus moved to blue.600 system-wide so it stays the strongest, most certain state (keyboard focus needs to out-rank mouse hover).</p>
+        <p class="story-note">fill.active (blue.500) — the same brand blue Checkbox/Radio use when checked. border.strong (gray) read as too weak a cue; border.primary (pale blue.200) paired with a gray fill on pressed read muddy — two color languages at once. border.focus moved to blue.600 system-wide so it stays the strongest, most certain state (keyboard focus needs to out-rank mouse hover).</p>
       </div>
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="card card--interactive demo-card" style="background:var(--tok-bg-primary); border-color:var(--tok-fill-primary)">
+        <div class="story-preview"><button class="card card--interactive demo-card" style="background:var(--tok-bg-active); border-color:var(--tok-fill-active)">
       <p class="card__title"><span class="ph-line ph-line--title" style="width:60%"></span></p>
       <p class="card__body-text"><span class="ph-line ph-line--body" style="width:100%"></span><span class="ph-line ph-line--body" style="width:45%"></span></p>
     </button></div>
@@ -270,7 +270,7 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="card card--interactive demo-card" style="outline:4px solid var(--tok-border-focus); outline-offset:2px">
+        <div class="story-preview"><button class="card card--interactive demo-card" style="outline:4px solid var(--tok-outline-active); outline-offset:2px">
       <p class="card__title"><span class="ph-line ph-line--title" style="width:60%"></span></p>
       <p class="card__body-text"><span class="ph-line ph-line--body" style="width:100%"></span><span class="ph-line ph-line--body" style="width:45%"></span></p>
     </button></div>

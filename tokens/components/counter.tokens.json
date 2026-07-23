@@ -56,13 +56,13 @@
         "state": {
           "inactive": {
             "$description": "Seen/zero count — reads as quiet, close to the button's own fill so it doesn't compete for attention. Deliberately fill.primaryActive, NOT fill.primaryHover, so it stays visible instead of disappearing when the parent button is hovered.",
-            "bg": { "$type": "color", "$value": "{fill.primaryActive}" },
+            "bg": { "$type": "color", "$value": "{fill.activePressed}" },
             "label": { "$type": "color", "$value": "{text.onFill}" }
           },
           "active": {
             "$description": "Has a new/meaningful count — inverted to white so it pops off the button's blue fill instead of blending into it.",
             "bg": { "$type": "color", "$value": "{color.white}" },
-            "label": { "$type": "color", "$value": "{text.primary}" }
+            "label": { "$type": "color", "$value": "{text.active}" }
           }
         }
       },
@@ -71,12 +71,12 @@
         "state": {
           "inactive": {
             "$description": "Mirrors onPrimary's logic (one step past the button's own hover shade, so it survives hover without disappearing), but in the gray family: fill.neutralActive, not fill.neutralHover. Dark label — the gray family's light steps need dark text, not white.",
-            "bg": { "$type": "color", "$value": "{fill.neutralActive}" },
+            "bg": { "$type": "color", "$value": "{fill.neutralPressed}" },
             "label": { "$type": "color", "$value": "{text.default}" }
           },
           "active": {
             "$description": "Inverts to the brand blue (fill.primary), not white — gray.100 is already near-white, so a white pill would have almost no contrast against it. Blue pops against gray the same way white pops against blue on onPrimary.",
-            "bg": { "$type": "color", "$value": "{fill.primary}" },
+            "bg": { "$type": "color", "$value": "{fill.active}" },
             "label": { "$type": "color", "$value": "{text.onFill}" }
           }
         }

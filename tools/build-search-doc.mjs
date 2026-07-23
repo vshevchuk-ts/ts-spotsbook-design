@@ -59,8 +59,8 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "surface.sunken", "surface.disabled", "border.default", "border.strong", "border.focus",
-  "text.muted", "text.default", "text.disabled", "icon.default", "icon.disabled",
+  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active",
+  "text.secondary", "text.default", "text.disabled", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -93,15 +93,15 @@ const css = `${rootVars}
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.sunken")};
-  border: 1px solid ${cv("border.default")};
+  background: ${cv("surface.raised")};
+  border: 1px solid ${cv("outline.default")};
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
 .search__clear { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; cursor: pointer; }
-.search__placeholder { color: ${cv("text.muted")}; flex: 1; }
+.search__placeholder { color: ${cv("text.secondary")}; flex: 1; }
 .search__value { color: ${cv("text.default")}; flex: 1; ${typoCss(valueType)} }
 .search__placeholder { ${typoCss(valueType)} }
 
@@ -112,8 +112,8 @@ ${sizes
   )
   .join("\n\n")}
 
-.search:not(.search--disabled):hover, .search--hover { border-color: ${cv("border.strong")}; }
-.search--focus { border-color: ${cv("border.focus")}; }
+.search:not(.search--disabled):hover, .search--hover { border-color: ${cv("outline.strong")}; }
+.search--focus { border-color: ${cv("outline.active")}; }
 .search--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: ${cv("text.disabled")}; }
 .search--disabled .search__icon, .search--disabled .search__clear { color: ${cv("icon.disabled")}; }`;
@@ -144,7 +144,7 @@ function sizeStories() {
 
 const stateDefs = [
   { key: "default", label: "default", value: "", note: "Empty, not focused — placeholder visible." },
-  { key: "hover", label: "hover", value: "", note: "border.strong." },
+  { key: "hover", label: "hover", value: "", note: "outline.strong." },
   { key: "focus", label: "focus", value: "", note: "Placeholder vanishes the instant the field is focused, at every size — no floated label to replace it with, the value area just starts empty." },
   { key: "populated", label: "populated (with clear)", value: "sneakers", note: "Once there's a value, the clear (×) icon appears at the trailing edge — click to empty the field." },
   { key: "disabled", label: "disabled", value: "", note: "surface.disabled equals surface.sunken — same recurring pattern as input/select/secondary-button." },

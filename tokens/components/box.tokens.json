@@ -5,13 +5,13 @@
       "surface": {
         "$description": "Every semantic surface role except disabled (that one's a component-state concept, not a layout choice) — Box is how any of them gets used on a plain container.",
         "page": { "$type": "color", "$value": "{surface.page}" },
-        "default": { "$type": "color", "$value": "{surface.default}" },
-        "sunken": { "$type": "color", "$value": "{surface.sunken}" },
+        "default": { "$type": "color", "$value": "{surface.card}" },
+        "sunken": { "$type": "color", "$value": "{surface.raised}" },
         "overlay": { "$type": "color", "$value": "{surface.overlay}" }
       },
       "border": {
         "$type": "color",
-        "$value": "{border.default}",
+        "$value": "{outline.default}",
         "$description": "Optional hairline — Box's border is on/off, not a role choice (no hover/focus border here, this isn't an interactive field)."
       },
       "padding": {

@@ -63,9 +63,9 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "surface.disabled",
-  "border.default", "border.focus",
-  "fill.primary", "fill.primaryHover", "fill.disabled",
+  "surface.card", "surface.disabled",
+  "outline.default", "outline.active",
+  "fill.active", "fill.activeHover", "fill.disabled",
   "text.default", "text.disabled", "text.secondary",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -96,17 +96,17 @@ const css = `${rootVars}
 
 .radio { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .radio__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.radio__circle { box-sizing: border-box; width: ${circle}; height: ${circle}; border-radius: ${circleRadius}; border: ${borderWidth} solid ${cv("border.default")}; background: ${cv("surface.default")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.radio__circle { box-sizing: border-box; width: ${circle}; height: ${circle}; border-radius: ${circleRadius}; border: ${borderWidth} solid ${cv("outline.default")}; background: ${cv("surface.card")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .radio__dot { width: ${dot}; height: ${dot}; border-radius: ${circleRadius}; background: transparent; }
 .radio__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
-.radio:hover .radio__circle { border-color: ${cv("fill.primary")}; }
-.radio__input:focus-visible ~ .radio__circle { outline: ${ringWidth} solid ${cv("border.focus")}; outline-offset: ${ringOffset}; }
-.radio__input:checked ~ .radio__circle { border-color: ${cv("fill.primary")}; }
-.radio__input:checked ~ .radio__circle .radio__dot { background: ${cv("fill.primary")}; }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: ${cv("fill.primaryHover")}; }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: ${cv("fill.primaryHover")}; }
-.radio__input:disabled ~ .radio__circle { background: ${cv("surface.disabled")}; border-color: ${cv("border.default")}; cursor: not-allowed; }
+.radio:hover .radio__circle { border-color: ${cv("fill.active")}; }
+.radio__input:focus-visible ~ .radio__circle { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.radio__input:checked ~ .radio__circle { border-color: ${cv("fill.active")}; }
+.radio__input:checked ~ .radio__circle .radio__dot { background: ${cv("fill.active")}; }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: ${cv("fill.activeHover")}; }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: ${cv("fill.activeHover")}; }
+.radio__input:disabled ~ .radio__circle { background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
 .radio__input:disabled ~ .radio__label { color: ${cv("text.disabled")}; }
 .radio__input:disabled:checked ~ .radio__circle .radio__dot { background: ${cv("fill.disabled")}; }
 .radio:has(.radio__input:disabled) { cursor: not-allowed; }
@@ -122,12 +122,12 @@ function markup(id, name, { checked = false, disabled = false, hover = false, fo
   let circleStyle = "";
   let dotStyle = "";
   if (focused) {
-    circleStyle = ` style="outline:${ringWidth} solid ${cv("border.focus")}; outline-offset:${ringOffset}"`;
+    circleStyle = ` style="outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}"`;
   } else if (hover && checked) {
-    circleStyle = ` style="border-color:${cv("fill.primaryHover")}"`;
-    dotStyle = ` style="background:${cv("fill.primaryHover")}"`;
+    circleStyle = ` style="border-color:${cv("fill.activeHover")}"`;
+    dotStyle = ` style="background:${cv("fill.activeHover")}"`;
   } else if (hover) {
-    circleStyle = ` style="border-color:${cv("fill.primary")}"`;
+    circleStyle = ` style="border-color:${cv("fill.active")}"`;
   }
   return `<label class="radio">
     <input type="radio" class="radio__input" id="${id}" name="${name}"${attrs} />
@@ -148,10 +148,10 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 
 const stateDefs = [
   { key: "default", label: "default", opts: {}, note: "Unchecked, on surface.default — not filled." },
-  { key: "hover", label: "hover", opts: { hover: true }, note: "fill.primary (blue.500) — border.strong (gray) read as too weak a cue in practice. Real CSS uses :hover on the label; forced here via inline style so it screenshots without a real cursor." },
+  { key: "hover", label: "hover", opts: { hover: true }, note: "fill.active (blue.500) — border.strong (gray) read as too weak a cue in practice. Real CSS uses :hover on the label; forced here via inline style so it screenshots without a real cursor." },
   { key: "focused", label: "focused", opts: { focused: true }, note: "Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style." },
   { key: "checked", label: "checked", opts: { checked: true }, note: "Outline and inner dot both resolve to fill.primary — the circle itself never fills, unlike Checkbox's box." },
-  { key: "checked-hover", label: "checked + hover", opts: { checked: true, hover: true }, note: "fill.primaryHover (blue.600) on both outline and dot — same darken-on-hover Button primary already uses for its own filled background." },
+  { key: "checked-hover", label: "checked + hover", opts: { checked: true, hover: true }, note: "fill.activeHover (blue.600) on both outline and dot — same darken-on-hover Button primary already uses for its own filled background." },
   { key: "disabled", label: "disabled", opts: { disabled: true }, note: "surface.disabled, unlike default which uses surface.default." },
   { key: "disabled-checked", label: "disabled + checked", opts: { disabled: true, checked: true }, note: "Border stays border.default (never fill.primary) while disabled — brand blue never shows on an inert control; dot is fill.disabled." },
 ];

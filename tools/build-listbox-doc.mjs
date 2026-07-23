@@ -65,8 +65,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "surface.sunken", "border.default", "border.focus", "text.default", "text.secondary", "text.disabled", "text.muted", "text.primary",
-  "icon.default", "icon.onFill", "fill.neutral", "fill.neutralHover", "fill.neutralActive", "fill.primary",
+  "surface.card", "surface.raised", "outline.default", "outline.active", "text.default", "text.secondary", "text.disabled", "text.secondary", "text.active",
+  "icon.default", "icon.onFill", "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -118,30 +118,30 @@ const iconSearch = fs.readFileSync(path.join(root, "assets/icons/material-filled
 
 const css = `${rootVars}
 
-.listbox { margin: 0; box-sizing: border-box; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.default")}; border: 1px solid ${cv("border.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; min-width: 220px; }
+.listbox { margin: 0; box-sizing: border-box; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; min-width: 220px; }
 .listbox__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: ${gap}; max-height: ${maxHeight}; overflow: auto; }
 .listbox__option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: ${optionGap}; padding: ${optionPaddingY} ${optionPaddingX}; border: none; background: none; border-radius: ${optionRadius}; cursor: pointer; text-align: left; color: ${cv("text.default")}; font-family: inherit; ${typoCss(labelType)} }
 .listbox__option:hover { background: ${cv("fill.neutralHover")}; }
-.listbox__checkmark { width: ${checkmarkSize}; height: ${checkmarkSize}; margin-left: auto; color: ${cv("fill.primary")}; flex-shrink: 0; }
+.listbox__checkmark { width: ${checkmarkSize}; height: ${checkmarkSize}; margin-left: auto; color: ${cv("fill.active")}; flex-shrink: 0; }
 
 .listbox__cb-option { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: ${optionGap}; padding: ${optionPaddingY} ${optionPaddingX}; border-radius: ${optionRadius}; cursor: pointer; }
 .listbox__cb-option:hover { background: ${cv("fill.neutralHover")}; }
 .listbox__cb-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.listbox__cb-box { box-sizing: border-box; width: ${cbBox}; height: ${cbBox}; border-radius: ${cbRadius}; border: ${cbBorderWidth} solid ${cv("border.default")}; background: ${cv("surface.default")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.listbox__cb-box { box-sizing: border-box; width: ${cbBox}; height: ${cbBox}; border-radius: ${cbRadius}; border: ${cbBorderWidth} solid ${cv("outline.default")}; background: ${cv("surface.card")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .listbox__cb-icon { width: ${px(resolve("spacing.4"))}; height: ${px(resolve("spacing.4"))}; display: none; }
-.listbox__cb-input:checked ~ .listbox__cb-box { background: ${cv("fill.primary")}; border-color: ${cv("fill.primary")}; }
+.listbox__cb-input:checked ~ .listbox__cb-box { background: ${cv("fill.active")}; border-color: ${cv("fill.active")}; }
 .listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: ${cv("icon.onFill")}; }
 .listbox__cb-label { color: ${cv("text.default")}; font-family: inherit; ${typoCss(labelType)} }
 
-.listbox__search-wrap { padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.1"))} ${searchGapBelow}; margin-bottom: ${px(resolve("spacing.0_5"))}; border-bottom: 1px solid ${cv("border.default")}; }
-.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: ${searchHeight}; padding: 0 ${searchPaddingX}; gap: ${searchGap}; border-radius: ${px(resolve("radius.default"))}; background: ${cv("surface.sunken")}; border: 1px solid ${cv("border.default")}; }
+.listbox__search-wrap { padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.1"))} ${searchGapBelow}; margin-bottom: ${px(resolve("spacing.0_5"))}; border-bottom: 1px solid ${cv("outline.default")}; }
+.listbox__search { display: flex; align-items: center; box-sizing: border-box; height: ${searchHeight}; padding: 0 ${searchPaddingX}; gap: ${searchGap}; border-radius: ${px(resolve("radius.default"))}; background: ${cv("surface.raised")}; border: 1px solid ${cv("outline.default")}; }
 .listbox__search-icon { width: ${searchIconSize}; height: ${searchIconSize}; color: ${cv("icon.default")}; flex-shrink: 0; }
 .listbox__search input { border: none; background: none; outline: none; width: 100%; color: ${cv("text.default")}; font-family: inherit; ${typoCss(searchValueType)} }
-.listbox__search input::placeholder { color: ${cv("text.muted")}; }
+.listbox__search input::placeholder { color: ${cv("text.secondary")}; }
 
 .listbox__select-all { display: flex; align-items: center; justify-content: space-between; gap: ${px(resolve("spacing.2"))}; padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.2"))}; }
 .listbox__select-all-label { color: ${cv("text.secondary")}; margin: 0; ${typoCss(selectAllLabelType)} }
-.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: ${cv("text.primary")}; ${linkCss(clearActionType, clearActionDecoration)} }`;
+.listbox__clear { border: none; background: none; padding: 0; cursor: pointer; color: ${cv("text.active")}; ${linkCss(clearActionType, clearActionDecoration)} }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
@@ -297,8 +297,8 @@ const html = `<!doctype html>
   .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: var(--sans); ${typoCss(resolveToken(get("text-style.heading-base")))} }
   .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
   .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
-  .ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
-  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+  .ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
+  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

@@ -71,16 +71,16 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-border-danger: #F90643;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-outline-negative: #F90643;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
@@ -90,18 +90,18 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: pointer;
 }
 .select__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
-.select__placeholder { color: var(--tok-text-muted); }
+.select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
-.select__label { color: var(--tok-text-muted); }
+.select__label { color: var(--tok-text-secondary); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }
@@ -119,13 +119,13 @@
 .select--lg .select__stack { gap: 4px; }
 .select--lg .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
 
-.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-border-strong); }
-.select--focus { border-color: var(--tok-border-focus); }
-.select--focus .select__label { color: var(--tok-text-primary); }
+.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-outline-strong); }
+.select--focus { border-color: var(--tok-outline-active); }
+.select--focus .select__label { color: var(--tok-text-active); }
 .select--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
 .select--disabled .select__icon, .select--disabled .select__chevron { color: var(--tok-icon-disabled); }
-.select--error { border-color: var(--tok-border-danger); }
+.select--error { border-color: var(--tok-outline-negative); }
 </style>
 </head>
 <body>
@@ -180,16 +180,16 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">Same structure as Input's stylesheet, plus <code class="tok">.select__chevron</code> — always rendered, pushed to the trailing edge.</p>
     <pre class="code"><code>:root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-border-danger: #F90643;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-outline-negative: #F90643;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
@@ -199,18 +199,18 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: pointer;
 }
 .select__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
-.select__placeholder { color: var(--tok-text-muted); }
+.select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
-.select__label { color: var(--tok-text-muted); }
+.select__label { color: var(--tok-text-secondary); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }
@@ -228,13 +228,13 @@
 .select--lg .select__stack { gap: 4px; }
 .select--lg .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
 
-.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-border-strong); }
-.select--focus { border-color: var(--tok-border-focus); }
-.select--focus .select__label { color: var(--tok-text-primary); }
+.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-outline-strong); }
+.select--focus { border-color: var(--tok-outline-active); }
+.select--focus .select__label { color: var(--tok-text-active); }
 .select--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
 .select--disabled .select__icon, .select--disabled .select__chevron { color: var(--tok-icon-disabled); }
-.select--error { border-color: var(--tok-border-danger); }</code></pre>
+.select--error { border-color: var(--tok-outline-negative); }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
     <p class="section-desc">sm shows the resting layout. base/lg shown populated.</p>
@@ -296,7 +296,7 @@
         <h3>hover</h3>
         <div class="story-preview"><div class="select select--base select--hover"><span class="select__placeholder">Country</span><svg class="select__chevron" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg></div></div>
         <pre class="code"><code>&lt;div class="select select--base select--hover"&gt;&lt;span class="select__placeholder"&gt;Country&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">border.strong.</p>
+        <p class="story-note">outline.strong.</p>
       </div>
 
       <div class="story">

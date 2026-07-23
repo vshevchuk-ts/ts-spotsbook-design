@@ -63,8 +63,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "surface.overlay", "border.default", "border.focus", "text.default", "text.secondary", "text.onFill", "icon.secondary",
-  "fill.neutral", "fill.neutralHover", "fill.neutralActive", "fill.danger", "fill.dangerHover",
+  "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "text.onFill", "icon.secondary",
+  "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.negative", "fill.negativeHover",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -89,7 +89,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-dialog.modal { margin: auto; padding: 0; border: none; box-sizing: border-box; width: ${width}; max-width: 90vw; max-height: 85dvh; border-radius: ${radius}; background: ${cv("surface.default")}; box-shadow: ${shadowCss};
+dialog.modal { margin: auto; padding: 0; border: none; box-sizing: border-box; width: ${width}; max-width: 90vw; max-height: 85dvh; border-radius: ${radius}; background: ${cv("surface.card")}; box-shadow: ${shadowCss};
   opacity: 0; transform: scale(0.96); transition: opacity ${dur} ease, transform ${dur} ease, overlay ${dur} allow-discrete, display ${dur} allow-discrete; }
 dialog.modal[open] { opacity: 1; transform: scale(1); }
 @starting-style { dialog.modal[open] { opacity: 0; transform: scale(0.96); } }
@@ -98,25 +98,25 @@ dialog.modal[open]::backdrop { opacity: 1; }
 @starting-style { dialog.modal[open]::backdrop { opacity: 0; } }
 
 .modal__content { display: flex; flex-direction: column; max-height: 85dvh; box-sizing: border-box; font-family: ${cv("family.sans")}; }
-.modal__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: ${gap}; padding: ${padding}; border-bottom: 1px solid ${cv("border.default")}; }
+.modal__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: ${gap}; padding: ${padding}; border-bottom: 1px solid ${cv("outline.default")}; }
 .modal__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
 .modal__body { flex: 1; box-sizing: border-box; overflow: auto; padding: ${padding}; }
 .modal__body-text { margin: 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
-.modal__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("border.default")}; }
+.modal__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("outline.default")}; }
 
 .modal__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .modal__close:hover { background: ${cv("fill.neutralHover")}; }
-.modal__close:active { background: ${cv("fill.neutralActive")}; }
-.modal__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+.modal__close:active { background: ${cv("fill.neutralPressed")}; }
+.modal__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .modal__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: ${cv("family.sans")}; ${typoCss(resolveToken(get("text-style.heading-base")))} }
 .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
 .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
-.ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
-.ov-btn--danger { background: ${cv("fill.danger")}; color: ${cv("text.onFill")}; font-weight: 600; }
-.ov-btn--danger:hover { background: ${cv("fill.dangerHover")}; }
-.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
+.ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
+.ov-btn--danger { background: ${cv("fill.negative")}; color: ${cv("text.onFill")}; font-weight: 600; }
+.ov-btn--danger:hover { background: ${cv("fill.negativeHover")}; }
+.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `

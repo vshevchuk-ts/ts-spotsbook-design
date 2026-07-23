@@ -65,7 +65,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.default", "border.default", "border.focus", "text.default", "text.secondary", "icon.secondary", "fill.neutralHover", "fill.neutralActive"];
+const colorPaths = ["surface.card", "outline.default", "outline.active", "text.default", "text.secondary", "icon.secondary", "fill.neutralHover", "fill.neutralPressed"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -86,14 +86,14 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.default")}; border: 1px solid ${cv("border.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; }
+.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; }
 .popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: ${px(resolve("spacing.2"))}; }
 .popover__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
 .popover__body { margin: 8px 0 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .popover__close:hover { background: ${cv("fill.neutralHover")}; }
-.popover__close:active { background: ${cv("fill.neutralActive")}; }
-.popover__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+.popover__close:active { background: ${cv("fill.neutralPressed")}; }
+.popover__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .popover__close-icon { width: 18px; height: 18px; display: block; }
 .popover__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .popover__menu-item { border: none; background: none; text-align: left; width: 100%; padding: 8px; border-radius: 6px; cursor: pointer; color: ${cv("text.default")}; font-family: inherit; ${typoCss(bodyType)} }
@@ -222,7 +222,7 @@ const html = `<!doctype html>
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid ${cv("border.default")}; background: ${cv("surface.default")}; color: ${cv("text.default")}; cursor: pointer; }
+  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid ${cv("outline.default")}; background: ${cv("surface.card")}; color: ${cv("text.default")}; cursor: pointer; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

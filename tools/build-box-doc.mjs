@@ -62,7 +62,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.page", "surface.default", "surface.sunken", "surface.overlay", "border.default", "text.secondary"];
+const colorPaths = ["surface.page", "surface.card", "surface.raised", "surface.overlay", "outline.default", "text.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -82,10 +82,10 @@ function resolveRadiusPx(ref) {
 const css = `${rootVars}
 
 .box { box-sizing: border-box; }
-.box--border { border: 1px solid ${cv("border.default")}; }
+.box--border { border: 1px solid ${cv("outline.default")}; }
 .box--page { background: ${cv("surface.page")}; }
-.box--default { background: ${cv("surface.default")}; }
-.box--sunken { background: ${cv("surface.sunken")}; }
+.box--default { background: ${cv("surface.card")}; }
+.box--sunken { background: ${cv("surface.raised")}; }
 .box--overlay { background: ${cv("surface.overlay")}; }
 .box--padding-none { padding: ${paddingValue.none}; }
 .box--padding-xs { padding: ${paddingValue.xs}; }
@@ -105,8 +105,8 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 
 const surfaceDefs = [
   { key: "page", label: "surface.page", note: "The page background itself — a Box in this role only reads as a container once nested inside something with a different surface." },
-  { key: "default", label: "surface.default", note: "The ordinary card/panel background." },
-  { key: "sunken", label: "surface.sunken", note: "Recessed — same role Input/Select/Search use for their own field background." },
+  { key: "default", label: "surface.card", note: "The ordinary card/panel background." },
+  { key: "sunken", label: "surface.raised", note: "Recessed — same role Input/Select/Search use for their own field background." },
   { key: "overlay", label: "surface.overlay", note: "Modal/drawer backdrop surface — includes its own alpha, per the semantic layer's own token." },
 ];
 function surfaceStories() {

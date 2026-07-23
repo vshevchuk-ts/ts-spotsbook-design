@@ -70,29 +70,29 @@
   .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
   .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
   .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
-  .ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
-  .ov-btn:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+  .ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
+  .ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-danger: #F90643;
+  --tok-text-negative: #F90643;
   --tok-icon-secondary: #8E929F;
   --tok-icon-disabled: #8E929F;
-  --tok-icon-danger: #F90643;
+  --tok-icon-negative: #F90643;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-bg-danger: rgba(249, 6, 67, 0.12);
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
+.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
 .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .menu__item { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .menu__item:hover { background: var(--tok-fill-neutral-hover); }
@@ -100,10 +100,10 @@
 .menu__item:disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .menu__item:disabled:hover { background: none; }
 .menu__item:disabled .menu__icon { color: var(--tok-icon-disabled); }
-.menu__item--destructive { color: var(--tok-text-danger); }
-.menu__item--destructive .menu__icon { color: var(--tok-icon-danger); }
-.menu__item--destructive:hover { background: var(--tok-bg-danger); }
-.menu__divider { height: 1px; background: var(--tok-border-default); margin: 2px 0px; }
+.menu__item--destructive { color: var(--tok-text-negative); }
+.menu__item--destructive .menu__icon { color: var(--tok-icon-negative); }
+.menu__item--destructive:hover { background: var(--tok-bg-negative); }
+.menu__divider { height: 1px; background: var(--tok-outline-default); margin: 2px 0px; }
 </style>
 </head>
 <body>
@@ -157,23 +157,23 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-danger: #F90643;
+  --tok-text-negative: #F90643;
   --tok-icon-secondary: #8E929F;
   --tok-icon-disabled: #8E929F;
-  --tok-icon-danger: #F90643;
+  --tok-icon-negative: #F90643;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-bg-danger: rgba(249, 6, 67, 0.12);
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
+.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
 .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .menu__item { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .menu__item:hover { background: var(--tok-fill-neutral-hover); }
@@ -181,10 +181,10 @@
 .menu__item:disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .menu__item:disabled:hover { background: none; }
 .menu__item:disabled .menu__icon { color: var(--tok-icon-disabled); }
-.menu__item--destructive { color: var(--tok-text-danger); }
-.menu__item--destructive .menu__icon { color: var(--tok-icon-danger); }
-.menu__item--destructive:hover { background: var(--tok-bg-danger); }
-.menu__divider { height: 1px; background: var(--tok-border-default); margin: 2px 0px; }</code></pre>
+.menu__item--destructive { color: var(--tok-text-negative); }
+.menu__item--destructive .menu__icon { color: var(--tok-icon-negative); }
+.menu__item--destructive:hover { background: var(--tok-bg-negative); }
+.menu__divider { height: 1px; background: var(--tok-outline-default); margin: 2px 0px; }</code></pre>
 
     <h2 class="big-section">Positioning script</h2>
     <p class="section-desc">Identical to Popover's — same native popover attribute, same reasoning.</p>

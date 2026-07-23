@@ -70,24 +70,24 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
+  --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-secondary: #8E929F;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
-  --tok-fill-primary-active: #FB8C33;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-card); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
 dialog.drawer::backdrop { background: var(--tok-surface-overlay); opacity: 0; transition: opacity 250ms ease allow-discrete; }
 dialog.drawer[open]::backdrop { opacity: 1; }
 @starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
@@ -101,26 +101,26 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-border-default); }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-outline-default); }
 .drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
-.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-border-default); }
+.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
 
 .drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
-.drawer__close:active { background: var(--tok-fill-neutral-active); }
-.drawer__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.drawer__close:active { background: var(--tok-fill-neutral-pressed); }
+.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
-.ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
-.ov-btn--primary { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); font-weight: 600; }
-.ov-btn--primary:hover { background: var(--tok-fill-primary-hover); }
-.ov-btn--primary:active { background: var(--tok-fill-primary-active); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
+.ov-btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); font-weight: 600; }
+.ov-btn--primary:hover { background: var(--tok-fill-active-hover); }
+.ov-btn--primary:active { background: var(--tok-fill-active-pressed); }
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -177,24 +177,24 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
+  --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-secondary: #8E929F;
   --tok-fill-neutral: #282E3E;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-neutral-active: #282E3E;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
-  --tok-fill-primary-active: #FB8C33;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-card); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
 dialog.drawer::backdrop { background: var(--tok-surface-overlay); opacity: 0; transition: opacity 250ms ease allow-discrete; }
 dialog.drawer[open]::backdrop { opacity: 1; }
 @starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
@@ -208,26 +208,26 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-border-default); }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-outline-default); }
 .drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
-.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-border-default); }
+.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
 
 .drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
-.drawer__close:active { background: var(--tok-fill-neutral-active); }
-.drawer__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
+.drawer__close:active { background: var(--tok-fill-neutral-pressed); }
+.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
-.ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
-.ov-btn--primary { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); font-weight: 600; }
-.ov-btn--primary:hover { background: var(--tok-fill-primary-hover); }
-.ov-btn--primary:active { background: var(--tok-fill-primary-active); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }</code></pre>
+.ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
+.ov-btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); font-weight: 600; }
+.ov-btn--primary:hover { background: var(--tok-fill-active-hover); }
+.ov-btn--primary:active { background: var(--tok-fill-active-pressed); }
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }</code></pre>
 
     <h2 class="big-section">Open script</h2>
     <p class="section-desc">&lt;dialog&gt; has no declarative "open" attribute equivalent to Popover's popovertarget, so a tiny script calls showModal(). Focus-trap, Escape-to-close, and ::backdrop are native — click-outside is not (see below).</p>

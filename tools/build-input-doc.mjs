@@ -61,8 +61,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "surface.sunken", "surface.disabled", "border.default", "border.strong", "border.focus", "border.danger",
-  "text.muted", "text.default", "text.disabled", "text.primary", "icon.default", "icon.disabled",
+  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
+  "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -101,17 +101,17 @@ const css = `${rootVars}
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.sunken")};
-  border: 1px solid ${cv("border.default")};
+  background: ${cv("surface.raised")};
+  border: 1px solid ${cv("outline.default")};
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: text;
 }
 .input__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
-.input__placeholder { color: ${cv("text.muted")}; }
+.input__placeholder { color: ${cv("text.secondary")}; }
 .input__value { color: ${cv("text.default")}; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
-.input__label { color: ${cv("text.muted")}; }
+.input__label { color: ${cv("text.secondary")}; }
 
 ${sizes
   .map((s) => {
@@ -128,13 +128,13 @@ ${sizes
   })
   .join("\n\n")}
 
-.input:not(.input--disabled):hover, .input--hover { border-color: ${cv("border.strong")}; }
-.input--focus { border-color: ${cv("border.focus")}; }
-.input--focus .input__label { color: ${cv("text.primary")}; }
+.input:not(.input--disabled):hover, .input--hover { border-color: ${cv("outline.strong")}; }
+.input--focus { border-color: ${cv("outline.active")}; }
+.input--focus .input__label { color: ${cv("text.active")}; }
 .input--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: ${cv("text.disabled")}; }
 .input--disabled .input__icon { color: ${cv("icon.disabled")}; }
-.input--error { border-color: ${cv("border.danger")}; }`;
+.input--error { border-color: ${cv("outline.negative")}; }`;
 
 // ---- markup builders ----
 function restingMarkup(size, { icon = false, placeholder = "Email address", live = true } = {}) {
@@ -179,7 +179,7 @@ function contentStories() {
 
 const stateDefs = [
   { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — placeholder centered at value size (16px), no floated label yet." },
-  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "border.strong — same rule already documented on that token before this component existed." },
+  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "outline.strong — same rule already documented on that token before this component existed." },
   { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="input input--base"', 'class="input input--base input--focus"'), note: "Placeholder already floated into the label the instant the field is focused — value area starts empty, ready to type." },
   { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { value: "name@example.com", live }), note: "Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default." },
   { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--disabled"'), note: "surface.disabled equals surface.sunken (both gray.100) — same pattern as the secondary button's disabled state. Only text/icon fade." },

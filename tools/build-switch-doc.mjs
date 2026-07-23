@@ -62,8 +62,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "border.default", "border.strong", "border.focus",
-  "fill.primary", "fill.primaryHover", "fill.disabled",
+  "surface.card", "outline.default", "outline.strong", "outline.active",
+  "fill.active", "fill.activeHover", "fill.disabled",
   "text.default", "text.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -90,15 +90,15 @@ const css = `${rootVars}
 
 .switch { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: ${px(trackWidth)}; height: ${px(trackHeight)}; border-radius: ${radius}; background: ${cv("border.default")}; }
-.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cv("surface.default")}; transform: translateX(0); }
+.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: ${px(trackWidth)}; height: ${px(trackHeight)}; border-radius: ${radius}; background: ${cv("outline.default")}; }
+.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cv("surface.card")}; transform: translateX(0); }
 .switch__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
-.switch:hover .switch__track { background: ${cv("border.strong")}; }
-.switch__input:focus-visible ~ .switch__track { outline: ${ringWidth} solid ${cv("border.focus")}; outline-offset: ${ringOffset}; }
-.switch__input:checked ~ .switch__track { background: ${cv("fill.primary")}; }
+.switch:hover .switch__track { background: ${cv("outline.strong")}; }
+.switch__input:focus-visible ~ .switch__track { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.switch__input:checked ~ .switch__track { background: ${cv("fill.active")}; }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(${travel}px); }
-.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: ${cv("fill.primaryHover")}; }
+.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: ${cv("fill.activeHover")}; }
 .switch__input:disabled ~ .switch__track { background: ${cv("fill.disabled")}; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: ${cv("text.disabled")}; }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }`;
@@ -106,9 +106,9 @@ const css = `${rootVars}
 function markup(id, { checked = false, disabled = false, hover = false, focused = false } = {}) {
   const attrs = [checked ? " checked" : "", disabled ? " disabled" : ""].join("");
   let trackStyle = "";
-  if (focused) trackStyle = ` style="outline:${ringWidth} solid ${cv("border.focus")}; outline-offset:${ringOffset}"`;
-  else if (hover && checked) trackStyle = ` style="background:${cv("fill.primaryHover")}"`;
-  else if (hover) trackStyle = ` style="background:${cv("border.strong")}"`;
+  if (focused) trackStyle = ` style="outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}"`;
+  else if (hover && checked) trackStyle = ` style="background:${cv("fill.activeHover")}"`;
+  else if (hover) trackStyle = ` style="background:${cv("outline.strong")}"`;
   const thumbStyle = checked ? ` style="transform:translateX(${travel}px)"` : "";
   return `<label class="switch">
     <input type="checkbox" class="switch__input" id="${id}"${attrs} />
@@ -129,10 +129,10 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 
 const stateDefs = [
   { key: "default", label: "default", opts: {}, note: "Off, at rest — border.default as a solid track fill, not an outline." },
-  { key: "hover", label: "hover", opts: { hover: true }, note: "border.strong — a plain gray-darken reads fine here since the track is already a sizeable filled area, unlike Checkbox/Radio's hairline border." },
+  { key: "hover", label: "hover", opts: { hover: true }, note: "outline.strong — a plain gray-darken reads fine here since the track is already a sizeable filled area, unlike Checkbox/Radio's hairline border." },
   { key: "focused", label: "focused", opts: { focused: true }, note: "Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style." },
   { key: "checked", label: "checked", opts: { checked: true }, note: "Track fills fill.primary (blue.500), thumb slides right via transform." },
-  { key: "checked-hover", label: "checked + hover", opts: { checked: true, hover: true }, note: "fill.primaryHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover use." },
+  { key: "checked-hover", label: "checked + hover", opts: { checked: true, hover: true }, note: "fill.activeHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover use." },
   { key: "disabled", label: "disabled", opts: { disabled: true }, note: "fill.disabled — same pair Button secondary/Input/Checkbox already use for their own disabled states." },
   { key: "disabled-checked", label: "disabled + checked", opts: { disabled: true, checked: true }, note: "Same fill.disabled regardless of checked — brand blue never shows on an inert control. Thumb still slides right (position follows :checked independently of :disabled)." },
 ];

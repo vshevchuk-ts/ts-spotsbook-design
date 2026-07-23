@@ -3,11 +3,11 @@
     "card": {
       "$description": "One fixed combination for grouping content — surface.default fill + border.default hairline + radius.default, no shadow/elevation token (the whole system so far — Input/Select/Search's own fill+border convention, the flat Linear/Stripe-Dashboard/Notion aesthetic typography.tokens.json's own $description names as the reference — draws separation with a border, never a drop shadow; introducing a shadow primitive for one component would be new token surface for no real need). Built on top of Box's surface/border/padding roles, not a re-export of them — Card picks one specific combination, Box stays the flexible primitive underneath.",
       "radius": { "$type": "dimension", "$value": "{radius.default}", "$description": "8px — 'go-to radius for ordinary controls (buttons, inputs, cards)' per radius's own legend, not a new named size." },
-      "bg": { "$type": "color", "$value": "{surface.default}" },
-      "border": { "$type": "color", "$value": "{border.default}" },
+      "bg": { "$type": "color", "$value": "{surface.card}" },
+      "border": { "$type": "color", "$value": "{outline.default}" },
       "padding": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px — same 'card/input padding' dim.4 step Box exposes." },
       "gap": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px between header/body/footer sections when more than one is present." },
-      "divider": { "$type": "color", "$value": "{border.default}", "$description": "Header/footer separators are the same border.default hairline as the card's own edge — not Separator's full component (track/label variants aren't relevant here), just its resolved color role." },
+      "divider": { "$type": "color", "$value": "{outline.default}", "$description": "Header/footer separators are the same border.default hairline as the card's own edge — not Separator's full component (track/label variants aren't relevant here), just its resolved color role." },
       "title": { "$type": "typography", "$value": "{text-style.heading-base}" },
       "titleColor": { "$type": "color", "$value": "{text.default}" },
       "body": { "$type": "typography", "$value": "{text-style.body-base}" },
@@ -15,13 +15,13 @@
       "interactive": {
         "$description": "Opt-in variant for a card that's itself a click target (e.g. a nav/summary card). Deliberately NOT the Button-ghost/Pagination/Tabs fill.neutralHover→fill.neutralActive progression — those tokens are calibrated for a small icon/pill-sized area; the same hex filling an entire card (a much larger surface) reads far more intensely, closer to a flat gray block than a subtle hover cue. Border tried border.strong (gray, too weak a cue) then border.primary (pale blue.200, but paired with a gray fill on pressed it read muddy — two different color languages at once). Settled on fill.primary (blue.500, the same brand blue Checkbox/Radio use when checked) for both hover and pressed borders, with bg.primary (blue.100, a passive-surface tint — same family used for banners/badges) as the pressed-only fill, keeping everything in one blue family instead of mixing gray+blue. border.focus moved to blue.600 (2026-07-21, system-wide) specifically so it stays clearly stronger than this hover/pressed blue.500 — keyboard focus needs to remain the most prominent state, even though hover is more common with a mouse. No shadow — stays consistent with the rest of the system's border-only separation. Doesn't touch fill.neutralHover/fill.neutralActive themselves — Button ghost/Pagination/Tabs keep using them unchanged.",
         "state": {
-          "hover": { "border": { "$type": "color", "$value": "{fill.primary}" } },
+          "hover": { "border": { "$type": "color", "$value": "{fill.active}" } },
           "pressed": {
-            "bg": { "$type": "color", "$value": "{bg.primary}" },
-            "border": { "$type": "color", "$value": "{fill.primary}" }
+            "bg": { "$type": "color", "$value": "{bg.active}" },
+            "border": { "$type": "color", "$value": "{fill.active}" }
           },
           "focused": {
-            "ringColor": { "$type": "color", "$value": "{border.focus}" },
+            "ringColor": { "$type": "color", "$value": "{outline.active}" },
             "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
             "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" }
           }

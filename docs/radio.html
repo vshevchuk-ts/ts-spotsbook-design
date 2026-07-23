@@ -70,12 +70,12 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #1C202B;
+  --tok-surface-card: #1C202B;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -85,17 +85,17 @@
 
 .radio { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .radio__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.radio__circle { box-sizing: border-box; width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--tok-border-default); background: var(--tok-surface-default); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.radio__circle { box-sizing: border-box; width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--tok-outline-default); background: var(--tok-surface-card); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .radio__dot { width: 8px; height: 8px; border-radius: 999px; background: transparent; }
 .radio__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.radio:hover .radio__circle { border-color: var(--tok-fill-primary); }
-.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
-.radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-primary); }
-.radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-primary); }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-primary-hover); }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: var(--tok-fill-primary-hover); }
-.radio__input:disabled ~ .radio__circle { background: var(--tok-surface-disabled); border-color: var(--tok-border-default); cursor: not-allowed; }
+.radio:hover .radio__circle { border-color: var(--tok-fill-active); }
+.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-active); }
+.radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-active); }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-active-hover); }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: var(--tok-fill-active-hover); }
+.radio__input:disabled ~ .radio__circle { background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .radio__input:disabled ~ .radio__label { color: var(--tok-text-disabled); }
 .radio__input:disabled:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-disabled); }
 .radio:has(.radio__input:disabled) { cursor: not-allowed; }
@@ -158,12 +158,12 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #1C202B;
+  --tok-surface-card: #1C202B;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-focus: #FB8C33;
-  --tok-fill-primary: #FB8C33;
-  --tok-fill-primary-hover: #FB8C33;
+  --tok-outline-default: #282E3E;
+  --tok-outline-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -173,17 +173,17 @@
 
 .radio { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .radio__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.radio__circle { box-sizing: border-box; width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--tok-border-default); background: var(--tok-surface-default); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.radio__circle { box-sizing: border-box; width: 20px; height: 20px; border-radius: 999px; border: 2px solid var(--tok-outline-default); background: var(--tok-surface-card); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .radio__dot { width: 8px; height: 8px; border-radius: 999px; background: transparent; }
 .radio__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.radio:hover .radio__circle { border-color: var(--tok-fill-primary); }
-.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
-.radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-primary); }
-.radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-primary); }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-primary-hover); }
-.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: var(--tok-fill-primary-hover); }
-.radio__input:disabled ~ .radio__circle { background: var(--tok-surface-disabled); border-color: var(--tok-border-default); cursor: not-allowed; }
+.radio:hover .radio__circle { border-color: var(--tok-fill-active); }
+.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-active); }
+.radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-active); }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-active-hover); }
+.radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle .radio__dot { background: var(--tok-fill-active-hover); }
+.radio__input:disabled ~ .radio__circle { background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .radio__input:disabled ~ .radio__label { color: var(--tok-text-disabled); }
 .radio__input:disabled:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-disabled); }
 .radio:has(.radio__input:disabled) { cursor: not-allowed; }
@@ -217,27 +217,27 @@
         <h3>hover</h3>
         <div class="story-preview"><label class="radio">
     <input type="radio" class="radio__input" id="r-state-1" name="state-demo-1" />
-    <span class="radio__circle" style="border-color:var(--tok-fill-primary)"><span class="radio__dot"></span></span>
+    <span class="radio__circle" style="border-color:var(--tok-fill-active)"><span class="radio__dot"></span></span>
     <span class="radio__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="radio"&gt;
     &lt;input type="radio" class="radio__input" id="r-state-1" name="state-demo-1" /&gt;
-    &lt;span class="radio__circle" style="border-color:var(--tok-fill-primary)"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="radio__circle" style="border-color:var(--tok-fill-active)"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="radio__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">fill.primary (blue.500) — border.strong (gray) read as too weak a cue in practice. Real CSS uses :hover on the label; forced here via inline style so it screenshots without a real cursor.</p>
+        <p class="story-note">fill.active (blue.500) — border.strong (gray) read as too weak a cue in practice. Real CSS uses :hover on the label; forced here via inline style so it screenshots without a real cursor.</p>
       </div>
 
       <div class="story">
         <h3>focused</h3>
         <div class="story-preview"><label class="radio">
     <input type="radio" class="radio__input" id="r-state-2" name="state-demo-2" />
-    <span class="radio__circle" style="outline:4px solid var(--tok-border-focus); outline-offset:2px"><span class="radio__dot"></span></span>
+    <span class="radio__circle" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="radio__dot"></span></span>
     <span class="radio__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="radio"&gt;
     &lt;input type="radio" class="radio__input" id="r-state-2" name="state-demo-2" /&gt;
-    &lt;span class="radio__circle" style="outline:4px solid var(--tok-border-focus); outline-offset:2px"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="radio__circle" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="radio__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
         <p class="story-note">Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style.</p>
@@ -262,15 +262,15 @@
         <h3>checked + hover</h3>
         <div class="story-preview"><label class="radio">
     <input type="radio" class="radio__input" id="r-state-4" name="state-demo-4" checked />
-    <span class="radio__circle" style="border-color:var(--tok-fill-primary-hover)"><span class="radio__dot" style="background:var(--tok-fill-primary-hover)"></span></span>
+    <span class="radio__circle" style="border-color:var(--tok-fill-active-hover)"><span class="radio__dot" style="background:var(--tok-fill-active-hover)"></span></span>
     <span class="radio__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="radio"&gt;
     &lt;input type="radio" class="radio__input" id="r-state-4" name="state-demo-4" checked /&gt;
-    &lt;span class="radio__circle" style="border-color:var(--tok-fill-primary-hover)"&gt;&lt;span class="radio__dot" style="background:var(--tok-fill-primary-hover)"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="radio__circle" style="border-color:var(--tok-fill-active-hover)"&gt;&lt;span class="radio__dot" style="background:var(--tok-fill-active-hover)"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="radio__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">fill.primaryHover (blue.600) on both outline and dot — same darken-on-hover Button primary already uses for its own filled background.</p>
+        <p class="story-note">fill.activeHover (blue.600) on both outline and dot — same darken-on-hover Button primary already uses for its own filled background.</p>
       </div>
 
       <div class="story">

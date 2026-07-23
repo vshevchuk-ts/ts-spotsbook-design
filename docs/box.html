@@ -79,19 +79,19 @@
 
   :root {
   --tok-surface-page: #11141C;
-  --tok-surface-default: #1C202B;
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
-  --tok-border-default: #282E3E;
+  --tok-outline-default: #282E3E;
   --tok-text-secondary: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .box { box-sizing: border-box; }
-.box--border { border: 1px solid var(--tok-border-default); }
+.box--border { border: 1px solid var(--tok-outline-default); }
 .box--page { background: var(--tok-surface-page); }
-.box--default { background: var(--tok-surface-default); }
-.box--sunken { background: var(--tok-surface-sunken); }
+.box--default { background: var(--tok-surface-card); }
+.box--sunken { background: var(--tok-surface-raised); }
 .box--overlay { background: var(--tok-surface-overlay); }
 .box--padding-none { padding: 0px; }
 .box--padding-xs { padding: 8px; }
@@ -153,19 +153,19 @@
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
   --tok-surface-page: #11141C;
-  --tok-surface-default: #1C202B;
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
-  --tok-border-default: #282E3E;
+  --tok-outline-default: #282E3E;
   --tok-text-secondary: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .box { box-sizing: border-box; }
-.box--border { border: 1px solid var(--tok-border-default); }
+.box--border { border: 1px solid var(--tok-outline-default); }
 .box--page { background: var(--tok-surface-page); }
-.box--default { background: var(--tok-surface-default); }
-.box--sunken { background: var(--tok-surface-sunken); }
+.box--default { background: var(--tok-surface-card); }
+.box--sunken { background: var(--tok-surface-raised); }
 .box--overlay { background: var(--tok-surface-overlay); }
 .box--padding-none { padding: 0px; }
 .box--padding-xs { padding: 8px; }
@@ -185,14 +185,14 @@
       </div>
 
       <div class="story">
-        <h3>surface.default</h3>
+        <h3>surface.card</h3>
         <div class="story-preview"><div class="box box--default box--border box--padding-md demo-box">Box</div></div>
         <pre class="code"><code>&lt;div class="box box--default box--border box--padding-md"&gt;…&lt;/div&gt;</code></pre>
         <p class="story-note">The ordinary card/panel background.</p>
       </div>
 
       <div class="story">
-        <h3>surface.sunken</h3>
+        <h3>surface.raised</h3>
         <div class="story-preview"><div class="box box--sunken box--border box--padding-md demo-box">Box</div></div>
         <pre class="code"><code>&lt;div class="box box--sunken box--border box--padding-md"&gt;…&lt;/div&gt;</code></pre>
         <p class="story-note">Recessed — same role Input/Select/Search use for their own field background.</p>

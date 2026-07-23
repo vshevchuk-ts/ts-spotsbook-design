@@ -63,8 +63,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "border.default", "border.focus", "text.default", "text.disabled", "text.danger",
-  "icon.secondary", "icon.disabled", "icon.danger", "fill.neutral", "fill.neutralHover", "fill.neutralActive", "bg.danger",
+  "surface.card", "outline.default", "outline.active", "text.default", "text.disabled", "text.negative",
+  "icon.secondary", "icon.disabled", "icon.negative", "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "bg.negative",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -93,7 +93,7 @@ const iconDelete = iconFile("delete");
 
 const css = `${rootVars}
 
-.menu { margin: 0; box-sizing: border-box; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.default")}; border: 1px solid ${cv("border.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; min-width: 180px; }
+.menu { margin: 0; box-sizing: border-box; padding: ${padding}; border-radius: ${radius}; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; box-shadow: ${shadowCss}; font-family: ${cv("family.sans")}; min-width: 180px; }
 .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: ${gap}; }
 .menu__item { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: ${itemGap}; padding: ${itemPaddingY} ${itemPaddingX}; border: none; background: none; border-radius: ${itemRadius}; cursor: pointer; text-align: left; color: ${cv("text.default")}; font-family: inherit; ${typoCss(labelType)} }
 .menu__item:hover { background: ${cv("fill.neutralHover")}; }
@@ -101,10 +101,10 @@ const css = `${rootVars}
 .menu__item:disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .menu__item:disabled:hover { background: none; }
 .menu__item:disabled .menu__icon { color: ${cv("icon.disabled")}; }
-.menu__item--destructive { color: ${cv("text.danger")}; }
-.menu__item--destructive .menu__icon { color: ${cv("icon.danger")}; }
-.menu__item--destructive:hover { background: ${cv("bg.danger")}; }
-.menu__divider { height: 1px; background: ${cv("border.default")}; margin: ${px(resolve("spacing.0_5"))} ${px(resolve("spacing.0"))}; }`;
+.menu__item--destructive { color: ${cv("text.negative")}; }
+.menu__item--destructive .menu__icon { color: ${cv("icon.negative")}; }
+.menu__item--destructive:hover { background: ${cv("bg.negative")}; }
+.menu__divider { height: 1px; background: ${cv("outline.default")}; margin: ${px(resolve("spacing.0_5"))} ${px(resolve("spacing.0"))}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
@@ -245,8 +245,8 @@ const html = `<!doctype html>
   .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: var(--sans); ${typoCss(resolveToken(get("text-style.heading-base")))} }
   .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
   .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
-  .ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
-  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+  .ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
+  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

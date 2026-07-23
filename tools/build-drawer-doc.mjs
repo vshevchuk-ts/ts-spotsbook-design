@@ -65,8 +65,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.default", "surface.overlay", "border.default", "border.focus", "text.default", "text.secondary", "text.onFill", "icon.secondary",
-  "fill.neutral", "fill.neutralHover", "fill.neutralActive", "fill.primary", "fill.primaryHover", "fill.primaryActive",
+  "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "text.onFill", "icon.secondary",
+  "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active", "fill.activeHover", "fill.activePressed",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -91,7 +91,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: ${cv("surface.default")}; box-shadow: ${shadowCss}; }
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: ${cv("surface.card")}; box-shadow: ${shadowCss}; }
 dialog.drawer::backdrop { background: ${cv("surface.overlay")}; opacity: 0; transition: opacity ${dur} ease allow-discrete; }
 dialog.drawer[open]::backdrop { opacity: 1; }
 @starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
@@ -105,26 +105,26 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: ${cv("family.sans")}; }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: ${gap}; padding: ${padding}; border-bottom: 1px solid ${cv("border.default")}; }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: ${gap}; padding: ${padding}; border-bottom: 1px solid ${cv("outline.default")}; }
 .drawer__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: ${padding}; }
 .drawer__body-text { margin: 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
-.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("border.default")}; }
+.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("outline.default")}; }
 
 .drawer__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .drawer__close:hover { background: ${cv("fill.neutralHover")}; }
-.drawer__close:active { background: ${cv("fill.neutralActive")}; }
-.drawer__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+.drawer__close:active { background: ${cv("fill.neutralPressed")}; }
+.drawer__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: ${cv("family.sans")}; ${typoCss(resolveToken(get("text-style.heading-base")))} }
 .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
 .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
-.ov-btn--secondary:active { background: ${cv("fill.neutralActive")}; }
-.ov-btn--primary { background: ${cv("fill.primary")}; color: ${cv("text.onFill")}; font-weight: 600; }
-.ov-btn--primary:hover { background: ${cv("fill.primaryHover")}; }
-.ov-btn--primary:active { background: ${cv("fill.primaryActive")}; }
-.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("border.focus")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
+.ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
+.ov-btn--primary { background: ${cv("fill.active")}; color: ${cv("text.onFill")}; font-weight: 600; }
+.ov-btn--primary:hover { background: ${cv("fill.activeHover")}; }
+.ov-btn--primary:active { background: ${cv("fill.activePressed")}; }
+.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `

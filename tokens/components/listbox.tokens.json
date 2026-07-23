@@ -11,10 +11,10 @@
       "optionGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between a marker (checkbox/checkmark) and the option label." },
       "checkmarkSize": { "$type": "dimension", "$value": "{spacing.4}" },
       "maxHeight": { "$type": "dimension", "$value": "{spacing.72}", "$description": "288px — long option lists scroll inside the panel rather than growing it indefinitely." },
-      "bg": { "$type": "color", "$value": "{surface.default}" },
-      "border": { "$type": "color", "$value": "{border.default}" },
+      "bg": { "$type": "color", "$value": "{surface.card}" },
+      "border": { "$type": "color", "$value": "{outline.default}" },
       "shadow": { "$type": "shadow", "$value": "{elevation.sm}" },
-      "divider": { "$type": "color", "$value": "{border.default}" },
+      "divider": { "$type": "color", "$value": "{outline.default}" },
       "label": { "$type": "typography", "$value": "{text-style.body-base}" },
       "state": {
         "default": {
@@ -24,7 +24,7 @@
           "bg": { "$type": "color", "$value": "{fill.neutralHover}" }
         },
         "selected": {
-          "checkmark": { "$type": "color", "$value": "{fill.primary}" },
+          "checkmark": { "$type": "color", "$value": "{fill.active}" },
           "$description": "Single-select only — trailing checkmark, text color unchanged. The option itself doesn't get a background tint; the checkmark alone signals selection, same as a native <select> convention (Radix Select does the same)."
         },
         "disabled": {
@@ -45,7 +45,7 @@
         "label": { "$type": "typography", "$value": "{text-style.body-sm}" },
         "labelColor": { "$type": "color", "$value": "{text.secondary}" },
         "clearAction": { "$type": "typography", "$value": "{text-style.link-sm}" },
-        "clearColor": { "$type": "color", "$value": "{text.primary}" }
+        "clearColor": { "$type": "color", "$value": "{text.active}" }
       }
     }
   }

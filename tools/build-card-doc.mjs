@@ -61,7 +61,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.default", "border.default", "border.focus", "fill.primary", "bg.primary", "text.default", "text.secondary"];
+const colorPaths = ["surface.card", "outline.default", "outline.active", "fill.active", "bg.active", "text.default", "text.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -80,16 +80,16 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-.card { box-sizing: border-box; display: flex; flex-direction: column; gap: ${gap}; background: ${cv("surface.default")}; border: 1px solid ${cv("border.default")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
-.card__header { padding-bottom: ${gap}; border-bottom: 1px solid ${cv("border.default")}; }
-.card__footer { padding-top: ${gap}; border-top: 1px solid ${cv("border.default")}; display: flex; gap: ${px(resolve("spacing.2"))}; }
+.card { box-sizing: border-box; display: flex; flex-direction: column; gap: ${gap}; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
+.card__header { padding-bottom: ${gap}; border-bottom: 1px solid ${cv("outline.default")}; }
+.card__footer { padding-top: ${gap}; border-top: 1px solid ${cv("outline.default")}; display: flex; gap: ${px(resolve("spacing.2"))}; }
 .card__title { margin: 0; color: ${cv("text.default")}; ${typoCss(titleType)} }
 .card__body-text { margin: 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
 
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
-.card--interactive:hover { border-color: ${cv("fill.primary")}; }
-.card--interactive:active { background: ${cv("bg.primary")}; border-color: ${cv("fill.primary")}; }
-.card--interactive:focus-visible { outline: ${ringWidth} solid ${cv("border.focus")}; outline-offset: ${ringOffset}; }`;
+.card--interactive:hover { border-color: ${cv("fill.active")}; }
+.card--interactive:active { background: ${cv("bg.active")}; border-color: ${cv("fill.active")}; }
+.card--interactive:focus-visible { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
@@ -157,9 +157,9 @@ const sectionsCode = `<div class="card">
 
 const interactiveStateDefs = [
   { key: "default", label: "default", style: "" },
-  { key: "hover", label: "hover", style: `border-color:${cv("fill.primary")}`, note: "fill.primary (blue.500) — the same brand blue Checkbox/Radio use when checked. border.strong (gray) read as too weak a cue; border.primary (pale blue.200) paired with a gray fill on pressed read muddy — two color languages at once. border.focus moved to blue.600 system-wide so it stays the strongest, most certain state (keyboard focus needs to out-rank mouse hover)." },
-  { key: "pressed", label: "pressed", style: `background:${cv("bg.primary")}; border-color:${cv("fill.primary")}`, note: "Border stays fill.primary; the fill is bg.primary (blue.100, the same passive-tint role used for banners/badges) — one consistent blue family instead of mixing in gray." },
-  { key: "focused", label: "focused", style: `outline:${ringWidth} solid ${cv("border.focus")}; outline-offset:${ringOffset}`, note: "Additive ring, composes on top of hover/pressed. Real CSS is :focus-visible on the button, shown in the CSS above — forced here via inline style for a static screenshot." },
+  { key: "hover", label: "hover", style: `border-color:${cv("fill.active")}`, note: "fill.active (blue.500) — the same brand blue Checkbox/Radio use when checked. border.strong (gray) read as too weak a cue; border.primary (pale blue.200) paired with a gray fill on pressed read muddy — two color languages at once. border.focus moved to blue.600 system-wide so it stays the strongest, most certain state (keyboard focus needs to out-rank mouse hover)." },
+  { key: "pressed", label: "pressed", style: `background:${cv("bg.active")}; border-color:${cv("fill.active")}`, note: "Border stays fill.primary; the fill is bg.primary (blue.100, the same passive-tint role used for banners/badges) — one consistent blue family instead of mixing in gray." },
+  { key: "focused", label: "focused", style: `outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}`, note: "Additive ring, composes on top of hover/pressed. Real CSS is :focus-visible on the button, shown in the CSS above — forced here via inline style for a static screenshot." },
 ];
 function interactiveStories() {
   return interactiveStateDefs

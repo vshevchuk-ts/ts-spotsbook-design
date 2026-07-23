@@ -71,16 +71,16 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-border-danger: #F90643;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-outline-negative: #F90643;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
@@ -90,17 +90,17 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .input__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.input__placeholder { color: var(--tok-text-muted); }
+.input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
-.input__label { color: var(--tok-text-muted); }
+.input__label { color: var(--tok-text-secondary); }
 
 .input--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .input--sm .input__icon { width: 16px; height: 16px; }
@@ -118,13 +118,13 @@
 .input--lg .input__stack { gap: 4px; }
 .input--lg .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-border-strong); }
-.input--focus { border-color: var(--tok-border-focus); }
-.input--focus .input__label { color: var(--tok-text-primary); }
+.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-outline-strong); }
+.input--focus { border-color: var(--tok-outline-active); }
+.input--focus .input__label { color: var(--tok-text-active); }
 .input--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
 .input--disabled .input__icon { color: var(--tok-icon-disabled); }
-.input--error { border-color: var(--tok-border-danger); }
+.input--error { border-color: var(--tok-outline-negative); }
 </style>
 </head>
 <body>
@@ -178,16 +178,16 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One <code class="tok">:root</code> block of color custom properties, then a base <code class="tok">.input</code> class + <code class="tok">--sm/--base/--lg</code> size modifiers, then state modifiers as plain classes (also wired to real <code class="tok">:hover</code> for bonus interactivity where it doesn't conflict with a specific demonstrated state).</p>
     <pre class="code"><code>:root {
-  --tok-surface-sunken: #282E3E;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
-  --tok-border-focus: #FB8C33;
-  --tok-border-danger: #F90643;
-  --tok-text-muted: #8E929F;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-outline-negative: #F90643;
+  --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-primary: #FB8C33;
+  --tok-text-active: #FB8C33;
   --tok-icon-default: #FFFFFF;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
@@ -197,17 +197,17 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-sunken);
-  border: 1px solid var(--tok-border-default);
+  background: var(--tok-surface-raised);
+  border: 1px solid var(--tok-outline-default);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .input__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.input__placeholder { color: var(--tok-text-muted); }
+.input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
-.input__label { color: var(--tok-text-muted); }
+.input__label { color: var(--tok-text-secondary); }
 
 .input--sm { height: 32px; padding: 0 8px; gap: 8px; }
 .input--sm .input__icon { width: 16px; height: 16px; }
@@ -225,13 +225,13 @@
 .input--lg .input__stack { gap: 4px; }
 .input--lg .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-border-strong); }
-.input--focus { border-color: var(--tok-border-focus); }
-.input--focus .input__label { color: var(--tok-text-primary); }
+.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-outline-strong); }
+.input--focus { border-color: var(--tok-outline-active); }
+.input--focus .input__label { color: var(--tok-text-active); }
 .input--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
 .input--disabled .input__icon { color: var(--tok-icon-disabled); }
-.input--error { border-color: var(--tok-border-danger); }</code></pre>
+.input--error { border-color: var(--tok-outline-negative); }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
     <p class="section-desc">sm shows the resting single-line layout (its only layout). base/lg shown populated, to demonstrate the floated label at each size.</p>
@@ -293,7 +293,7 @@
         <h3>hover</h3>
         <div class="story-preview"><div class="input input--base input--hover"><span class="input__placeholder">Email address</span></div></div>
         <pre class="code"><code>&lt;div class="input input--base input--hover"&gt;&lt;span class="input__placeholder"&gt;Email address&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">border.strong — same rule already documented on that token before this component existed.</p>
+        <p class="story-note">outline.strong — same rule already documented on that token before this component existed.</p>
       </div>
 
       <div class="story">

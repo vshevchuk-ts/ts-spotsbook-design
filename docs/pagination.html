@@ -77,12 +77,12 @@
   --tok-text-default: #FFFFFF;
   --tok-text-on-fill: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-muted: #8E929F;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-primary: #FB8C33;
-  --tok-surface-sunken: #282E3E;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
+  --tok-text-secondary: #8E929F;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-active: #FB8C33;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-icon-default: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
@@ -105,13 +105,13 @@
 }
 .page-item__icon { width: 16px; height: 16px; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: var(--tok-fill-neutral-hover); }
-.page-item--active { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); cursor: default; }
+.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); cursor: default; }
 .page-item--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
-.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-muted); font-weight: 400; font-size: 14px; line-height: 1.2; }
+.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.2; }
 .pagination { display: inline-flex; align-items: center; gap: 4px; }
 
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-sunken); border: 1px solid var(--tok-border-default); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; height: 32px; padding: 0 8px; gap: 8px; }
-.select:hover { border-color: var(--tok-border-strong); }
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; height: 32px; padding: 0 8px; gap: 8px; }
+.select:hover { border-color: var(--tok-outline-strong); }
 .select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); width: 16px; height: 16px; }
 .rows-per-page { display: inline-flex; align-items: center; gap: 8px; }
@@ -174,12 +174,12 @@
   --tok-text-default: #FFFFFF;
   --tok-text-on-fill: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-muted: #8E929F;
-  --tok-fill-neutral-hover: #282E3E;
-  --tok-fill-primary: #FB8C33;
-  --tok-surface-sunken: #282E3E;
-  --tok-border-default: #282E3E;
-  --tok-border-strong: #3E4351;
+  --tok-text-secondary: #8E929F;
+  --tok-fill-neutral-hover: #424755;
+  --tok-fill-active: #FB8C33;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-icon-default: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
@@ -202,13 +202,13 @@
 }
 .page-item__icon { width: 16px; height: 16px; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: var(--tok-fill-neutral-hover); }
-.page-item--active { background: var(--tok-fill-primary); color: var(--tok-text-on-fill); cursor: default; }
+.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); cursor: default; }
 .page-item--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
-.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-muted); font-weight: 400; font-size: 14px; line-height: 1.2; }
+.page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.2; }
 .pagination { display: inline-flex; align-items: center; gap: 4px; }
 
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-sunken); border: 1px solid var(--tok-border-default); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; height: 32px; padding: 0 8px; gap: 8px; }
-.select:hover { border-color: var(--tok-border-strong); }
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; height: 32px; padding: 0 8px; gap: 8px; }
+.select:hover { border-color: var(--tok-outline-strong); }
 .select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); width: 16px; height: 16px; }
 .rows-per-page { display: inline-flex; align-items: center; gap: 8px; }
@@ -276,7 +276,7 @@
         <h3>active (current page)</h3>
         <div class="story-preview"><button class="page-item page-item--active" aria-current="page">4</button></div>
         <pre class="code"><code>&lt;button class="page-item page-item--active" aria-current="page"&gt;4&lt;/button&gt;</code></pre>
-        <p class="story-note">fill.primary — matches the button primary's own fill, not a new color.</p>
+        <p class="story-note">fill.active — matches the button primary's own fill, not a new color.</p>
       </div>
 
       <div class="story">
