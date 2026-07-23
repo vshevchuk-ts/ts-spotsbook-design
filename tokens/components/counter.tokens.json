@@ -55,9 +55,9 @@
         "$description": "For use on top of an active-colored (fill.active) button/tab. Text is always forActiveBg (dark on the bright active). inactive = a faint lighten-2 (12% white) wash; active = a solid white pill that pops off the active fill.",
         "state": {
           "inactive": {
-            "$description": "Seen/zero count — a faint lighten-2 (white 12%) wash, white text.",
+            "$description": "Seen/zero count — a faint lighten-2 (white 12%) wash over the active fill, dark (forActiveBg) text.",
             "bg": { "$type": "color", "$value": "{lighten.2}" },
-            "label": { "$type": "color", "$value": "{text.default}" }
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           },
           "active": {
             "$description": "Has a meaningful count — a solid white pill with dark text so it pops off the active fill.",

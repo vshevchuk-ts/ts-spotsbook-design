@@ -73,7 +73,7 @@ const sizes = ["sm", "base", "lg"].map((key) => {
 });
 
 const surfaces = {
-  onPrimary: { label: "On Primary", inactiveBg: "lighten.2", inactiveLabel: "text.default", activeBg: "color.white", activeLabel: "text.forActiveBg" },
+  onPrimary: { label: "On Primary", inactiveBg: "lighten.2", inactiveLabel: "text.forActiveBg", activeBg: "color.white", activeLabel: "text.forActiveBg" },
   onNeutral: { label: "On Neutral", inactiveBg: "lighten.2", inactiveLabel: "text.default", activeBg: "fill.active", activeLabel: "text.forActiveBg" },
 };
 function surfaceCss(key) {
