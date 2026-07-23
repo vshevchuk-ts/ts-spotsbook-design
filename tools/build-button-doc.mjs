@@ -125,8 +125,8 @@ const counterSizes = ["sm", "base", "lg"].map((key) => {
 // rather than quiet, so each button variant needs its matching counter surface.
 const counterSurfaceFor = { primary: "onPrimary", secondary: "onNeutral", ghost: "onNeutral" };
 const counterSurfaces = {
-  onPrimary: { inactiveBg: "lighten.2", inactiveLabel: "text.forActiveBg" },
-  onNeutral: { inactiveBg: "lighten.2", inactiveLabel: "text.secondary" },
+  onPrimary: { inactiveBg: "lighten.2", inactiveLabel: "text.default" },
+  onNeutral: { inactiveBg: "lighten.2", inactiveLabel: "text.default" },
 };
 
 // ---- icons (placeholders for the preview only) ----
