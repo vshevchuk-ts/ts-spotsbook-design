@@ -93,7 +93,7 @@ const css = `${rootVars}
 .switch { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: ${px(trackWidth)}; height: ${px(trackHeight)}; border-radius: ${radius}; background: ${cv("surface.raised")}; }
-.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cv("color.base.contrast")}; transform: translateX(0); }
+.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cv("color.white")}; transform: translateX(0); }
 .switch__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
 .switch:hover .switch__track { background: ${cv("outline.strong")}; }

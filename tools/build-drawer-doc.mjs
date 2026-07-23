@@ -65,7 +65,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "color.base.surface-4",
+  "surface.raised",
   "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "lighten.2", "text.onFill", "text.forActiveBg", "icon.secondary",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active", "fill.activeHover", "fill.activePressed",
 ];
@@ -106,7 +106,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 @starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: ${cv("family.sans")}; }
-.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: ${px(resolve("spacing.2"))}; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.10"))}; background: ${cv("color.base.surface-4")}; }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: ${px(resolve("spacing.2"))}; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.10"))}; background: ${cv("surface.raised")}; }
 .drawer__title { margin: 0; color: ${cv("text.default")}; text-align: center; ${typoCss(titleType)} }
 .drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: ${cv("lighten.2")}; color: ${cv("text.default")}; font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: ${padding}; }
