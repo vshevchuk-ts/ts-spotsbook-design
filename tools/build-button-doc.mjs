@@ -71,7 +71,7 @@ const colorPaths = [
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
   "outline.active", "color.white", "text.active",
-  "lighten.2", "darken.2", "outline.strong", "surface.raised", "text.default",
+  "lighten.2", "darken.2", "outline.default", "outline.strong", "surface.raised", "surface.card",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans"); // e.g. "Rubik"
@@ -221,14 +221,14 @@ ${Object.entries(counterSurfaces)
 .btn--round-xs { width: 24px; height: 24px; }
 .btn--round-xs .btn__icon { width: 16px; height: 16px; }
 .btn--outline { background: transparent; border: 1px solid ${cv("outline.strong")}; color: ${cv("icon.default")}; }
-.btn--outline:not(:disabled):hover { background: ${cv("lighten.2")}; }
+.btn--outline:not(:disabled):hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .btn--outline:not(:disabled):active { background: ${cv("darken.2")}; }
 .btn--filled-neutral { background: ${cv("surface.raised")}; color: ${cv("icon.default")}; }
-.btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
+.btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
 .btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
-.btn--betslip { border-radius: 999px; background: ${cv("surface.raised")}; color: ${cv("text.default")}; gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
-.btn--betslip:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
-.btn--betslip:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
+.btn--betslip { box-sizing: border-box; border-radius: 999px; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; color: ${cv("text.default")}; gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
+.btn--betslip:not(:disabled):hover { background: ${cv("surface.raised")}; }
+.btn--betslip:not(:disabled):active { background: ${cv("outline.strong")}; }
 .btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
 
 // ---- markup builders: `live` uses real inline SVGs (for the rendered preview), `code` uses a short placeholder comment (for the printed snippet — a full path data dump isn't useful as a code sample) ----
@@ -297,7 +297,11 @@ function stateSnippets(variant) {
   };
 }
 function stateStory(variant, name, extraStyle, disabled) {
-  const html = `<button class="btn btn--${variant} btn--base"${disabled ? " disabled" : ""} style="${extraStyle}">${iconAdd}\n    Label</button>`;
+  const v = variants[variant];
+  // the real :hover turns the icon white (v.iconHover) — the forced-state demo uses
+  // an inline style, not a real :hover, so inject that same colour onto the icon here
+  const icon = name === "hover" && v.iconHover ? iconAdd.replace("<svg ", `<svg style="color:${cv(v.iconHover)}" `) : iconAdd;
+  const html = `<button class="btn btn--${variant} btn--base"${disabled ? " disabled" : ""} style="${extraStyle}">${icon}\n    Label</button>`;
   return storyCard(name, html, stateSnippets(variant)[name]);
 }
 function stateStories(variant) {
@@ -442,9 +446,17 @@ const html = `<!doctype html>
     <div class="story-grid">
       ${storyCard("Two-row — primary", `<button class="btn btn--primary btn--tworow"><span class="btn__top">Popular bet $20</span><span class="btn__bottom">Win $941.2!</span></button>`, `<button class="btn btn--primary btn--tworow">\n  <span class="btn__top">Popular bet $20</span>\n  <span class="btn__bottom">Win $941.2!</span>\n</button>`, "A hero bet button — a small top label over a large bold value. Uses the active fill (gradient in themes that define one).")}
       ${storyCard("Two-row — secondary", `<button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000,99</span></button>`, `<button class="btn btn--secondary btn--tworow">\n  <span class="btn__top">Max</span>\n  <span class="btn__bottom">$1,000,99</span>\n</button>`, "Neutral two-row — e.g. a max-stake shortcut.")}
-      ${storyCard("Round icon — outline (base / xs)", `<div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back">${iconChevronLeft}</button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back">${iconChevronLeft}</button></div>`, `<button class="btn btn--round btn--round-base btn--outline" aria-label="Back">\n  <!-- icon: chevron_left -->\n</button>`, "Circular icon button with an outline, transparent fill — back/nav. Two sizes (56 / 40).")}
+      ${storyCard("Round icon — outline (base / xs)", `<div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back">${iconChevronLeft}</button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back">${iconChevronLeft}</button></div>`, `<button class="btn btn--round btn--round-base btn--outline" aria-label="Back">\n  <!-- icon: chevron_left -->\n</button>`, "Circular icon button with an outline, transparent fill — back/nav. Two sizes (40 / 24).")}
       ${storyCard("Round icon — filled (widget)", `<button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap">${iconSwap}</button>`, `<button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap">\n  <!-- icon: swap -->\n</button>`, "Circular icon button, filled neutral surface — a betslip/widget toggle.")}
       ${storyCard("Betslip pill", `<button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button>`, `<button class="btn btn--betslip">\n  Betslip\n  <span class="counter counter--base counter--onNeutral counter--inactive">0</span>\n</button>`, "A fully-rounded pill with a trailing bet-count counter (onNeutral).")}
+    </div>
+
+    <h3 class="mid-section">States — new variants</h3>
+    <p class="section-desc">These variants differ from primary/secondary/ghost, so their states are shown explicitly: default · hover · pressed · disabled (50% opacity). Left→right in each row.</p>
+    <div class="story-grid">
+      ${storyCard("Round — outline", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:${cv('lighten.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:${cv('darken.2')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled>${iconChevronLeft}</button></div>`, "default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled")}
+      ${storyCard("Round — filled", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:${cv('fill.neutralHover')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:${cv('fill.neutralPressed')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled>${iconSwap}</button></div>`, "default · hover (+white icon) · pressed · disabled")}
+      ${storyCard("Betslip pill", `<div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;"><button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('surface.raised')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('outline.strong')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" disabled>Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>`, "default (surface-2 + surface-4 border) · hover (surface-4) · pressed (surface-6) · disabled")}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
