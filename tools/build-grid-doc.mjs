@@ -129,7 +129,7 @@ const autoDemo = `<div class="grid grid--auto grid--gap-xs demo-grid">${cells(7)
 const autoCode = `<div class="grid grid--auto grid--gap-xs">\n  <div>…</div>\n  ...\n</div>`;
 
 const html = `<!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />

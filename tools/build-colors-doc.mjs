@@ -48,7 +48,7 @@ const absolutes = [["white", color.white], ["black", color.black]];
 const sub = Object.entries(color.sub).filter(([k]) => !k.startsWith("$")).map(([k, t]) => [`sub.${k}`, t]);
 
 const html = `<!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
