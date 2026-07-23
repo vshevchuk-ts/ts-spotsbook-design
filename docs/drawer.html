@@ -77,6 +77,7 @@
   --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-on-fill: #FFFFFF;
   --tok-text-for-active-bg: #11141C;
   --tok-icon-secondary: #8E929F;
@@ -105,7 +106,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
 .drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 40px; background: var(--tok-color-base-surface-4); }
 .drawer__title { margin: 0; color: var(--tok-text-default); text-align: center; font-weight: 500; font-size: 14px; line-height: 1.4; }
-.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-color-white); color: var(--tok-text-contrast); font-weight: 700; font-size: 12px; }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-lighten-2); color: var(--tok-text-secondary); font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
@@ -186,6 +187,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
   --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-on-fill: #FFFFFF;
   --tok-text-for-active-bg: #11141C;
   --tok-icon-secondary: #8E929F;
@@ -214,7 +216,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
 .drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 40px; background: var(--tok-color-base-surface-4); }
 .drawer__title { margin: 0; color: var(--tok-text-default); text-align: center; font-weight: 500; font-size: 14px; line-height: 1.4; }
-.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-color-white); color: var(--tok-text-contrast); font-weight: 700; font-size: 12px; }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-lighten-2); color: var(--tok-text-secondary); font-weight: 700; font-size: 12px; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
@@ -260,7 +262,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     <dialog class="drawer drawer--right" id="drawer-right">
       <div class="drawer__content">
         <div class="drawer__header">
-          <p class="drawer__title">Filters <span class="drawer__hcounter">3</span></p>
+          <p class="drawer__title">Betslip <span class="drawer__hcounter">3</span></p>
           <form method="dialog"><button class="drawer__close" aria-label="Close"><svg class="drawer__close-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></form>
         </div>
         <div class="drawer__body">
@@ -272,7 +274,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 &lt;dialog class="drawer drawer--right" id="drawer-right"&gt;
   &lt;div class="drawer__content"&gt;
     &lt;div class="drawer__header"&gt;
-      &lt;p class="drawer__title"&gt;Filters&lt;/p&gt;
+      &lt;p class="drawer__title"&gt;Betslip&lt;/p&gt;
       &lt;form method="dialog"&gt;&lt;button class="drawer__close" aria-label="Close"&gt;…&lt;/button&gt;&lt;/form&gt;
     &lt;/div&gt;
     &lt;div class="drawer__body"&gt;
@@ -289,7 +291,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     <dialog class="drawer drawer--bottom" id="drawer-bottom">
       <div class="drawer__content">
         <div class="drawer__header">
-          <p class="drawer__title">Filters</p>
+          <p class="drawer__title">Betslip</p>
           <form method="dialog"><button class="drawer__close" aria-label="Close"><svg class="drawer__close-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></form>
         </div>
         <div class="drawer__body">
@@ -301,7 +303,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 &lt;dialog class="drawer drawer--bottom" id="drawer-bottom"&gt;
   &lt;div class="drawer__content"&gt;
     &lt;div class="drawer__header"&gt;
-      &lt;p class="drawer__title"&gt;Filters&lt;/p&gt;
+      &lt;p class="drawer__title"&gt;Betslip&lt;/p&gt;
       &lt;form method="dialog"&gt;&lt;button class="drawer__close" aria-label="Close"&gt;…&lt;/button&gt;&lt;/form&gt;
     &lt;/div&gt;
     &lt;div class="drawer__body"&gt;
