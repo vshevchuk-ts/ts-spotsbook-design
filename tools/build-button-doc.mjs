@@ -212,9 +212,9 @@ ${Object.entries(counterSurfaces)
 
 /* ---- sportsbook variants ---- */
 .btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: ${btnRadius}; line-height: 1.2; }\n.btn--tworow.btn--primary { height: 48px; }\n.btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow .btn__top { font-weight: 500; font-size: 12px; }
-.btn--tworow .btn__bottom { font-weight: 800; font-size: 18px; }
-.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }\n.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; }
+.btn--tworow .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }\n.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: ${cv("text.secondary")}; }
 .btn--round { border-radius: 999px; padding: 0; gap: 0; }
 .btn--round-base { width: 40px; height: 40px; }
 .btn--round-base .btn__icon { width: 24px; height: 24px; }
@@ -226,7 +226,7 @@ ${Object.entries(counterSurfaces)
 .btn--filled-neutral { background: ${cv("surface.raised")}; color: ${cv("icon.default")}; }
 .btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
 .btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
-.btn--betslip { border-radius: 999px; background: ${cv("surface.raised")}; color: ${cv("text.default")}; gap: 10px; height: 48px; padding: 0 24px; font-weight: 800; font-size: 16px; }
+.btn--betslip { border-radius: 999px; background: ${cv("surface.raised")}; color: ${cv("text.default")}; gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
 .btn--betslip:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
 .btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
