@@ -66,7 +66,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
 const colorPaths = [
-  "fill.active", "fill.activeHover", "fill.activePressed", "text.onFill", "icon.onFill",
+  "fill.active", "fill.activeHover", "fill.activePressed", "text.onFill", "icon.onFill", "text.forActiveBg", "icon.forActiveBg",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "text.default", "icon.default",
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
@@ -136,7 +136,7 @@ const iconArrow = fs.readFileSync(path.join(root, "assets/icons/material-filled/
 // fill: null means "no fill token — literal transparent", used by ghost (no
 // background at rest, and disabled shouldn't suddenly gain one it never had).
 const variants = {
-  primary: { label: "Primary", fill: "fill.active", fillHover: "fill.activeHover", fillActive: "fill.activePressed", text: "text.onFill", icon: "icon.onFill" },
+  primary: { label: "Primary", fill: "fill.active", fillHover: "fill.activeHover", fillActive: "fill.activePressed", text: "text.forActiveBg", icon: "icon.forActiveBg" },
   secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.default" },
   ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.secondary", icon: "icon.secondary" },
 };

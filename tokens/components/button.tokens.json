@@ -35,8 +35,8 @@
         "state": {
           "default": {
             "fill": { "$type": "color", "$value": "{fill.active}" },
-            "label": { "$type": "color", "$value": "{text.onFill}" },
-            "icon": { "$type": "color", "$value": "{icon.onFill}" }
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" },
+            "icon": { "$type": "color", "$value": "{icon.forActiveBg}" }
           },
           "hover": {
             "fill": { "$type": "color", "$value": "{fill.activeHover}" }

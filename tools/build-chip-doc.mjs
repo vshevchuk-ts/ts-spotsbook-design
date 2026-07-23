@@ -67,7 +67,7 @@ const refPath = (ref) => ref.replace(/[{}]/g, "");
 
 const colorPaths = [
   "surface.card", "outline.default", "outline.strong", "outline.active", "text.default", "icon.default",
-  "fill.active", "fill.activeHover", "fill.disabled", "text.onFill", "icon.onFill",
+  "fill.active", "fill.activeHover", "fill.disabled", "text.forActiveBg", "icon.forActiveBg",
   "bg.active", "text.active", "icon.active",
   "text.disabled", "icon.disabled",
   "icon.secondary", "fill.neutralHover", "fill.neutralPressed",
@@ -132,8 +132,8 @@ ${sizeDefs
 .chip--toggle { background: ${cv("surface.card")}; border-color: ${cv("outline.default")}; color: ${cv("text.default")}; }
 .chip--toggle .chip__icon { color: ${cv("icon.default")}; }
 .chip--toggle:not([aria-pressed="true"]):not(:disabled):hover { border-color: ${cv("fill.active")}; }
-.chip--toggle[aria-pressed="true"] { background: ${cv("fill.active")}; border-color: ${cv("fill.active")}; color: ${cv("text.onFill")}; }
-.chip--toggle[aria-pressed="true"] .chip__icon { color: ${cv("icon.onFill")}; }
+.chip--toggle[aria-pressed="true"] { background: ${cv("fill.active")}; border-color: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; }
+.chip--toggle[aria-pressed="true"] .chip__icon { color: ${cv("icon.forActiveBg")}; }
 .chip--toggle[aria-pressed="true"]:not(:disabled):hover { background: ${cv("fill.activeHover")}; border-color: ${cv("fill.activeHover")}; }
 .chip--toggle.chip--outline[aria-pressed="true"] { background: ${cv("bg.active")}; border-color: ${cv("fill.active")}; color: ${cv("text.active")}; }
 .chip--toggle.chip--outline[aria-pressed="true"] .chip__icon { color: ${cv("icon.active")}; }

@@ -63,7 +63,9 @@ Button, Counter, Input, Select, Search, Pagination, Separator, Tabs, Checkbox, R
 6. ✅ **Typography** (done in the earlier interactive pass): family → Rubik (self-hosted, Cyrillic), weights 400/500/800, `dim`→`spacing`.
 7. ✅ **Rebuilt everything**; `assets/fonts/sora/` deleted; `index.html` token cards refreshed.
 
-**Remaining polish (not blocking):** visual QA of each component page in a browser (rest/hover/pressed read correctly on the dark theme); the `elevation` shadows on a dark page are subtle by nature — confirm they still read. `text.forLabelBg` still deferred.
+8. ✅ **Text-on-active-fill contrast** — after the mechanical rename, elements sitting on the bright active fill still had white text (`text.onFill`, correct for the old blue, wrong on Pro's orange). Fixed to `text.forActiveBg`/`icon.forActiveBg` (dark) in button/chip/checkbox/counter(onNeutral)/pagination/listbox/drawer, in both the token files AND the builders' hardcoded `colorPaths`/CSS (the builders hardcode these, so the token edit alone wasn't enough). Kept `onFill` (white) where the fill is dark: tooltip (dark surface), modal danger button (red), the counter-on-primary inactive pill (dark activePressed). Added `icon.forActiveBg` to the semantic file. Verified: `.btn--primary` = orange bg + `#11141C` text.
+
+**Remaining polish (not blocking):** the component doc pages' hand-written **prose** (legend rows, `$description`s) still mentions old token names/colours in places ("brand blue", "fill.primary", "blue.600", "gray.100") — cosmetic, doesn't affect rendering; a prose sweep is a separate low-priority pass. Full in-browser visual QA of hover/pressed on every page (screenshot tool goes blank on tall pages after scrolling — use computed-style JS). `text.forLabelBg` (per-theme label text) still deferred. Docs 4-theme switcher still deferred.
 
 ## Open / deferred
 

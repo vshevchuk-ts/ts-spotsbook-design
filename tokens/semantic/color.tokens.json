@@ -66,6 +66,7 @@
     "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Negative icon." },
     "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Warning icon." },
     "onFill": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Icon on a dark solid fill." },
+    "forActiveBg": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "Icon on an active-colored fill — dark on Pro's bright orange active (mirrors text.forActiveBg)." },
     "disabled": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Disabled icon — the secondary grey." }
   },
   "betStatus": {

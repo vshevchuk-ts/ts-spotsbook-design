@@ -68,8 +68,8 @@
         },
         "checked": {
           "bg": { "$type": "color", "$value": "{fill.active}" },
-          "text": { "$type": "color", "$value": "{text.onFill}" },
-          "icon": { "$type": "color", "$value": "{icon.onFill}" }
+          "text": { "$type": "color", "$value": "{text.forActiveBg}" },
+          "icon": { "$type": "color", "$value": "{icon.forActiveBg}" }
         },
         "checkedHover": {
           "bg": { "$type": "color", "$value": "{fill.activeHover}" }

@@ -65,7 +65,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "text.onFill", "icon.secondary",
+  "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "text.onFill", "text.forActiveBg", "icon.secondary",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active", "fill.activeHover", "fill.activePressed",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -121,7 +121,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
 .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
 .ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
-.ov-btn--primary { background: ${cv("fill.active")}; color: ${cv("text.onFill")}; font-weight: 600; }
+.ov-btn--primary { background: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; font-weight: 600; }
 .ov-btn--primary:hover { background: ${cv("fill.activeHover")}; }
 .ov-btn--primary:active { background: ${cv("fill.activePressed")}; }
 .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;

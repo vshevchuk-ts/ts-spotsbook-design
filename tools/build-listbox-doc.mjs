@@ -66,7 +66,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
   "surface.card", "surface.raised", "outline.default", "outline.active", "text.default", "text.secondary", "text.disabled", "text.secondary", "text.active",
-  "icon.default", "icon.onFill", "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active",
+  "icon.default", "icon.forActiveBg", "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -130,7 +130,7 @@ const css = `${rootVars}
 .listbox__cb-box { box-sizing: border-box; width: ${cbBox}; height: ${cbBox}; border-radius: ${cbRadius}; border: ${cbBorderWidth} solid ${cv("outline.default")}; background: ${cv("surface.card")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .listbox__cb-icon { width: ${px(resolve("spacing.4"))}; height: ${px(resolve("spacing.4"))}; display: none; }
 .listbox__cb-input:checked ~ .listbox__cb-box { background: ${cv("fill.active")}; border-color: ${cv("fill.active")}; }
-.listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: ${cv("icon.onFill")}; }
+.listbox__cb-input:checked ~ .listbox__cb-box .listbox__cb-icon { display: block; color: ${cv("icon.forActiveBg")}; }
 .listbox__cb-label { color: ${cv("text.default")}; font-family: inherit; ${typoCss(labelType)} }
 
 .listbox__search-wrap { padding: ${px(resolve("spacing.1"))} ${px(resolve("spacing.1"))} ${searchGapBelow}; margin-bottom: ${px(resolve("spacing.0_5"))}; border-bottom: 1px solid ${cv("outline.default")}; }

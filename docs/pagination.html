@@ -75,7 +75,7 @@
 
   :root {
   --tok-text-default: #FFFFFF;
-  --tok-text-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
   --tok-text-disabled: #8E929F;
   --tok-text-secondary: #8E929F;
   --tok-fill-neutral-hover: #424755;
@@ -105,7 +105,7 @@
 }
 .page-item__icon { width: 16px; height: 16px; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: var(--tok-fill-neutral-hover); }
-.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); cursor: default; }
+.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); cursor: default; }
 .page-item--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.2; }
 .pagination { display: inline-flex; align-items: center; gap: 4px; }
@@ -172,7 +172,7 @@
     <p class="section-desc"><code class="tok">.page-item</code> (shared by numbers and arrows) + <code class="tok">.page-ellipsis</code> (non-interactive) + the reused <code class="tok">.select</code> rules for rows-per-page.</p>
     <pre class="code"><code>:root {
   --tok-text-default: #FFFFFF;
-  --tok-text-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
   --tok-text-disabled: #8E929F;
   --tok-text-secondary: #8E929F;
   --tok-fill-neutral-hover: #424755;
@@ -202,7 +202,7 @@
 }
 .page-item__icon { width: 16px; height: 16px; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: var(--tok-fill-neutral-hover); }
-.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); cursor: default; }
+.page-item--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); cursor: default; }
 .page-item--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.2; }
 .pagination { display: inline-flex; align-items: center; gap: 4px; }

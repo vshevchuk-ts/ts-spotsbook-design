@@ -78,6 +78,8 @@
   --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-for-active-bg: #11141C;
   --tok-fill-neutral: #282E3E;
   --tok-fill-neutral-hover: #424755;
   --tok-fill-neutral-pressed: #5C606C;
@@ -141,8 +143,8 @@
 .btn--lg.btn--icon-only { width: 48px; padding: 0; }
 .btn--lg .btn__icon { width: 24px; height: 24px; }
 
-.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }
-.btn--primary .btn__icon { color: var(--tok-icon-on-fill); }
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.btn--primary .btn__icon { color: var(--tok-icon-for-active-bg); }
 .btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
 .btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
 .btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
@@ -239,6 +241,8 @@
   --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
   --tok-icon-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-for-active-bg: #11141C;
   --tok-fill-neutral: #282E3E;
   --tok-fill-neutral-hover: #424755;
   --tok-fill-neutral-pressed: #5C606C;
@@ -302,8 +306,8 @@
 .btn--lg.btn--icon-only { width: 48px; padding: 0; }
 .btn--lg .btn__icon { width: 24px; height: 24px; }
 
-.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }
-.btn--primary .btn__icon { color: var(--tok-icon-on-fill); }
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.btn--primary .btn__icon { color: var(--tok-icon-for-active-bg); }
 .btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
 .btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
 .btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }

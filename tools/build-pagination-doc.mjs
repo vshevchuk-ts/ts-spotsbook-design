@@ -60,7 +60,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "text.default", "text.onFill", "text.disabled", "text.secondary", "fill.neutralHover", "fill.active",
+  "text.default", "text.forActiveBg", "text.disabled", "text.secondary", "fill.neutralHover", "fill.active",
   "surface.raised", "outline.default", "outline.strong", "icon.default",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -118,7 +118,7 @@ const css = `${rootVars}
 }
 .page-item__icon { width: ${item.iconSize}; height: ${item.iconSize}; }
 .page-item:not(.page-item--active):not(.page-item--disabled):hover, .page-item--hover { background: ${cv("fill.neutralHover")}; }
-.page-item--active { background: ${cv("fill.active")}; color: ${cv("text.onFill")}; cursor: default; }
+.page-item--active { background: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; cursor: default; }
 .page-item--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .page-ellipsis { display: inline-flex; align-items: center; justify-content: center; height: ${item.size}; min-width: ${item.size}; color: ${cv("text.secondary")}; ${typoCss(item.label)} }
 .pagination { display: inline-flex; align-items: center; gap: ${item.gap}; }

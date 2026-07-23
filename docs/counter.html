@@ -74,6 +74,7 @@
   :root {
   --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
   --tok-fill-neutral-pressed: #5C606C;
@@ -99,7 +100,7 @@
 .counter--onPrimary.counter--active { background: var(--tok-color-white); color: var(--tok-text-active); }
 
 .counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
-.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }
+.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
 </style>
 </head>
 <body>
@@ -155,6 +156,7 @@
     <pre class="code"><code>:root {
   --tok-fill-active-pressed: #BF6A27;
   --tok-text-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
   --tok-fill-neutral-pressed: #5C606C;
@@ -180,7 +182,7 @@
 .counter--onPrimary.counter--active { background: var(--tok-color-white); color: var(--tok-text-active); }
 
 .counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
-.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-on-fill); }</code></pre>
+.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
     <p class="section-desc">Shared across both surface variants — shown here at onPrimary/inactive as the reference.</p>

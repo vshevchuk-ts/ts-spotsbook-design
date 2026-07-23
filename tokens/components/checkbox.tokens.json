@@ -33,19 +33,19 @@
         "checked": {
           "bg": { "$type": "color", "$value": "{fill.active}" },
           "border": { "$type": "color", "$value": "{fill.active}" },
-          "icon": { "$type": "color", "$value": "{icon.onFill}" },
+          "icon": { "$type": "color", "$value": "{icon.forActiveBg}" },
           "$description": "Border set to the same value as bg (fill.primary) — the box reads as fully filled, no visible ring around the fill."
         },
         "indeterminate": {
           "bg": { "$type": "color", "$value": "{fill.active}" },
           "border": { "$type": "color", "$value": "{fill.active}" },
-          "icon": { "$type": "color", "$value": "{icon.onFill}" },
+          "icon": { "$type": "color", "$value": "{icon.forActiveBg}" },
           "$description": "Identical fill/border to checked — only the glyph differs (remove.svg dash instead of check.svg tick). Used for a parent 'select all' control when only some children are checked."
         },
         "checkedHover": {
           "bg": { "$type": "color", "$value": "{fill.activeHover}" },
           "border": { "$type": "color", "$value": "{fill.activeHover}" },
-          "icon": { "$type": "color", "$value": "{icon.onFill}" },
+          "icon": { "$type": "color", "$value": "{icon.forActiveBg}" },
           "$description": "Covers checked+hover and indeterminate+hover alike — fill.primaryHover (blue.600) is the exact same darken-on-hover Button primary already uses for its own filled background, reused here rather than inventing a separate darkening."
         },
         "disabled": {

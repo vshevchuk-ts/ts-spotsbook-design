@@ -77,7 +77,7 @@
           "active": {
             "$description": "Inverts to the brand blue (fill.primary), not white — gray.100 is already near-white, so a white pill would have almost no contrast against it. Blue pops against gray the same way white pops against blue on onPrimary.",
             "bg": { "$type": "color", "$value": "{fill.active}" },
-            "label": { "$type": "color", "$value": "{text.onFill}" }
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           }
         }
       }

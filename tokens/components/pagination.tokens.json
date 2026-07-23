@@ -34,7 +34,7 @@
         },
         "active": {
           "bg": { "$type": "color", "$value": "{fill.active}" },
-          "label": { "$type": "color", "$value": "{text.onFill}" },
+          "label": { "$type": "color", "$value": "{text.forActiveBg}" },
           "$description": "The current page — filled solid blue, matching the user's own sketch for this component rather than shadcn's outline treatment."
         },
         "disabled": {

@@ -66,7 +66,7 @@ const colorPaths = [
   "surface.card", "surface.disabled",
   "outline.default", "outline.active",
   "fill.active", "fill.activeHover", "fill.disabled",
-  "icon.onFill", "icon.disabled",
+  "icon.forActiveBg", "icon.disabled",
   "text.default", "text.disabled", "text.secondary",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -112,8 +112,8 @@ const css = `${rootVars}
 .checkbox:hover .checkbox__input:checked:not(:disabled) ~ .checkbox__box, .checkbox:hover .checkbox__input:indeterminate:not(:disabled) ~ .checkbox__box {
   background: ${cv("fill.activeHover")}; border-color: ${cv("fill.activeHover")};
 }
-.checkbox__input:checked ~ .checkbox__box .checkbox__icon--check { display: block; color: ${cv("icon.onFill")}; }
-.checkbox__input:indeterminate ~ .checkbox__box .checkbox__icon--remove { display: block; color: ${cv("icon.onFill")}; }
+.checkbox__input:checked ~ .checkbox__box .checkbox__icon--check { display: block; color: ${cv("icon.forActiveBg")}; }
+.checkbox__input:indeterminate ~ .checkbox__box .checkbox__icon--remove { display: block; color: ${cv("icon.forActiveBg")}; }
 .checkbox__input:disabled ~ .checkbox__box { background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
 .checkbox__input:disabled ~ .checkbox__label { color: ${cv("text.disabled")}; }
 .checkbox__input:disabled:checked ~ .checkbox__box, .checkbox__input:disabled:indeterminate ~ .checkbox__box {
