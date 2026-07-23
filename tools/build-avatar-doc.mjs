@@ -61,12 +61,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const HUES = ["blue", "green", "magenta", "amber", "teal", "orange", "violet", "red"];
-
-const colorPaths = [
-  "border.default", "surface.sunken", "icon.muted",
-  ...HUES.flatMap((h) => [`avatar.${h}.bg`, `avatar.${h}.text`]),
-];
+const colorPaths = ["border.default", "surface.raised", "text.secondary", "icon.secondary"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -109,19 +104,12 @@ ${sizeDefs.map((s) => `.avatar--${s.key} { width: ${px(s.diameter)}; height: ${p
 .avatar__initials { text-transform: uppercase; }
 ${sizeDefs.map((s) => `.avatar--${s.key} .avatar__initials { ${typoCss(s.initials)} }`).join("\n")}
 ${sizeDefs.map((s) => `.avatar--${s.key} .avatar__icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`).join("\n")}
-.avatar--neutral { background: ${cv("surface.sunken")}; }
-.avatar--neutral .avatar__icon { color: ${cv("icon.muted")}; }
-${HUES.map((h) => `.avatar--${h} { background: ${cv(`avatar.${h}.bg`)}; border-color: transparent; }\n.avatar--${h} .avatar__initials { color: ${cv(`avatar.${h}.text`)}; }`).join("\n")}`;
+.avatar--neutral { background: ${cv("surface.raised")}; }
+.avatar--neutral .avatar__icon { color: ${cv("icon.secondary")}; }
+.avatar--initials { background: ${cv("surface.raised")}; }
+.avatar--initials .avatar__initials { color: ${cv("text.secondary")}; }`;
 
-const js = `// Deterministic name -> one of 8 fallback hues, so the same person always
-// lands on the same color across the product without storing a color per user.
-const AVATAR_HUES = ${JSON.stringify(HUES)};
-function avatarHue(name) {
-  let sum = 0;
-  for (const ch of name) sum += ch.charCodeAt(0);
-  return AVATAR_HUES[sum % AVATAR_HUES.length];
-}
-function avatarInitials(name) {
+const js = `function avatarInitials(name) {
   const parts = name.trim().split(/\\s+/);
   return parts.length > 1
     ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
@@ -142,17 +130,11 @@ function initialsOf(name) {
   const parts = name.trim().split(/\s+/);
   return parts.length > 1 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
 }
-function hueOf(name) {
-  let sum = 0;
-  for (const ch of name) sum += ch.charCodeAt(0);
-  return HUES[sum % HUES.length];
-}
-
 function avatarImageMarkup(sizeKey, src, alt) {
   return `<span class="avatar avatar--${sizeKey}"><img class="avatar__image" src="${src}" alt="${alt}" /></span>`;
 }
-function avatarInitialsMarkup(sizeKey, name, hue = hueOf(name)) {
-  return `<span class="avatar avatar--${sizeKey} avatar--${hue}" role="img" aria-label="${name}"><span class="avatar__initials">${initialsOf(name)}</span></span>`;
+function avatarInitialsMarkup(sizeKey, name) {
+  return `<span class="avatar avatar--${sizeKey} avatar--initials" role="img" aria-label="${name}"><span class="avatar__initials">${initialsOf(name)}</span></span>`;
 }
 function avatarGenericMarkup(sizeKey) {
   return `<span class="avatar avatar--${sizeKey} avatar--neutral" role="img" aria-label="Unknown user">${iconPerson}</span>`;
@@ -183,8 +165,8 @@ function sizeStories() {
 function chainStories() {
   const defs = [
     { title: "Has a photo → show the photo", html: avatarImageMarkup("base", photoB, "Alex Price"), code: `<span class="avatar avatar--base">\n  <img class="avatar__image" src="/users/456/photo.jpg" alt="Alex Price" />\n</span>`, note: "object-fit: cover — crops to fill the circle, no distortion." },
-    { title: "No photo, has a name → initials", html: avatarInitialsMarkup("base", "Priya Shah"), code: `<span class="avatar avatar--base avatar--${hueOf("Priya Shah")}" role="img" aria-label="Priya Shah">\n  <span class="avatar__initials">${initialsOf("Priya Shah")}</span>\n</span>`, note: "Initials: first letter of first name + first letter of last name (or first 2 letters if it's a single word). Color isn't random — hash(name) % 8, so the same person always gets the same color." },
-    { title: "No photo, no name → generic icon", html: avatarGenericMarkup("base"), code: `<span class="avatar avatar--base avatar--neutral" role="img" aria-label="Unknown user">\n  <!-- icon: person -->\n</span>`, note: "A system/guest user with no data — neutral gray, no color or initials (there's nothing to derive them from)." },
+    { title: "No image, has a name → initials", html: avatarInitialsMarkup("base", "Priya Shah"), code: `<span class="avatar avatar--base avatar--initials" role="img" aria-label="Priya Shah">\n  <span class="avatar__initials">${initialsOf("Priya Shah")}</span>\n</span>`, note: "Initials: first letter of first + last name (or first 2 letters of a single word), on a neutral raised surface — no name-derived colour (sportsbook avatars are mostly team/league logos)." },
+    { title: "No image, no name → generic icon", html: avatarGenericMarkup("base"), code: `<span class="avatar avatar--base avatar--neutral" role="img" aria-label="Unknown">\n  <!-- icon: person -->\n</span>`, note: "A system/guest entity with no data — neutral, a plain person icon." },
   ];
   return defs.map((d) => storyCard(d.title, d.html, d.code, d.note)).join("\n");
 }
@@ -192,14 +174,13 @@ function chainStories() {
 // ---- Live broken-image demo — real <img onerror> swap, not a forced screenshot state ----
 function liveFallbackDemo() {
   const name = "Jordan Lee";
-  const hue = hueOf(name);
   const live = `<span class="avatar avatar--base" data-avatar-fallback-demo>
       <img class="avatar__image" src="/broken-photo-does-not-exist.jpg" alt="${name}" />
-      <span class="avatar avatar--base avatar--${hue}" role="img" aria-label="${name}" hidden style="position:absolute; inset:0; border:none;"><span class="avatar__initials">${initialsOf(name)}</span></span>
+      <span class="avatar avatar--base avatar--initials" role="img" aria-label="${name}" hidden style="position:absolute; inset:0; border:none;"><span class="avatar__initials">${initialsOf(name)}</span></span>
     </span>`;
   const code = `<span class="avatar avatar--base" data-avatar-fallback-demo>
   <img class="avatar__image" src="/broken-photo-does-not-exist.jpg" alt="${name}" />
-  <span class="avatar avatar--base avatar--${hue}" role="img" aria-label="${name}" hidden>
+  <span class="avatar avatar--base avatar--initials" role="img" aria-label="${name}" hidden>
     <span class="avatar__initials">${initialsOf(name)}</span>
   </span>
 </span>
@@ -212,15 +193,6 @@ function liveFallbackDemo() {
   return storyCard("Photo failed to load (real onerror)", live, code, "A genuinely broken URL in this demo — the browser's real <img> onerror fires, not a scripted state for a screenshot. Both elements always sit in the DOM (hidden toggles visibility), the same approach Checkbox's own glyphs use.");
 }
 
-// ---- Identity palette — all 8 hues at once ----
-// One distinct name per hue (hash(name) % 8), chosen so this story actually
-// demonstrates all 8 slots instead of leaving some empty by hash coincidence.
-const paletteNames = ["Michael Wolfe", "Daniel Kerr", "Emma Hayes", "Laura Chen", "David Grant", "Olivia Lynn", "James Walker", "Sarah Bennett"];
-function paletteStories() {
-  return paletteNames
-    .map((name) => storyCard(hueOf(name), avatarInitialsMarkup("base", name), `<span class="avatar avatar--base avatar--${hueOf(name)}" role="img" aria-label="${name}">\n  <span class="avatar__initials">${initialsOf(name)}</span>\n</span>`))
-    .join("\n");
-}
 
 const html = `<!doctype html>
 <html lang="en">
@@ -308,7 +280,7 @@ const html = `<!doctype html>
       <div class="row"><b>Sizes</b><span>sm 32 / base 40 / lg 48 — deliberately the same grid as Button/Input/Select/Search (dim.8/dim.10/dim.12), not an independent scale, so an avatar sits at the same height as a button or field in the same row (a user-menu trigger, a comment composer).</span></div>
       <div class="row"><b>Shape</b><span>Circle only (radius.full). A square/rounded variant wasn't asked for — not built speculatively.</span></div>
       <div class="row"><b>Initials</b><span>First letter of the first name + first letter of the last name (or the first 2 letters if it's a single word), always uppercase, max 2 characters.</span></div>
-      <div class="row"><b>Initials color</b><span>Not arbitrary — deterministic: <code class="tok">hash(name) % 8</code> picks one of 8 hues (tokens/semantic/color.tokens.json → avatar.*). The same person always gets the same color; different people in a list read as visually distinct without assigning a color to each one by hand.</span></div>
+      <div class="row"><b>Initials fallback</b><span>A single neutral treatment — raised surface + secondary text. The old name-derived 8-hue identity palette was dropped for the sportsbook, where avatars are mostly team/league logos rather than coloured user initials.</span></div>
       <div class="row"><b>Border</b><span>1px border.default on a photo or the generic no-name fallback — same convention as Card/Input, so a light photo or the near-white neutral fallback doesn't blend into surface.page. Identity-color fallbacks skip it (border-color: transparent) — a gray hairline on top of an already-saturated pastel read muddy rather than crisp; the color block itself already separates from the page.</span></div>
       <div class="row"><b>No AvatarGroup</b><span>An overlapping avatar stack is a separate composition on top of Avatar, not asked for right now — deferred.</span></div>
     </div>
@@ -338,11 +310,6 @@ const html = `<!doctype html>
       ${liveFallbackDemo()}
     </div>
 
-    <h2 class="big-section">Identity palette (8 hues)</h2>
-    <p class="section-desc">Same hue order as chart-series (a validated CVD-safe sequence) — a separate token set at the 100/600 step (a pastel background for initials), not the same token used for charts.</p>
-    <div class="story-grid">
-      ${paletteStories()}
-    </div>
   </main>
 </div>
 <script>${js}</script>

@@ -63,8 +63,8 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const ROLES = ["neutral", "primary", "success", "warning", "danger"];
-const COLORS = ["gray", "blue", "red", "green", "amber", "orange", "violet", "magenta", "teal", "brown"];
+const ROLES = ["neutral", "active", "positive", "negative", "warning"];
+const COLORS = []; // decorative hue axis removed — sportsbook labels carry meaning (role-driven)
 const FILLS = ["tint", "solid"];
 const SIZES = ["sm", "base", "lg"];
 
@@ -136,17 +136,17 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 // ---- Sizes (base role=primary, tint, as reference) ----
 function sizeStories() {
   return sizeDefs
-    .map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, "role", "primary", "tint", "In Inbox"), markup(s.key, "role", "primary", "tint", "In Inbox")))
+    .map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, "role", "active", "tint", "Live"), markup(s.key, "role", "active", "tint", "Live")))
     .join("\n");
 }
 
 // ---- Role x fill ----
 const roleNotes = {
-  neutral: "bg.neutral/fill.neutral + text.default — the one role without a colored text counterpart.",
-  primary: "bg.primary/fill.primary + text.primary/text.onFill — an open/active thread, or any 'in progress' status.",
-  success: "bg.success/fill.success + text.success/text.onFill.",
-  warning: "bg.warning/fill.warning + text.warning/text.onFill — an upcoming expiry, not yet expired.",
-  danger: "bg.danger/fill.danger + text.danger/text.onFill — already past its expiry date.",
+  neutral: "surface.raised + secondary/default text — the one role without a coloured wash (a plain grey tag).",
+  active: "bg.active/fill.active + text.active/text.forActiveBg — live, in-play, freebet, selected.",
+  positive: "bg.positive/fill.positive — won, confirmed, positive odds movement.",
+  negative: "bg.negative/fill.negative — lost, error, negative odds movement.",
+  warning: "bg.warning/fill.warning + text.warning/text.forActiveBg — cashout, postponed, under review, expiring.",
 };
 function roleStories() {
   return ROLES.map((r) =>
@@ -179,26 +179,29 @@ function colorStories() {
 }
 
 const usageDemo = `<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      ${markup("base", "role", "primary", "tint", "In Inbox")}
-      <span style="color:${cv("text.secondary")}; font-family:${cv("family.sans")}; font-size:13px;">Course withdrawal deadline</span>
-      ${markup("base", "role", "warning", "tint", "Expires Jul 20")}
+      ${markup("base", "role", "active", "solid", "Live")}
+      <span style="color:${cv("text.default")}; font-family:${cv("family.sans")}; font-size:13px;">Manchester City vs Fulham</span>
+      ${markup("base", "role", "warning", "tint", "Cash out")}
     </div>`;
-const usageCode = `<div class="thread-list-item">
-  <span class="badge badge--base badge--tint badge--role-primary">In Inbox</span>
-  <span class="subject">Course withdrawal deadline</span>
-  <span class="badge badge--base badge--tint badge--role-warning">Expires Jul 20</span>
+const usageCode = `<div class="event-row">
+  <span class="badge badge--base badge--solid badge--role-active">Live</span>
+  <span class="subject">Manchester City vs Fulham</span>
+  <span class="badge badge--base badge--tint badge--role-warning">Cash out</span>
 </div>`;
 
-const tagUsageDemo = `<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      ${markup("sm", "color", "violet", "tint", "Design")}
-      ${markup("sm", "color", "teal", "tint", "Engineering")}
-      ${markup("sm", "color", "orange", "solid", "Urgent")}
+// Named sportsbook labels & bet statuses are just Badges in a given role.
+const labelDemo = `<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      ${markup("sm", "role", "active", "tint", "Freebet")}
+      ${markup("sm", "role", "warning", "tint", "Postponed")}
+      ${markup("sm", "role", "positive", "tint", "Won")}
+      ${markup("sm", "role", "negative", "tint", "Lost")}
+      ${markup("sm", "role", "neutral", "tint", "Pending")}
     </div>`;
-const tagUsageCode = `<div class="label-list">
-  <span class="badge badge--sm badge--tint badge--color-violet">Design</span>
-  <span class="badge badge--sm badge--tint badge--color-teal">Engineering</span>
-  <span class="badge badge--sm badge--solid badge--color-orange">Urgent</span>
-</div>`;
+const labelCode = `<span class="badge badge--sm badge--tint badge--role-active">Freebet</span>
+<span class="badge badge--sm badge--tint badge--role-warning">Postponed</span>
+<span class="badge badge--sm badge--tint badge--role-positive">Won</span>
+<span class="badge badge--sm badge--tint badge--role-negative">Lost</span>
+<span class="badge badge--sm badge--tint badge--role-neutral">Pending</span>`;
 
 const html = `<!doctype html>
 <html lang="en">
@@ -296,29 +299,26 @@ const html = `<!doctype html>
     <pre class="code"><code>${esc(css)}</code></pre>
 
     <h2 class="big-section">Sizes</h2>
-    <p class="section-desc">sm / base / lg, role="primary" tint as the reference.</p>
+    <p class="section-desc">sm / base / lg, role="active" tint as the reference.</p>
     <div class="story-grid">
       ${sizeStories()}
     </div>
 
     <h2 class="big-section">Roles</h2>
-    <p class="section-desc">5 roles × tint/solid, base size. Left = tint, right = solid, in every card.</p>
+    <p class="section-desc">5 semantic roles × tint/solid, base size. Left = tint, right = solid, in every card.</p>
     <div class="story-grid">
       ${roleStories()}
     </div>
 
-    <h2 class="big-section">Colors</h2>
-    <p class="section-desc">10 decorative hues × tint/solid, base size. gray/blue/red/green/amber are aliases of the role tokens above; orange/violet/magenta/teal/brown are new.</p>
-    <div class="story-grid">
-      ${colorStories()}
-    </div>
+    <h2 class="big-section">Named labels & bet statuses</h2>
+    <p class="section-desc">The sportsbook's named labels (live, freebet, postponed…) and bet-settlement statuses (won, lost, pending…) are just Badges in the matching role — no extra tokens.</p>
+    <div class="usage-preview">${labelDemo}</div>
+    <pre class="code"><code>${esc(labelCode)}</code></pre>
 
     <h2 class="big-section">In context</h2>
-    <p class="section-desc">Two real usage sketches — the driving Message Center case (role, status/expiry) and a generic tagging case (color, unrelated to status).</p>
+    <p class="section-desc">A live event row — a solid active "Live" pill, the fixture, and a warning "Cash out" tint.</p>
     <div class="usage-preview">${usageDemo}</div>
     <pre class="code"><code>${esc(usageCode)}</code></pre>
-    <div class="usage-preview" style="margin-top:1.5rem;">${tagUsageDemo}</div>
-    <pre class="code"><code>${esc(tagUsageCode)}</code></pre>
   </main>
 </div>
 </body>

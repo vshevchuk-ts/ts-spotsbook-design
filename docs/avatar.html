@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Avatar</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Avatar</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -68,26 +68,11 @@
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   :root {
-  --tok-border-default: #d1d1d1;
-  --tok-surface-sunken: #e8e8e8;
-  --tok-icon-muted: #989898;
-  --tok-avatar-blue-bg: #d9eaff;
-  --tok-avatar-blue-text: #0468c4;
-  --tok-avatar-green-bg: #acffc2;
-  --tok-avatar-green-text: #057e3f;
-  --tok-avatar-magenta-bg: #ffddec;
-  --tok-avatar-magenta-text: #b51c79;
-  --tok-avatar-amber-bg: #ffe2c5;
-  --tok-avatar-amber-text: #935a03;
-  --tok-avatar-teal-bg: #88fffe;
-  --tok-avatar-teal-text: #057878;
-  --tok-avatar-orange-bg: #ffe1d5;
-  --tok-avatar-orange-text: #ae4103;
-  --tok-avatar-violet-bg: #e8e4ff;
-  --tok-avatar-violet-text: #743ed8;
-  --tok-avatar-red-bg: #ffdfde;
-  --tok-avatar-red-text: #c11435;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-border-default: #282E3E;
+  --tok-surface-raised: #282E3E;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .avatar { box-sizing: border-box; position: relative; display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; overflow: hidden; border-radius: 999px; border: 1px solid var(--tok-border-default); font-family: var(--tok-family-sans); user-select: none; }
@@ -96,37 +81,23 @@
 .avatar--lg { width: 48px; height: 48px; }
 .avatar__image { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar__initials { text-transform: uppercase; }
-.avatar--sm .avatar__initials { font-weight: 600; font-size: 12px; line-height: 1; }
-.avatar--base .avatar__initials { font-weight: 600; font-size: 14px; line-height: 1; }
-.avatar--lg .avatar__initials { font-weight: 600; font-size: 16px; line-height: 1; }
+.avatar--sm .avatar__initials { font-weight: 500; font-size: 12px; line-height: 1; }
+.avatar--base .avatar__initials { font-weight: 500; font-size: 14px; line-height: 1; }
+.avatar--lg .avatar__initials { font-weight: 500; font-size: 16px; line-height: 1; }
 .avatar--sm .avatar__icon { width: 16px; height: 16px; }
 .avatar--base .avatar__icon { width: 20px; height: 20px; }
 .avatar--lg .avatar__icon { width: 24px; height: 24px; }
-.avatar--neutral { background: var(--tok-surface-sunken); }
-.avatar--neutral .avatar__icon { color: var(--tok-icon-muted); }
-.avatar--blue { background: var(--tok-avatar-blue-bg); border-color: transparent; }
-.avatar--blue .avatar__initials { color: var(--tok-avatar-blue-text); }
-.avatar--green { background: var(--tok-avatar-green-bg); border-color: transparent; }
-.avatar--green .avatar__initials { color: var(--tok-avatar-green-text); }
-.avatar--magenta { background: var(--tok-avatar-magenta-bg); border-color: transparent; }
-.avatar--magenta .avatar__initials { color: var(--tok-avatar-magenta-text); }
-.avatar--amber { background: var(--tok-avatar-amber-bg); border-color: transparent; }
-.avatar--amber .avatar__initials { color: var(--tok-avatar-amber-text); }
-.avatar--teal { background: var(--tok-avatar-teal-bg); border-color: transparent; }
-.avatar--teal .avatar__initials { color: var(--tok-avatar-teal-text); }
-.avatar--orange { background: var(--tok-avatar-orange-bg); border-color: transparent; }
-.avatar--orange .avatar__initials { color: var(--tok-avatar-orange-text); }
-.avatar--violet { background: var(--tok-avatar-violet-bg); border-color: transparent; }
-.avatar--violet .avatar__initials { color: var(--tok-avatar-violet-text); }
-.avatar--red { background: var(--tok-avatar-red-bg); border-color: transparent; }
-.avatar--red .avatar__initials { color: var(--tok-avatar-red-text); }
+.avatar--neutral { background: var(--tok-surface-raised); }
+.avatar--neutral .avatar__icon { color: var(--tok-icon-secondary); }
+.avatar--initials { background: var(--tok-surface-raised); }
+.avatar--initials .avatar__initials { color: var(--tok-text-secondary); }
 </style>
 </head>
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -168,33 +139,18 @@
       <div class="row"><b>Sizes</b><span>sm 32 / base 40 / lg 48 — deliberately the same grid as Button/Input/Select/Search (dim.8/dim.10/dim.12), not an independent scale, so an avatar sits at the same height as a button or field in the same row (a user-menu trigger, a comment composer).</span></div>
       <div class="row"><b>Shape</b><span>Circle only (radius.full). A square/rounded variant wasn't asked for — not built speculatively.</span></div>
       <div class="row"><b>Initials</b><span>First letter of the first name + first letter of the last name (or the first 2 letters if it's a single word), always uppercase, max 2 characters.</span></div>
-      <div class="row"><b>Initials color</b><span>Not arbitrary — deterministic: <code class="tok">hash(name) % 8</code> picks one of 8 hues (tokens/semantic/color.tokens.json → avatar.*). The same person always gets the same color; different people in a list read as visually distinct without assigning a color to each one by hand.</span></div>
+      <div class="row"><b>Initials fallback</b><span>A single neutral treatment — raised surface + secondary text. The old name-derived 8-hue identity palette was dropped for the sportsbook, where avatars are mostly team/league logos rather than coloured user initials.</span></div>
       <div class="row"><b>Border</b><span>1px border.default on a photo or the generic no-name fallback — same convention as Card/Input, so a light photo or the near-white neutral fallback doesn't blend into surface.page. Identity-color fallbacks skip it (border-color: transparent) — a gray hairline on top of an already-saturated pastel read muddy rather than crisp; the color block itself already separates from the page.</span></div>
       <div class="row"><b>No AvatarGroup</b><span>An overlapping avatar stack is a separate composition on top of Avatar, not asked for right now — deferred.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-border-default: #d1d1d1;
-  --tok-surface-sunken: #e8e8e8;
-  --tok-icon-muted: #989898;
-  --tok-avatar-blue-bg: #d9eaff;
-  --tok-avatar-blue-text: #0468c4;
-  --tok-avatar-green-bg: #acffc2;
-  --tok-avatar-green-text: #057e3f;
-  --tok-avatar-magenta-bg: #ffddec;
-  --tok-avatar-magenta-text: #b51c79;
-  --tok-avatar-amber-bg: #ffe2c5;
-  --tok-avatar-amber-text: #935a03;
-  --tok-avatar-teal-bg: #88fffe;
-  --tok-avatar-teal-text: #057878;
-  --tok-avatar-orange-bg: #ffe1d5;
-  --tok-avatar-orange-text: #ae4103;
-  --tok-avatar-violet-bg: #e8e4ff;
-  --tok-avatar-violet-text: #743ed8;
-  --tok-avatar-red-bg: #ffdfde;
-  --tok-avatar-red-text: #c11435;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-border-default: #282E3E;
+  --tok-surface-raised: #282E3E;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .avatar { box-sizing: border-box; position: relative; display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; overflow: hidden; border-radius: 999px; border: 1px solid var(--tok-border-default); font-family: var(--tok-family-sans); user-select: none; }
@@ -203,42 +159,20 @@
 .avatar--lg { width: 48px; height: 48px; }
 .avatar__image { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar__initials { text-transform: uppercase; }
-.avatar--sm .avatar__initials { font-weight: 600; font-size: 12px; line-height: 1; }
-.avatar--base .avatar__initials { font-weight: 600; font-size: 14px; line-height: 1; }
-.avatar--lg .avatar__initials { font-weight: 600; font-size: 16px; line-height: 1; }
+.avatar--sm .avatar__initials { font-weight: 500; font-size: 12px; line-height: 1; }
+.avatar--base .avatar__initials { font-weight: 500; font-size: 14px; line-height: 1; }
+.avatar--lg .avatar__initials { font-weight: 500; font-size: 16px; line-height: 1; }
 .avatar--sm .avatar__icon { width: 16px; height: 16px; }
 .avatar--base .avatar__icon { width: 20px; height: 20px; }
 .avatar--lg .avatar__icon { width: 24px; height: 24px; }
-.avatar--neutral { background: var(--tok-surface-sunken); }
-.avatar--neutral .avatar__icon { color: var(--tok-icon-muted); }
-.avatar--blue { background: var(--tok-avatar-blue-bg); border-color: transparent; }
-.avatar--blue .avatar__initials { color: var(--tok-avatar-blue-text); }
-.avatar--green { background: var(--tok-avatar-green-bg); border-color: transparent; }
-.avatar--green .avatar__initials { color: var(--tok-avatar-green-text); }
-.avatar--magenta { background: var(--tok-avatar-magenta-bg); border-color: transparent; }
-.avatar--magenta .avatar__initials { color: var(--tok-avatar-magenta-text); }
-.avatar--amber { background: var(--tok-avatar-amber-bg); border-color: transparent; }
-.avatar--amber .avatar__initials { color: var(--tok-avatar-amber-text); }
-.avatar--teal { background: var(--tok-avatar-teal-bg); border-color: transparent; }
-.avatar--teal .avatar__initials { color: var(--tok-avatar-teal-text); }
-.avatar--orange { background: var(--tok-avatar-orange-bg); border-color: transparent; }
-.avatar--orange .avatar__initials { color: var(--tok-avatar-orange-text); }
-.avatar--violet { background: var(--tok-avatar-violet-bg); border-color: transparent; }
-.avatar--violet .avatar__initials { color: var(--tok-avatar-violet-text); }
-.avatar--red { background: var(--tok-avatar-red-bg); border-color: transparent; }
-.avatar--red .avatar__initials { color: var(--tok-avatar-red-text); }</code></pre>
+.avatar--neutral { background: var(--tok-surface-raised); }
+.avatar--neutral .avatar__icon { color: var(--tok-icon-secondary); }
+.avatar--initials { background: var(--tok-surface-raised); }
+.avatar--initials .avatar__initials { color: var(--tok-text-secondary); }</code></pre>
 
     <h2 class="big-section">JS (initials, color, onerror)</h2>
     <p class="section-desc">The logic for computing initials/color and the real onerror fallback swap — not a token, but needed for a correct port.</p>
-    <pre class="code"><code>// Deterministic name -&gt; one of 8 fallback hues, so the same person always
-// lands on the same color across the product without storing a color per user.
-const AVATAR_HUES = ["blue","green","magenta","amber","teal","orange","violet","red"];
-function avatarHue(name) {
-  let sum = 0;
-  for (const ch of name) sum += ch.charCodeAt(0);
-  return AVATAR_HUES[sum % AVATAR_HUES.length];
-}
-function avatarInitials(name) {
+    <pre class="code"><code>function avatarInitials(name) {
   const parts = name.trim().split(/\s+/);
   return parts.length &gt; 1
     ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
@@ -301,21 +235,21 @@ document.querySelectorAll("[data-avatar-fallback-demo] img").forEach((img) =&gt;
       </div>
 
       <div class="story">
-        <h3>No photo, has a name → initials</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--green" role="img" aria-label="Priya Shah"><span class="avatar__initials">PS</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--green" role="img" aria-label="Priya Shah"&gt;
+        <h3>No image, has a name → initials</h3>
+        <div class="story-preview"><span class="avatar avatar--base avatar--initials" role="img" aria-label="Priya Shah"><span class="avatar__initials">PS</span></span></div>
+        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--initials" role="img" aria-label="Priya Shah"&gt;
   &lt;span class="avatar__initials"&gt;PS&lt;/span&gt;
 &lt;/span&gt;</code></pre>
-        <p class="story-note">Initials: first letter of first name + first letter of last name (or first 2 letters if it's a single word). Color isn't random — hash(name) % 8, so the same person always gets the same color.</p>
+        <p class="story-note">Initials: first letter of first + last name (or first 2 letters of a single word), on a neutral raised surface — no name-derived colour (sportsbook avatars are mostly team/league logos).</p>
       </div>
 
       <div class="story">
-        <h3>No photo, no name → generic icon</h3>
+        <h3>No image, no name → generic icon</h3>
         <div class="story-preview"><span class="avatar avatar--base avatar--neutral" role="img" aria-label="Unknown user"><svg class="avatar__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--neutral" role="img" aria-label="Unknown user"&gt;
+        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--neutral" role="img" aria-label="Unknown"&gt;
   &lt;!-- icon: person --&gt;
 &lt;/span&gt;</code></pre>
-        <p class="story-note">A system/guest user with no data — neutral gray, no color or initials (there's nothing to derive them from).</p>
+        <p class="story-note">A system/guest entity with no data — neutral, a plain person icon.</p>
       </div>
     </div>
 
@@ -327,11 +261,11 @@ document.querySelectorAll("[data-avatar-fallback-demo] img").forEach((img) =&gt;
         <h3>Photo failed to load (real onerror)</h3>
         <div class="story-preview"><span class="avatar avatar--base" data-avatar-fallback-demo>
       <img class="avatar__image" src="/broken-photo-does-not-exist.jpg" alt="Jordan Lee" />
-      <span class="avatar avatar--base avatar--teal" role="img" aria-label="Jordan Lee" hidden style="position:absolute; inset:0; border:none;"><span class="avatar__initials">JL</span></span>
+      <span class="avatar avatar--base avatar--initials" role="img" aria-label="Jordan Lee" hidden style="position:absolute; inset:0; border:none;"><span class="avatar__initials">JL</span></span>
     </span></div>
         <pre class="code"><code>&lt;span class="avatar avatar--base" data-avatar-fallback-demo&gt;
   &lt;img class="avatar__image" src="/broken-photo-does-not-exist.jpg" alt="Jordan Lee" /&gt;
-  &lt;span class="avatar avatar--base avatar--teal" role="img" aria-label="Jordan Lee" hidden&gt;
+  &lt;span class="avatar avatar--base avatar--initials" role="img" aria-label="Jordan Lee" hidden&gt;
     &lt;span class="avatar__initials"&gt;JL&lt;/span&gt;
   &lt;/span&gt;
 &lt;/span&gt;
@@ -345,93 +279,9 @@ document.querySelectorAll("[data-avatar-fallback-demo] img").forEach((img) =&gt;
       </div>
     </div>
 
-    <h2 class="big-section">Identity palette (8 hues)</h2>
-    <p class="section-desc">Same hue order as chart-series (a validated CVD-safe sequence) — a separate token set at the 100/600 step (a pastel background for initials), not the same token used for charts.</p>
-    <div class="story-grid">
-      
-      <div class="story">
-        <h3>blue</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--blue" role="img" aria-label="Michael Wolfe"><span class="avatar__initials">MW</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--blue" role="img" aria-label="Michael Wolfe"&gt;
-  &lt;span class="avatar__initials"&gt;MW&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>green</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--green" role="img" aria-label="Daniel Kerr"><span class="avatar__initials">DK</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--green" role="img" aria-label="Daniel Kerr"&gt;
-  &lt;span class="avatar__initials"&gt;DK&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>magenta</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--magenta" role="img" aria-label="Emma Hayes"><span class="avatar__initials">EH</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--magenta" role="img" aria-label="Emma Hayes"&gt;
-  &lt;span class="avatar__initials"&gt;EH&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>amber</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--amber" role="img" aria-label="Laura Chen"><span class="avatar__initials">LC</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--amber" role="img" aria-label="Laura Chen"&gt;
-  &lt;span class="avatar__initials"&gt;LC&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>teal</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--teal" role="img" aria-label="David Grant"><span class="avatar__initials">DG</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--teal" role="img" aria-label="David Grant"&gt;
-  &lt;span class="avatar__initials"&gt;DG&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>orange</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--orange" role="img" aria-label="Olivia Lynn"><span class="avatar__initials">OL</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--orange" role="img" aria-label="Olivia Lynn"&gt;
-  &lt;span class="avatar__initials"&gt;OL&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>violet</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--violet" role="img" aria-label="James Walker"><span class="avatar__initials">JW</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--violet" role="img" aria-label="James Walker"&gt;
-  &lt;span class="avatar__initials"&gt;JW&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>red</h3>
-        <div class="story-preview"><span class="avatar avatar--base avatar--red" role="img" aria-label="Sarah Bennett"><span class="avatar__initials">SB</span></span></div>
-        <pre class="code"><code>&lt;span class="avatar avatar--base avatar--red" role="img" aria-label="Sarah Bennett"&gt;
-  &lt;span class="avatar__initials"&gt;SB&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-        
-      </div>
-    </div>
   </main>
 </div>
-<script>// Deterministic name -> one of 8 fallback hues, so the same person always
-// lands on the same color across the product without storing a color per user.
-const AVATAR_HUES = ["blue","green","magenta","amber","teal","orange","violet","red"];
-function avatarHue(name) {
-  let sum = 0;
-  for (const ch of name) sum += ch.charCodeAt(0);
-  return AVATAR_HUES[sum % AVATAR_HUES.length];
-}
-function avatarInitials(name) {
+<script>function avatarInitials(name) {
   const parts = name.trim().split(/\s+/);
   return parts.length > 1
     ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
