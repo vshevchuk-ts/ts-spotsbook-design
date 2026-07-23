@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Popover</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Popover</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -72,20 +72,20 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-icon-secondary: #808080;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); font-family: var(--tok-family-sans); }
+.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
 .popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.popover__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.popover__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .popover__body { margin: 8px 0 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .popover__close:hover { background: var(--tok-fill-neutral-hover); }
@@ -100,8 +100,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -148,20 +148,20 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-icon-secondary: #808080;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); font-family: var(--tok-family-sans); }
+.popover { margin: 0; box-sizing: border-box; max-width: 280px; padding: 16px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); }
 .popover__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.popover__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.popover__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .popover__body { margin: 8px 0 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .popover__close:hover { background: var(--tok-fill-neutral-hover); }

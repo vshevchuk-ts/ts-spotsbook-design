@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — colors</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — colors</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -34,53 +34,36 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
   .shell { display: flex; min-height: 100vh; }
-  nav.side {
-    width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border);
-    padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto;
-  }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
   .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
   .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
-  .navlink {
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none;
-    color: var(--text-primary); margin-bottom: 1px;
-  }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
   .navlink:hover { background: var(--bg-card-hover); }
   .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
-  .navlink.disabled { color: var(--text-muted); cursor: default; pointer-events: none; }
   .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
-  .tag { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border: 0.5px solid var(--border-strong); border-radius: 4px; padding: 1px 5px; }
-  main { flex: 1; padding: 3rem 3rem 4rem; max-width: 1120px; }
+  main { flex: 1; padding: 3rem 3rem 4rem; max-width: 960px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 2rem; }
-  h2.section { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin: 2.5rem 0 0.9rem; }
-  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 12px 16px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; }
-  .legend .row { display: flex; gap: 14px; padding: 5px 0; border-bottom: 0.5px solid var(--border); align-items: baseline; }
-  .legend .row:last-child { border-bottom: none; }
-  .legend .row b { width: 150px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
-  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; }
-  .dot.text { background: #1c9851; }
-  .dot.ui { border: 1.5px solid var(--text-muted); }
-  .cat-row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
-  .cat-swatch { border-radius: 10px; padding: 12px 10px 10px; min-height: 78px; display: flex; flex-direction: column; justify-content: space-between; border: 0.5px solid var(--border); }
-  .cat-swatch .name { font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
-  .cat-swatch .hex { font-family: var(--mono); font-size: 10.5px; opacity: 0.85; }
-  .family { margin-bottom: 4px; }
-  .family-head { display: flex; align-items: baseline; gap: 8px; margin: 1.4rem 0 6px; }
-  .family-name { font-size: 13px; font-weight: 600; text-transform: capitalize; }
-  .family-hue { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
-  .ramp { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
-  .swatch { position: relative; border-radius: 6px; height: 52px; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 5px; border: 0.5px solid rgba(0,0,0,0.06); }
-  .swatch .step { font-family: var(--mono); font-size: 9.5px; font-weight: 600; }
-  .swatch .hex { font-family: var(--mono); font-size: 8px; opacity: 0.8; }
-  .swatch .mark { position: absolute; top: 4px; right: 4px; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.6rem; max-width: 74ch; line-height: 1.5; }
+  h2.section { font-size: 13px; font-weight: 600; margin: 2rem 0 2px; font-family: var(--mono); }
+  .grp-note { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 0.7rem; max-width: 78ch; line-height: 1.5; }
+  .tok-list { border: 0.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .tok-row { display: grid; grid-template-columns: 40px 220px 1fr; align-items: center; gap: 14px; padding: 9px 14px; background: var(--bg-card); border-bottom: 0.5px solid var(--border); }
+  .tok-row:last-child { border-bottom: none; }
+  .sw { display: flex; width: 36px; height: 30px; border-radius: 6px; border: 0.5px solid var(--border-strong); overflow: hidden; }
+  .sw-in { display: block; width: 100%; height: 100%; }
+  .sw-half { flex: 1; min-width: 0; }
+  .sw-check { background-image: linear-gradient(45deg, #bbb 25%, transparent 25%), linear-gradient(-45deg, #bbb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #bbb 75%), linear-gradient(-45deg, transparent 75%, #bbb 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0; background-color: #fff; }
+  .tok-meta { display: flex; flex-direction: column; gap: 2px; }
+  .tok-name { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+  .tok-val { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); }
+  .tok-desc { font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.45; }
 </style>
 </head>
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink active" href="colors.html">Colors</a>
@@ -115,465 +98,260 @@
   </nav>
   <main>
     <h1>Colors — primitives</h1>
-    <p class="sub">tokens/primitives/color.tokens.json · generated — don't hand-edit hex</p>
+    <p class="sub">The Turbo Sportsbook primitive set, baked to the <strong>Pro</strong> theme. This is a fixed, Theme-Editor-driven palette — no 25→950 ramp. In the live product the Theme Editor rewrites <code>base</code> and <code>status</code> as CSS variables at runtime; <code>sub</code> is derived from them by opacity. Everything above (semantic, components) aliases these. <code>tokens/primitives/color.tokens.json</code> · generated — don't hand-edit hex.</p>
 
-    <div class="legend">
-      <div class="row"><b><span class="dot text"></span>Step 600</b><span>AA text-safe on white, ≥4.5:1 — body text, links, small icons, anything read as text.</span></div>
-      <div class="row"><b><span class="dot ui"></span>Step 500</b><span>Brand/UI-safe only, ≥3:1 — large text (≥18pt/14pt bold), borders, fills, illustrations. Not for small/body text.</span></div>
-      <div class="row"><b>Steps 25–200</b><span>Solid light tints for backgrounds (notification chips, subtle fills, hover washes) — used as flat colors, not via opacity, so they never shift depending on what's behind them.</span></div>
-      <div class="row"><b>Steps 700–950</b><span>Dark end of the ramp — reserved mostly for future dark-mode surfaces/text, not used by any light-mode style yet.</span></div>
-      <div class="row"><b>Chart palette</b><span>Use only the 8 validated series slots below for data-viz identity — never a raw ramp color for a chart series, and never reorder them (order is the CVD-safety mechanism).</span></div>
-      <div class="row"><b>white</b><span>Literal, not part of the gray ramp — gray-25 is a near-white neutral but not identical to it. No literal black: gray-950 already serves that role well (pure black reads too harsh for text in most modern UI).</span></div>
+    <section class="grp">
+    <h2 class="section">base — surfaces</h2>
+    <p class="grp-note">The neutral elevation stack (Theme Editor → Surfaces). Page is darkest; each step up is lighter. surface-6 is a fill/outline colour, not a background.</p>
+    <div class="tok-list"><div class="tok-row">
+    <span class="sw" style="background:#11141C"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.surface-0</code>
+      <code class="tok-val">#11141C</code>
     </div>
-
-    <h2 class="section">Absolutes</h2>
-    <div class="cat-row" style="grid-template-columns: repeat(4, 1fr);">
-      <div class="cat-swatch" style="background:#ffffff;color:#141414;border:0.5px solid var(--border-strong)">
-        <span class="name">white</span><span class="hex">#ffffff</span>
-      </div>
+    <p class="tok-desc">Main background — the page. Darkest surface, everything else sits on top. Theme Editor: 'Surfaces → Main background'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#1C202B"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.surface-2</code>
+      <code class="tok-val">#1C202B</code>
     </div>
-
-    <h2 class="section">Categorical / chart palette — validated (fixed order, CVD-safe)</h2>
-    <div class="cat-row">
-      <div class="cat-swatch" style="background:#077fec;color:#fdfdfd">
-        <span class="name">series-1<br>blue</span><span class="hex">#077fec</span>
-      </div>
-      <div class="cat-swatch" style="background:#0a994e;color:#fdfdfd">
-        <span class="name">series-2<br>green</span><span class="hex">#0a994e</span>
-      </div>
-      <div class="cat-swatch" style="background:#d13d91;color:#fdfdfd">
-        <span class="name">series-3<br>magenta</span><span class="hex">#d13d91</span>
-      </div>
-      <div class="cat-swatch" style="background:#b26f07;color:#fdfdfd">
-        <span class="name">series-4<br>amber</span><span class="hex">#b26f07</span>
-      </div>
-      <div class="cat-swatch" style="background:#0a9393;color:#fdfdfd">
-        <span class="name">series-5<br>teal</span><span class="hex">#0a9393</span>
-      </div>
-      <div class="cat-swatch" style="background:#d35006;color:#fdfdfd">
-        <span class="name">series-6<br>orange</span><span class="hex">#d35006</span>
-      </div>
-      <div class="cat-swatch" style="background:#8a5af4;color:#fdfdfd">
-        <span class="name">series-7<br>violet</span><span class="hex">#8a5af4</span>
-      </div>
-      <div class="cat-swatch" style="background:#de394b;color:#fdfdfd">
-        <span class="name">series-8<br>red</span><span class="hex">#de394b</span>
-      </div>
+    <p class="tok-desc">Cards &amp; popups — the first elevation above the page. Theme Editor: 'Surfaces → Cards &amp; popups'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#282E3E"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.surface-4</code>
+      <code class="tok-val">#282E3E</code>
     </div>
-
-    <h2 class="section">Primitive ramps</h2>
-    <div id="families">
-      <div class="family">
-        <div class="family-head"><span class="family-name">gray</span><span class="family-hue">H 254°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fafafa;color:#141414" title="gray-25  #fafafa  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#fafafa</span>
-        </div>
-        <div class="swatch" style="background:#f5f5f5;color:#141414" title="gray-50  #f5f5f5  onWhite 1.09:1">
-          <span class="step">50</span><span class="hex">#f5f5f5</span>
-        </div>
-        <div class="swatch" style="background:#e8e8e8;color:#141414" title="gray-100  #e8e8e8  onWhite 1.23:1">
-          <span class="step">100</span><span class="hex">#e8e8e8</span>
-        </div>
-        <div class="swatch" style="background:#d1d1d1;color:#141414" title="gray-200  #d1d1d1  onWhite 1.53:1">
-          <span class="step">200</span><span class="hex">#d1d1d1</span>
-        </div>
-        <div class="swatch" style="background:#b4b4b4;color:#141414" title="gray-300  #b4b4b4  onWhite 2.07:1">
-          <span class="step">300</span><span class="hex">#b4b4b4</span>
-        </div>
-        <div class="swatch" style="background:#989898;color:#141414" title="gray-400  #989898  onWhite 2.88:1">
-          <span class="step">400</span><span class="hex">#989898</span>
-        </div>
-        <div class="swatch" style="background:#808080;color:#fdfdfd" title="gray-500  #808080  onWhite 3.95:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#808080</span>
-        </div>
-        <div class="swatch" style="background:#696969;color:#fdfdfd" title="gray-600  #696969  onWhite 5.49:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#696969</span>
-        </div>
-        <div class="swatch" style="background:#525252;color:#fdfdfd" title="gray-700  #525252  onWhite 7.81:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#525252</span>
-        </div>
-        <div class="swatch" style="background:#3d3d3d;color:#fdfdfd" title="gray-800  #3d3d3d  onWhite 10.86:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#3d3d3d</span>
-        </div>
-        <div class="swatch" style="background:#2b2b2b;color:#fdfdfd" title="gray-900  #2b2b2b  onWhite 14.16:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#2b2b2b</span>
-        </div>
-        <div class="swatch" style="background:#181818;color:#fdfdfd" title="gray-950  #181818  onWhite 17.76:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#181818</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">blue</span><span class="family-hue">H 254°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#f7faff;color:#141414" title="blue-25  #f7faff  onWhite 1.05:1">
-          <span class="step">25</span><span class="hex">#f7faff</span>
-        </div>
-        <div class="swatch" style="background:#eff6ff;color:#141414" title="blue-50  #eff6ff  onWhite 1.09:1">
-          <span class="step">50</span><span class="hex">#eff6ff</span>
-        </div>
-        <div class="swatch" style="background:#d9eaff;color:#141414" title="blue-100  #d9eaff  onWhite 1.22:1">
-          <span class="step">100</span><span class="hex">#d9eaff</span>
-        </div>
-        <div class="swatch" style="background:#b2d4fe;color:#141414" title="blue-200  #b2d4fe  onWhite 1.53:1">
-          <span class="step">200</span><span class="hex">#b2d4fe</span>
-        </div>
-        <div class="swatch" style="background:#7eb8fe;color:#141414" title="blue-300  #7eb8fe  onWhite 2.06:1">
-          <span class="step">300</span><span class="hex">#7eb8fe</span>
-        </div>
-        <div class="swatch" style="background:#439afd;color:#141414" title="blue-400  #439afd  onWhite 2.88:1">
-          <span class="step">400</span><span class="hex">#439afd</span>
-        </div>
-        <div class="swatch" style="background:#077fec;color:#fdfdfd" title="blue-500  #077fec  onWhite 4:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#077fec</span>
-        </div>
-        <div class="swatch" style="background:#0468c4;color:#fdfdfd" title="blue-600  #0468c4  onWhite 5.55:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#0468c4</span>
-        </div>
-        <div class="swatch" style="background:#01519c;color:#fdfdfd" title="blue-700  #01519c  onWhite 7.9:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#01519c</span>
-        </div>
-        <div class="swatch" style="background:#003c77;color:#fdfdfd" title="blue-800  #003c77  onWhite 10.98:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#003c77</span>
-        </div>
-        <div class="swatch" style="background:#002a59;color:#fdfdfd" title="blue-900  #002a59  onWhite 14.23:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#002a59</span>
-        </div>
-        <div class="swatch" style="background:#001739;color:#fdfdfd" title="blue-950  #001739  onWhite 17.77:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#001739</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">red</span><span class="family-hue">H 20°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fff8f8;color:#141414" title="red-25  #fff8f8  onWhite 1.05:1">
-          <span class="step">25</span><span class="hex">#fff8f8</span>
-        </div>
-        <div class="swatch" style="background:#fff1f1;color:#141414" title="red-50  #fff1f1  onWhite 1.1:1">
-          <span class="step">50</span><span class="hex">#fff1f1</span>
-        </div>
-        <div class="swatch" style="background:#ffdfde;color:#141414" title="red-100  #ffdfde  onWhite 1.25:1">
-          <span class="step">100</span><span class="hex">#ffdfde</span>
-        </div>
-        <div class="swatch" style="background:#febebd;color:#141414" title="red-200  #febebd  onWhite 1.58:1">
-          <span class="step">200</span><span class="hex">#febebd</span>
-        </div>
-        <div class="swatch" style="background:#fe9091;color:#141414" title="red-300  #fe9091  onWhite 2.18:1">
-          <span class="step">300</span><span class="hex">#fe9091</span>
-        </div>
-        <div class="swatch" style="background:#fb5663;color:#141414" title="red-400  #fb5663  onWhite 3.18:1">
-          <span class="step">400</span><span class="mark dot ui"></span><span class="hex">#fb5663</span>
-        </div>
-        <div class="swatch" style="background:#de394b;color:#fdfdfd" title="red-500  #de394b  onWhite 4.38:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#de394b</span>
-        </div>
-        <div class="swatch" style="background:#c11435;color:#fdfdfd" title="red-600  #c11435  onWhite 6.14:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#c11435</span>
-        </div>
-        <div class="swatch" style="background:#9c0326;color:#fdfdfd" title="red-700  #9c0326  onWhite 8.56:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#9c0326</span>
-        </div>
-        <div class="swatch" style="background:#77001a;color:#fdfdfd" title="red-800  #77001a  onWhite 11.67:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#77001a</span>
-        </div>
-        <div class="swatch" style="background:#580010;color:#fdfdfd" title="red-900  #580010  onWhite 14.76:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#580010</span>
-        </div>
-        <div class="swatch" style="background:#370006;color:#fdfdfd" title="red-950  #370006  onWhite 18.02:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#370006</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">green</span><span class="family-hue">H 152°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#effff3;color:#141414" title="green-25  #effff3  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#effff3</span>
-        </div>
-        <div class="swatch" style="background:#dfffe6;color:#141414" title="green-50  #dfffe6  onWhite 1.07:1">
-          <span class="step">50</span><span class="hex">#dfffe6</span>
-        </div>
-        <div class="swatch" style="background:#acffc2;color:#141414" title="green-100  #acffc2  onWhite 1.18:1">
-          <span class="step">100</span><span class="hex">#acffc2</span>
-        </div>
-        <div class="swatch" style="background:#75ef9c;color:#141414" title="green-200  #75ef9c  onWhite 1.44:1">
-          <span class="step">200</span><span class="hex">#75ef9c</span>
-        </div>
-        <div class="swatch" style="background:#55d180;color:#141414" title="green-300  #55d180  onWhite 1.94:1">
-          <span class="step">300</span><span class="hex">#55d180</span>
-        </div>
-        <div class="swatch" style="background:#32b364;color:#141414" title="green-400  #32b364  onWhite 2.7:1">
-          <span class="step">400</span><span class="hex">#32b364</span>
-        </div>
-        <div class="swatch" style="background:#0a994e;color:#fdfdfd" title="green-500  #0a994e  onWhite 3.7:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#0a994e</span>
-        </div>
-        <div class="swatch" style="background:#057e3f;color:#fdfdfd" title="green-600  #057e3f  onWhite 5.17:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#057e3f</span>
-        </div>
-        <div class="swatch" style="background:#026430;color:#fdfdfd" title="green-700  #026430  onWhite 7.32:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#026430</span>
-        </div>
-        <div class="swatch" style="background:#004b22;color:#fdfdfd" title="green-800  #004b22  onWhite 10.35:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#004b22</span>
-        </div>
-        <div class="swatch" style="background:#003616;color:#fdfdfd" title="green-900  #003616  onWhite 13.64:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#003616</span>
-        </div>
-        <div class="swatch" style="background:#002009;color:#fdfdfd" title="green-950  #002009  onWhite 17.35:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#002009</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">amber</span><span class="family-hue">H 68°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fff9f3;color:#141414" title="amber-25  #fff9f3  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#fff9f3</span>
-        </div>
-        <div class="swatch" style="background:#fff3e7;color:#141414" title="amber-50  #fff3e7  onWhite 1.09:1">
-          <span class="step">50</span><span class="hex">#fff3e7</span>
-        </div>
-        <div class="swatch" style="background:#ffe2c5;color:#141414" title="amber-100  #ffe2c5  onWhite 1.24:1">
-          <span class="step">100</span><span class="hex">#ffe2c5</span>
-        </div>
-        <div class="swatch" style="background:#fec486;color:#141414" title="amber-200  #fec486  onWhite 1.56:1">
-          <span class="step">200</span><span class="hex">#fec486</span>
-        </div>
-        <div class="swatch" style="background:#f69e23;color:#141414" title="amber-300  #f69e23  onWhite 2.14:1">
-          <span class="step">300</span><span class="hex">#f69e23</span>
-        </div>
-        <div class="swatch" style="background:#d2840b;color:#141414" title="amber-400  #d2840b  onWhite 2.98:1">
-          <span class="step">400</span><span class="hex">#d2840b</span>
-        </div>
-        <div class="swatch" style="background:#b26f07;color:#fdfdfd" title="amber-500  #b26f07  onWhite 4.06:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#b26f07</span>
-        </div>
-        <div class="swatch" style="background:#935a03;color:#fdfdfd" title="amber-600  #935a03  onWhite 5.67:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#935a03</span>
-        </div>
-        <div class="swatch" style="background:#754701;color:#fdfdfd" title="amber-700  #754701  onWhite 7.9:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#754701</span>
-        </div>
-        <div class="swatch" style="background:#583400;color:#fdfdfd" title="amber-800  #583400  onWhite 11.02:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#583400</span>
-        </div>
-        <div class="swatch" style="background:#402400;color:#fdfdfd" title="amber-900  #402400  onWhite 14.28:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#402400</span>
-        </div>
-        <div class="swatch" style="background:#281200;color:#fdfdfd" title="amber-950  #281200  onWhite 17.85:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#281200</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">orange</span><span class="family-hue">H 42°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fff9f6;color:#141414" title="orange-25  #fff9f6  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#fff9f6</span>
-        </div>
-        <div class="swatch" style="background:#fff2ed;color:#141414" title="orange-50  #fff2ed  onWhite 1.1:1">
-          <span class="step">50</span><span class="hex">#fff2ed</span>
-        </div>
-        <div class="swatch" style="background:#ffe1d5;color:#141414" title="orange-100  #ffe1d5  onWhite 1.24:1">
-          <span class="step">100</span><span class="hex">#ffe1d5</span>
-        </div>
-        <div class="swatch" style="background:#fec1a9;color:#141414" title="orange-200  #fec1a9  onWhite 1.57:1">
-          <span class="step">200</span><span class="hex">#fec1a9</span>
-        </div>
-        <div class="swatch" style="background:#fe946a;color:#141414" title="orange-300  #fe946a  onWhite 2.17:1">
-          <span class="step">300</span><span class="hex">#fe946a</span>
-        </div>
-        <div class="swatch" style="background:#f46622;color:#141414" title="orange-400  #f46622  onWhite 3.1:1">
-          <span class="step">400</span><span class="mark dot ui"></span><span class="hex">#f46622</span>
-        </div>
-        <div class="swatch" style="background:#d35006;color:#fdfdfd" title="orange-500  #d35006  onWhite 4.27:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#d35006</span>
-        </div>
-        <div class="swatch" style="background:#ae4103;color:#fdfdfd" title="orange-600  #ae4103  onWhite 5.9:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#ae4103</span>
-        </div>
-        <div class="swatch" style="background:#8b3101;color:#fdfdfd" title="orange-700  #8b3101  onWhite 8.28:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#8b3101</span>
-        </div>
-        <div class="swatch" style="background:#6a2300;color:#fdfdfd" title="orange-800  #6a2300  onWhite 11.33:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#6a2300</span>
-        </div>
-        <div class="swatch" style="background:#4e1600;color:#fdfdfd" title="orange-900  #4e1600  onWhite 14.6:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#4e1600</span>
-        </div>
-        <div class="swatch" style="background:#320800;color:#fdfdfd" title="orange-950  #320800  onWhite 17.94:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#320800</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">violet</span><span class="family-hue">H 293°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#faf9ff;color:#141414" title="violet-25  #faf9ff  onWhite 1.05:1">
-          <span class="step">25</span><span class="hex">#faf9ff</span>
-        </div>
-        <div class="swatch" style="background:#f5f3ff;color:#141414" title="violet-50  #f5f3ff  onWhite 1.1:1">
-          <span class="step">50</span><span class="hex">#f5f3ff</span>
-        </div>
-        <div class="swatch" style="background:#e8e4ff;color:#141414" title="violet-100  #e8e4ff  onWhite 1.24:1">
-          <span class="step">100</span><span class="hex">#e8e4ff</span>
-        </div>
-        <div class="swatch" style="background:#d2c9fe;color:#141414" title="violet-200  #d2c9fe  onWhite 1.55:1">
-          <span class="step">200</span><span class="hex">#d2c9fe</span>
-        </div>
-        <div class="swatch" style="background:#b7a4fe;color:#141414" title="violet-300  #b7a4fe  onWhite 2.15:1">
-          <span class="step">300</span><span class="hex">#b7a4fe</span>
-        </div>
-        <div class="swatch" style="background:#9f7dfd;color:#141414" title="violet-400  #9f7dfd  onWhite 3.08:1">
-          <span class="step">400</span><span class="mark dot ui"></span><span class="hex">#9f7dfd</span>
-        </div>
-        <div class="swatch" style="background:#8a5af4;color:#fdfdfd" title="violet-500  #8a5af4  onWhite 4.33:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#8a5af4</span>
-        </div>
-        <div class="swatch" style="background:#743ed8;color:#fdfdfd" title="violet-600  #743ed8  onWhite 6.13:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#743ed8</span>
-        </div>
-        <div class="swatch" style="background:#5e1ebd;color:#fdfdfd" title="violet-700  #5e1ebd  onWhite 8.76:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#5e1ebd</span>
-        </div>
-        <div class="swatch" style="background:#480298;color:#fdfdfd" title="violet-800  #480298  onWhite 12.09:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#480298</span>
-        </div>
-        <div class="swatch" style="background:#340072;color:#fdfdfd" title="violet-900  #340072  onWhite 15.12:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#340072</span>
-        </div>
-        <div class="swatch" style="background:#1e0049;color:#fdfdfd" title="violet-950  #1e0049  onWhite 18.24:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#1e0049</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">magenta</span><span class="family-hue">H 350°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fff8fb;color:#141414" title="magenta-25  #fff8fb  onWhite 1.05:1">
-          <span class="step">25</span><span class="hex">#fff8fb</span>
-        </div>
-        <div class="swatch" style="background:#fff1f7;color:#141414" title="magenta-50  #fff1f7  onWhite 1.1:1">
-          <span class="step">50</span><span class="hex">#fff1f7</span>
-        </div>
-        <div class="swatch" style="background:#ffddec;color:#141414" title="magenta-100  #ffddec  onWhite 1.25:1">
-          <span class="step">100</span><span class="hex">#ffddec</span>
-        </div>
-        <div class="swatch" style="background:#febad9;color:#141414" title="magenta-200  #febad9  onWhite 1.59:1">
-          <span class="step">200</span><span class="hex">#febad9</span>
-        </div>
-        <div class="swatch" style="background:#fe86c2;color:#141414" title="magenta-300  #fe86c2  onWhite 2.23:1">
-          <span class="step">300</span><span class="hex">#fe86c2</span>
-        </div>
-        <div class="swatch" style="background:#ed58a9;color:#141414" title="magenta-400  #ed58a9  onWhite 3.2:1">
-          <span class="step">400</span><span class="mark dot ui"></span><span class="hex">#ed58a9</span>
-        </div>
-        <div class="swatch" style="background:#d13d91;color:#fdfdfd" title="magenta-500  #d13d91  onWhite 4.39:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#d13d91</span>
-        </div>
-        <div class="swatch" style="background:#b51c79;color:#fdfdfd" title="magenta-600  #b51c79  onWhite 6.16:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#b51c79</span>
-        </div>
-        <div class="swatch" style="background:#940360;color:#fdfdfd" title="magenta-700  #940360  onWhite 8.6:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#940360</span>
-        </div>
-        <div class="swatch" style="background:#700048;color:#fdfdfd" title="magenta-800  #700048  onWhite 11.78:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#700048</span>
-        </div>
-        <div class="swatch" style="background:#530034;color:#fdfdfd" title="magenta-900  #530034  onWhite 14.82:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#530034</span>
-        </div>
-        <div class="swatch" style="background:#34001e;color:#fdfdfd" title="magenta-950  #34001e  onWhite 18.03:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#34001e</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">teal</span><span class="family-hue">H 195°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#ebffff;color:#141414" title="teal-25  #ebffff  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#ebffff</span>
-        </div>
-        <div class="swatch" style="background:#d5fffe;color:#141414" title="teal-50  #d5fffe  onWhite 1.07:1">
-          <span class="step">50</span><span class="hex">#d5fffe</span>
-        </div>
-        <div class="swatch" style="background:#88fffe;color:#141414" title="teal-100  #88fffe  onWhite 1.18:1">
-          <span class="step">100</span><span class="hex">#88fffe</span>
-        </div>
-        <div class="swatch" style="background:#4aebeb;color:#141414" title="teal-200  #4aebeb  onWhite 1.46:1">
-          <span class="step">200</span><span class="hex">#4aebeb</span>
-        </div>
-        <div class="swatch" style="background:#15cdce;color:#141414" title="teal-300  #15cdce  onWhite 1.97:1">
-          <span class="step">300</span><span class="hex">#15cdce</span>
-        </div>
-        <div class="swatch" style="background:#0faeae;color:#141414" title="teal-400  #0faeae  onWhite 2.73:1">
-          <span class="step">400</span><span class="hex">#0faeae</span>
-        </div>
-        <div class="swatch" style="background:#0a9393;color:#fdfdfd" title="teal-500  #0a9393  onWhite 3.74:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#0a9393</span>
-        </div>
-        <div class="swatch" style="background:#057878;color:#fdfdfd" title="teal-600  #057878  onWhite 5.3:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#057878</span>
-        </div>
-        <div class="swatch" style="background:#025f5f;color:#fdfdfd" title="teal-700  #025f5f  onWhite 7.49:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#025f5f</span>
-        </div>
-        <div class="swatch" style="background:#004747;color:#fdfdfd" title="teal-800  #004747  onWhite 10.54:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#004747</span>
-        </div>
-        <div class="swatch" style="background:#003333;color:#fdfdfd" title="teal-900  #003333  onWhite 13.8:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#003333</span>
-        </div>
-        <div class="swatch" style="background:#001e1e;color:#fdfdfd" title="teal-950  #001e1e  onWhite 17.44:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#001e1e</span>
-        </div>
-        </div>
-      </div>
-      <div class="family">
-        <div class="family-head"><span class="family-name">brown</span><span class="family-hue">H 50°</span></div>
-        <div class="ramp">
-        <div class="swatch" style="background:#fff9f5;color:#141414" title="brown-25  #fff9f5  onWhite 1.04:1">
-          <span class="step">25</span><span class="hex">#fff9f5</span>
-        </div>
-        <div class="swatch" style="background:#fff2ec;color:#141414" title="brown-50  #fff2ec  onWhite 1.1:1">
-          <span class="step">50</span><span class="hex">#fff2ec</span>
-        </div>
-        <div class="swatch" style="background:#ffe1d1;color:#141414" title="brown-100  #ffe1d1  onWhite 1.24:1">
-          <span class="step">100</span><span class="hex">#ffe1d1</span>
-        </div>
-        <div class="swatch" style="background:#fec2a1;color:#141414" title="brown-200  #fec2a1  onWhite 1.56:1">
-          <span class="step">200</span><span class="hex">#fec2a1</span>
-        </div>
-        <div class="swatch" style="background:#e3a480;color:#141414" title="brown-300  #e3a480  onWhite 2.12:1">
-          <span class="step">300</span><span class="hex">#e3a480</span>
-        </div>
-        <div class="swatch" style="background:#c68865;color:#141414" title="brown-400  #c68865  onWhite 2.95:1">
-          <span class="step">400</span><span class="hex">#c68865</span>
-        </div>
-        <div class="swatch" style="background:#ac704e;color:#fdfdfd" title="brown-500  #ac704e  onWhite 4.05:1">
-          <span class="step">500</span><span class="mark dot ui"></span><span class="hex">#ac704e</span>
-        </div>
-        <div class="swatch" style="background:#925837;color:#fdfdfd" title="brown-600  #925837  onWhite 5.72:1">
-          <span class="step">600</span><span class="mark dot text"></span><span class="hex">#925837</span>
-        </div>
-        <div class="swatch" style="background:#794220;color:#fdfdfd" title="brown-700  #794220  onWhite 8.04:1">
-          <span class="step">700</span><span class="mark dot text"></span><span class="hex">#794220</span>
-        </div>
-        <div class="swatch" style="background:#612c06;color:#fdfdfd" title="brown-800  #612c06  onWhite 11.22:1">
-          <span class="step">800</span><span class="mark dot text"></span><span class="hex">#612c06</span>
-        </div>
-        <div class="swatch" style="background:#491c00;color:#fdfdfd" title="brown-900  #491c00  onWhite 14.49:1">
-          <span class="step">900</span><span class="mark dot text"></span><span class="hex">#491c00</span>
-        </div>
-        <div class="swatch" style="background:#2e0d00;color:#fdfdfd" title="brown-950  #2e0d00  onWhite 17.89:1">
-          <span class="step">950</span><span class="mark dot text"></span><span class="hex">#2e0d00</span>
-        </div>
-        </div>
-      </div>
+    <p class="tok-desc">Sub elements — filled inputs, secondary/sub buttons, chips. Theme Editor: 'Surfaces → Sub elements'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#3E4351"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.surface-6</code>
+      <code class="tok-val">#3E4351</code>
     </div>
+    <p class="tok-desc">Borders, hairlines, outline-button borders, hover fills. A fill/outline color, NOT a page background — use as a background only for genuine exceptions (e.g. the score chip). Theme Editor: 'Surfaces → Borders &amp; hover'.</p>
+  </div></div>
+  </section>
+    <section class="grp">
+    <h2 class="section">base — text & brand</h2>
+    <p class="grp-note">secondary/contrast are the two text colours; active-1/active-2 are the active colour (flat + gradient stops); accent is the secondary brand pop. All editable in the Theme Editor.</p>
+    <div class="tok-list"><div class="tok-row">
+    <span class="sw" style="background:#8E929F"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.secondary</code>
+      <code class="tok-val">#8E929F</code>
+    </div>
+    <p class="tok-desc">Secondary text &amp; icons — the one muted grey (there is no separate 'muted' step; secondary covers both). Theme Editor: 'Text → Secondary text'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#FFFFFF"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.contrast</code>
+      <code class="tok-val">#FFFFFF</code>
+    </div>
+    <p class="tok-desc">Primary text &amp; icons — maximum contrast on the dark surfaces. Theme Editor: 'Text → Primary text'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#FB8C33"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.active-1</code>
+      <code class="tok-val">#FB8C33</code>
+    </div>
+    <p class="tok-desc">Active color — flat usage (text, icons, borders) AND the gradient START. Theme Editor: 'Active elements → Text, borders, icons' / gradient start.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#FB8C33"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.active-2</code>
+      <code class="tok-val">#FB8C33</code>
+    </div>
+    <p class="tok-desc">Active gradient END. Split from active-1 only because Figma cannot store a gradient in one variable; equal to active-1 when the theme has no gradient (as in Pro). Theme Editor: 'Active elements → gradient end'.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#31A8FF"></span>
+    <div class="tok-meta">
+      <code class="tok-name">base.accent</code>
+      <code class="tok-val">#31A8FF</code>
+    </div>
+    <p class="tok-desc">Secondary accent / brand pop — distinct from the active color (in Pro: active is orange, accent is blue). Theme Editor: 'Brand &amp; accent → Secondary accent'.</p>
+  </div></div>
+  </section>
+    <section class="grp">
+    <h2 class="section">status</h2>
+    <p class="grp-note">positive/negative/warning are editable in the Theme Editor; color-4..7 are extra bet-status hues set only via an imported theme file.</p>
+    <div class="tok-list"><div class="tok-row">
+    <span class="sw" style="background:#00A828"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.positive</code>
+      <code class="tok-val">#00A828</code>
+    </div>
+    <p class="tok-desc">Win / positive / gains. Editable in the Theme Editor ('Brand &amp; accent → Positive').</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#F90643"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.negative</code>
+      <code class="tok-val">#F90643</code>
+    </div>
+    <p class="tok-desc">Lose / negative / errors. Editable in the Theme Editor ('Brand &amp; accent → Negative').</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#FFC12E"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.warning</code>
+      <code class="tok-val">#FFC12E</code>
+    </div>
+    <p class="tok-desc">Warning / cashout / needs-attention. Editable in the Theme Editor ('Brand &amp; accent → Warning').</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#00BAAF"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.color-4</code>
+      <code class="tok-val">#00BAAF</code>
+    </div>
+    <p class="tok-desc">Extra bet-status hue (Pro: teal). Meaning is assigned at the semantic layer (half-win). Theme Editor ignores it — set only via an imported theme file.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#FF601B"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.color-5</code>
+      <code class="tok-val">#FF601B</code>
+    </div>
+    <p class="tok-desc">Extra bet-status hue (Pro: orange). Semantic meaning: half-lose. File-only, not in the Theme Editor.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#AB35FF"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.color-6</code>
+      <code class="tok-val">#AB35FF</code>
+    </div>
+    <p class="tok-desc">Extra bet-status hue (Pro: purple). Semantic meaning: refund. File-only, not in the Theme Editor.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#A1A1A1"></span>
+    <div class="tok-meta">
+      <code class="tok-name">status.color-7</code>
+      <code class="tok-val">#A1A1A1</code>
+    </div>
+    <p class="tok-desc">Extra bet-status hue (Pro: grey). Semantic meaning: pending. File-only, not in the Theme Editor.</p>
+  </div></div>
+  </section>
+    <section class="grp">
+    <h2 class="section">absolutes</h2>
+    <p class="grp-note">Theme-independent. Note: the darken/shadow steps below build on surface-0 (the page colour), not on pure black.</p>
+    <div class="tok-list"><div class="tok-row">
+    <span class="sw" style="background:#FFFFFF"></span>
+    <div class="tok-meta">
+      <code class="tok-name">white</code>
+      <code class="tok-val">#FFFFFF</code>
+    </div>
+    <p class="tok-desc">Pure white — theme-independent. Base for the sub.white-* lighten steps.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw" style="background:#000000"></span>
+    <div class="tok-meta">
+      <code class="tok-name">black</code>
+      <code class="tok-val">#000000</code>
+    </div>
+    <p class="tok-desc">Pure black — theme-independent. NB: the darken/shadow steps use surface-0 (the page color), NOT this, so hover/shadow reads as 'toward the page' rather than muddy true-black.</p>
+  </div></div>
+  </section>
+    <section class="grp">
+    <h2 class="section">sub — opacity washes</h2>
+    <p class="grp-note">Derived by opacity: 12% colour tints, black darken/shadow steps (on the page colour), white lighten steps. Shown split — left over the page colour (real look), right on a checkerboard to reveal transparency.</p>
+    <div class="tok-list"><div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(251, 140, 51, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.active-2</code>
+      <code class="tok-val">rgba(251, 140, 51, 0.12)</code>
+    </div>
+    <p class="tok-desc">active-2 @ 12% — active tint wash. Freebet label, selected/active background.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(49, 168, 255, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.accent-2</code>
+      <code class="tok-val">rgba(49, 168, 255, 0.12)</code>
+    </div>
+    <p class="tok-desc">accent @ 12% — accent tint wash. Live label.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(0, 168, 40, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(0, 168, 40, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.positive-2</code>
+      <code class="tok-val">rgba(0, 168, 40, 0.12)</code>
+    </div>
+    <p class="tok-desc">positive @ 12% — positive tint background.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(249, 6, 67, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(249, 6, 67, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.negative-2</code>
+      <code class="tok-val">rgba(249, 6, 67, 0.12)</code>
+    </div>
+    <p class="tok-desc">negative @ 12% — negative/error tint background.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 193, 46, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 193, 46, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.warning-2</code>
+      <code class="tok-val">rgba(255, 193, 46, 0.12)</code>
+    </div>
+    <p class="tok-desc">warning @ 12% — warning tint background.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.black-2</code>
+      <code class="tok-val">rgba(17, 20, 28, 0.12)</code>
+    </div>
+    <p class="tok-desc">surface-0 (page color) @ 12% — darken/shadow step 1. Overlay for pressed states &amp; the softest shadow.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.24)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.black-4</code>
+      <code class="tok-val">rgba(17, 20, 28, 0.24)</code>
+    </div>
+    <p class="tok-desc">page color @ 24% — darken/shadow step 2.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.5)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.black-6</code>
+      <code class="tok-val">rgba(17, 20, 28, 0.5)</code>
+    </div>
+    <p class="tok-desc">page color @ 50% — darken/shadow step 3, also the modal/drawer scrim.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(17, 20, 28, 0.8)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.black-8</code>
+      <code class="tok-val">rgba(17, 20, 28, 0.8)</code>
+    </div>
+    <p class="tok-desc">page color @ 80% — darken/shadow step 4, the heaviest.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 255, 255, 0.12)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.white-2</code>
+      <code class="tok-val">rgba(255, 255, 255, 0.12)</code>
+    </div>
+    <p class="tok-desc">white @ 12% — lighten step 1. Hover overlay on dark surfaces, inactive counter background.</p>
+  </div>
+<div class="tok-row">
+    <span class="sw sw-alpha"><span class="sw-half" style="background:#11141C"><span class="sw-in" style="background:rgba(255, 255, 255, 0.24)"></span></span><span class="sw-half sw-check"><span class="sw-in" style="background:rgba(255, 255, 255, 0.24)"></span></span></span>
+    <div class="tok-meta">
+      <code class="tok-name">sub.white-4</code>
+      <code class="tok-val">rgba(255, 255, 255, 0.24)</code>
+    </div>
+    <p class="tok-desc">white @ 24% — lighten step 2.</p>
+  </div></div>
+  </section>
   </main>
 </div>
 </body>

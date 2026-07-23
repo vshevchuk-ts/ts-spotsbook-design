@@ -23,6 +23,7 @@
     "primaryActive": { "$type": "color", "$value": "{fill.active}", "$description": "COMPAT alias → fill.active. Pressed is now a darken overlay. Migrate." },
     "success": { "$type": "color", "$value": "{fill.positive}", "$description": "COMPAT alias → fill.positive. Migrate (success → positive)." },
     "danger": { "$type": "color", "$value": "{fill.negative}", "$description": "COMPAT alias → fill.negative. Migrate (danger → negative)." },
+    "dangerHover": { "$type": "color", "$value": "{fill.negative}", "$description": "COMPAT alias → fill.negative. Hover is a darken overlay now, not a darker fill. Migrate." },
     "neutral": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised. Neutral/secondary button fills are just the raised surface now. Migrate." },
     "neutralHover": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised (+ lighten overlay in the component pass). Migrate." },
     "neutralActive": { "$type": "color", "$value": "{surface.raised}", "$description": "COMPAT alias → surface.raised (+ darken overlay in the component pass). Migrate." },

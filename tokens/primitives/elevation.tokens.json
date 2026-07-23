@@ -1,0 +1,20 @@
+{
+  "elevation": {
+    "$description": "Composite box-shadows for floating/overlay UI (Tooltip, Popover, Drawer, Modal, Menu, Listbox) — NOT general surfaces (those separate with an outline hairline). Renamed from the old `shadow` primitive to free the `shadow` name for the semantic shadow-colour group. Colour is the page colour (surface-0, rgba(17,20,28,…)) at higher alpha than a light theme would use — a dark UI needs a heavier shadow to read as 'lifted', and these panels also sit over a scrim (surface.overlay) or the page. Three steps for the three floating weights.",
+    "sm": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(17, 20, 28, 0.32)", "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 2, "unit": "px" }, "blur": { "value": 8, "unit": "px" }, "spread": { "value": 0, "unit": "px" } },
+      "$description": "Popover/Tooltip/Menu/Listbox — small panels anchored to a trigger, least visual weight."
+    },
+    "md": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(17, 20, 28, 0.44)", "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 4, "unit": "px" }, "blur": { "value": 16, "unit": "px" }, "spread": { "value": 0, "unit": "px" } },
+      "$description": "Drawer — a full-height edge panel, one step more prominent."
+    },
+    "lg": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(17, 20, 28, 0.56)", "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 8, "unit": "px" }, "blur": { "value": 24, "unit": "px" }, "spread": { "value": -2, "unit": "px" } },
+      "$description": "Modal — the most prominent floating surface (paired with its own dedicated scrim), strongest shadow. Small negative spread keeps the 24px blur from reading as a diffuse haze."
+    }
+  }
+}

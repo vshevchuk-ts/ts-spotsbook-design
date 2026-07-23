@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Menu</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Menu</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -67,7 +67,7 @@
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--sans); font-weight: 600; font-size: 14px; line-height: 1.4; }
+  .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
   .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
   .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
   .ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
@@ -76,23 +76,23 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-disabled: #b4b4b4;
-  --tok-text-danger: #c11435;
-  --tok-icon-secondary: #808080;
-  --tok-icon-disabled: #b4b4b4;
-  --tok-icon-danger: #de394b;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-bg-danger: #ffdfde;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-disabled: #8E929F;
+  --tok-text-danger: #F90643;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-disabled: #8E929F;
+  --tok-icon-danger: #F90643;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-bg-danger: rgba(249, 6, 67, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); font-family: var(--tok-family-sans); min-width: 180px; }
+.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
 .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .menu__item { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .menu__item:hover { background: var(--tok-fill-neutral-hover); }
@@ -109,8 +109,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -157,23 +157,23 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-disabled: #b4b4b4;
-  --tok-text-danger: #c11435;
-  --tok-icon-secondary: #808080;
-  --tok-icon-disabled: #b4b4b4;
-  --tok-icon-danger: #de394b;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-bg-danger: #ffdfde;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-disabled: #8E929F;
+  --tok-text-danger: #F90643;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-disabled: #8E929F;
+  --tok-icon-danger: #F90643;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-bg-danger: rgba(249, 6, 67, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); font-family: var(--tok-family-sans); min-width: 180px; }
+.menu { margin: 0; box-sizing: border-box; padding: 4px; border-radius: 8px; background: var(--tok-surface-default); border: 1px solid var(--tok-border-default); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); font-family: var(--tok-family-sans); min-width: 180px; }
 .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .menu__item { width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; padding: 8px 8px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; color: var(--tok-text-default); font-family: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .menu__item:hover { background: var(--tok-fill-neutral-hover); }

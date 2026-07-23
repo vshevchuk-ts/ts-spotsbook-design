@@ -9,7 +9,7 @@
       "transitionDuration": { "$type": "dimension", "$value": { "value": 200, "unit": "ms" }, "$description": "Literal, not a token, same precedent as Drawer/Tooltip. Slightly quicker than Drawer's 250ms — a centered scale/fade reads fine faster than an edge slide covering more distance." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "overlay": { "$type": "color", "$value": "{surface.overlay}" },
-      "shadow": { "$type": "shadow", "$value": "{shadow.lg}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.lg}" },
       "divider": { "$type": "color", "$value": "{border.default}" },
       "title": { "$type": "typography", "$value": "{text-style.heading-base}" },
       "titleColor": { "$type": "color", "$value": "{text.default}" },

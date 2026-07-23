@@ -10,7 +10,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const spacing = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/dimension.tokens.json"))).spacing;
 const radius = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/radius.tokens.json"))).radius;
 const z = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/z-index.tokens.json"))).z;
-const shadow = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/shadow.tokens.json"))).shadow;
+const elevation = JSON.parse(fs.readFileSync(path.join(root, "tokens/primitives/elevation.tokens.json"))).elevation;
 
 function resolveDim(ref) {
   const key = ref.replace(/[{}]/g, "").split(".")[1];
@@ -30,7 +30,7 @@ const spacingRows = Object.entries(spacing)
   .sort((a, b) => a[1].$value.value - b[1].$value.value);
 const radiusRows = Object.entries(radius).filter(([k]) => !k.startsWith("$"));
 const zRows = Object.entries(z).filter(([k]) => !k.startsWith("$"));
-const shadowRows = Object.entries(shadow).filter(([k]) => !k.startsWith("$"));
+const elevationRows = Object.entries(elevation).filter(([k]) => !k.startsWith("$"));
 function shadowCss(v) {
   const px2 = (d) => `${d.value}${d.unit}`;
   return `${px2(v.offsetX)} ${px2(v.offsetY)} ${px2(v.blur)} ${px2(v.spread)} ${v.color}`;
@@ -192,17 +192,17 @@ const html = `<!doctype html>
     </table>
     </div>
 
-    <h3 class="sub-section">Shadow</h3>
+    <h3 class="sub-section">Elevation</h3>
     <div class="legend">
-      <div class="row"><b>Floating UI only</b><span>Added 2026-07-21, specifically for Tooltip/Popover/Drawer/Modal — every other surface in this system (Input/Select/Search fields, Card) draws separation with a border.default hairline, never a shadow. Not a general-purpose elevation scale to reach for elsewhere.</span></div>
+      <div class="row"><b>Floating UI only</b><span>Composite box-shadows for Tooltip/Popover/Drawer/Modal/Menu/Listbox only — every other surface (Input/Select/Search fields, Card) separates with an outline hairline, never a shadow. Colour is the page colour (surface-0) at raised alpha for the dark theme. The shadow.* semantic group is a separate thing (just shadow colours); this is the geometry.</span></div>
     </div>
     <div class="table-wrap">
     <table class="scale">
       <tr><th>Token</th><th>Used by</th><th>CSS</th><th>Preview</th></tr>
-      ${shadowRows
+      ${elevationRows
         .map(([k, v]) => {
           const used = { sm: "Tooltip, Popover", md: "Drawer", lg: "Modal" }[k] || "";
-          return `<tr><td><code class="tok">--shadow-${k}</code></td><td class="ctx">${used}</td><td class="ctx">${shadowCss(v.$value)}</td><td><div class="shadow-box" style="box-shadow:${shadowCss(v.$value)}"></div></td></tr>`;
+          return `<tr><td><code class="tok">--elevation-${k}</code></td><td class="ctx">${used}</td><td class="ctx">${shadowCss(v.$value)}</td><td><div class="shadow-box" style="box-shadow:${shadowCss(v.$value)}"></div></td></tr>`;
         })
         .join("\n      ")}
     </table>

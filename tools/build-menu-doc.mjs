@@ -19,7 +19,7 @@ const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
 const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const shadowPrim = load("tokens/primitives/shadow.tokens.json").shadow;
+const elevationPrim = load("tokens/primitives/elevation.tokens.json").elevation;
 const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
@@ -28,7 +28,7 @@ const menu = load("tokens/components/menu.tokens.json").component.menu;
 const registry = {
   color: colorPrim,
   spacing: dim,  radius: radiusPrim,
-  shadow: shadowPrim,
+  elevation: elevationPrim,
   family: typo.family,
   weight: typo.weight,
   size: typo.size,

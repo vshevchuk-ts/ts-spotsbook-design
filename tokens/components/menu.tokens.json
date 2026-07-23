@@ -12,7 +12,7 @@
       "iconSize": { "$type": "dimension", "$value": "{spacing.4}" },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
-      "shadow": { "$type": "shadow", "$value": "{shadow.sm}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.sm}" },
       "divider": { "$type": "color", "$value": "{border.default}" },
       "label": { "$type": "typography", "$value": "{text-style.body-base}" },
       "state": {

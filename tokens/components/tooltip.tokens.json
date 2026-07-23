@@ -11,7 +11,7 @@
       "bg": { "$type": "color", "$value": "{surface.inverse}" },
       "text": { "$type": "color", "$value": "{text.onFill}" },
       "label": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px — smaller than the 14px body-base used everywhere else, a tooltip is a brief hint, not reading content." },
-      "shadow": { "$type": "shadow", "$value": "{shadow.sm}" }
+      "shadow": { "$type": "shadow", "$value": "{elevation.sm}" }
     }
   }
 }

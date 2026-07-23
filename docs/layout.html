@@ -205,16 +205,16 @@
     </table>
     </div>
 
-    <h3 class="sub-section">Shadow</h3>
+    <h3 class="sub-section">Elevation</h3>
     <div class="legend">
-      <div class="row"><b>Floating UI only</b><span>Added 2026-07-21, specifically for Tooltip/Popover/Drawer/Modal — every other surface in this system (Input/Select/Search fields, Card) draws separation with a border.default hairline, never a shadow. Not a general-purpose elevation scale to reach for elsewhere.</span></div>
+      <div class="row"><b>Floating UI only</b><span>Composite box-shadows for Tooltip/Popover/Drawer/Modal/Menu/Listbox only — every other surface (Input/Select/Search fields, Card) separates with an outline hairline, never a shadow. Colour is the page colour (surface-0) at raised alpha for the dark theme. The shadow.* semantic group is a separate thing (just shadow colours); this is the geometry.</span></div>
     </div>
     <div class="table-wrap">
     <table class="scale">
       <tr><th>Token</th><th>Used by</th><th>CSS</th><th>Preview</th></tr>
-      <tr><td><code class="tok">--shadow-sm</code></td><td class="ctx">Tooltip, Popover</td><td class="ctx">0px 2px 8px 0px rgba(21, 25, 30, 0.10)</td><td><div class="shadow-box" style="box-shadow:0px 2px 8px 0px rgba(21, 25, 30, 0.10)"></div></td></tr>
-      <tr><td><code class="tok">--shadow-md</code></td><td class="ctx">Drawer</td><td class="ctx">0px 4px 16px 0px rgba(21, 25, 30, 0.12)</td><td><div class="shadow-box" style="box-shadow:0px 4px 16px 0px rgba(21, 25, 30, 0.12)"></div></td></tr>
-      <tr><td><code class="tok">--shadow-lg</code></td><td class="ctx">Modal</td><td class="ctx">0px 8px 24px -2px rgba(21, 25, 30, 0.16)</td><td><div class="shadow-box" style="box-shadow:0px 8px 24px -2px rgba(21, 25, 30, 0.16)"></div></td></tr>
+      <tr><td><code class="tok">--elevation-sm</code></td><td class="ctx">Tooltip, Popover</td><td class="ctx">0px 2px 8px 0px rgba(17, 20, 28, 0.32)</td><td><div class="shadow-box" style="box-shadow:0px 2px 8px 0px rgba(17, 20, 28, 0.32)"></div></td></tr>
+      <tr><td><code class="tok">--elevation-md</code></td><td class="ctx">Drawer</td><td class="ctx">0px 4px 16px 0px rgba(17, 20, 28, 0.44)</td><td><div class="shadow-box" style="box-shadow:0px 4px 16px 0px rgba(17, 20, 28, 0.44)"></div></td></tr>
+      <tr><td><code class="tok">--elevation-lg</code></td><td class="ctx">Modal</td><td class="ctx">0px 8px 24px -2px rgba(17, 20, 28, 0.56)</td><td><div class="shadow-box" style="box-shadow:0px 8px 24px -2px rgba(17, 20, 28, 0.56)"></div></td></tr>
     </table>
     </div>
   </main>

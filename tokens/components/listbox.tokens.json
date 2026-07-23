@@ -13,7 +13,7 @@
       "maxHeight": { "$type": "dimension", "$value": "{spacing.72}", "$description": "288px — long option lists scroll inside the panel rather than growing it indefinitely." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
-      "shadow": { "$type": "shadow", "$value": "{shadow.sm}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.sm}" },
       "divider": { "$type": "color", "$value": "{border.default}" },
       "label": { "$type": "typography", "$value": "{text-style.body-base}" },
       "state": {

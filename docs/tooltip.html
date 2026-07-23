@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Tooltip</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Tooltip</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -73,16 +73,16 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-inverse: #2b2b2b;
-  --tok-text-on-fill: #ffffff;
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-text-default: #181818;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-inverse: #282E3E;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-inverse); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-inverse); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
 .tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-inverse); transform: rotate(45deg); }
@@ -100,8 +100,8 @@
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -148,16 +148,16 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-inverse: #2b2b2b;
-  --tok-text-on-fill: #ffffff;
-  --tok-surface-default: #ffffff;
-  --tok-border-default: #d1d1d1;
-  --tok-text-default: #181818;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-inverse: #282E3E;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-surface-default: #1C202B;
+  --tok-border-default: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-inverse); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(21, 25, 30, 0.10); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-inverse); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
 .tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-inverse); transform: rotate(45deg); }

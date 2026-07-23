@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>hp-design — Drawer</title>
-<link rel="stylesheet" href="../assets/fonts/sora/sora.css" />
+<title>Turbo Sportsbook — Drawer</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
     --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
@@ -70,24 +70,24 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-default: #ffffff;
-  --tok-surface-overlay: rgba(21, 25, 30, 0.5);
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-text-on-fill: #ffffff;
-  --tok-icon-secondary: #808080;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-fill-primary: #077fec;
-  --tok-fill-primary-hover: #0468c4;
-  --tok-fill-primary-active: #01519c;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-primary: #FB8C33;
+  --tok-fill-primary-hover: #FB8C33;
+  --tok-fill-primary-active: #FB8C33;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(21, 25, 30, 0.12); }
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
 dialog.drawer::backdrop { background: var(--tok-surface-overlay); opacity: 0; transition: opacity 250ms ease allow-discrete; }
 dialog.drawer[open]::backdrop { opacity: 1; }
 @starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
@@ -102,7 +102,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
 .drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-border-default); }
-.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-border-default); }
@@ -113,7 +113,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
-.ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
 .ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }
@@ -126,8 +126,8 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 <body>
 <div class="shell">
   <nav class="side">
-    <p class="brand">hp-design</p>
-    <p class="brand-sub">Highpoint design system</p>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
     <p class="nav-category">Tokens</p>
     <a class="navlink" href="colors.html">Colors</a>
@@ -177,24 +177,24 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-default: #ffffff;
-  --tok-surface-overlay: rgba(21, 25, 30, 0.5);
-  --tok-border-default: #d1d1d1;
-  --tok-border-focus: #0468c4;
-  --tok-text-default: #181818;
-  --tok-text-secondary: #696969;
-  --tok-text-on-fill: #ffffff;
-  --tok-icon-secondary: #808080;
-  --tok-fill-neutral: #e8e8e8;
-  --tok-fill-neutral-hover: #d1d1d1;
-  --tok-fill-neutral-active: #b4b4b4;
-  --tok-fill-primary: #077fec;
-  --tok-fill-primary-hover: #0468c4;
-  --tok-fill-primary-active: #01519c;
-  --tok-family-sans: 'Sora', sans-serif;
+  --tok-surface-default: #1C202B;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
+  --tok-border-default: #282E3E;
+  --tok-border-focus: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-neutral: #282E3E;
+  --tok-fill-neutral-hover: #282E3E;
+  --tok-fill-neutral-active: #282E3E;
+  --tok-fill-primary: #FB8C33;
+  --tok-fill-primary-hover: #FB8C33;
+  --tok-fill-primary-active: #FB8C33;
+  --tok-family-sans: 'Rubik', sans-serif;
 }
 
-dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(21, 25, 30, 0.12); }
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-default); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
 dialog.drawer::backdrop { background: var(--tok-surface-overlay); opacity: 0; transition: opacity 250ms ease allow-discrete; }
 dialog.drawer[open]::backdrop { opacity: 1; }
 @starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
@@ -209,7 +209,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 
 .drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
 .drawer__header { flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 24px; border-bottom: 1px solid var(--tok-border-default); }
-.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.drawer__title { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
 .drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
 .drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-border-default); }
@@ -220,7 +220,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__close:focus-visible { outline: 4px solid var(--tok-border-focus); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
-.ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 600; font-size: 14px; line-height: 1.4; }
+.ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .ov-btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .ov-btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
 .ov-btn--secondary:active { background: var(--tok-fill-neutral-active); }

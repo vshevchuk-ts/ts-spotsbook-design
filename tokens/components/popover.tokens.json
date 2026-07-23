@@ -7,7 +7,7 @@
       "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px offset between the trigger's edge and the popover panel — one step more than Tooltip's 6px, proportionate to Popover being a bigger, more substantial panel." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "border": { "$type": "color", "$value": "{border.default}" },
-      "shadow": { "$type": "shadow", "$value": "{shadow.sm}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.sm}" },
       "title": { "$type": "typography", "$value": "{text-style.heading-base}" },
       "titleColor": { "$type": "color", "$value": "{text.default}" },
       "body": { "$type": "typography", "$value": "{text-style.body-base}" },

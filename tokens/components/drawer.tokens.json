@@ -9,7 +9,7 @@
       "transitionDuration": { "$type": "dimension", "$value": { "value": 250, "unit": "ms" }, "$description": "Literal, not a token — no duration scale exists in this system yet (same 'literal, not invented' precedent as Tooltip's showDelay)." },
       "bg": { "$type": "color", "$value": "{surface.default}" },
       "overlay": { "$type": "color", "$value": "{surface.overlay}" },
-      "shadow": { "$type": "shadow", "$value": "{shadow.md}" },
+      "shadow": { "$type": "shadow", "$value": "{elevation.md}" },
       "divider": { "$type": "color", "$value": "{border.default}", "$description": "Header/footer section dividers — internal only, the drawer's own outer edge has no border (see $description)." },
       "title": { "$type": "typography", "$value": "{text-style.heading-base}" },
       "titleColor": { "$type": "color", "$value": "{text.default}" },
