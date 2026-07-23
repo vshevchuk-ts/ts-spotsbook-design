@@ -16,8 +16,8 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
-          "border": { "$type": "color", "$value": "{outline.default}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{outline.strong}" },
           "label": { "$type": "color", "$value": "{text.default}" }
         },
         "hover": {

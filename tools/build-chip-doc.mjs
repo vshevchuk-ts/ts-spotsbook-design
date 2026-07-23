@@ -71,6 +71,7 @@ const colorPaths = [
   "bg.active", "text.active", "icon.active",
   "text.disabled", "icon.disabled",
   "icon.secondary", "fill.neutralHover", "fill.neutralPressed",
+  "surface.raised",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -129,7 +130,7 @@ ${sizeDefs
   )
   .join("\n")}
 
-.chip--toggle { background: ${cv("surface.card")}; border-color: ${cv("outline.default")}; color: ${cv("text.default")}; }
+.chip--toggle { background: ${cv("surface.raised")}; border-color: ${cv("outline.default")}; color: ${cv("text.default")}; }
 .chip--toggle .chip__icon { color: ${cv("icon.default")}; }
 .chip--toggle:not([aria-pressed="true"]):not(:disabled):hover { border-color: ${cv("fill.active")}; }
 .chip--toggle[aria-pressed="true"] { background: ${cv("fill.active")}; border-color: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; }
@@ -142,7 +143,7 @@ ${sizeDefs
 .chip--toggle:disabled .chip__icon { color: ${cv("icon.disabled")}; }
 .chip--toggle:disabled[aria-pressed="true"] { background: ${cv("fill.disabled")}; border-color: ${cv("fill.disabled")}; color: ${cv("text.disabled")}; }
 
-.chip--removable { background: ${cv("surface.card")}; border-color: ${cv("outline.default")}; color: ${cv("text.default")}; cursor: default; }
+.chip--removable { background: ${cv("surface.raised")}; border-color: ${cv("outline.default")}; color: ${cv("text.default")}; cursor: default; }
 .chip--removable .chip__icon { color: ${cv("icon.default")}; }
 .chip--removable:hover { border-color: ${cv("outline.strong")}; }
 .chip--removable.chip--disabled { color: ${cv("text.disabled")}; }

@@ -73,7 +73,7 @@
   --tok-outline-strong: #3E4351;
   --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
-  --tok-icon-default: #FFFFFF;
+  --tok-icon-default: #8E929F;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -85,8 +85,9 @@
   --tok-text-disabled: #8E929F;
   --tok-icon-disabled: #8E929F;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-neutral-hover: #424755;
-  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
+  --tok-surface-raised: #282E3E;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -105,7 +106,7 @@
 .chip--lg .chip__remove { width: 20px; height: 20px; }
 .chip--lg .chip__remove-icon { width: calc(20px * 0.75); height: calc(20px * 0.75); }
 
-.chip--toggle { background: var(--tok-surface-card); border-color: var(--tok-outline-default); color: var(--tok-text-default); }
+.chip--toggle { background: var(--tok-surface-raised); border-color: var(--tok-outline-default); color: var(--tok-text-default); }
 .chip--toggle .chip__icon { color: var(--tok-icon-default); }
 .chip--toggle:not([aria-pressed="true"]):not(:disabled):hover { border-color: var(--tok-fill-active); }
 .chip--toggle[aria-pressed="true"] { background: var(--tok-fill-active); border-color: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
@@ -118,7 +119,7 @@
 .chip--toggle:disabled .chip__icon { color: var(--tok-icon-disabled); }
 .chip--toggle:disabled[aria-pressed="true"] { background: var(--tok-fill-disabled); border-color: var(--tok-fill-disabled); color: var(--tok-text-disabled); }
 
-.chip--removable { background: var(--tok-surface-card); border-color: var(--tok-outline-default); color: var(--tok-text-default); cursor: default; }
+.chip--removable { background: var(--tok-surface-raised); border-color: var(--tok-outline-default); color: var(--tok-text-default); cursor: default; }
 .chip--removable .chip__icon { color: var(--tok-icon-default); }
 .chip--removable:hover { border-color: var(--tok-outline-strong); }
 .chip--removable.chip--disabled { color: var(--tok-text-disabled); }
@@ -134,8 +135,8 @@
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-weight: 800; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-weight: 800; font-size: 12px; line-height: 1; }
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-weight: 800; font-size: 14px; line-height: 1; }
-.counter--onPrimary.counter--inactive { background: var(--tok-fill-active-pressed); color: var(--tok-text-on-fill); }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+.counter--onPrimary.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }
+.counter--onNeutral.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }
 </style>
 </head>
 <body>
@@ -194,7 +195,7 @@
   --tok-outline-strong: #3E4351;
   --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
-  --tok-icon-default: #FFFFFF;
+  --tok-icon-default: #8E929F;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -206,8 +207,9 @@
   --tok-text-disabled: #8E929F;
   --tok-icon-disabled: #8E929F;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-neutral-hover: #424755;
-  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
+  --tok-surface-raised: #282E3E;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -226,7 +228,7 @@
 .chip--lg .chip__remove { width: 20px; height: 20px; }
 .chip--lg .chip__remove-icon { width: calc(20px * 0.75); height: calc(20px * 0.75); }
 
-.chip--toggle { background: var(--tok-surface-card); border-color: var(--tok-outline-default); color: var(--tok-text-default); }
+.chip--toggle { background: var(--tok-surface-raised); border-color: var(--tok-outline-default); color: var(--tok-text-default); }
 .chip--toggle .chip__icon { color: var(--tok-icon-default); }
 .chip--toggle:not([aria-pressed="true"]):not(:disabled):hover { border-color: var(--tok-fill-active); }
 .chip--toggle[aria-pressed="true"] { background: var(--tok-fill-active); border-color: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
@@ -239,7 +241,7 @@
 .chip--toggle:disabled .chip__icon { color: var(--tok-icon-disabled); }
 .chip--toggle:disabled[aria-pressed="true"] { background: var(--tok-fill-disabled); border-color: var(--tok-fill-disabled); color: var(--tok-text-disabled); }
 
-.chip--removable { background: var(--tok-surface-card); border-color: var(--tok-outline-default); color: var(--tok-text-default); cursor: default; }
+.chip--removable { background: var(--tok-surface-raised); border-color: var(--tok-outline-default); color: var(--tok-text-default); cursor: default; }
 .chip--removable .chip__icon { color: var(--tok-icon-default); }
 .chip--removable:hover { border-color: var(--tok-outline-strong); }
 .chip--removable.chip--disabled { color: var(--tok-text-disabled); }
@@ -255,8 +257,8 @@
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-weight: 800; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-weight: 800; font-size: 12px; line-height: 1; }
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-weight: 800; font-size: 14px; line-height: 1; }
-.counter--onPrimary.counter--inactive { background: var(--tok-fill-active-pressed); color: var(--tok-text-on-fill); }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }</code></pre>
+.counter--onPrimary.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }
+.counter--onNeutral.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }</code></pre>
 
     <h2 class="big-section">JS</h2>
     <p class="section-desc">The only script this page needs — a click listener flipping <code class="tok">aria-pressed</code>, which the CSS above already keys off of. Every toggle chip on this page uses it, not a forced screenshot state.</p>

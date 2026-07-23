@@ -67,6 +67,7 @@ const colorPaths = [
   "outline.default", "outline.active",
   "fill.active", "fill.activeHover", "fill.disabled",
   "text.default", "text.disabled", "text.secondary",
+  "outline.strong", "surface.raised",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -96,7 +97,7 @@ const css = `${rootVars}
 
 .radio { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .radio__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.radio__circle { box-sizing: border-box; width: ${circle}; height: ${circle}; border-radius: ${circleRadius}; border: ${borderWidth} solid ${cv("outline.default")}; background: ${cv("surface.card")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.radio__circle { box-sizing: border-box; width: ${circle}; height: ${circle}; border-radius: ${circleRadius}; border: ${borderWidth} solid ${cv("outline.strong")}; background: ${cv("surface.raised")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .radio__dot { width: ${dot}; height: ${dot}; border-radius: ${circleRadius}; background: transparent; }
 .radio__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 

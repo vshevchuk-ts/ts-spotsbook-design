@@ -52,32 +52,32 @@
         "$description": "Shared by every surface variant below — sizing doesn't depend on which button it sits on, only sm/base/lg does. Not a text-style.* alias — every existing bold text-style (label-sm/base) bakes in uppercase + wide tracking for all-caps words, wrong for digits. Composed directly from typography primitives instead. leading.none (1) rather than normal/tight — a single-line numeric pill centers better with no extra line-box air."
       },
       "onPrimary": {
-        "$description": "For use on top of fill.primary (button.primary's blue fill).",
+        "$description": "For use on top of an active-colored (fill.active) button/tab. The counter never uses the active/brand colour itself (it sits ON that colour) — active = a white pill with dark text (pops off the bright fill), inactive = a muted grey pill with dark text.",
         "state": {
           "inactive": {
-            "$description": "Seen/zero count — reads as quiet, close to the button's own fill so it doesn't compete for attention. Deliberately fill.primaryActive, NOT fill.primaryHover, so it stays visible instead of disappearing when the parent button is hovered.",
-            "bg": { "$type": "color", "$value": "{fill.activePressed}" },
-            "label": { "$type": "color", "$value": "{text.onFill}" }
+            "$description": "Seen/zero count — a muted grey pill (secondary grey) with dark text; quiet but still legible on the bright button.",
+            "bg": { "$type": "color", "$value": "{color.base.secondary}" },
+            "label": { "$type": "color", "$value": "{text.contrast}" }
           },
           "active": {
-            "$description": "Has a new/meaningful count — inverted to white so it pops off the button's blue fill instead of blending into it.",
+            "$description": "Has a meaningful count — a white pill with dark text so it pops off the active fill. Never orange text (which would blend into the button).",
             "bg": { "$type": "color", "$value": "{color.white}" },
-            "label": { "$type": "color", "$value": "{text.active}" }
+            "label": { "$type": "color", "$value": "{text.contrast}" }
           }
         }
       },
       "onNeutral": {
-        "$description": "For use on top of fill.neutral (button.secondary's gray fill). Cannot reuse onPrimary's colors: fill.neutral is nearly white already, so a white 'active' pill would barely show, and fill.primaryActive's dark navy 'inactive' pill reads as loud/attention-grabbing rather than quiet against a light gray button — the opposite of onPrimary's effect on a blue button.",
+        "$description": "For use on top of a neutral (secondary button / tab track) surface. Same treatment as onPrimary — a white pill (active) or muted grey pill (inactive), both with dark text — so the counter reads consistently regardless of which surface it sits on.",
         "state": {
           "inactive": {
-            "$description": "Mirrors onPrimary's logic (one step past the button's own hover shade, so it survives hover without disappearing), but in the gray family: fill.neutralActive, not fill.neutralHover. Dark label — the gray family's light steps need dark text, not white.",
-            "bg": { "$type": "color", "$value": "{fill.neutralPressed}" },
-            "label": { "$type": "color", "$value": "{text.default}" }
+            "$description": "Muted grey pill + dark text.",
+            "bg": { "$type": "color", "$value": "{color.base.secondary}" },
+            "label": { "$type": "color", "$value": "{text.contrast}" }
           },
           "active": {
-            "$description": "Inverts to the brand blue (fill.primary), not white — gray.100 is already near-white, so a white pill would have almost no contrast against it. Blue pops against gray the same way white pops against blue on onPrimary.",
-            "bg": { "$type": "color", "$value": "{fill.active}" },
-            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
+            "$description": "White pill + dark text.",
+            "bg": { "$type": "color", "$value": "{color.white}" },
+            "label": { "$type": "color", "$value": "{text.contrast}" }
           }
         }
       }

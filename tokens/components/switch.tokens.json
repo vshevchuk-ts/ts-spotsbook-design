@@ -18,8 +18,8 @@
       },
       "state": {
         "default": {
-          "track": { "$type": "color", "$value": "{outline.default}" },
-          "thumb": { "$type": "color", "$value": "{surface.card}" },
+          "track": { "$type": "color", "$value": "{surface.raised}" },
+          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
           "label": { "$type": "color", "$value": "{text.default}" },
           "$description": "Off, at rest — border.default as a solid fill (gray.200), not an outline. White thumb sits on the left."
         },
@@ -35,7 +35,7 @@
         },
         "checked": {
           "track": { "$type": "color", "$value": "{fill.active}" },
-          "thumb": { "$type": "color", "$value": "{surface.card}" },
+          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
           "$description": "Track fills fill.primary (blue.500, same brand blue as checked Checkbox/Radio), thumb stays white and slides to the right."
         },
         "checkedHover": {
@@ -44,7 +44,7 @@
         },
         "disabled": {
           "track": { "$type": "color", "$value": "{fill.disabled}" },
-          "thumb": { "$type": "color", "$value": "{surface.card}" },
+          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
           "label": { "$type": "color", "$value": "{text.disabled}" },
           "$description": "Covers disabled in both off and on positions alike — fill.disabled (gray.100) either way, same pair Button secondary/Input/Checkbox already use for their own disabled states. Thumb stays white; only the track loses color."
         }

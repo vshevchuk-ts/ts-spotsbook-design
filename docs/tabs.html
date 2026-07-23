@@ -81,8 +81,8 @@
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-fill-neutral-hover: #424755;
-  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
   --tok-surface-raised: #282E3E;
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
@@ -90,8 +90,13 @@
   --tok-text-on-fill: #FFFFFF;
   --tok-text-for-active-bg: #11141C;
   --tok-fill-active: #FB8C33;
-  --tok-icon-default: #FFFFFF;
+  --tok-icon-default: #8E929F;
   --tok-icon-disabled: #8E929F;
+  --tok-color-base-secondary: #8E929F;
+  --tok-text-contrast: #11141C;
+  --tok-color-white: #FFFFFF;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -106,7 +111,7 @@
 .tabs--segmented { display: inline-flex; align-items: center; gap: 4px; background: var(--tok-surface-raised); border-radius: 12px; padding: 4px; max-width: 100%; overflow-x: auto; }
 .tabs--segmented .tab { border-radius: 8px; }
 .tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.tabs--segmented .tab--active { background: var(--tok-surface-card); color: var(--tok-text-default); font-weight: 500; }
+.tabs--segmented .tab--active { background: var(--tok-bg-active); border: 1px solid var(--tok-outline-active); color: var(--tok-text-default); font-weight: 500; }
 .tabs--segmented .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: var(--tok-icon-disabled); }
 
@@ -119,8 +124,8 @@
 .counter { display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; font-family: var(--tok-family-sans); font-weight: 700; border-radius: 999px; }
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
-.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.counter--onNeutral.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }
+.counter--onNeutral.counter--active { background: var(--tok-color-white); color: var(--tok-text-contrast); }
 </style>
 </head>
 <body>
@@ -177,8 +182,8 @@
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-fill-neutral-hover: #424755;
-  --tok-fill-neutral-pressed: #5C606C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
   --tok-surface-raised: #282E3E;
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
@@ -186,8 +191,13 @@
   --tok-text-on-fill: #FFFFFF;
   --tok-text-for-active-bg: #11141C;
   --tok-fill-active: #FB8C33;
-  --tok-icon-default: #FFFFFF;
+  --tok-icon-default: #8E929F;
   --tok-icon-disabled: #8E929F;
+  --tok-color-base-secondary: #8E929F;
+  --tok-text-contrast: #11141C;
+  --tok-color-white: #FFFFFF;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -202,7 +212,7 @@
 .tabs--segmented { display: inline-flex; align-items: center; gap: 4px; background: var(--tok-surface-raised); border-radius: 12px; padding: 4px; max-width: 100%; overflow-x: auto; }
 .tabs--segmented .tab { border-radius: 8px; }
 .tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.tabs--segmented .tab--active { background: var(--tok-surface-card); color: var(--tok-text-default); font-weight: 500; }
+.tabs--segmented .tab--active { background: var(--tok-bg-active); border: 1px solid var(--tok-outline-active); color: var(--tok-text-default); font-weight: 500; }
 .tabs--segmented .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: var(--tok-icon-disabled); }
 
@@ -215,8 +225,8 @@
 .counter { display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; font-family: var(--tok-family-sans); font-weight: 700; border-radius: 999px; }
 .counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-size: 10px; line-height: 1; }
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
-.counter--onNeutral.counter--inactive { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
-.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }</code></pre>
+.counter--onNeutral.counter--inactive { background: var(--tok-color-base-secondary); color: var(--tok-text-contrast); }
+.counter--onNeutral.counter--active { background: var(--tok-color-white); color: var(--tok-text-contrast); }</code></pre>
 
     <h2 class="big-section">Styles</h2>
     <div class="story-grid">

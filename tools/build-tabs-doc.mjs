@@ -62,7 +62,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
   "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralPressed", "surface.raised", "surface.card",
-  "outline.default", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled",
+  "outline.default", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled", "color.base.secondary", "text.contrast", "color.white", "bg.active",
+  "bg.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -125,7 +126,7 @@ ${sizes
 .tabs--segmented { display: inline-flex; align-items: center; gap: ${seg.trackPadding}; background: ${cv("surface.raised")}; border-radius: ${seg.trackRadius}; padding: ${seg.trackPadding}; max-width: 100%; overflow-x: auto; }
 .tabs--segmented .tab { border-radius: ${seg.pillRadius}; }
 .tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
-.tabs--segmented .tab--active { background: ${cv("surface.card")}; color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; }
+.tabs--segmented .tab--active { background: ${cv("bg.active")}; border: 1px solid ${cv("outline.active")}; color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; }
 .tabs--segmented .tab--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: ${cv("icon.disabled")}; }
 

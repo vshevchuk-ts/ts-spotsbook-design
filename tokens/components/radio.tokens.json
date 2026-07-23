@@ -16,8 +16,8 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
-          "border": { "$type": "color", "$value": "{outline.default}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{outline.strong}" },
           "label": { "$type": "color", "$value": "{text.default}" }
         },
         "hover": {
@@ -31,13 +31,13 @@
           "$description": "Same additive-ring pattern as Button/Checkbox."
         },
         "checked": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
           "border": { "$type": "color", "$value": "{fill.active}" },
           "dot": { "$type": "color", "$value": "{fill.active}" },
           "$description": "bg stays surface.default (not filled) — border and dot both resolve to fill.primary (not the paler border.primary role, which is blue.200 vs. fill.primary's blue.500 — pairing a pale ring with a saturated dot read as mismatched/broken when checked). Same same-value border+fill pairing Checkbox's checked state uses."
         },
         "checkedHover": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
           "border": { "$type": "color", "$value": "{fill.activeHover}" },
           "dot": { "$type": "color", "$value": "{fill.activeHover}" },
           "$description": "fill.activeHover (blue.600) — the exact same darken-on-hover Button primary already uses for its own filled background, reused here rather than inventing a separate darkening."

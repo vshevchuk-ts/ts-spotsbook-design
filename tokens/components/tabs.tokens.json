@@ -44,7 +44,7 @@
             "$description": "fill.neutralHover — one step darker than the track itself (surface.sunken/gray.100 → gray.200), same 'darker on hover so it stays visible' rule used everywhere else this session."
           },
           "active": {
-            "bg": { "$type": "color", "$value": "{surface.card}" },
+            "bg": { "$type": "color", "$value": "{bg.active}" }, "border": { "$type": "color", "$value": "{outline.active}" },
             "label": { "$type": "color", "$value": "{text.default}" },
             "fontWeight": { "$type": "fontWeight", "$value": "{weight.semibold}" }
           },

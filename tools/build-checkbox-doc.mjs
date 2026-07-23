@@ -68,6 +68,7 @@ const colorPaths = [
   "fill.active", "fill.activeHover", "fill.disabled",
   "icon.forActiveBg", "icon.disabled",
   "text.default", "text.disabled", "text.secondary",
+  "outline.strong", "surface.raised",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -100,7 +101,7 @@ const css = `${rootVars}
 
 .checkbox { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .checkbox__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.checkbox__box { box-sizing: border-box; width: ${box}; height: ${box}; border-radius: ${boxRadius}; border: ${borderWidth} solid ${cv("outline.default")}; background: ${cv("surface.card")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.checkbox__box { box-sizing: border-box; width: ${box}; height: ${box}; border-radius: ${boxRadius}; border: ${borderWidth} solid ${cv("outline.strong")}; background: ${cv("surface.raised")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .checkbox__icon { width: ${iconSize}; height: ${iconSize}; display: none; }
 .checkbox__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 

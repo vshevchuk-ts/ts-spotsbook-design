@@ -18,9 +18,9 @@
     "negative": { "$type": "color", "$value": "{color.status.negative}", "$description": "Solid negative fill — lose/destructive." },
     "negativeHover": { "$type": "color", "$value": "#DB053B", "$description": "negative + 12% darken overlay (hover on a destructive action)." },
     "warning": { "$type": "color", "$value": "{color.status.warning}", "$description": "Solid warning fill — cashout/attention." },
-    "neutral": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Neutral/secondary button fill — the raised surface." },
-    "neutralHover": { "$type": "color", "$value": "#424755", "$description": "neutral + 12% lighten overlay (hover on a dark surface)." },
-    "neutralPressed": { "$type": "color", "$value": "#5C606C", "$description": "neutral + 24% lighten overlay (pressed)." },
+    "neutral": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "Neutral/secondary button fill — surface-6 (the borders/outline/secondary-control step), a step lighter than the raised surface-4 used by fields/chips/toggles, so a secondary button reads as raised above a card." },
+    "neutralHover": { "$type": "color", "$value": "#555A66", "$description": "neutral (surface-6) + 12% lighten overlay (hover)." },
+    "neutralPressed": { "$type": "color", "$value": "#6C707B", "$description": "neutral (surface-6) + 24% lighten overlay (pressed)." },
     "disabled": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Disabled fill — the raised surface; the disabled cue is faded text/icon." }
   },
   "bg": {
@@ -57,8 +57,8 @@
   },
   "icon": {
     "$description": "Icon colours — mirrors `text`. default is contrast (white) for content icons; use icon.secondary for chrome/field icons.",
-    "default": { "$type": "color", "$value": "{color.base.contrast}", "$description": "Default content icons — contrast (white)." },
-    "secondary": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Secondary/chrome icons — field icons, close ×, info circles, disabled." },
+    "default": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Default icons — secondary grey. Most sportsbook icons (field/leading icons, chevrons, pagination arrows, tab icons, close ×) are muted grey, not full-contrast white; use icon.contrast/onFill/forActiveBg where an icon genuinely needs to be bright/dark." },
+    "secondary": { "$type": "color", "$value": "{color.base.secondary}", "$description": "Explicitly-secondary icons — same grey as default now; kept as its own name for intent." },
     "contrast": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "Dark icon for a light/contrast surface." },
     "active": { "$type": "color", "$value": "{color.base.active-1}", "$description": "Active icon." },
     "accent": { "$type": "color", "$value": "{color.base.accent}", "$description": "Accent icon." },

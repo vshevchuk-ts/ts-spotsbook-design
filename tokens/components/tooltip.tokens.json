@@ -8,7 +8,7 @@
       "gap": { "$type": "dimension", "$value": "{spacing.1_5}", "$description": "6px offset between the trigger's edge and the tooltip bubble — the arrow occupies part of this gap." },
       "arrowSize": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px square, rotated 45deg — half (~5.7px) pokes out past the bubble's own edge." },
       "showDelay": { "$type": "dimension", "$value": { "value": 400, "unit": "ms" }, "$description": "Brief delay before appearing, so quickly passing the mouse over a trigger doesn't flash a tooltip — standard practice, not present on hide (disappears immediately once the trigger loses hover/focus)." },
-      "bg": { "$type": "color", "$value": "{surface.raised}" },
+      "bg": { "$type": "color", "$value": "{color.base.surface-6}" },
       "text": { "$type": "color", "$value": "{text.onFill}" },
       "label": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px — smaller than the 14px body-base used everywhere else, a tooltip is a brief hint, not reading content." },
       "shadow": { "$type": "shadow", "$value": "{elevation.sm}" }

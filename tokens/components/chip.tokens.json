@@ -57,7 +57,7 @@
       "toggle": {
         "$description": "Filter-selection chip — click flips checked/unchecked, exactly the Checkbox/Radio/Switch mental model in pill form. 'checkedOutline' is a second checked treatment, not a state ladder rung: use it (instead of solid 'checked') when the chip carries a Counter — a chip summarizing 'N sub-selections inside' (e.g. a 'Filters' trigger chip showing the drawer's active-filter count) is an aggregate/trigger, not a single boolean, so filling it fully solid would overstate it. Solid checked = a real one-thing-is-on toggle (no counter). Outline checked reuses Badge's own tint recipe (bg.primary+text.primary) plus a border for the extra definition an interactive element needs that a passive Badge doesn't.",
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
           "border": { "$type": "color", "$value": "{outline.default}" },
           "text": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
@@ -93,7 +93,7 @@
       "removable": {
         "$description": "A selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient/tag chip. Existence IS the selection; there's no checked/unchecked ladder, only present-or-removed. Shares 'toggle.default''s exact visual (bg/border/text/icon) on purpose — both read as 'a quiet chip sitting on the page' at rest, no reason to invent a second resting look.",
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.card}" },
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
           "border": { "$type": "color", "$value": "{outline.default}" },
           "text": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
