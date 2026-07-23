@@ -140,8 +140,8 @@ const iconSwap = '<svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor"
 // background at rest, and disabled shouldn't suddenly gain one it never had).
 const variants = {
   primary: { label: "Primary", fill: "fill.active", fillHover: "fill.activeHover", fillActive: "fill.activePressed", text: "text.forActiveBg", icon: "icon.forActiveBg" },
-  secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.default" },
-  ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.secondary", icon: "icon.secondary" },
+  secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.default", iconHover: "text.default" },
+  ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.secondary", iconHover: "text.default" },
 };
 
 function variantCss(key) {
@@ -151,7 +151,7 @@ function variantCss(key) {
   return `.btn--${key} { background: ${restBg}; color: ${cv(v.text)}; }
 .btn--${key} .btn__icon { color: ${cv(v.icon)}; }
 .btn--${key}:not(:disabled):hover { background: ${cv(v.fillHover)}; }
-.btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
+${v.iconHover ? `.btn--${key}:not(:disabled):hover .btn__icon { color: ${cv(v.iconHover)}; }\n` : ""}.btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
 .btn--${key}:not(:disabled):focus-visible { outline: none; ${ringShadow} }
 .btn--${key}:disabled { opacity: 0.5; cursor: not-allowed; }`;
 }
