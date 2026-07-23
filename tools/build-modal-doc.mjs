@@ -103,6 +103,8 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .modal__body { flex: 1; box-sizing: border-box; overflow: auto; padding: ${padding}; }
 .modal__body-text { margin: 0; color: ${cv("text.secondary")}; ${typoCss(bodyType)} }
 .modal__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: ${gap}; justify-content: flex-end; padding: ${padding}; border-top: 1px solid ${cv("outline.default")}; }
+.modal[data-alert] .modal__header { border-bottom: none; padding-bottom: 0; }
+.modal[data-alert] .modal__footer { border-top: none; }
 
 .modal__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .modal__close:hover { background: ${cv("fill.neutralHover")}; }
