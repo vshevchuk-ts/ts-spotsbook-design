@@ -99,6 +99,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
+.checkbox:has(.checkbox__input:disabled) { opacity: 0.5; }
 .checkbox { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .checkbox__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .checkbox__box { box-sizing: border-box; width: ${box}; height: ${box}; border-radius: ${boxRadius}; border: ${borderWidth} solid ${cv("outline.strong")}; background: ${cv("surface.raised")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }

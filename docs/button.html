@@ -150,24 +150,21 @@
 .btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
 .btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
 .btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--primary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--primary:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
 .btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--secondary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--secondary:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn--ghost { background: transparent; color: var(--tok-text-secondary); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
 .btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--ghost:disabled { background: transparent; color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--ghost:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .counter {
   display: inline-flex;
@@ -218,7 +215,6 @@
     <a class="navlink" href="modal.html">Modal</a>
     <a class="navlink" href="menu.html">Menu</a>
     <a class="navlink" href="listbox.html">Listbox</a>
-    <a class="navlink" href="avatar.html">Avatar</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
   </nav>
@@ -315,24 +311,21 @@
 .btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
 .btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
 .btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--primary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--primary:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
 .btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--secondary:disabled { background: var(--tok-fill-disabled); color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--secondary:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn--ghost { background: transparent; color: var(--tok-text-secondary); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
 .btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
-.btn--ghost:disabled { background: transparent; color: var(--tok-text-disabled); cursor: not-allowed; }
-.btn--ghost:disabled .btn__icon { color: var(--tok-icon-disabled); }
+.btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .counter {
   display: inline-flex;

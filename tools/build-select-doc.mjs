@@ -94,6 +94,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
+.select--disabled { opacity: 0.5; }
 .select {
   display: inline-flex;
   align-items: center;

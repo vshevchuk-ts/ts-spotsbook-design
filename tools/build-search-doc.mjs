@@ -89,6 +89,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
+.search--disabled { opacity: 0.5; }
 .search {
   display: inline-flex;
   align-items: center;

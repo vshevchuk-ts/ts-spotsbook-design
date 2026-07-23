@@ -28,7 +28,6 @@ export const NAV_ITEMS = {
   modal: { label: "Modal", href: "modal.html" },
   menu: { label: "Menu", href: "menu.html" },
   listbox: { label: "Listbox", href: "listbox.html" },
-  avatar: { label: "Avatar", href: "avatar.html" },
   badge: { label: "Badge", href: "badge.html" },
   chip: { label: "Chip", href: "chip.html" },
 };
@@ -68,7 +67,6 @@ export function renderNav(activeKey) {
     ${link("modal")}
     ${link("menu")}
     ${link("listbox")}
-    ${link("avatar")}
     ${link("badge")}
     ${link("chip")}`;
 }

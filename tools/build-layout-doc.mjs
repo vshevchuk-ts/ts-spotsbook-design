@@ -74,7 +74,7 @@ const radiusLegend = [
   ["default (8px)", "The base grid unit — go-to radius for ordinary controls (buttons, inputs, cards) unless a component calls for a named size."],
   ["md / lg", "Cards, panels, dropdown menus."],
   ["xl", "Prominent surfaces: modals, large panels, hero cards."],
-  ["full", "Pills, avatars, circular icon buttons — guaranteed round regardless of element size (border-radius clamps to 50% of the box)."],
+  ["full", "Pills, circular icon buttons, counters — guaranteed round regardless of element size (border-radius clamps to 50% of the box)."],
 ];
 
 const html = `<!doctype html>

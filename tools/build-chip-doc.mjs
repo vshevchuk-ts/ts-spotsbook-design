@@ -119,6 +119,7 @@ const iconClose = iconOf("close", "chip__remove-icon");
 
 const css = `${rootVars}
 
+.chip:disabled, .chip--disabled { opacity: 0.5; }
 .chip { box-sizing: border-box; display: inline-flex; align-items: center; border: 1px solid transparent; border-radius: ${radius}; font-family: ${cv("family.sans")}; cursor: pointer; white-space: nowrap; }
 .chip__icon { flex-shrink: 0; }
 ${sizeDefs

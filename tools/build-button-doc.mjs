@@ -151,8 +151,7 @@ function variantCss(key) {
 .btn--${key}:not(:disabled):hover { background: ${cv(v.fillHover)}; }
 .btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
 .btn--${key}:not(:disabled):focus-visible { outline: none; ${ringShadow} }
-.btn--${key}:disabled { background: ${disabledBg}; color: ${cv("text.disabled")}; cursor: not-allowed; }
-.btn--${key}:disabled .btn__icon { color: ${cv("icon.disabled")}; }`;
+.btn--${key}:disabled { opacity: 0.5; cursor: not-allowed; }`;
 }
 
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----

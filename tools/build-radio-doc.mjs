@@ -95,6 +95,7 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
+.radio:has(.radio__input:disabled) { opacity: 0.5; }
 .radio { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .radio__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .radio__circle { box-sizing: border-box; width: ${circle}; height: ${circle}; border-radius: ${circleRadius}; border: ${borderWidth} solid ${cv("outline.strong")}; background: ${cv("surface.raised")}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }

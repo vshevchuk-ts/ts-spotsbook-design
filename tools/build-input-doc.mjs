@@ -97,6 +97,7 @@ function typoCss(t) {
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----
 const css = `${rootVars}
 
+.input--disabled { opacity: 0.5; }
 .input {
   display: inline-flex;
   align-items: center;
