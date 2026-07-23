@@ -62,7 +62,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
   "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralPressed", "surface.raised", "surface.card",
-  "outline.default", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled", "color.base.secondary", "text.contrast", "color.white", "bg.active",
+  "outline.default", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled", "lighten.2", "text.secondary", "fill.active", "text.forActiveBg", "color.white", "bg.active",
   "bg.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));

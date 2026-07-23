@@ -52,32 +52,32 @@
         "$description": "Shared by every surface variant below — sizing doesn't depend on which button it sits on, only sm/base/lg does. Not a text-style.* alias — every existing bold text-style (label-sm/base) bakes in uppercase + wide tracking for all-caps words, wrong for digits. Composed directly from typography primitives instead. leading.none (1) rather than normal/tight — a single-line numeric pill centers better with no extra line-box air."
       },
       "onPrimary": {
-        "$description": "For use on top of an active-colored (fill.active) button/tab. The counter never uses the active/brand colour itself (it sits ON that colour) — active = a white pill with dark text (pops off the bright fill), inactive = a muted grey pill with dark text.",
+        "$description": "For use on top of an active-colored (fill.active) button/tab. Text is always forActiveBg (dark on the bright active). inactive = a faint lighten-2 (12% white) wash; active = a solid white pill that pops off the active fill.",
         "state": {
           "inactive": {
-            "$description": "Seen/zero count — a muted grey pill (secondary grey) with dark text; quiet but still legible on the bright button.",
-            "bg": { "$type": "color", "$value": "{color.base.secondary}" },
-            "label": { "$type": "color", "$value": "{text.contrast}" }
+            "$description": "Seen/zero count — a faint lighten-2 (white 12%) wash over the active fill, dark text.",
+            "bg": { "$type": "color", "$value": "{lighten.2}" },
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           },
           "active": {
-            "$description": "Has a meaningful count — a white pill with dark text so it pops off the active fill. Never orange text (which would blend into the button).",
+            "$description": "Has a meaningful count — a solid white pill with dark text so it pops off the active fill.",
             "bg": { "$type": "color", "$value": "{color.white}" },
-            "label": { "$type": "color", "$value": "{text.contrast}" }
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           }
         }
       },
       "onNeutral": {
-        "$description": "For use on top of a neutral (secondary button / tab track) surface. Same treatment as onPrimary — a white pill (active) or muted grey pill (inactive), both with dark text — so the counter reads consistently regardless of which surface it sits on.",
+        "$description": "For use on top of a neutral (secondary button / tab track) surface. inactive = a faint lighten-2 wash with secondary-grey text; active = the active colour (fill.active) so the count pops against the neutral surface, with dark (forActiveBg) text.",
         "state": {
           "inactive": {
-            "$description": "Muted grey pill + dark text.",
-            "bg": { "$type": "color", "$value": "{color.base.secondary}" },
-            "label": { "$type": "color", "$value": "{text.contrast}" }
+            "$description": "Faint lighten-2 wash + secondary-grey text.",
+            "bg": { "$type": "color", "$value": "{lighten.2}" },
+            "label": { "$type": "color", "$value": "{text.secondary}" }
           },
           "active": {
-            "$description": "White pill + dark text.",
-            "bg": { "$type": "color", "$value": "{color.white}" },
-            "label": { "$type": "color", "$value": "{text.contrast}" }
+            "$description": "The active colour (fill.active) pill + dark text — pops against the neutral surface.",
+            "bg": { "$type": "color", "$value": "{fill.active}" },
+            "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           }
         }
       }

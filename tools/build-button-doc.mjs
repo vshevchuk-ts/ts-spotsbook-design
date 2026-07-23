@@ -71,7 +71,7 @@ const colorPaths = [
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
   "outline.active", "color.white", "text.active",
-  "color.base.secondary", "text.contrast",
+  "lighten.2",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans"); // e.g. "Rubik"
@@ -125,8 +125,8 @@ const counterSizes = ["sm", "base", "lg"].map((key) => {
 // rather than quiet, so each button variant needs its matching counter surface.
 const counterSurfaceFor = { primary: "onPrimary", secondary: "onNeutral", ghost: "onNeutral" };
 const counterSurfaces = {
-  onPrimary: { inactiveBg: "color.base.secondary", inactiveLabel: "text.contrast" },
-  onNeutral: { inactiveBg: "color.base.secondary", inactiveLabel: "text.contrast" },
+  onPrimary: { inactiveBg: "lighten.2", inactiveLabel: "text.forActiveBg" },
+  onNeutral: { inactiveBg: "lighten.2", inactiveLabel: "text.secondary" },
 };
 
 // ---- icons (placeholders for the preview only) ----

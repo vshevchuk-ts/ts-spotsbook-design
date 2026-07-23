@@ -60,7 +60,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
-const colorPaths = ["color.base.secondary", "text.contrast", "color.white"];
+const colorPaths = ["lighten.2", "text.forActiveBg", "color.white", "text.secondary", "fill.active"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
@@ -73,8 +73,8 @@ const sizes = ["sm", "base", "lg"].map((key) => {
 });
 
 const surfaces = {
-  onPrimary: { label: "On Primary", inactiveBg: "color.base.secondary", inactiveLabel: "text.contrast", activeBg: "color.white", activeLabel: "text.contrast" },
-  onNeutral: { label: "On Neutral", inactiveBg: "color.base.secondary", inactiveLabel: "text.contrast", activeBg: "color.white", activeLabel: "text.contrast" },
+  onPrimary: { label: "On Primary", inactiveBg: "lighten.2", inactiveLabel: "text.forActiveBg", activeBg: "color.white", activeLabel: "text.forActiveBg" },
+  onNeutral: { label: "On Neutral", inactiveBg: "lighten.2", inactiveLabel: "text.secondary", activeBg: "fill.active", activeLabel: "text.forActiveBg" },
 };
 function surfaceCss(key) {
   const s = surfaces[key];
