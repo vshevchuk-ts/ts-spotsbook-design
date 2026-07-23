@@ -151,7 +151,7 @@ function variantCss(key) {
   return `.btn--${key} { background: ${restBg}; color: ${cv(v.text)}; }
 .btn--${key} .btn__icon { color: ${cv(v.icon)}; }
 .btn--${key}:not(:disabled):hover { background: ${cv(v.fillHover)}; }
-${v.iconHover ? `.btn--${key}:not(:disabled):hover .btn__icon { color: ${cv(v.iconHover)}; }\n` : ""}.btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
+${v.iconHover ? `.btn--${key}:not(:disabled):hover .btn__icon, .btn--${key}:not(:disabled):active .btn__icon { color: ${cv(v.iconHover)}; }\n` : ""}.btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
 .btn--${key}:not(:disabled):focus-visible { outline: none; ${ringShadow} }
 .btn--${key}:disabled { opacity: 0.5; cursor: not-allowed; }`;
 }
@@ -222,10 +222,10 @@ ${Object.entries(counterSurfaces)
 .btn--round-xs .btn__icon { width: 16px; height: 16px; }
 .btn--outline { background: transparent; border: 1px solid ${cv("outline.strong")}; color: ${cv("icon.default")}; }
 .btn--outline:not(:disabled):hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
-.btn--outline:not(:disabled):active { background: ${cv("darken.2")}; }
+.btn--outline:not(:disabled):active { background: ${cv("darken.2")}; color: ${cv("text.default")}; }
 .btn--filled-neutral { background: ${cv("surface.raised")}; color: ${cv("icon.default")}; }
 .btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
-.btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
+.btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; color: ${cv("text.default")}; }
 .btn--betslip { box-sizing: border-box; border-radius: 999px; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; color: ${cv("text.default")}; gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: ${cv("surface.raised")}; }
 .btn--betslip:not(:disabled):active { background: ${cv("outline.strong")}; }
@@ -300,7 +300,7 @@ function stateStory(variant, name, extraStyle, disabled) {
   const v = variants[variant];
   // the real :hover turns the icon white (v.iconHover) — the forced-state demo uses
   // an inline style, not a real :hover, so inject that same colour onto the icon here
-  const icon = name === "hover" && v.iconHover ? iconAdd.replace("<svg ", `<svg style="color:${cv(v.iconHover)}" `) : iconAdd;
+  const icon = (name === "hover" || name === "pressed") && v.iconHover ? iconAdd.replace("<svg ", `<svg style="color:${cv(v.iconHover)}" `) : iconAdd;
   const html = `<button class="btn btn--${variant} btn--base"${disabled ? " disabled" : ""} style="${extraStyle}">${icon}\n    Label</button>`;
   return storyCard(name, html, stateSnippets(variant)[name]);
 }
@@ -454,8 +454,8 @@ const html = `<!doctype html>
     <h3 class="mid-section">States — new variants</h3>
     <p class="section-desc">These variants differ from primary/secondary/ghost, so their states are shown explicitly: default · hover · pressed · disabled (50% opacity). Left→right in each row.</p>
     <div class="story-grid">
-      ${storyCard("Round — outline", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:${cv('lighten.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:${cv('darken.2')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled>${iconChevronLeft}</button></div>`, "default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled")}
-      ${storyCard("Round — filled", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:${cv('fill.neutralHover')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:${cv('fill.neutralPressed')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled>${iconSwap}</button></div>`, "default · hover (+white icon) · pressed · disabled")}
+      ${storyCard("Round — outline", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:${cv('lighten.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:${cv('darken.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled>${iconChevronLeft}</button></div>`, "default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled")}
+      ${storyCard("Round — filled", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:${cv('fill.neutralHover')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:${cv('fill.neutralPressed')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled>${iconSwap}</button></div>`, "default · hover (+white icon) · pressed · disabled")}
       ${storyCard("Betslip pill", `<div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;"><button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('surface.raised')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('outline.strong')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" disabled>Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>`, "default (surface-2 + surface-4 border) · hover (surface-4) · pressed (surface-6) · disabled")}
     </div>
 

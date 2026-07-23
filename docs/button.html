@@ -159,7 +159,7 @@
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--secondary:not(:disabled):hover .btn__icon { color: var(--tok-text-default); }
+.btn--secondary:not(:disabled):hover .btn__icon, .btn--secondary:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
 .btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -167,7 +167,7 @@
 .btn--ghost { background: transparent; color: var(--tok-text-default); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--ghost:not(:disabled):hover .btn__icon { color: var(--tok-text-default); }
+.btn--ghost:not(:disabled):hover .btn__icon, .btn--ghost:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
 .btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -202,10 +202,10 @@
 .btn--round-xs .btn__icon { width: 16px; height: 16px; }
 .btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
 .btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
-.btn--outline:not(:disabled):active { background: var(--tok-darken-2); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); color: var(--tok-text-default); }
 .btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
 .btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
 .btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
@@ -350,7 +350,7 @@
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--secondary .btn__icon { color: var(--tok-icon-default); }
 .btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--secondary:not(:disabled):hover .btn__icon { color: var(--tok-text-default); }
+.btn--secondary:not(:disabled):hover .btn__icon, .btn--secondary:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
 .btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -358,7 +358,7 @@
 .btn--ghost { background: transparent; color: var(--tok-text-default); }
 .btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
 .btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
-.btn--ghost:not(:disabled):hover .btn__icon { color: var(--tok-text-default); }
+.btn--ghost:not(:disabled):hover .btn__icon, .btn--ghost:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
 .btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
 .btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
 .btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -393,10 +393,10 @@
 .btn--round-xs .btn__icon { width: 16px; height: 16px; }
 .btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
 .btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
-.btn--outline:not(:disabled):active { background: var(--tok-darken-2); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); color: var(--tok-text-default); }
 .btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
 .btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
 .btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
@@ -684,7 +684,7 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--secondary:active {
   background: var(--tok-fill-neutral-pressed);
@@ -840,7 +840,7 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     Label</button></div>
         <pre class="code"><code>.btn--ghost:active {
   background: var(--tok-fill-neutral-pressed);
@@ -930,14 +930,14 @@
       
       <div class="story">
         <h3>Round — outline</h3>
-        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:var(--tok-lighten-2); color:var(--tok-text-default)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:var(--tok-darken-2)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div></div>
+        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:var(--tok-lighten-2); color:var(--tok-text-default)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:var(--tok-darken-2); color:var(--tok-text-default)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div></div>
         <pre class="code"><code>default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled</code></pre>
         
       </div>
       
       <div class="story">
         <h3>Round — filled</h3>
-        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:var(--tok-fill-neutral-hover); color:var(--tok-text-default)"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:var(--tok-fill-neutral-pressed)"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button></div></div>
+        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:var(--tok-fill-neutral-hover); color:var(--tok-text-default)"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:var(--tok-fill-neutral-pressed); color:var(--tok-text-default)"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button></div></div>
         <pre class="code"><code>default · hover (+white icon) · pressed · disabled</code></pre>
         
       </div>
