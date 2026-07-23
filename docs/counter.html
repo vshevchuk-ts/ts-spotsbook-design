@@ -67,7 +67,9 @@
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: var(--border-strong); }
+  .demo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 8px; background: var(--border-strong); }
+  .demo-box--onPrimary { background: var(--tok-fill-active); }
+  .demo-box--onNeutral { background: var(--tok-fill-neutral); }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
@@ -77,6 +79,7 @@
   --tok-color-white: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-fill-active: #FB8C33;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -143,8 +146,8 @@
     <div class="legend">
       <div class="row"><b>Scope</b><span>Two surface variants exist so far — one per <a href="button.html">button</a> variant's fill. A standalone counter for plain page surfaces (nav badges, list rows) is deferred until a real use case needs it.</span></div>
       <div class="row"><b>Sizing</b><span>Shared by both surfaces — mirrors button's sm/base/lg 1:1, height = the same dim step as that size's iconSize (16/20/24px), so the pill lines up with the icon beside it.</span></div>
-      <div class="row"><b>On Primary</b><span>inactive → fill.primaryActive bg + text.onFill label. active → white bg + text.primary label. Both chosen to pop or blend against a saturated blue fill.</span></div>
-      <div class="row"><b>On Neutral</b><span>inactive → fill.neutralActive bg + text.default label. active → fill.primary bg + text.onFill label. Neither of onPrimary's colors work here — gray.100 is too pale for a white "active" pill to show, and the dark navy "inactive" reads as loud rather than quiet against gray.</span></div>
+      <div class="row"><b>On Primary</b><span>On the orange active fill: inactive → lighten-2 (12% white) wash + white text; active → white pill + dark text.</span></div>
+      <div class="row"><b>On Neutral</b><span>On a neutral surface: inactive → lighten-2 wash + white text; active → the active colour (orange) pill + dark text, so it pops against the grey.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -155,6 +158,7 @@
   --tok-color-white: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-fill-active: #FB8C33;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -183,21 +187,21 @@
       
       <div class="story">
         <h3>sm — 16px</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--sm counter--onPrimary counter--inactive">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onPrimary"><span class="counter counter--sm counter--onPrimary counter--inactive">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--sm counter--onPrimary counter--inactive"&gt;3&lt;/span&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>base — 20px</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--base counter--onPrimary counter--inactive">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onPrimary"><span class="counter counter--base counter--onPrimary counter--inactive">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--base counter--onPrimary counter--inactive"&gt;3&lt;/span&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>lg — 24px</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--lg counter--onPrimary counter--inactive">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onPrimary"><span class="counter counter--lg counter--onPrimary counter--inactive">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--lg counter--onPrimary counter--inactive"&gt;3&lt;/span&gt;</code></pre>
         
       </div>
@@ -205,40 +209,40 @@
 
     
     <h2 class="big-section">On Primary</h2>
-    <p class="section-desc">For use on <code class="tok">button.primary</code>'s fill. Gray boxes are a neutral demo container only (fixed 64×64, no rounding) — not the real button background; see <a href="button.html">the icon+text+counter button variant</a> for how it actually looks in context.</p>
+    <p class="section-desc">For use on <code class="tok">button.primary</code>'s fill — the demo box below is coloured to match that surface (orange active fill for onPrimary, the neutral surface-6 for onNeutral), fixed 64×64; see <a href="button.html">the icon+text+counter button variant</a> for how it looks in a real button.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>inactive</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--base counter--onPrimary counter--inactive">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onPrimary"><span class="counter counter--base counter--onPrimary counter--inactive">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--base counter--onPrimary counter--inactive"&gt;3&lt;/span&gt;</code></pre>
-        <p class="story-note">Seen/zero count — close to the button's own blue fill so it reads as quiet.</p>
+        <p class="story-note">Seen/zero count — a faint lighten-2 wash over the button's active fill, white text.</p>
       </div>
       
       <div class="story">
         <h3>active</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--base counter--onPrimary counter--active">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onPrimary"><span class="counter counter--base counter--onPrimary counter--active">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--base counter--onPrimary counter--active"&gt;3&lt;/span&gt;</code></pre>
-        <p class="story-note">Has a new/meaningful count — inverted to white so it pops off the blue fill.</p>
+        <p class="story-note">A meaningful count — a solid white pill with dark text, pops off the active fill.</p>
       </div>
     </div>
     
     <h2 class="big-section">On Neutral</h2>
-    <p class="section-desc">For use on <code class="tok">button.secondary</code>'s fill. Gray boxes are a neutral demo container only (fixed 64×64, no rounding) — not the real button background; see <a href="button.html">the icon+text+counter button variant</a> for how it actually looks in context.</p>
+    <p class="section-desc">For use on <code class="tok">button.secondary</code>'s fill — the demo box below is coloured to match that surface (orange active fill for onPrimary, the neutral surface-6 for onNeutral), fixed 64×64; see <a href="button.html">the icon+text+counter button variant</a> for how it looks in a real button.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>inactive</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--base counter--onNeutral counter--inactive">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onNeutral"><span class="counter counter--base counter--onNeutral counter--inactive">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;3&lt;/span&gt;</code></pre>
-        <p class="story-note">Mirrors onPrimary's logic in the gray family — one step past the button's own hover shade, dark label since the gray steps here are light.</p>
+        <p class="story-note">A faint lighten-2 wash over the neutral surface, white text.</p>
       </div>
       
       <div class="story">
         <h3>active</h3>
-        <div class="story-preview"><div class="demo-box"><span class="counter counter--base counter--onNeutral counter--active">3</span></div></div>
+        <div class="story-preview"><div class="demo-box demo-box--onNeutral"><span class="counter counter--base counter--onNeutral counter--active">3</span></div></div>
         <pre class="code"><code>&lt;span class="counter counter--base counter--onNeutral counter--active"&gt;3&lt;/span&gt;</code></pre>
-        <p class="story-note">Inverts to brand blue, not white — gray.100 is already near-white, so a white pill would barely show against it.</p>
+        <p class="story-note">The active colour (orange) pill with dark text, pops against the neutral surface.</p>
       </div>
     </div>
 

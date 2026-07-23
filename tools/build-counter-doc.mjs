@@ -1,7 +1,7 @@
 // Regenerates docs/counter.html from tokens/components/counter.tokens.json,
 // resolving aliases back through semantic/*.tokens.json and primitives/*.tokens.json.
-// Two surface variants — onPrimary (sits on button.primary's blue fill) and
-// onNeutral (sits on button.secondary's gray fill) — share one size/radius grid.
+// Two surface variants — onPrimary (sits on the active/orange button fill) and
+// onNeutral (sits on a neutral surface) — share one size/radius grid.
 // The generated <style> block IS the code shown in the "CSS" section below —
 // one source, so the live preview and the printed snippet can't drift apart.
 // Run: node tools/build-counter-doc.mjs
@@ -60,7 +60,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
-const colorPaths = ["lighten.2", "text.forActiveBg", "color.white", "text.secondary", "fill.active"];
+const colorPaths = ["lighten.2", "text.forActiveBg", "color.white", "text.secondary", "fill.active", "fill.neutral"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
@@ -105,26 +105,26 @@ function markup(size, surface, state) {
   return `<span class="counter counter--${size} counter--${surface} counter--${state}">3</span>`;
 }
 
-function storyCard(title, liveHtml, codeHtml, note = "") {
+function storyCard(title, liveHtml, codeHtml, note = "", boxClass = "") {
   return `
       <div class="story">
         <h3>${title}</h3>
-        <div class="story-preview"><div class="demo-box">${liveHtml}</div></div>
+        <div class="story-preview"><div class="demo-box ${boxClass}">${liveHtml}</div></div>
         <pre class="code"><code>${esc(codeHtml)}</code></pre>
         ${note ? `<p class="story-note">${note}</p>` : ""}
       </div>`;
 }
 
-const sizeStories = sizes.map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, "onPrimary", "inactive"), markup(s.key, "onPrimary", "inactive"))).join("\n");
+const sizeStories = sizes.map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, "onPrimary", "inactive"), markup(s.key, "onPrimary", "inactive"), "", "demo-box--onPrimary")).join("\n");
 
 function surfaceSection(key) {
   const s = surfaces[key];
   return `
     <h2 class="big-section">${s.label}</h2>
-    <p class="section-desc">For use on <code class="tok">${key === "onPrimary" ? "button.primary" : "button.secondary"}</code>'s fill. Gray boxes are a neutral demo container only (fixed 64×64, no rounding) — not the real button background; see <a href="button.html">the icon+text+counter button variant</a> for how it actually looks in context.</p>
+    <p class="section-desc">For use on <code class="tok">${key === "onPrimary" ? "button.primary" : "button.secondary"}</code>'s fill — the demo box below is coloured to match that surface (orange active fill for onPrimary, the neutral surface-6 for onNeutral), fixed 64×64; see <a href="button.html">the icon+text+counter button variant</a> for how it looks in a real button.</p>
     <div class="story-grid">
-      ${storyCard("inactive", markup("base", key, "inactive"), markup("base", key, "inactive"), key === "onPrimary" ? "Seen/zero count — close to the button's own blue fill so it reads as quiet." : "Mirrors onPrimary's logic in the gray family — one step past the button's own hover shade, dark label since the gray steps here are light.")}
-      ${storyCard("active", markup("base", key, "active"), markup("base", key, "active"), key === "onPrimary" ? "Has a new/meaningful count — inverted to white so it pops off the blue fill." : "Inverts to brand blue, not white — gray.100 is already near-white, so a white pill would barely show against it.")}
+      ${storyCard("inactive", markup("base", key, "inactive"), markup("base", key, "inactive"), key === "onPrimary" ? "Seen/zero count — a faint lighten-2 wash over the button's active fill, white text." : "A faint lighten-2 wash over the neutral surface, white text.", `demo-box--${key}`)}
+      ${storyCard("active", markup("base", key, "active"), markup("base", key, "active"), key === "onPrimary" ? "A meaningful count — a solid white pill with dark text, pops off the active fill." : "The active colour (orange) pill with dark text, pops against the neutral surface.", `demo-box--${key}`)}
     </div>`;
 }
 
@@ -197,7 +197,9 @@ const html = `<!doctype html>
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: var(--border-strong); }
+  .demo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 8px; background: var(--border-strong); }
+  .demo-box--onPrimary { background: var(--tok-fill-active); }
+  .demo-box--onNeutral { background: var(--tok-fill-neutral); }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
@@ -216,8 +218,8 @@ const html = `<!doctype html>
     <div class="legend">
       <div class="row"><b>Scope</b><span>Two surface variants exist so far — one per <a href="button.html">button</a> variant's fill. A standalone counter for plain page surfaces (nav badges, list rows) is deferred until a real use case needs it.</span></div>
       <div class="row"><b>Sizing</b><span>Shared by both surfaces — mirrors button's sm/base/lg 1:1, height = the same dim step as that size's iconSize (16/20/24px), so the pill lines up with the icon beside it.</span></div>
-      <div class="row"><b>On Primary</b><span>inactive → fill.primaryActive bg + text.onFill label. active → white bg + text.primary label. Both chosen to pop or blend against a saturated blue fill.</span></div>
-      <div class="row"><b>On Neutral</b><span>inactive → fill.neutralActive bg + text.default label. active → fill.primary bg + text.onFill label. Neither of onPrimary's colors work here — gray.100 is too pale for a white "active" pill to show, and the dark navy "inactive" reads as loud rather than quiet against gray.</span></div>
+      <div class="row"><b>On Primary</b><span>On the orange active fill: inactive → lighten-2 (12% white) wash + white text; active → white pill + dark text.</span></div>
+      <div class="row"><b>On Neutral</b><span>On a neutral surface: inactive → lighten-2 wash + white text; active → the active colour (orange) pill + dark text, so it pops against the grey.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
