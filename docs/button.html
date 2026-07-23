@@ -94,6 +94,10 @@
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-darken-2: rgba(17, 20, 28, 0.12);
+  --tok-outline-strong: #3E4351;
+  --tok-surface-raised: #282E3E;
+  --tok-text-default: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -179,6 +183,27 @@
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-size: 14px; line-height: 1; }
 .counter--onPrimary.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-for-active-bg); }
 .counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+
+/* ---- sportsbook variants ---- */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: auto; padding: 9px 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow .btn__top { font-weight: 500; font-size: 12px; }
+.btn--tworow .btn__bottom { font-weight: 800; font-size: 18px; }
+.btn--tworow.btn--secondary .btn__top { color: var(--tok-text-default); }
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 56px; height: 56px; }
+.btn--round-base .btn__icon { width: 26px; height: 26px; }
+.btn--round-xs { width: 40px; height: 40px; }
+.btn--round-xs .btn__icon { width: 20px; height: 20px; }
+.btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
+.btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); }
+.btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
+.btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--betslip { border-radius: 999px; background: var(--tok-surface-raised); color: var(--tok-text-default); gap: 10px; height: 48px; padding: 0 8px 0 22px; font-weight: 800; font-size: 16px; }
+.btn--betslip:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--betslip:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -254,6 +279,10 @@
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-darken-2: rgba(17, 20, 28, 0.12);
+  --tok-outline-strong: #3E4351;
+  --tok-surface-raised: #282E3E;
+  --tok-text-default: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -338,7 +367,28 @@
 .counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
 .counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-size: 14px; line-height: 1; }
 .counter--onPrimary.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-for-active-bg); }
-.counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }</code></pre>
+.counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+
+/* ---- sportsbook variants ---- */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: auto; padding: 9px 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow .btn__top { font-weight: 500; font-size: 12px; }
+.btn--tworow .btn__bottom { font-weight: 800; font-size: 18px; }
+.btn--tworow.btn--secondary .btn__top { color: var(--tok-text-default); }
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 56px; height: 56px; }
+.btn--round-base .btn__icon { width: 26px; height: 26px; }
+.btn--round-xs { width: 40px; height: 40px; }
+.btn--round-xs .btn__icon { width: 20px; height: 20px; }
+.btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
+.btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); }
+.btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
+.btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--betslip { border-radius: 999px; background: var(--tok-surface-raised); color: var(--tok-text-default); gap: 10px; height: 48px; padding: 0 8px 0 22px; font-weight: 800; font-size: 16px; }
+.btn--betslip:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--betslip:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }</code></pre>
 
     
     <h2 class="big-section">Primary</h2>
@@ -806,6 +856,59 @@
   color: var(--tok-text-disabled);
 }</code></pre>
         
+      </div>
+    </div>
+
+    <h2 class="big-section">Sportsbook variants</h2>
+    <p class="section-desc">Product-specific buttons from the Figma library, on top of the primary/secondary/ghost core. All share the same state model (default · hover · pressed · disabled = 50% opacity).</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Two-row — primary</h3>
+        <div class="story-preview"><button class="btn btn--primary btn--tworow"><span class="btn__top">Popular bet $20</span><span class="btn__bottom">Win $941.2!</span></button></div>
+        <pre class="code"><code>&lt;button class="btn btn--primary btn--tworow"&gt;
+  &lt;span class="btn__top"&gt;Popular bet $20&lt;/span&gt;
+  &lt;span class="btn__bottom"&gt;Win $941.2!&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+        <p class="story-note">A hero bet button — a small top label over a large bold value. Uses the active fill (gradient in themes that define one).</p>
+      </div>
+      
+      <div class="story">
+        <h3>Two-row — secondary</h3>
+        <div class="story-preview"><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000,99</span></button></div>
+        <pre class="code"><code>&lt;button class="btn btn--secondary btn--tworow"&gt;
+  &lt;span class="btn__top"&gt;Max&lt;/span&gt;
+  &lt;span class="btn__bottom"&gt;$1,000,99&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+        <p class="story-note">Neutral two-row — e.g. a max-stake shortcut.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Round icon — outline (base / xs)</h3>
+        <div class="story-preview"><div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div></div>
+        <pre class="code"><code>&lt;button class="btn btn--round btn--round-base btn--outline" aria-label="Back"&gt;
+  &lt;!-- icon: chevron_left --&gt;
+&lt;/button&gt;</code></pre>
+        <p class="story-note">Circular icon button with an outline, transparent fill — back/nav. Two sizes (56 / 40).</p>
+      </div>
+      
+      <div class="story">
+        <h3>Round icon — filled (widget)</h3>
+        <div class="story-preview"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap"><svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg></button></div>
+        <pre class="code"><code>&lt;button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap"&gt;
+  &lt;!-- icon: swap --&gt;
+&lt;/button&gt;</code></pre>
+        <p class="story-note">Circular icon button, filled neutral surface — a betslip/widget toggle.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Betslip pill</h3>
+        <div class="story-preview"><button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>
+        <pre class="code"><code>&lt;button class="btn btn--betslip"&gt;
+  Betslip
+  &lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;0&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+        <p class="story-note">A fully-rounded pill with a trailing bet-count counter (onNeutral).</p>
       </div>
     </div>
 

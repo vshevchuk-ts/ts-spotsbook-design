@@ -71,7 +71,7 @@ const colorPaths = [
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
   "outline.active", "color.white", "text.active",
-  "lighten.2",
+  "lighten.2", "darken.2", "outline.strong", "surface.raised", "text.default",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans"); // e.g. "Rubik"
@@ -132,6 +132,8 @@ const counterSurfaces = {
 // ---- icons (placeholders for the preview only) ----
 const iconAdd = fs.readFileSync(path.join(root, "assets/icons/material-filled/add.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
 const iconArrow = fs.readFileSync(path.join(root, "assets/icons/material-filled/arrow_forward.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
+const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/material-filled/chevron_left.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
+const iconSwap = '<svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>';
 
 // ---- variant color mapping ----
 // fill: null means "no fill token — literal transparent", used by ghost (no
@@ -206,7 +208,28 @@ ${counterSizes
   .join("\n")}
 ${Object.entries(counterSurfaces)
   .map(([key, s]) => `.counter--${key}.counter--inactive { background: ${cv(s.inactiveBg)}; color: ${cv(s.inactiveLabel)}; }`)
-  .join("\n")}`;
+  .join("\n")}
+
+/* ---- sportsbook variants ---- */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: auto; padding: 9px 16px; border-radius: ${btnRadius}; line-height: 1.2; }
+.btn--tworow .btn__top { font-weight: 500; font-size: 12px; }
+.btn--tworow .btn__bottom { font-weight: 800; font-size: 18px; }
+.btn--tworow.btn--secondary .btn__top { color: ${cv("text.default")}; }
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 56px; height: 56px; }
+.btn--round-base .btn__icon { width: 26px; height: 26px; }
+.btn--round-xs { width: 40px; height: 40px; }
+.btn--round-xs .btn__icon { width: 20px; height: 20px; }
+.btn--outline { background: transparent; border: 1px solid ${cv("outline.strong")}; color: ${cv("icon.default")}; }
+.btn--outline:not(:disabled):hover { background: ${cv("lighten.2")}; }
+.btn--outline:not(:disabled):active { background: ${cv("darken.2")}; }
+.btn--filled-neutral { background: ${cv("surface.raised")}; color: ${cv("icon.default")}; }
+.btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
+.btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
+.btn--betslip { border-radius: 999px; background: ${cv("surface.raised")}; color: ${cv("text.default")}; gap: 10px; height: 48px; padding: 0 8px 0 22px; font-weight: 800; font-size: 16px; }
+.btn--betslip:not(:disabled):hover { background: ${cv("fill.neutralHover")}; }
+.btn--betslip:not(:disabled):active { background: ${cv("fill.neutralPressed")}; }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
 
 // ---- markup builders: `live` uses real inline SVGs (for the rendered preview), `code` uses a short placeholder comment (for the printed snippet — a full path data dump isn't useful as a code sample) ----
 function content(variant, kind, live) {
@@ -413,6 +436,16 @@ const html = `<!doctype html>
     ${variantSection("primary")}
     ${variantSection("secondary")}
     ${variantSection("ghost")}
+
+    <h2 class="big-section">Sportsbook variants</h2>
+    <p class="section-desc">Product-specific buttons from the Figma library, on top of the primary/secondary/ghost core. All share the same state model (default · hover · pressed · disabled = 50% opacity).</p>
+    <div class="story-grid">
+      ${storyCard("Two-row — primary", `<button class="btn btn--primary btn--tworow"><span class="btn__top">Popular bet $20</span><span class="btn__bottom">Win $941.2!</span></button>`, `<button class="btn btn--primary btn--tworow">\n  <span class="btn__top">Popular bet $20</span>\n  <span class="btn__bottom">Win $941.2!</span>\n</button>`, "A hero bet button — a small top label over a large bold value. Uses the active fill (gradient in themes that define one).")}
+      ${storyCard("Two-row — secondary", `<button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000,99</span></button>`, `<button class="btn btn--secondary btn--tworow">\n  <span class="btn__top">Max</span>\n  <span class="btn__bottom">$1,000,99</span>\n</button>`, "Neutral two-row — e.g. a max-stake shortcut.")}
+      ${storyCard("Round icon — outline (base / xs)", `<div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back">${iconChevronLeft}</button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back">${iconChevronLeft}</button></div>`, `<button class="btn btn--round btn--round-base btn--outline" aria-label="Back">\n  <!-- icon: chevron_left -->\n</button>`, "Circular icon button with an outline, transparent fill — back/nav. Two sizes (56 / 40).")}
+      ${storyCard("Round icon — filled (widget)", `<button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap">${iconSwap}</button>`, `<button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Swap">\n  <!-- icon: swap -->\n</button>`, "Circular icon button, filled neutral surface — a betslip/widget toggle.")}
+      ${storyCard("Betslip pill", `<button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button>`, `<button class="btn btn--betslip">\n  Betslip\n  <span class="counter counter--base counter--onNeutral counter--inactive">0</span>\n</button>`, "A fully-rounded pill with a trailing bet-count counter (onNeutral).")}
+    </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
   </main>
