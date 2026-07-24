@@ -57,8 +57,7 @@
         },
         "active": {
           "border": { "$type": "color", "$value": "{outline.active}" },
-          "label": { "$type": "color", "$value": "{text.active}" },
-          "$description": "The field is being edited (pointer/click focus). Fill stays surface-0; the border turns brand-blue (outline.active), the floating label turns blue, and a blue text caret blinks in the value. This is the editing highlight — distinct from 'focused', the keyboard-focus ring. Reverts to text.secondary once blurred, so blue always means 'this is the active field', not 'this field has a value'."
+          "$description": "The field is being edited (pointer/click focus). Fill stays surface-0; the border turns the active accent (outline.active) and a same-accent text caret blinks in the value as text is typed. The floating label stays grey (text.secondary) — only the border and caret signal 'active', not the label. Distinct from 'focused', the keyboard-focus ring."
         },
         "focused": {
           "ringColor": { "$type": "color", "$value": "{outline.active}" },
