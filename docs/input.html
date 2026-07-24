@@ -66,68 +66,64 @@
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-preview .input { width: 100%; max-width: 260px; }
+  .story-preview .input-field { width: 100%; max-width: 260px; }
+  .story-preview .input-field .input { max-width: none; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
+  --tok-outline-default: #282E3E;
   --tok-outline-active: #FB8C33;
   --tok-outline-negative: #F90643;
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
   --tok-text-active: #FB8C33;
-  --tok-icon-default: #8E929F;
-  --tok-icon-disabled: #8E929F;
+  --tok-text-negative: #F90643;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.input--disabled { opacity: 0.5; }
 .input {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
-.input__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-.input--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
-.input--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.input--sm .input__icon { width: 16px; height: 16px; }
+.input--sm { height: 32px; padding: 0 8px; }
 .input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
-.input--base { height: 40px; padding: 0 12px; gap: 8px; }
-.input--base .input__icon { width: 20px; height: 20px; }
+.input--base { height: 40px; padding: 0 12px; }
 .input--base .input__placeholder, .input--base .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .input--base .input__stack { gap: 0px; }
-.input--base .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.input--base .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.input--lg .input__icon { width: 24px; height: 24px; }
+.input--lg { height: 48px; padding: 0 16px; }
 .input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .input--lg .input__stack { gap: 4px; }
-.input--lg .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-outline-strong); }
+.input:not(.input--disabled):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
 .input--focus { border-color: var(--tok-outline-active); }
 .input--focus .input__label { color: var(--tok-text-active); }
-.input--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+.input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
-.input--disabled .input__icon { color: var(--tok-icon-disabled); }
 .input--error { border-color: var(--tok-outline-negative); }
+.input-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -175,89 +171,66 @@
     <p class="sub">tokens/components/input.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>surface.sunken bg + border.default hairline — both already documented for exactly this ("Inputs...recessed" / "input borders at rest") from the semantic-color session, before this component existed. Not a pure outline, not a pure fill — both together.</span></div>
+      <div class="row"><b>Fill + border</b><span>One fill: surface-0 (page) background + a surface-6 (outline.strong) hairline border, so the field reads as recessed into the page. On hover it fills to surface-4 and the border blends away — lifting into a solid filled look.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px (no floating label) / base 40px (default) / lg 48px. Value/placeholder text is 16px at every size — Safari on iOS auto-zooms the page on focus if it's smaller.</span></div>
-      <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 12px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
-      <div class="row"><b>States</b><span>default → border.default · hover → border.strong · focus → border.focus + label turns text.primary (blue) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + *.disabled text/icon · error → border.danger.</span></div>
-    </div>
-
-    <h2 class="big-section">Fill variants</h2>
-    <p class="section-desc">Two fills — <strong>filled</strong> (surface-4, the default: reads as raised on a card) and <strong>outlined</strong> (surface-0 background + surface-6 border: recedes into the page). Left icon is icon.default (secondary grey) either way.</p>
-    <div class="story-grid">
-      <div class="story"><h3>filled (default)</h3><div class="story-preview"><div class="input input--base"><svg class="input__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
-</g>
-</svg>
-<span class="input__placeholder">Search team</span></div></div></div>
-      <div class="story"><h3>outlined</h3><div class="story-preview"><div class="input input--base input--outlined"><svg class="input__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
-</g>
-</svg>
-<span class="input__placeholder">Search team</span></div></div></div>
+      <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 10px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
+      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · focus → blue border + blue label · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One <code class="tok">:root</code> block of color custom properties, then a base <code class="tok">.input</code> class + <code class="tok">--sm/--base/--lg</code> size modifiers, then state modifiers as plain classes (also wired to real <code class="tok">:hover</code> for bonus interactivity where it doesn't conflict with a specific demonstrated state).</p>
     <pre class="code"><code>:root {
-  --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
+  --tok-outline-default: #282E3E;
   --tok-outline-active: #FB8C33;
   --tok-outline-negative: #F90643;
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
   --tok-text-active: #FB8C33;
-  --tok-icon-default: #8E929F;
-  --tok-icon-disabled: #8E929F;
+  --tok-text-negative: #F90643;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.input--disabled { opacity: 0.5; }
 .input {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
-.input__icon { flex-shrink: 0; color: var(--tok-icon-default); }
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-.input--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
-.input--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.input--sm .input__icon { width: 16px; height: 16px; }
+.input--sm { height: 32px; padding: 0 8px; }
 .input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
-.input--base { height: 40px; padding: 0 12px; gap: 8px; }
-.input--base .input__icon { width: 20px; height: 20px; }
+.input--base { height: 40px; padding: 0 12px; }
 .input--base .input__placeholder, .input--base .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .input--base .input__stack { gap: 0px; }
-.input--base .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.input--base .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.input--lg .input__icon { width: 24px; height: 24px; }
+.input--lg { height: 48px; padding: 0 16px; }
 .input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .input--lg .input__stack { gap: 4px; }
-.input--lg .input__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { border-color: var(--tok-outline-strong); }
+.input:not(.input--disabled):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
 .input--focus { border-color: var(--tok-outline-active); }
 .input--focus .input__label { color: var(--tok-text-active); }
-.input--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+.input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
-.input--disabled .input__icon { color: var(--tok-icon-disabled); }
-.input--error { border-color: var(--tok-outline-negative); }</code></pre>
+.input--error { border-color: var(--tok-outline-negative); }
+.input-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
     <p class="section-desc">sm shows the resting single-line layout (its only layout). base/lg shown populated, to demonstrate the floated label at each size.</p>
@@ -265,46 +238,22 @@
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><div class="input input--sm"><span class="input__placeholder">Email address</span></div></div>
-        <pre class="code"><code>&lt;div class="input input--sm"&gt;&lt;span class="input__placeholder"&gt;Email address&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--sm"><span class="input__placeholder">Enter</span></div></div>
+        <pre class="code"><code>&lt;div class="input input--sm"&gt;&lt;span class="input__placeholder"&gt;Enter&lt;/span&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value">name@example.com</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;name@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Added</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><div class="input input--lg"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value">name@example.com</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--lg"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;name@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-        
-      </div>
-    </div>
-
-    <h2 class="big-section">Content variants</h2>
-    <p class="section-desc">Base size, populated. Icon sizing/gap mirrors the button component's own convention (16/20/24px, flat 8px gap).</p>
-    <div class="story-grid">
-      
-      <div class="story">
-        <h3>Value only</h3>
-        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value">name@example.com</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;name@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>Icon left + value</h3>
-        <div class="story-preview"><div class="input input--base"><svg class="input__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
-</g>
-</svg>
-<div class="input__stack"><span class="input__label">Email address</span><span class="input__value">name@example.com</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;svg class="input__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;name@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--lg"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Added</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--lg"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         
       </div>
     </div>
@@ -315,44 +264,44 @@
       
       <div class="story">
         <h3>default</h3>
-        <div class="story-preview"><div class="input input--base"><span class="input__placeholder">Email address</span></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;span class="input__placeholder"&gt;Email address&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Empty, not focused — placeholder centered at value size (16px), no floated label yet.</p>
+        <div class="story-preview"><div class="input input--base"><span class="input__placeholder">Enter</span></div></div>
+        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;span class="input__placeholder"&gt;Enter&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Empty, not focused — surface-0 fill + surface-6 hairline border, placeholder centered at value size (16px), no floated label yet.</p>
       </div>
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><div class="input input--base input--hover"><span class="input__placeholder">Email address</span></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--hover"&gt;&lt;span class="input__placeholder"&gt;Email address&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">outline.strong — same rule already documented on that token before this component existed.</p>
+        <div class="story-preview"><div class="input input--base input--hover"><span class="input__placeholder">Enter</span></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--hover"&gt;&lt;span class="input__placeholder"&gt;Enter&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Fills to surface-4 and drops the visible border — the field lifts into a solid filled look on hover.</p>
       </div>
 
       <div class="story">
         <h3>focus</h3>
-        <div class="story-preview"><div class="input input--base input--focus"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value"></span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--focus"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Placeholder already floated into the label the instant the field is focused — value area starts empty, ready to type.</p>
+        <div class="story-preview"><div class="input input--base input--focus"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value"></span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--focus"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Fill stays surface-0, border turns brand-blue, and the placeholder has already floated into the (blue) label — value area starts empty, ready to type.</p>
       </div>
 
       <div class="story">
         <h3>populated</h3>
-        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value">name@example.com</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;name@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Added</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         <p class="story-note">Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default.</p>
       </div>
 
       <div class="story">
         <h3>disabled</h3>
-        <div class="story-preview"><div class="input input--base input--disabled"><span class="input__placeholder">Email address</span></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--disabled"&gt;&lt;span class="input__placeholder"&gt;Email address&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">surface.disabled equals surface.sunken (both gray.100) — same pattern as the secondary button's disabled state. Only text/icon fade.</p>
+        <div class="story-preview"><div class="input input--base input--disabled"><span class="input__placeholder">Enter</span></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--disabled"&gt;&lt;span class="input__placeholder"&gt;Enter&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Swaps to surface.disabled and fades the text — same pattern as the secondary button's disabled state.</p>
       </div>
 
       <div class="story">
         <h3>error</h3>
-        <div class="story-preview"><div class="input input--base input--error"><div class="input__stack"><span class="input__label">Email address</span><span class="input__value">not-an-email</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--error"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Email address&lt;/span&gt;&lt;span class="input__value"&gt;not-an-email&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Scoped to the field's own border only — no separate helper-text element built here.</p>
+        <div class="story-preview"><div class="input-field"><div class="input input--base input--error"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Added</span></div></div><span class="input__error">Error text</span></div></div>
+        <pre class="code"><code>&lt;div class="input-field"&gt;&lt;div class="input input--base input--error"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="input__error"&gt;Error text&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Red border on the field (outline.negative) plus a red helper line below it (text.negative).</p>
       </div>
     </div>
 

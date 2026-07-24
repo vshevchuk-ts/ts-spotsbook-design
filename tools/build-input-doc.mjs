@@ -61,8 +61,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "surface.raised", "surface.page", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
+  "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.negative",
+  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -76,8 +76,6 @@ const sizes = ["sm", "base", "lg"].map((key) => {
     key,
     height: resolve(s.height.$value),
     paddingX: resolve(s.paddingX.$value),
-    gap: resolve(s.gap.$value),
-    iconSize: resolve(s.iconSize.$value),
     value: resolveToken(s.value),
   };
   if (key !== "sm") {
@@ -86,9 +84,8 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   }
   return base;
 });
-
-// ---- icons ----
-const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="input__icon" ');
+const errorTextSize = px(resolve("{size.sm}"));
+const errorGap = px(resolve("{spacing.1}"));
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -97,29 +94,25 @@ function typoCss(t) {
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----
 const css = `${rootVars}
 
-.input--disabled { opacity: 0.5; }
 .input {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.raised")};
-  border: 1px solid ${cv("outline.default")};
+  background: ${cv("surface.page")};
+  border: 1px solid ${cv("outline.strong")};
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: text;
 }
-.input__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
 .input__placeholder { color: ${cv("text.secondary")}; }
 .input__value { color: ${cv("text.default")}; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: ${cv("text.secondary")}; }
-.input--outlined { background: ${cv("surface.page")}; border-color: ${cv("outline.strong")}; }
 
 ${sizes
   .map((s) => {
     const lines = [
-      `.input--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; gap: ${px(s.gap)}; }`,
-      `.input--${s.key} .input__icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`,
+      `.input--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; }`,
       `.input--${s.key} .input__placeholder, .input--${s.key} .input__value { ${typoCss(s.value)} }`,
     ];
     if (s.label) {
@@ -130,22 +123,26 @@ ${sizes
   })
   .join("\n\n")}
 
-.input:not(.input--disabled):hover, .input--hover { border-color: ${cv("outline.strong")}; }
+.input:not(.input--disabled):hover, .input--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
 .input--focus { border-color: ${cv("outline.active")}; }
 .input--focus .input__label { color: ${cv("text.active")}; }
-.input--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
+.input--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: ${cv("text.disabled")}; }
-.input--disabled .input__icon { color: ${cv("icon.disabled")}; }
-.input--error { border-color: ${cv("outline.negative")}; }`;
+.input--error { border-color: ${cv("outline.negative")}; }
+.input-field { display: inline-flex; flex-direction: column; gap: ${errorGap}; }
+.input__error { color: ${cv("text.negative")}; font-family: ${cv("family.sans")}; font-size: ${errorTextSize}; line-height: 1.4; }`;
 
 // ---- markup builders ----
-function restingMarkup(size, { icon = false, placeholder = "Email address", live = true } = {}) {
-  const ic = icon ? (live ? iconSearch : `<svg class="input__icon"><!-- icon: search --></svg>`) : "";
-  return `<div class="input input--${size}">${ic}<span class="input__placeholder">${placeholder}</span></div>`;
+function restingMarkup(size, { placeholder = "Enter", live = true } = {}) {
+  return `<div class="input input--${size}"><span class="input__placeholder">${placeholder}</span></div>`;
 }
-function floatedMarkup(size, { icon = false, label = "Email address", value = "", live = true } = {}) {
-  const ic = icon ? (live ? iconSearch : `<svg class="input__icon"><!-- icon: search --></svg>`) : "";
-  return `<div class="input input--${size}">${ic}<div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${value}</span></div></div>`;
+function floatedMarkup(size, { label = "Sort by", value = "Last Added", live = true } = {}) {
+  return `<div class="input input--${size}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${value}</span></div></div>`;
+}
+// error state wraps the field with a helper line below it
+function errorMarkup(size, { label = "Sort by", value = "Last Added", message = "Error text", live = true } = {}) {
+  const field = floatedMarkup(size, { label, value, live }).replace('class="input input--' + size + '"', 'class="input input--' + size + ' input--error"');
+  return `<div class="input-field">${field}<span class="input__error">${message}</span></div>`;
 }
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
@@ -161,31 +158,20 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 function sizeStories() {
   return sizes
     .map((s) => {
-      const live = s.key === "sm" ? restingMarkup(s.key, { live: true }) : floatedMarkup(s.key, { value: "name@example.com", live: true });
-      const code = s.key === "sm" ? restingMarkup(s.key, { live: false }) : floatedMarkup(s.key, { value: "name@example.com", live: false });
+      const live = s.key === "sm" ? restingMarkup(s.key, { live: true }) : floatedMarkup(s.key, { live: true });
+      const code = s.key === "sm" ? restingMarkup(s.key, { live: false }) : floatedMarkup(s.key, { live: false });
       return storyCard(`${s.key} — ${px(s.height)}`, live, code);
     })
     .join("\n");
 }
 
-function contentStories() {
-  const items = [];
-  for (const withIcon of [false, true]) {
-    const title = withIcon ? "Icon left + value" : "Value only";
-    const live = floatedMarkup("base", { icon: withIcon, value: "name@example.com", live: true });
-    const code = floatedMarkup("base", { icon: withIcon, value: "name@example.com", live: false });
-    items.push(storyCard(title, live, code));
-  }
-  return items.join("\n");
-}
-
 const stateDefs = [
-  { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — placeholder centered at value size (16px), no floated label yet." },
-  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "outline.strong — same rule already documented on that token before this component existed." },
-  { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="input input--base"', 'class="input input--base input--focus"'), note: "Placeholder already floated into the label the instant the field is focused — value area starts empty, ready to type." },
-  { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { value: "name@example.com", live }), note: "Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default." },
-  { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--disabled"'), note: "surface.disabled equals surface.sunken (both gray.100) — same pattern as the secondary button's disabled state. Only text/icon fade." },
-  { key: "error", label: "error", node: (live) => floatedMarkup("base", { value: "not-an-email", live }).replace('class="input input--base"', 'class="input input--base input--error"'), note: "Scoped to the field's own border only — no separate helper-text element built here." },
+  { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — surface-0 fill + surface-6 hairline border, placeholder centered at value size (16px), no floated label yet." },
+  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "Fills to surface-4 and drops the visible border — the field lifts into a solid filled look on hover." },
+  { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="input input--base"', 'class="input input--base input--focus"'), note: "Fill stays surface-0, border turns brand-blue, and the placeholder has already floated into the (blue) label — value area starts empty, ready to type." },
+  { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { live }), note: "Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default." },
+  { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--disabled"'), note: "Swaps to surface.disabled and fades the text — same pattern as the secondary button's disabled state." },
+  { key: "error", label: "error", node: (live) => errorMarkup("base", { live }), note: "Red border on the field (outline.negative) plus a red helper line below it (text.negative)." },
 ];
 function stateStories() {
   return stateDefs.map((s) => storyCard(s.label, s.node(true), s.node(false), s.note)).join("\n");
@@ -259,6 +245,8 @@ const html = `<!doctype html>
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-preview .input { width: 100%; max-width: 260px; }
+  .story-preview .input-field { width: 100%; max-width: 260px; }
+  .story-preview .input-field .input { max-width: none; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -276,17 +264,10 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/input.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>surface.sunken bg + border.default hairline — both already documented for exactly this ("Inputs...recessed" / "input borders at rest") from the semantic-color session, before this component existed. Not a pure outline, not a pure fill — both together.</span></div>
+      <div class="row"><b>Fill + border</b><span>One fill: surface-0 (page) background + a surface-6 (outline.strong) hairline border, so the field reads as recessed into the page. On hover it fills to surface-4 and the border blends away — lifting into a solid filled look.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px (no floating label) / base 40px (default) / lg 48px. Value/placeholder text is 16px at every size — Safari on iOS auto-zooms the page on focus if it's smaller.</span></div>
-      <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 12px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
-      <div class="row"><b>States</b><span>default → border.default · hover → border.strong · focus → border.focus + label turns text.primary (blue) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + *.disabled text/icon · error → border.danger.</span></div>
-    </div>
-
-    <h2 class="big-section">Fill variants</h2>
-    <p class="section-desc">Two fills — <strong>filled</strong> (surface-4, the default: reads as raised on a card) and <strong>outlined</strong> (surface-0 background + surface-6 border: recedes into the page). Left icon is icon.default (secondary grey) either way.</p>
-    <div class="story-grid">
-      <div class="story"><h3>filled (default)</h3><div class="story-preview">${restingMarkup("base", { icon: true, placeholder: "Search team", live: true })}</div></div>
-      <div class="story"><h3>outlined</h3><div class="story-preview"><div class="input input--base input--outlined">${iconSearch}<span class="input__placeholder">Search team</span></div></div></div>
+      <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 10px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
+      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · focus → blue border + blue label · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -297,12 +278,6 @@ const html = `<!doctype html>
     <p class="section-desc">sm shows the resting single-line layout (its only layout). base/lg shown populated, to demonstrate the floated label at each size.</p>
     <div class="story-grid">
       ${sizeStories()}
-    </div>
-
-    <h2 class="big-section">Content variants</h2>
-    <p class="section-desc">Base size, populated. Icon sizing/gap mirrors the button component's own convention (16/20/24px, flat 8px gap).</p>
-    <div class="story-grid">
-      ${contentStories()}
     </div>
 
     <h2 class="big-section">States</h2>
