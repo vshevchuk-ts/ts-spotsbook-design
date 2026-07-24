@@ -55,7 +55,7 @@
         }
       },
       "underline": {
-        "$description": "No background at rest, plain text — the active tab is marked only by a 2px bottom bar (a literal in the generated CSS, not itself a scale value worth tokenizing — one visual step bolder than the 1px baseline it overlaps). A 1px baseline (border.default) spans the full tab list, matching how the current live product's own underline-style tabs use a full-width hairline; the active indicator sits directly over it. Hover DOES get a background (fill.neutralHover, the same token segmented's hover already uses) — text-color-only hover was tried first and found too subtle to notice; a light background pill on hover while keeping the colored bar exclusive to the active tab is the common pattern (GitHub, Notion, Linear all do this).",
+        "$description": "No background at rest, plain text — the active tab is marked only by a 2px bottom bar (a literal in the generated CSS, not itself a scale value worth tokenizing — one visual step bolder than the 1px baseline it overlaps). A 1px baseline (border.default) spans the full tab list; the active indicator sits directly over it. Hover gets a 12% lighten pill (lighten.2), but as a fully-rounded rectangle inset 4px top/bottom so it floats clear of the baseline rather than running down to it — text-color-only hover was too subtle; a light rounded pill on hover while keeping the colored bar exclusive to the active tab is the common pattern (GitHub, Notion, Linear all do this).",
         "baselineColor": { "$type": "color", "$value": "{outline.default}" },
         "indicatorColor": { "$type": "color", "$value": "{outline.active}" },
         "gap": { "$type": "dimension", "$value": "{spacing.6}" },
@@ -64,7 +64,10 @@
             "label": { "$type": "color", "$value": "{text.secondary}" }
           },
           "hover": {
-            "label": { "$type": "color", "$value": "{text.default}" }
+            "bg": { "$type": "color", "$value": "{lighten.2}" },
+            "label": { "$type": "color", "$value": "{text.default}" },
+            "inset": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px top/bottom inset for the hover pill, so it's a fully-rounded rectangle floating clear of the baseline (a 40px tab → ~32px pill, 32px → ~24px), not a bg running down to the line." },
+            "radius": { "$type": "dimension", "$value": "{radius.default}" }
           },
           "active": {
             "label": { "$type": "color", "$value": "{text.default}" },

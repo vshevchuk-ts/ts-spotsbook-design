@@ -88,7 +88,11 @@ const seg = {
 };
 
 // ---- underline ----
-const und = { gap: px(resolve(tabs.underline.gap.$value)) };
+const und = {
+  gap: px(resolve(tabs.underline.gap.$value)),
+  hoverInset: px(resolve(tabs.underline.state.hover.inset.$value)),
+  hoverRadius: px(resolve(tabs.underline.state.hover.radius.$value)),
+};
 
 // ---- counter (reused from component.counter.onNeutral — resolved from that
 // token's own state values, not retyped by hand, so it can't silently drift) ----
@@ -131,8 +135,10 @@ ${sizes
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: ${cv("icon.disabled")}; }
 
 .tabs--underline { display: inline-flex; align-items: stretch; gap: ${und.gap}; border-bottom: 1px solid ${cv("outline.default")}; max-width: 100%; overflow-x: auto; }
-.tabs--underline .tab { border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: ${seg.pillRadius} ${seg.pillRadius} 0 0; }
-.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
+.tabs--underline .tab { position: relative; z-index: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+/* hover pill: a 12% lighten rounded rectangle inset 4px top/bottom (::before, behind the label) so it floats clear of the baseline instead of running down to it */
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover::before { content: ""; position: absolute; left: 0; right: 0; top: ${und.hoverInset}; bottom: ${und.hoverInset}; background: ${cv("lighten.2")}; border-radius: ${und.hoverRadius}; z-index: -1; }
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { color: ${cv("text.default")}; }
 .tabs--underline .tab--active { color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; border-bottom-color: ${cv("outline.active")}; }
 .tabs--underline .tab--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 

@@ -120,8 +120,10 @@
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: var(--tok-icon-disabled); }
 
 .tabs--underline { display: inline-flex; align-items: stretch; gap: 24px; border-bottom: 1px solid var(--tok-outline-default); max-width: 100%; overflow-x: auto; }
-.tabs--underline .tab { border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: 8px 8px 0 0; }
-.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.tabs--underline .tab { position: relative; z-index: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+/* hover pill: a 12% lighten rounded rectangle inset 4px top/bottom (::before, behind the label) so it floats clear of the baseline instead of running down to it */
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; bottom: 4px; background: var(--tok-lighten-2); border-radius: 8px; z-index: -1; }
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { color: var(--tok-text-default); }
 .tabs--underline .tab--active { color: var(--tok-text-default); font-weight: 500; border-bottom-color: var(--tok-outline-active); }
 .tabs--underline .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 
@@ -228,8 +230,10 @@
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: var(--tok-icon-disabled); }
 
 .tabs--underline { display: inline-flex; align-items: stretch; gap: 24px; border-bottom: 1px solid var(--tok-outline-default); max-width: 100%; overflow-x: auto; }
-.tabs--underline .tab { border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: 8px 8px 0 0; }
-.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.tabs--underline .tab { position: relative; z-index: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+/* hover pill: a 12% lighten rounded rectangle inset 4px top/bottom (::before, behind the label) so it floats clear of the baseline instead of running down to it */
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; bottom: 4px; background: var(--tok-lighten-2); border-radius: 8px; z-index: -1; }
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { color: var(--tok-text-default); }
 .tabs--underline .tab--active { color: var(--tok-text-default); font-weight: 500; border-bottom-color: var(--tok-outline-active); }
 .tabs--underline .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 
