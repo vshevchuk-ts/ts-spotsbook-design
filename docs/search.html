@@ -71,11 +71,11 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-raised: #282E3E;
+  --tok-fill-neutral: #3E4351;
+  --tok-fill-neutral-hover: #555A66;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
-  --tok-outline-strong: #3E4351;
   --tok-outline-active: #FB8C33;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -84,37 +84,40 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.search--disabled { opacity: 0.5; }
 .search {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-fill-neutral);
+  border: 1px solid transparent;
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.search__clear { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); cursor: pointer; }
 .search__placeholder { color: var(--tok-text-secondary); flex: 1; }
 .search__value { color: var(--tok-text-default); flex: 1; font-weight: 400; font-size: 16px; line-height: 1.2; }
 .search__placeholder { font-weight: 400; font-size: 16px; line-height: 1.2; }
+/* clear (×) — a ghost icon button, matching the ghost Button (transparent → lighten wash + white icon on hover) */
+.search__clear { flex-shrink: 0; margin-left: auto; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--tok-icon-default); border-radius: 8px; padding: 4px; cursor: pointer; }
+.search__clear:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 
 .search--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.search--sm .search__icon, .search--sm .search__clear { width: 16px; height: 16px; }
+.search--sm .search__icon, .search--sm .search__clear-icon { width: 16px; height: 16px; display: block; }
 
 .search--base { height: 40px; padding: 0 12px; gap: 8px; }
-.search--base .search__icon, .search--base .search__clear { width: 20px; height: 20px; }
+.search--base .search__icon, .search--base .search__clear-icon { width: 20px; height: 20px; display: block; }
 
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.search--lg .search__icon, .search--lg .search__clear { width: 24px; height: 24px; }
+.search--lg .search__icon, .search--lg .search__clear-icon { width: 24px; height: 24px; display: block; }
 
-.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-outline-strong); }
+/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
+.search:not(.search--disabled):hover, .search--hover { background: var(--tok-fill-neutral-hover); }
 .search--focus { border-color: var(--tok-outline-active); }
-.search--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+.search--disabled { opacity: 0.5; background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
 .search--disabled .search__icon, .search--disabled .search__clear { color: var(--tok-icon-disabled); }
+.search--disabled .search__clear { pointer-events: none; }
 </style>
 </head>
 <body>
@@ -162,21 +165,21 @@
     <p class="sub">tokens/components/search.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a>/<a href="select.html">Select</a> — surface.sunken bg + border.default hairline.</span></div>
+      <div class="row"><b>Fill</b><span>A <strong>filled</strong> field: fill.neutral (surface-4), no border at rest — deliberately NOT the recessed surface-0 + surface-6-outline of <a href="input.html">Input</a>/<a href="select.html">Select</a>. A border appears only on focus.</span></div>
+      <div class="row"><b>Hover</b><span>Adds the 12% lighten wash on the fill (fill.neutralHover), the same hover move as the neutral/ghost <a href="button.html">Button</a> — a lighten layer, not a border change.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px / base 40px / lg 48px — same grid, but no floating label at any size. Value/placeholder is 16px throughout (Safari-zoom-safe).</span></div>
-      <div class="row"><b>No floating label</b><span>Unlike Input/Select, the placeholder just vanishes the instant the field is focused, at every size — there's no 12px label to move it into.</span></div>
-      <div class="row"><b>Clear button</b><span>The trailing × icon only renders once there's a value — click to empty the field. Not present in the default/hover/focus/disabled examples below.</span></div>
+      <div class="row"><b>Clear button</b><span>The trailing × renders once there's a value — a <strong>ghost icon button</strong>: transparent at rest, filling with the lighten wash and whitening the × on hover, like the ghost Button (not blue-on-hover).</span></div>
       <div class="row"><b>States</b><span>default / hover / focus / populated / disabled — no error state; a search box has no validation concept the way a form input/select does.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One shared value/placeholder text style (16px at every size, no per-size label) plus size modifiers and state classes.</p>
     <pre class="code"><code>:root {
-  --tok-surface-raised: #282E3E;
+  --tok-fill-neutral: #3E4351;
+  --tok-fill-neutral-hover: #555A66;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
-  --tok-outline-strong: #3E4351;
   --tok-outline-active: #FB8C33;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
@@ -185,37 +188,40 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.search--disabled { opacity: 0.5; }
 .search {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-fill-neutral);
+  border: 1px solid transparent;
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.search__clear { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); cursor: pointer; }
 .search__placeholder { color: var(--tok-text-secondary); flex: 1; }
 .search__value { color: var(--tok-text-default); flex: 1; font-weight: 400; font-size: 16px; line-height: 1.2; }
 .search__placeholder { font-weight: 400; font-size: 16px; line-height: 1.2; }
+/* clear (×) — a ghost icon button, matching the ghost Button (transparent → lighten wash + white icon on hover) */
+.search__clear { flex-shrink: 0; margin-left: auto; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--tok-icon-default); border-radius: 8px; padding: 4px; cursor: pointer; }
+.search__clear:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 
 .search--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.search--sm .search__icon, .search--sm .search__clear { width: 16px; height: 16px; }
+.search--sm .search__icon, .search--sm .search__clear-icon { width: 16px; height: 16px; display: block; }
 
 .search--base { height: 40px; padding: 0 12px; gap: 8px; }
-.search--base .search__icon, .search--base .search__clear { width: 20px; height: 20px; }
+.search--base .search__icon, .search--base .search__clear-icon { width: 20px; height: 20px; display: block; }
 
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.search--lg .search__icon, .search--lg .search__clear { width: 24px; height: 24px; }
+.search--lg .search__icon, .search--lg .search__clear-icon { width: 24px; height: 24px; display: block; }
 
-.search:not(.search--disabled):hover, .search--hover { border-color: var(--tok-outline-strong); }
+/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
+.search:not(.search--disabled):hover, .search--hover { background: var(--tok-fill-neutral-hover); }
 .search--focus { border-color: var(--tok-outline-active); }
-.search--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+.search--disabled { opacity: 0.5; background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
-.search--disabled .search__icon, .search--disabled .search__clear { color: var(--tok-icon-disabled); }</code></pre>
+.search--disabled .search__icon, .search--disabled .search__clear { color: var(--tok-icon-disabled); }
+.search--disabled .search__clear { pointer-events: none; }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
     <p class="section-desc">All 3 shown populated (with the clear icon), since that's the state most likely to reveal any size-related rendering issues (icon + text + clear icon all present).</p>
@@ -228,13 +234,13 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__value">sneakers</span><svg class="search__clear" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<span class="search__value">Football</span><button class="search__clear" aria-label="Clear search"><svg class="search__clear-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
 </g>
 </svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="search search--sm"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;sneakers&lt;/span&gt;&lt;svg class="search__clear"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+</button></div></div>
+        <pre class="code"><code>&lt;div class="search search--sm"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;Football&lt;/span&gt;&lt;button class="search__clear" aria-label="Clear search"&gt;&lt;svg class="search__clear-icon"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
@@ -245,13 +251,13 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__value">sneakers</span><svg class="search__clear" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<span class="search__value">Football</span><button class="search__clear" aria-label="Clear search"><svg class="search__clear-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
 </g>
 </svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;sneakers&lt;/span&gt;&lt;svg class="search__clear"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+</button></div></div>
+        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;Football&lt;/span&gt;&lt;button class="search__clear" aria-label="Clear search"&gt;&lt;svg class="search__clear-icon"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
@@ -262,13 +268,13 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__value">sneakers</span><svg class="search__clear" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<span class="search__value">Football</span><button class="search__clear" aria-label="Clear search"><svg class="search__clear-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
 </g>
 </svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="search search--lg"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;sneakers&lt;/span&gt;&lt;svg class="search__clear"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+</button></div></div>
+        <pre class="code"><code>&lt;div class="search search--lg"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;Football&lt;/span&gt;&lt;button class="search__clear" aria-label="Clear search"&gt;&lt;svg class="search__clear-icon"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;</code></pre>
         
       </div>
     </div>
@@ -284,9 +290,9 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__placeholder">Search</span></div></div>
-        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Empty, not focused — placeholder visible.</p>
+<span class="search__placeholder">Search (⌘K)</span></div></div>
+        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search (⌘K)&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Empty, not focused — filled neutral (surface-4), no border, placeholder visible.</p>
       </div>
 
       <div class="story">
@@ -296,9 +302,9 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__placeholder">Search</span></div></div>
-        <pre class="code"><code>&lt;div class="search search--base search--hover"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">outline.strong.</p>
+<span class="search__placeholder">Search (⌘K)</span></div></div>
+        <pre class="code"><code>&lt;div class="search search--base search--hover"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search (⌘K)&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Adds the 12% lighten wash on the fill (fill.neutralHover) — same hover move as the neutral/ghost Button, not a border change. Hover the live field to see it.</p>
       </div>
 
       <div class="story">
@@ -310,7 +316,7 @@
 </svg>
 </div></div>
         <pre class="code"><code>&lt;div class="search search--base search--focus"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Placeholder vanishes the instant the field is focused, at every size — no floated label to replace it with, the value area just starts empty.</p>
+        <p class="story-note">A border appears (outline.active); the placeholder vanishes the instant the field is focused, at every size — the value area just starts empty.</p>
       </div>
 
       <div class="story">
@@ -320,14 +326,14 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__value">sneakers</span><svg class="search__clear" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<span class="search__value">Football</span><button class="search__clear" aria-label="Clear search"><svg class="search__clear-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
 </g>
 </svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;sneakers&lt;/span&gt;&lt;svg class="search__clear"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Once there's a value, the clear (×) icon appears at the trailing edge — click to empty the field.</p>
+</button></div></div>
+        <pre class="code"><code>&lt;div class="search search--base"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__value"&gt;Football&lt;/span&gt;&lt;button class="search__clear" aria-label="Clear search"&gt;&lt;svg class="search__clear-icon"&gt;&lt;!-- icon: close --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Once there's a value, the clear (×) ghost button appears at the trailing edge. Hover it: it fills with the lighten wash and the × turns white — a ghost icon button, not the blue-on-hover from the mockup.</p>
       </div>
 
       <div class="story">
@@ -337,9 +343,9 @@
 <path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
 </g>
 </svg>
-<span class="search__placeholder">Search</span></div></div>
-        <pre class="code"><code>&lt;div class="search search--base search--disabled"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">surface.disabled equals surface.sunken — same recurring pattern as input/select/secondary-button.</p>
+<span class="search__placeholder">Search (⌘K)</span></div></div>
+        <pre class="code"><code>&lt;div class="search search--base search--disabled"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search (⌘K)&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">surface.disabled + faded text/icon — same recurring pattern as input/select/secondary-button.</p>
       </div>
     </div>
 

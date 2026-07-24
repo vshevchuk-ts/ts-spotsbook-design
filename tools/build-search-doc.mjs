@@ -59,7 +59,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "surface.raised", "surface.disabled", "outline.default", "outline.strong", "outline.active",
+  "fill.neutral", "fill.neutralHover", "surface.disabled", "outline.active", "lighten.2",
   "text.secondary", "text.default", "text.disabled", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -80,8 +80,13 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   };
 });
 
+const clearRadius = px(resolve(search.clear.radius.$value));
+const clearPad = px(resolve(search.clear.padding.$value));
+
 const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="search__icon" ');
-const iconClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace("<svg ", '<svg class="search__clear" ');
+const iconClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace("<svg ", '<svg class="search__clear-icon" ');
+// the clear is a ghost icon button (transparent → lighten wash + white icon on hover)
+const clearBtn = (live) => `<button class="search__clear" aria-label="Clear search">${live ? iconClose : `<svg class="search__clear-icon"><!-- icon: close --></svg>`}</button>`;
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -89,43 +94,46 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-.search--disabled { opacity: 0.5; }
 .search {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.raised")};
-  border: 1px solid ${cv("outline.default")};
+  background: ${cv("fill.neutral")};
+  border: 1px solid transparent;
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: text;
 }
 .search__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
-.search__clear { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; cursor: pointer; }
 .search__placeholder { color: ${cv("text.secondary")}; flex: 1; }
 .search__value { color: ${cv("text.default")}; flex: 1; ${typoCss(valueType)} }
 .search__placeholder { ${typoCss(valueType)} }
+/* clear (×) — a ghost icon button, matching the ghost Button (transparent → lighten wash + white icon on hover) */
+.search__clear { flex-shrink: 0; margin-left: auto; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: ${cv("icon.default")}; border-radius: ${clearRadius}; padding: ${clearPad}; cursor: pointer; }
+.search__clear:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 
 ${sizes
   .map(
     (s) => `.search--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; gap: ${px(s.gap)}; }
-.search--${s.key} .search__icon, .search--${s.key} .search__clear { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`
+.search--${s.key} .search__icon, .search--${s.key} .search__clear-icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; display: block; }`
   )
   .join("\n\n")}
 
-.search:not(.search--disabled):hover, .search--hover { border-color: ${cv("outline.strong")}; }
+/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
+.search:not(.search--disabled):hover, .search--hover { background: ${cv("fill.neutralHover")}; }
 .search--focus { border-color: ${cv("outline.active")}; }
-.search--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
+.search--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: ${cv("text.disabled")}; }
-.search--disabled .search__icon, .search--disabled .search__clear { color: ${cv("icon.disabled")}; }`;
+.search--disabled .search__icon, .search--disabled .search__clear { color: ${cv("icon.disabled")}; }
+.search--disabled .search__clear { pointer-events: none; }`;
 
 function markup(size, { state = "default", value = "", live = true } = {}) {
   const ic = live ? iconSearch : `<svg class="search__icon"><!-- icon: search --></svg>`;
   const classes = ["search", `search--${size}`];
   if (state !== "default" && state !== "populated") classes.push(`search--${state}`);
   const showClear = value.length > 0;
-  const textEl = value ? `<span class="search__value">${value}</span>` : state === "focus" ? "" : `<span class="search__placeholder">Search</span>`;
-  const clear = showClear ? (live ? iconClose : `<svg class="search__clear"><!-- icon: close --></svg>`) : "";
+  const textEl = value ? `<span class="search__value">${value}</span>` : state === "focus" ? "" : `<span class="search__placeholder">Search (⌘K)</span>`;
+  const clear = showClear ? clearBtn(live) : "";
   return `<div class="${classes.join(" ")}">${ic}${textEl}${clear}</div>`;
 }
 
@@ -140,15 +148,15 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 }
 
 function sizeStories() {
-  return sizes.map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, { value: "sneakers", live: true }), markup(s.key, { value: "sneakers", live: false }))).join("\n");
+  return sizes.map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, { value: "Football", live: true }), markup(s.key, { value: "Football", live: false }))).join("\n");
 }
 
 const stateDefs = [
-  { key: "default", label: "default", value: "", note: "Empty, not focused — placeholder visible." },
-  { key: "hover", label: "hover", value: "", note: "outline.strong." },
-  { key: "focus", label: "focus", value: "", note: "Placeholder vanishes the instant the field is focused, at every size — no floated label to replace it with, the value area just starts empty." },
-  { key: "populated", label: "populated (with clear)", value: "sneakers", note: "Once there's a value, the clear (×) icon appears at the trailing edge — click to empty the field." },
-  { key: "disabled", label: "disabled", value: "", note: "surface.disabled equals surface.sunken — same recurring pattern as input/select/secondary-button." },
+  { key: "default", label: "default", value: "", note: "Empty, not focused — filled neutral (surface-4), no border, placeholder visible." },
+  { key: "hover", label: "hover", value: "", note: "Adds the 12% lighten wash on the fill (fill.neutralHover) — same hover move as the neutral/ghost Button, not a border change. Hover the live field to see it." },
+  { key: "focus", label: "focus", value: "", note: "A border appears (outline.active); the placeholder vanishes the instant the field is focused, at every size — the value area just starts empty." },
+  { key: "populated", label: "populated (with clear)", value: "Football", note: "Once there's a value, the clear (×) ghost button appears at the trailing edge. Hover it: it fills with the lighten wash and the × turns white — a ghost icon button, not the blue-on-hover from the mockup." },
+  { key: "disabled", label: "disabled", value: "", note: "surface.disabled + faded text/icon — same recurring pattern as input/select/secondary-button." },
 ];
 function stateStories() {
   return stateDefs.map((s) => storyCard(s.label, markup("base", { state: s.key, value: s.value, live: true }), markup("base", { state: s.key, value: s.value, live: false }), s.note)).join("\n");
@@ -239,10 +247,10 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/search.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a>/<a href="select.html">Select</a> — surface.sunken bg + border.default hairline.</span></div>
+      <div class="row"><b>Fill</b><span>A <strong>filled</strong> field: fill.neutral (surface-4), no border at rest — deliberately NOT the recessed surface-0 + surface-6-outline of <a href="input.html">Input</a>/<a href="select.html">Select</a>. A border appears only on focus.</span></div>
+      <div class="row"><b>Hover</b><span>Adds the 12% lighten wash on the fill (fill.neutralHover), the same hover move as the neutral/ghost <a href="button.html">Button</a> — a lighten layer, not a border change.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px / base 40px / lg 48px — same grid, but no floating label at any size. Value/placeholder is 16px throughout (Safari-zoom-safe).</span></div>
-      <div class="row"><b>No floating label</b><span>Unlike Input/Select, the placeholder just vanishes the instant the field is focused, at every size — there's no 12px label to move it into.</span></div>
-      <div class="row"><b>Clear button</b><span>The trailing × icon only renders once there's a value — click to empty the field. Not present in the default/hover/focus/disabled examples below.</span></div>
+      <div class="row"><b>Clear button</b><span>The trailing × renders once there's a value — a <strong>ghost icon button</strong>: transparent at rest, filling with the lighten wash and whitening the × on hover, like the ghost Button (not blue-on-hover).</span></div>
       <div class="row"><b>States</b><span>default / hover / focus / populated / disabled — no error state; a search box has no validation concept the way a form input/select does.</span></div>
     </div>
 

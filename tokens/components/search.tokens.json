@@ -31,31 +31,38 @@
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.raised}" },
-          "border": { "$type": "color", "$value": "{outline.default}" },
+          "$description": "Filled neutral field (fill.neutral = surface-4), no visible border — search is a filled affordance, deliberately NOT the recessed surface-0 + surface-6-outline look of input/select.",
+          "bg": { "$type": "color", "$value": "{fill.neutral}" },
           "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{outline.strong}" }
+          "bg": { "$type": "color", "$value": "{fill.neutralHover}" },
+          "$description": "Adds the 12% lighten wash on top of the neutral fill — the exact hover move the neutral/ghost Button uses (fill.neutralHover = fill.neutral + lighten.2), not a border change."
         },
         "focus": {
           "border": { "$type": "color", "$value": "{outline.active}" },
-          "$description": "No label to color here (search has none) — only the border reacts."
+          "$description": "A border appears on focus only (transparent at rest → outline.active); there's no label to colour."
         },
         "populated": {
-          "$description": "Has typed text — the clear (×) icon becomes visible. Colors otherwise match default unless also focused.",
-          "clearIcon": { "$type": "color", "$value": "{icon.default}" }
+          "$description": "Has typed text — the clear (×) ghost button becomes visible (see the clear block). Colours otherwise match default unless also focused."
         },
         "disabled": {
           "bg": { "$type": "color", "$value": "{surface.disabled}" },
-          "border": { "$type": "color", "$value": "{outline.default}" },
           "placeholder": { "$type": "color", "$value": "{text.disabled}" },
           "value": { "$type": "color", "$value": "{text.disabled}" },
           "icon": { "$type": "color", "$value": "{icon.disabled}" },
           "clearIcon": { "$type": "color", "$value": "{icon.disabled}" }
         }
+      },
+      "clear": {
+        "$description": "Trailing clear (×) is a ghost icon button — transparent at rest, filling with a 12% lighten wash and whitening the icon on hover, exactly like the ghost Button. Deliberately NOT the blue-on-hover from the mockup. lighten.2 is used (a translucent overlay) rather than the baked fill.neutralHover so the button reads lighter than the field, which is itself already hovered underneath it.",
+        "radius": { "$type": "dimension", "$value": "{radius.default}" },
+        "padding": { "$type": "dimension", "$value": "{spacing.1}" },
+        "icon": { "$type": "color", "$value": "{icon.default}" },
+        "hoverBg": { "$type": "color", "$value": "{lighten.2}" },
+        "hoverIcon": { "$type": "color", "$value": "{text.default}" }
       }
     }
   }
