@@ -86,9 +86,9 @@ function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
 }
 
-const iconFile = (name) => fs.readFileSync(path.join(root, `assets/icons/material-filled/${name}.svg`), "utf8").replace("<svg ", '<svg class="menu__icon" ');
-const iconEdit = iconFile("edit");
-const iconCopy = iconFile("content_copy");
+const iconFile = (name) => fs.readFileSync(path.join(root, `assets/icons/ui/${name}.svg`), "utf8").replace("<svg ", '<svg class="menu__icon" ');
+const iconEdit = iconFile("settings");
+const iconCopy = iconFile("copy");
 const iconDelete = iconFile("delete");
 
 const css = `${rootVars}
@@ -119,16 +119,16 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 const textOnlyDemo = `<button class="ov-btn ov-btn--secondary" popovertarget="menu-text">Actions</button>
     <div id="menu-text" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item">Rename</button></li>
-        <li><button class="menu__item">Duplicate</button></li>
+        <li><button class="menu__item">Settings</button></li>
+        <li><button class="menu__item">Copy</button></li>
         <li><button class="menu__item">Share</button></li>
       </ul>
     </div>`;
 const textOnlyCode = `<button popovertarget="menu-text">Actions</button>
 <div id="menu-text" class="menu" popover>
   <ul class="menu__list">
-    <li><button class="menu__item">Rename</button></li>
-    <li><button class="menu__item">Duplicate</button></li>
+    <li><button class="menu__item">Settings</button></li>
+    <li><button class="menu__item">Copy</button></li>
     <li><button class="menu__item">Share</button></li>
   </ul>
 </div>`;
@@ -136,8 +136,8 @@ const textOnlyCode = `<button popovertarget="menu-text">Actions</button>
 const iconDemo = `<button class="ov-btn ov-btn--secondary" popovertarget="menu-icon">Actions</button>
     <div id="menu-icon" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item">${iconEdit}Rename</button></li>
-        <li><button class="menu__item">${iconCopy}Duplicate</button></li>
+        <li><button class="menu__item">${iconEdit}Settings</button></li>
+        <li><button class="menu__item">${iconCopy}Copy</button></li>
         <li><div class="menu__divider"></div></li>
         <li><button class="menu__item menu__item--destructive">${iconDelete}Delete</button></li>
       </ul>
@@ -145,8 +145,8 @@ const iconDemo = `<button class="ov-btn ov-btn--secondary" popovertarget="menu-i
 const iconCode = `<button popovertarget="menu-icon">Actions</button>
 <div id="menu-icon" class="menu" popover>
   <ul class="menu__list">
-    <li><button class="menu__item">…Rename</button></li>
-    <li><button class="menu__item">…Duplicate</button></li>
+    <li><button class="menu__item">…Settings</button></li>
+    <li><button class="menu__item">…Copy</button></li>
     <li><div class="menu__divider"></div></li>
     <li><button class="menu__item menu__item--destructive">…Delete</button></li>
   </ul>
@@ -155,13 +155,13 @@ const iconCode = `<button popovertarget="menu-icon">Actions</button>
 const disabledDemo = `<button class="ov-btn ov-btn--secondary" popovertarget="menu-disabled">Actions</button>
     <div id="menu-disabled" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item">${iconEdit}Rename</button></li>
-        <li><button class="menu__item" disabled>${iconCopy}Duplicate</button></li>
+        <li><button class="menu__item">${iconEdit}Settings</button></li>
+        <li><button class="menu__item" disabled>${iconCopy}Copy</button></li>
         <li><div class="menu__divider"></div></li>
         <li><button class="menu__item menu__item--destructive">${iconDelete}Delete</button></li>
       </ul>
     </div>`;
-const disabledCode = `<button class="menu__item" disabled>…Duplicate</button>`;
+const disabledCode = `<button class="menu__item" disabled>…Copy</button>`;
 
 const triggerGap = resolve("spacing.2").value;
 const positionScript = `document.querySelectorAll('[popovertarget]').forEach((trigger) => {
@@ -264,7 +264,7 @@ const html = `<!doctype html>
 
     <div class="legend">
       <div class="row"><b>Not a Popover variant</b><span>Built on Popover's exact shell (native <code class="tok">popover</code> attribute, border+shadow.sm+radius.default, same positioning script) but kept as its own component — a list of actions has a different content/keyboard model than arbitrary Popover content, same reasoning Modal/Drawer stayed separate despite sharing &lt;dialog&gt;.</span></div>
-      <div class="row"><b>Not Listbox</b><span>Items here are things you <em>do</em> (Rename, Duplicate, Delete) with no persistent selection state — a list of selectable <em>options</em> (checkboxes, single/multi-select) is <a href="listbox.html">Listbox</a>, a separate component with a different ARIA role (listbox/option vs. menu/menuitem).</span></div>
+      <div class="row"><b>Not Listbox</b><span>Items here are things you <em>do</em> (Settings, Copy, Delete) with no persistent selection state — a list of selectable <em>options</em> (checkboxes, single/multi-select) is <a href="listbox.html">Listbox</a>, a separate component with a different ARIA role (listbox/option vs. menu/menuitem).</span></div>
       <div class="row"><b>Concentric radius</b><span>Panel is radius.default (8px), items are radius.xs (4px) — 8px outer minus the 4px outer padding, so a corner item's curve lines up with the panel's own curve instead of fighting it.</span></div>
       <div class="row"><b>Destructive item</b><span>text.danger/icon.danger at rest, and hovers into bg.danger (a pale red tint) instead of the usual fill.neutralHover — stays 'red' on hover rather than reverting to neutral gray.</span></div>
       <div class="row"><b>Static demo only</b><span>No real arrow-key/type-ahead keyboard navigation or ARIA roles implemented here — this is a tokens+visual reference, not a full accessible widget. A real port needs role="menu"/"menuitem" and roving tabindex added on top.</span></div>

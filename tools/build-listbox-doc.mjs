@@ -111,10 +111,10 @@ function linkCss(t, decoration) {
   return `${typoCss(t)}${decoration ? ` text-decoration: ${decoration};` : ""}`;
 }
 
-const iconCheck = fs.readFileSync(path.join(root, "assets/icons/material-filled/check.svg"), "utf8");
+const iconCheck = fs.readFileSync(path.join(root, "assets/icons/ui/check-circle.svg"), "utf8");
 const iconCheckmark = iconCheck.replace("<svg ", '<svg class="listbox__checkmark" ');
 const iconCheckboxGlyph = iconCheck.replace("<svg ", '<svg class="listbox__cb-icon" ');
-const iconSearch = fs.readFileSync(path.join(root, "assets/icons/material-filled/search.svg"), "utf8").replace("<svg ", '<svg class="listbox__search-icon" ');
+const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="listbox__search-icon" ');
 
 const css = `${rootVars}
 

@@ -90,9 +90,9 @@ const sel = {
 };
 const barGap = px(resolve(pagination.bar.gap.$value));
 
-const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/material-filled/chevron_left.svg"), "utf8").replace("<svg ", '<svg class="page-item__icon" ');
-const iconChevronRight = fs.readFileSync(path.join(root, "assets/icons/material-filled/chevron_right.svg"), "utf8").replace("<svg ", '<svg class="page-item__icon" ');
-const iconChevronDown = fs.readFileSync(path.join(root, "assets/icons/material-filled/expand_more.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
+const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-left.svg"), "utf8").replace("<svg ", '<svg class="page-item__icon" ');
+const iconChevronRight = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-right.svg"), "utf8").replace("<svg ", '<svg class="page-item__icon" ');
+const iconChevronDown = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;

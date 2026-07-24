@@ -151,7 +151,11 @@
     <a class="navlink" href="semantic-colors.html">Semantic colors</a>
     <a class="navlink" href="typography.html">Typography</a>
     <a class="navlink" href="layout.html">Layout</a>
-    <a class="navlink" href="icons.html">Icons</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
     <p class="nav-category">Components</p>
     <a class="navlink" href="button.html">Button</a>
     <a class="navlink" href="counter.html">Counter</a>
@@ -181,7 +185,7 @@
     <p class="sub">tokens/components/chip.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, nothing hand-copied. Every toggle chip below is a real, clickable <code class="tok">&lt;button aria-pressed&gt;</code> — try one.</p>
 
     <div class="legend">
-      <div class="row"><b>toggle vs. removable</b><span>Two kinds sharing one shell. <code class="tok">toggle</code> = filter selection, checkbox-like (click flips checked/unchecked — "I'm Involved"/"Flagged"/"Expires Soon"). <code class="tok">removable</code> = a selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient chip. Existence IS the selection for removable; there's no checked ladder, only present-or-removed.</span></div>
+      <div class="row"><b>toggle vs. removable</b><span>Two kinds sharing one shell. <code class="tok">toggle</code> = filter selection, checkbox-like (click flips checked/unchecked — "I'm Involved"/"Favorites"/"Expires Soon"). <code class="tok">removable</code> = a selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient chip. Existence IS the selection for removable; there's no checked ladder, only present-or-removed.</span></div>
       <div class="row"><b>Not Badge</b><span>Badge is the display-only sibling this was deliberately split from — a status/tag pill you look at, not click. Chip is the checkbox-like, interactive one. Same ARIA-role reasoning as the Menu/Listbox split.</span></div>
       <div class="row"><b>solid vs. outline checked</b><span>Two checked treatments for <code class="tok">toggle</code>, not a ladder — pick by content. Solid (fill.primary + white text) for a real single boolean. Outline (bg.primary tint + border, reuses Badge's own tint recipe) for a chip carrying a <code class="tok">Counter</code> — a "Filters · 3" trigger summarizing several sub-selections is an aggregate, not one thing being on, so filling it fully solid would overstate it.</span></div>
       <div class="row"><b>Sizes</b><span>sm 24 / base 32 / lg 40 — Button's own height ladder (32/40/48) shifted down one dim-step at every size, since a chip is clickable like a button but reads as a small pill like Badge.</span></div>
@@ -276,22 +280,52 @@
       
       <div class="story">
         <h3>sm — 24px</h3>
-        <div class="story-preview"><button class="chip chip--sm chip--toggle" aria-pressed="false"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--sm chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--sm chip--toggle" aria-pressed="false"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--sm chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>base — 32px</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>lg — 40px</h3>
-        <div class="story-preview"><button class="chip chip--lg chip--toggle" aria-pressed="false"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--lg chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--lg chip--toggle" aria-pressed="false"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--lg chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         
       </div>
     </div>
@@ -302,50 +336,50 @@
       
       <div class="story">
         <h3>default (unchecked)</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">surface.card + border.default — click it, it's real.</p>
       </div>
 
       <div class="story">
         <h3>hover (unchecked)</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="border-color:var(--tok-fill-active)"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="border-color:var(--tok-fill-active)"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="border-color:var(--tok-fill-active)"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="border-color:var(--tok-fill-active)"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">fill.active border — same 'gray reads too weak' lesson Checkbox/Radio/Card's own unchecked-hover already applied. Forced via inline style for a static screenshot; the real rule is :hover in the CSS above.</p>
       </div>
 
       <div class="story">
         <h3>checked (solid)</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">fill.active bg + text.onFill — a real boolean toggle, no counter.</p>
       </div>
 
       <div class="story">
         <h3>checked + hover</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true" style="background:var(--tok-fill-active-hover); border-color:var(--tok-fill-active-hover)"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true" style="background:var(--tok-fill-active-hover); border-color:var(--tok-fill-active-hover)"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true" style="background:var(--tok-fill-active-hover); border-color:var(--tok-fill-active-hover)"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true" style="background:var(--tok-fill-active-hover); border-color:var(--tok-fill-active-hover)"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">fill.activeHover, the same darken-on-hover pair every other checked control in this system uses.</p>
       </div>
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">Additive ring. Real CSS is :focus-visible on the button.</p>
       </div>
 
       <div class="story">
         <h3>disabled (unchecked)</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" disabled><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" disabled&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" disabled><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" disabled&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">Keeps its background, only text/icon fade — same convention as every other disabled control in this system.</p>
       </div>
 
       <div class="story">
         <h3>disabled (checked)</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true" disabled><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true" disabled&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="true" disabled><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="true" disabled&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">fill.disabled — brand blue never shows on an inert control.</p>
       </div>
     </div>
@@ -356,15 +390,25 @@
       
       <div class="story">
         <h3>Text only</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>Icon + text</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg><span class="chip__label">Flagged</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Flagged&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         
       </div>
 
@@ -377,8 +421,18 @@
 
       <div class="story">
         <h3>Icon + text + counter</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle chip--outline" aria-pressed="true"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg><span class="chip__label">Filters</span><span class="counter counter--base counter--onNeutral counter--inactive">3</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle chip--outline" aria-pressed="true"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Filters&lt;/span&gt;&lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;3&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle chip--outline" aria-pressed="true"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M3.54168 4.71666C3.62501 4.82499 8.32501 10.825 8.32501 10.825V15.8333C8.32501 16.2917 8.70001 16.6667 9.16668 16.6667H10.8417C11.3 16.6667 11.6833 16.2917 11.6833 15.8333V10.8167C11.6833 10.8167 16.2583 4.96666 16.475 4.69999C16.6917 4.43333 16.6667 4.16666 16.6667 4.16666C16.6667 3.70833 16.2917 3.33333 15.825 3.33333H4.17501C3.66668 3.33333 3.33334 3.73333 3.33334 4.16666C3.33334 4.33333 3.38334 4.53333 3.54168 4.71666Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Filters</span><span class="counter counter--base counter--onNeutral counter--inactive">3</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle chip--outline" aria-pressed="true"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M3.54168 4.71666C3.62501 4.82499 8.32501 10.825 8.32501 10.825V15.8333C8.32501 16.2917 8.70001 16.6667 9.16668 16.6667H10.8417C11.3 16.6667 11.6833 16.2917 11.6833 15.8333V10.8167C11.6833 10.8167 16.2583 4.96666 16.475 4.69999C16.6917 4.43333 16.6667 4.16666 16.6667 4.16666C16.6667 3.70833 16.2917 3.33333 15.825 3.33333H4.17501C3.66668 3.33333 3.33334 3.73333 3.33334 4.16666C3.33334 4.33333 3.38334 4.53333 3.54168 4.71666Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Filters&lt;/span&gt;&lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;3&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">Shown pre-checked with the outline treatment — a 'Filters' trigger chip summarizing N active filters is an aggregate/trigger, not a single boolean, so it uses checkedOutline (bg.primary tint + border) instead of a full solid fill. Still real — click it.</p>
       </div>
     </div>
@@ -389,22 +443,62 @@
       
       <div class="story">
         <h3>Default</h3>
-        <div class="story-preview"><span class="chip chip--base chip--removable"><span class="chip__label">Calam Xavier</span><button class="chip__remove" aria-label="Remove Calam Xavier"><svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></span></div>
-        <pre class="code"><code>&lt;span class="chip chip--base chip--removable"&gt;&lt;span class="chip__label"&gt;Calam Xavier&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Calam Xavier"&gt;&lt;svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/span&gt;</code></pre>
+        <div class="story-preview"><span class="chip chip--base chip--removable"><span class="chip__label">Calam Xavier</span><button class="chip__remove" aria-label="Remove Calam Xavier"><svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
+</g>
+</svg>
+</button></span></div>
+        <pre class="code"><code>&lt;span class="chip chip--base chip--removable"&gt;&lt;span class="chip__label"&gt;Calam Xavier&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Calam Xavier"&gt;&lt;svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;/button&gt;&lt;/span&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>With icon</h3>
-        <div class="story-preview"><span class="chip chip--base chip--removable"><svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg><span class="chip__label">Engineering</span><button class="chip__remove" aria-label="Remove Engineering"><svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></span></div>
-        <pre class="code"><code>&lt;span class="chip chip--base chip--removable"&gt;&lt;svg class="chip__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/&gt;&lt;/svg&gt;&lt;span class="chip__label"&gt;Engineering&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Engineering"&gt;&lt;svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/span&gt;</code></pre>
+        <div class="story-preview"><span class="chip chip--base chip--removable"><svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/>
+</g>
+</svg>
+<span class="chip__label">Favorites</span><button class="chip__remove" aria-label="Remove Favorites"><svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
+</g>
+</svg>
+</button></span></div>
+        <pre class="code"><code>&lt;span class="chip chip--base chip--removable"&gt;&lt;svg class="chip__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M10 14.3917L15.15 17.5L13.7833 11.6417L18.3333 7.7L12.3417 7.19167L10 1.66667L7.65833 7.19167L1.66666 7.7L6.21666 11.6417L4.85 17.5L10 14.3917Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Favorites"&gt;&lt;svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;/button&gt;&lt;/span&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>Disabled</h3>
-        <div class="story-preview"><span class="chip chip--base chip--removable chip--disabled"><span class="chip__label">Calam Xavier</span><button class="chip__remove" aria-label="Remove Calam Xavier" disabled><svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></span></div>
-        <pre class="code"><code>&lt;span class="chip chip--base chip--removable chip--disabled"&gt;&lt;span class="chip__label"&gt;Calam Xavier&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Calam Xavier" disabled&gt;&lt;svg class="chip__remove-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"&gt;&lt;path d="M0 0h24v24H0z" fill="none"/&gt;&lt;path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/span&gt;</code></pre>
+        <div class="story-preview"><span class="chip chip--base chip--removable chip--disabled"><span class="chip__label">Calam Xavier</span><button class="chip__remove" aria-label="Remove Calam Xavier" disabled><svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/>
+</g>
+</svg>
+</button></span></div>
+        <pre class="code"><code>&lt;span class="chip chip--base chip--removable chip--disabled"&gt;&lt;span class="chip__label"&gt;Calam Xavier&lt;/span&gt;&lt;button class="chip__remove" aria-label="Remove Calam Xavier" disabled&gt;&lt;svg class="chip__remove-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;
+&lt;/button&gt;&lt;/span&gt;</code></pre>
         <p class="story-note">Remove button hidden (visibility:hidden, keeps layout stable) — nothing to remove when the whole chip is inert.</p>
       </div>
     </div>

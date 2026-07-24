@@ -117,7 +117,11 @@
     <a class="navlink" href="semantic-colors.html">Semantic colors</a>
     <a class="navlink" href="typography.html">Typography</a>
     <a class="navlink" href="layout.html">Layout</a>
-    <a class="navlink" href="icons.html">Icons</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
     <p class="nav-category">Components</p>
     <a class="navlink" href="button.html">Button</a>
     <a class="navlink" href="counter.html">Counter</a>
@@ -148,7 +152,7 @@
 
     <div class="legend">
       <div class="row"><b>Not a Popover variant</b><span>Built on Popover's exact shell (native <code class="tok">popover</code> attribute, border+shadow.sm+radius.default, same positioning script) but kept as its own component — a list of actions has a different content/keyboard model than arbitrary Popover content, same reasoning Modal/Drawer stayed separate despite sharing &lt;dialog&gt;.</span></div>
-      <div class="row"><b>Not Listbox</b><span>Items here are things you <em>do</em> (Rename, Duplicate, Delete) with no persistent selection state — a list of selectable <em>options</em> (checkboxes, single/multi-select) is <a href="listbox.html">Listbox</a>, a separate component with a different ARIA role (listbox/option vs. menu/menuitem).</span></div>
+      <div class="row"><b>Not Listbox</b><span>Items here are things you <em>do</em> (Settings, Copy, Delete) with no persistent selection state — a list of selectable <em>options</em> (checkboxes, single/multi-select) is <a href="listbox.html">Listbox</a>, a separate component with a different ARIA role (listbox/option vs. menu/menuitem).</span></div>
       <div class="row"><b>Concentric radius</b><span>Panel is radius.default (8px), items are radius.xs (4px) — 8px outer minus the 4px outer padding, so a corner item's curve lines up with the panel's own curve instead of fighting it.</span></div>
       <div class="row"><b>Destructive item</b><span>text.danger/icon.danger at rest, and hovers into bg.danger (a pale red tint) instead of the usual fill.neutralHover — stays 'red' on hover rather than reverting to neutral gray.</span></div>
       <div class="row"><b>Static demo only</b><span>No real arrow-key/type-ahead keyboard navigation or ARIA roles implemented here — this is a tokens+visual reference, not a full accessible widget. A real port needs role="menu"/"menuitem" and roving tabindex added on top.</span></div>
@@ -205,16 +209,16 @@
         <div class="story-preview"><button class="ov-btn ov-btn--secondary" popovertarget="menu-text">Actions</button>
     <div id="menu-text" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item">Rename</button></li>
-        <li><button class="menu__item">Duplicate</button></li>
+        <li><button class="menu__item">Settings</button></li>
+        <li><button class="menu__item">Copy</button></li>
         <li><button class="menu__item">Share</button></li>
       </ul>
     </div></div>
         <pre class="code"><code>&lt;button popovertarget="menu-text"&gt;Actions&lt;/button&gt;
 &lt;div id="menu-text" class="menu" popover&gt;
   &lt;ul class="menu__list"&gt;
-    &lt;li&gt;&lt;button class="menu__item"&gt;Rename&lt;/button&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;button class="menu__item"&gt;Duplicate&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button class="menu__item"&gt;Settings&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button class="menu__item"&gt;Copy&lt;/button&gt;&lt;/li&gt;
     &lt;li&gt;&lt;button class="menu__item"&gt;Share&lt;/button&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;</code></pre>
@@ -226,17 +230,32 @@
         <div class="story-preview"><button class="ov-btn ov-btn--secondary" popovertarget="menu-icon">Actions</button>
     <div id="menu-icon" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item"><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>Rename</button></li>
-        <li><button class="menu__item"><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>Duplicate</button></li>
+        <li><button class="menu__item"><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.95 10.7833C15.9833 10.5333 16 10.275 16 10C16 9.73333 15.9833 9.46667 15.9417 9.21667L17.6333 7.9C17.7833 7.78333 17.825 7.55833 17.7333 7.39167L16.1333 4.625C16.0333 4.44167 15.825 4.38333 15.6417 4.44167L13.65 5.24167C13.2333 4.925 12.7917 4.65833 12.3 4.45833L12 2.34167C11.9667 2.14167 11.8 2 11.6 2H8.4C8.2 2 8.04167 2.14167 8.00833 2.34167L7.70833 4.45833C7.21667 4.65833 6.76667 4.93333 6.35833 5.24167L4.36667 4.44167C4.18333 4.375 3.975 4.44167 3.875 4.625L2.28333 7.39167C2.18333 7.56667 2.21667 7.78333 2.38333 7.9L4.075 9.21667C4.03333 9.46667 4 9.74167 4 10C4 10.2583 4.01667 10.5333 4.05833 10.7833L2.36667 12.1C2.21667 12.2167 2.175 12.4417 2.26667 12.6083L3.86667 15.375C3.96667 15.5583 4.175 15.6167 4.35833 15.5583L6.35 14.7583C6.76667 15.075 7.20833 15.3417 7.7 15.5417L8 17.6583C8.04167 17.8583 8.2 18 8.4 18H11.6C11.8 18 11.9667 17.8583 11.9917 17.6583L12.2917 15.5417C12.7833 15.3417 13.2333 15.075 13.6417 14.7583L15.6333 15.5583C15.8167 15.625 16.025 15.5583 16.125 15.375L17.725 12.6083C17.825 12.425 17.7833 12.2167 17.625 12.1L15.95 10.7833ZM10 13C8.35 13 7 11.65 7 10C7 8.35 8.35 7 10 7C11.65 7 13 8.35 13 10C13 11.65 11.65 13 10 13Z" fill="currentColor"/>
+</g>
+</svg>
+Settings</button></li>
+        <li><button class="menu__item"><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M13.3333 0.833332H3.33333C2.41666 0.833332 1.66666 1.58333 1.66666 2.5V14.1667H3.33333V2.5H13.3333V0.833332ZM15.8333 4.16667H6.66666C5.75 4.16667 5 4.91667 5 5.83333V17.5C5 18.4167 5.75 19.1667 6.66666 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V5.83333C17.5 4.91667 16.75 4.16667 15.8333 4.16667ZM15.8333 17.5H6.66666V5.83333H15.8333V17.5Z" fill="currentColor"/>
+</g>
+</svg>
+Copy</button></li>
         <li><div class="menu__divider"></div></li>
-        <li><button class="menu__item menu__item--destructive"><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete</button></li>
+        <li><button class="menu__item menu__item--destructive"><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM15.8333 3.33333H12.9167L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333Z" fill="currentColor"/>
+</g>
+</svg>
+Delete</button></li>
       </ul>
     </div></div>
         <pre class="code"><code>&lt;button popovertarget="menu-icon"&gt;Actions&lt;/button&gt;
 &lt;div id="menu-icon" class="menu" popover&gt;
   &lt;ul class="menu__list"&gt;
-    &lt;li&gt;&lt;button class="menu__item"&gt;…Rename&lt;/button&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;button class="menu__item"&gt;…Duplicate&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button class="menu__item"&gt;…Settings&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button class="menu__item"&gt;…Copy&lt;/button&gt;&lt;/li&gt;
     &lt;li&gt;&lt;div class="menu__divider"&gt;&lt;/div&gt;&lt;/li&gt;
     &lt;li&gt;&lt;button class="menu__item menu__item--destructive"&gt;…Delete&lt;/button&gt;&lt;/li&gt;
   &lt;/ul&gt;
@@ -249,13 +268,28 @@
         <div class="story-preview"><button class="ov-btn ov-btn--secondary" popovertarget="menu-disabled">Actions</button>
     <div id="menu-disabled" class="menu" popover>
       <ul class="menu__list">
-        <li><button class="menu__item"><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>Rename</button></li>
-        <li><button class="menu__item" disabled><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>Duplicate</button></li>
+        <li><button class="menu__item"><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.95 10.7833C15.9833 10.5333 16 10.275 16 10C16 9.73333 15.9833 9.46667 15.9417 9.21667L17.6333 7.9C17.7833 7.78333 17.825 7.55833 17.7333 7.39167L16.1333 4.625C16.0333 4.44167 15.825 4.38333 15.6417 4.44167L13.65 5.24167C13.2333 4.925 12.7917 4.65833 12.3 4.45833L12 2.34167C11.9667 2.14167 11.8 2 11.6 2H8.4C8.2 2 8.04167 2.14167 8.00833 2.34167L7.70833 4.45833C7.21667 4.65833 6.76667 4.93333 6.35833 5.24167L4.36667 4.44167C4.18333 4.375 3.975 4.44167 3.875 4.625L2.28333 7.39167C2.18333 7.56667 2.21667 7.78333 2.38333 7.9L4.075 9.21667C4.03333 9.46667 4 9.74167 4 10C4 10.2583 4.01667 10.5333 4.05833 10.7833L2.36667 12.1C2.21667 12.2167 2.175 12.4417 2.26667 12.6083L3.86667 15.375C3.96667 15.5583 4.175 15.6167 4.35833 15.5583L6.35 14.7583C6.76667 15.075 7.20833 15.3417 7.7 15.5417L8 17.6583C8.04167 17.8583 8.2 18 8.4 18H11.6C11.8 18 11.9667 17.8583 11.9917 17.6583L12.2917 15.5417C12.7833 15.3417 13.2333 15.075 13.6417 14.7583L15.6333 15.5583C15.8167 15.625 16.025 15.5583 16.125 15.375L17.725 12.6083C17.825 12.425 17.7833 12.2167 17.625 12.1L15.95 10.7833ZM10 13C8.35 13 7 11.65 7 10C7 8.35 8.35 7 10 7C11.65 7 13 8.35 13 10C13 11.65 11.65 13 10 13Z" fill="currentColor"/>
+</g>
+</svg>
+Settings</button></li>
+        <li><button class="menu__item" disabled><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M13.3333 0.833332H3.33333C2.41666 0.833332 1.66666 1.58333 1.66666 2.5V14.1667H3.33333V2.5H13.3333V0.833332ZM15.8333 4.16667H6.66666C5.75 4.16667 5 4.91667 5 5.83333V17.5C5 18.4167 5.75 19.1667 6.66666 19.1667H15.8333C16.75 19.1667 17.5 18.4167 17.5 17.5V5.83333C17.5 4.91667 16.75 4.16667 15.8333 4.16667ZM15.8333 17.5H6.66666V5.83333H15.8333V17.5Z" fill="currentColor"/>
+</g>
+</svg>
+Copy</button></li>
         <li><div class="menu__divider"></div></li>
-        <li><button class="menu__item menu__item--destructive"><svg class="menu__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete</button></li>
+        <li><button class="menu__item menu__item--destructive"><svg class="menu__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM15.8333 3.33333H12.9167L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333Z" fill="currentColor"/>
+</g>
+</svg>
+Delete</button></li>
       </ul>
     </div></div>
-        <pre class="code"><code>&lt;button class="menu__item" disabled&gt;…Duplicate&lt;/button&gt;</code></pre>
+        <pre class="code"><code>&lt;button class="menu__item" disabled&gt;…Copy&lt;/button&gt;</code></pre>
         <p class="story-note">A disabled item keeps its icon/label faded and drops the hover background entirely.</p>
       </div>
     </div>

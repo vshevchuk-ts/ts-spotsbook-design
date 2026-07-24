@@ -65,14 +65,29 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
-const colorPaths = [
+// walk a token subtree, collecting every semantic color ref ($type:"color" →
+// "{group.key}") so the sportsbook variants' :root vars stay derived from the
+// tokens, not hand-listed here — add a role in the JSON and it registers itself.
+function collectColorRefs(node, out = new Set()) {
+  if (!node || typeof node !== "object") return out;
+  if (node.$type === "color" && typeof node.$value === "string" && node.$value.startsWith("{")) {
+    out.add(node.$value.replace(/[{}]/g, ""));
+  }
+  for (const [k, v] of Object.entries(node)) {
+    if (k.startsWith("$")) continue;
+    if (v && typeof v === "object") collectColorRefs(v, out);
+  }
+  return out;
+}
+const sportsbookColorRefs = collectColorRefs(button.twoRow, collectColorRefs(button.roundIcon, collectColorRefs(button.betslip)));
+const colorPaths = [...new Set([
   "fill.active", "fill.activeHover", "fill.activePressed", "text.onFill", "icon.onFill", "text.forActiveBg", "icon.forActiveBg",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "text.default", "icon.default",
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
   "outline.active", "color.white", "text.active",
-  "lighten.2", "darken.2", "outline.default", "outline.strong", "surface.raised", "surface.card",
-];
+  ...sportsbookColorRefs,
+])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans"); // e.g. "Rubik"
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
@@ -130,9 +145,9 @@ const counterSurfaces = {
 };
 
 // ---- icons (placeholders for the preview only) ----
-const iconAdd = fs.readFileSync(path.join(root, "assets/icons/material-filled/add.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
-const iconArrow = fs.readFileSync(path.join(root, "assets/icons/material-filled/arrow_forward.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
-const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/material-filled/chevron_left.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
+const iconAdd = fs.readFileSync(path.join(root, "assets/icons/ui/plus.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
+const iconArrow = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-right.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
+const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-left.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
 const iconSwap = '<svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>';
 
 // ---- variant color mapping ----
@@ -155,6 +170,46 @@ ${v.iconHover ? `.btn--${key}:not(:disabled):hover .btn__icon, .btn--${key}:not(
 .btn--${key}:not(:disabled):focus-visible { outline: none; ${ringShadow} }
 .btn--${key}:disabled { opacity: 0.5; cursor: not-allowed; }`;
 }
+
+// ---- sportsbook variants, resolved from tokens (no hardcoded color roles) ----
+// refP: "{surface.card}" -> "surface.card"; cvT: token node -> var(--tok-...);
+// dimT: dimension node -> "40px"; typoCss: typography node -> {weight, size}.
+const refP = (node) => node.$value.replace(/[{}]/g, "");
+const cvT = (node) => cv(refP(node));
+const dimT = (node) => px(resolve(node.$value));
+const typoCss = (node) => { const t = resolve(node.$value); return { weight: t.fontWeight, size: px(t.fontSize) }; };
+const tr = button.twoRow, ri = button.roundIcon, bs = button.betslip;
+const trP = { top: typoCss(tr.primary.topLabel), bottom: typoCss(tr.primary.bottomLabel) };
+const trS = { top: typoCss(tr.secondary.topLabel), bottom: typoCss(tr.secondary.bottomLabel) };
+const bsLabel = typoCss(bs.label);
+const sbCss = `/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: ${dimT(tr.gap)}; padding: 0 ${dimT(tr.paddingX)}; border-radius: ${dimT(tr.radius)}; line-height: 1.2; }
+.btn--tworow.btn--primary { height: ${dimT(tr.primary.height)}; }
+.btn--tworow.btn--secondary { height: ${dimT(tr.secondary.height)}; }
+.btn--tworow.btn--primary .btn__top { font-weight: ${trP.top.weight}; font-size: ${trP.top.size}; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: ${trP.bottom.weight}; font-size: ${trP.bottom.size}; }
+.btn--tworow.btn--secondary .btn__top { font-weight: ${trS.top.weight}; font-size: ${trS.top.size}; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: ${trS.bottom.weight}; font-size: ${trS.bottom.size}; color: ${cvT(tr.secondary.bottomLabelColor)}; }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
+.btn--round { border-radius: ${dimT(ri.radius)}; padding: 0; gap: 0; }
+.btn--round-base { width: ${dimT(ri.size.base.box)}; height: ${dimT(ri.size.base.box)}; }
+.btn--round-base .btn__icon { width: ${dimT(ri.size.base.iconSize)}; height: ${dimT(ri.size.base.iconSize)}; }
+.btn--round-xs { width: ${dimT(ri.size.xs.box)}; height: ${dimT(ri.size.xs.box)}; }
+.btn--round-xs .btn__icon { width: ${dimT(ri.size.xs.iconSize)}; height: ${dimT(ri.size.xs.iconSize)}; }
+.btn--outline { background: transparent; border: 1px solid ${cvT(ri.outline.state.default.border)}; color: ${cvT(ri.outline.state.default.icon)}; }
+.btn--outline:not(:disabled):hover { background: ${cvT(ri.outline.state.hover.fill)}; color: ${cvT(ri.outline.state.hover.icon)}; }
+.btn--outline:not(:disabled):active { background: ${cvT(ri.outline.state.pressed.fill)}; color: ${cvT(ri.outline.state.pressed.icon)}; }
+.btn--filled-neutral { background: ${cvT(ri.filledNeutral.state.default.fill)}; color: ${cvT(ri.filledNeutral.state.default.icon)}; }
+.btn--filled-neutral:not(:disabled):hover { background: ${cvT(ri.filledNeutral.state.hover.fill)}; color: ${cvT(ri.filledNeutral.state.hover.icon)}; }
+.btn--filled-neutral:not(:disabled):active { background: ${cvT(ri.filledNeutral.state.pressed.fill)}; color: ${cvT(ri.filledNeutral.state.pressed.icon)}; }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
+.btn--betslip { box-sizing: border-box; border-radius: ${dimT(bs.radius)}; background: ${cvT(bs.state.default.fill)}; border: 1px solid ${cvT(bs.state.default.border)}; color: ${cvT(bs.state.default.label)}; gap: ${dimT(bs.gap)}; height: ${dimT(bs.height)}; padding: 0 ${dimT(bs.paddingX)}; font-weight: ${bsLabel.weight}; font-size: ${bsLabel.size}; }
+.btn--betslip:not(:disabled):hover { background: ${cvT(bs.state.hover.fill)}; }
+.btn--betslip:not(:disabled):active { background: ${cvT(bs.state.pressed.fill)}; }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
 
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----
 const css = `${rootVars}
@@ -210,26 +265,7 @@ ${Object.entries(counterSurfaces)
   .map(([key, s]) => `.counter--${key}.counter--inactive { background: ${cv(s.inactiveBg)}; color: ${cv(s.inactiveLabel)}; }`)
   .join("\n")}
 
-/* ---- sportsbook variants ---- */
-.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: ${btnRadius}; line-height: 1.2; }\n.btn--tworow.btn--primary { height: 48px; }\n.btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow .btn__top { font-weight: 400; font-size: 12px; }
-.btn--tworow .btn__bottom { font-weight: 500; font-size: 14px; }
-.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }\n.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: ${cv("text.secondary")}; }
-.btn--round { border-radius: 999px; padding: 0; gap: 0; }
-.btn--round-base { width: 40px; height: 40px; }
-.btn--round-base .btn__icon { width: 24px; height: 24px; }
-.btn--round-xs { width: 24px; height: 24px; }
-.btn--round-xs .btn__icon { width: 16px; height: 16px; }
-.btn--outline { background: transparent; border: 1px solid ${cv("outline.strong")}; color: ${cv("icon.default")}; }
-.btn--outline:not(:disabled):hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
-.btn--outline:not(:disabled):active { background: ${cv("darken.2")}; color: ${cv("text.default")}; }
-.btn--filled-neutral { background: ${cv("surface.raised")}; color: ${cv("icon.default")}; }
-.btn--filled-neutral:not(:disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
-.btn--filled-neutral:not(:disabled):active { background: ${cv("fill.neutralPressed")}; color: ${cv("text.default")}; }
-.btn--betslip { box-sizing: border-box; border-radius: 999px; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; color: ${cv("text.default")}; gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
-.btn--betslip:not(:disabled):hover { background: ${cv("surface.raised")}; }
-.btn--betslip:not(:disabled):active { background: ${cv("outline.strong")}; }
-.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
+${sbCss}`;
 
 // ---- markup builders: `live` uses real inline SVGs (for the rendered preview), `code` uses a short placeholder comment (for the printed snippet — a full path data dump isn't useful as a code sample) ----
 function content(variant, kind, live) {
@@ -245,7 +281,7 @@ function content(variant, kind, live) {
       return `${ic(iconAdd, "add")}\n  Label\n  ${ic(iconArrow, "arrow_forward")}`;
     case "counter": {
       const surface = counterSurfaceFor[variant];
-      return `${ic(iconAdd, "add")}\n  Label\n  <span class="counter counter--${"__SIZE__"} counter--${surface} counter--inactive">3</span>`;
+      return `${ic(iconAdd, "add")}\n  Label\n  <span class="counter counter--${"__SIZE__"} counter--${surface} counter--inactive">0</span>`;
     }
   }
 }
@@ -454,9 +490,9 @@ const html = `<!doctype html>
     <h3 class="mid-section">States — new variants</h3>
     <p class="section-desc">These variants differ from primary/secondary/ghost, so their states are shown explicitly: default · hover · pressed · disabled (50% opacity). Left→right in each row.</p>
     <div class="story-grid">
-      ${storyCard("Round — outline", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:${cv('lighten.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:${cv('darken.2')}; color:${cv('text.default')}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled>${iconChevronLeft}</button></div>`, "default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled")}
-      ${storyCard("Round — filled", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:${cv('fill.neutralHover')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:${cv('fill.neutralPressed')}; color:${cv('text.default')}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled>${iconSwap}</button></div>`, "default · hover (+white icon) · pressed · disabled")}
-      ${storyCard("Betslip pill", `<div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;"><button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('surface.raised')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cv('outline.strong')}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" disabled>Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>`, "default (surface-2 + surface-4 border) · hover (surface-4) · pressed (surface-6) · disabled")}
+      ${storyCard("Round — outline", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:${cvT(ri.outline.state.hover.fill)}; color:${cvT(ri.outline.state.hover.icon)}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:${cvT(ri.outline.state.pressed.fill)}; color:${cvT(ri.outline.state.pressed.icon)}">${iconChevronLeft}</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled>${iconChevronLeft}</button></div>`, "default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled")}
+      ${storyCard("Round — filled", `<div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="default">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="hover" style="background:${cvT(ri.filledNeutral.state.hover.fill)}; color:${cvT(ri.filledNeutral.state.hover.icon)}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="pressed" style="background:${cvT(ri.filledNeutral.state.pressed.fill)}; color:${cvT(ri.filledNeutral.state.pressed.icon)}">${iconSwap}</button><button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="disabled" disabled>${iconSwap}</button></div>`, "default · hover (+white icon) · pressed · disabled")}
+      ${storyCard("Betslip pill", `<div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;"><button class="btn btn--betslip">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cvT(bs.state.hover.fill)}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" style="background:${cvT(bs.state.pressed.fill)}">Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button><button class="btn btn--betslip" disabled>Betslip <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>`, "default (surface-2 + surface-4 border) · hover (surface-4) · pressed (surface-6) · disabled")}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>

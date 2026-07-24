@@ -24,6 +24,7 @@ const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
 const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
+const button = load("tokens/components/button.tokens.json").component.button;
 
 const registry = {
   color: colorPrim,
@@ -62,7 +63,10 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.raised", "text.onFill", "surface.card", "outline.default", "text.default"];
+// The demo triggers are real Button-component buttons (secondary / base), so this
+// page reuses the button component's own tokens — never retyping a color role by
+// hand — for both the shown-off trigger and the tooltip bubble itself.
+const colorPaths = ["surface.raised", "text.onFill", "fill.neutral", "text.default", "fill.neutralHover", "fill.neutralPressed"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -99,6 +103,16 @@ const css = `${rootVars}
 .tooltip--right { left: calc(100% + ${gap}); top: 50%; transform: translateY(-50%); }
 .tooltip--right::after { left: ${arrowNeg}; top: 50%; margin-top: ${arrowNeg}; }`;
 
+// ---- the demo trigger IS the Button component (secondary / base), resolved from
+// button.tokens.json so the trigger on this page matches the real Button page ----
+const bSize = button.secondary.size.base;
+const bLabel = resolveToken(get(bSize.label.$value));
+const buttonCss = `.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: ${cv("family.sans")}; }
+  .btn--base { height: ${px(resolve(bSize.height.$value))}; padding: 0 ${px(resolve(bSize.paddingX.$value))}; gap: ${px(resolve(bSize.gap.$value))}; border-radius: ${px(resolve(button.secondary.radius.$value))}; font-weight: ${bLabel.fontWeight}; font-size: ${px(bLabel.fontSize)}; line-height: ${bLabel.lineHeight}; }
+  .btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
+  .btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
+  .btn--secondary:active { background: ${cv("fill.neutralPressed")}; }`;
+
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
       <div class="story">
@@ -112,13 +126,13 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 function demo(placement, forceShow) {
   const style = forceShow ? "" : "";
   return `<span class="tooltip-wrapper${forceShow ? " demo-force-show" : ""}">
-      <button class="demo-trigger">Hover me</button>
+      <button class="btn btn--secondary btn--base">Hover me</button>
       <span class="tooltip tooltip--${placement}">Tooltip label</span>
     </span>`;
 }
 function demoCode(placement) {
   return `<span class="tooltip-wrapper">
-  <button>Hover me</button>
+  <button class="btn btn--secondary btn--base">Hover me</button>
   <span class="tooltip tooltip--${placement}">Tooltip label</span>
 </span>`;
 }
@@ -199,7 +213,7 @@ const html = `<!doctype html>
   .story-preview { min-height: 90px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid ${cv("outline.default")}; background: ${cv("surface.card")}; color: ${cv("text.default")}; cursor: pointer; }
+  ${buttonCss}
   .demo-force-show .tooltip { opacity: 1 !important; transition-delay: 0s !important; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -228,7 +242,7 @@ const html = `<!doctype html>
     <pre class="code"><code>${esc(css)}</code></pre>
 
     <h2 class="big-section">Placement</h2>
-    <p class="section-desc">All four forced visible (via a docs-only class) so every placement is visible at once — try hovering any of the real buttons to see the actual :hover/:focus-within behavior, including the show delay.</p>
+    <p class="section-desc">All four forced visible (via a docs-only class) so every placement is visible at once — try hovering any of the triggers (real <a href="button.html">Button</a> components, secondary / base) to see the actual :hover/:focus-within behavior, including the show delay.</p>
     <div class="story-grid">
       ${placementStories()}
     </div>

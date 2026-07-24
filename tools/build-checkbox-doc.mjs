@@ -90,8 +90,12 @@ const groupLabelGap = px(resolve(group.labelGap.$value));
 const groupLabelType = resolveToken(group.label);
 const groupHelperType = resolveToken(group.helper);
 
-const iconCheck = fs.readFileSync(path.join(root, "assets/icons/material-filled/check.svg"), "utf8").replace("<svg ", '<svg class="checkbox__icon checkbox__icon--check" ');
-const iconRemove = fs.readFileSync(path.join(root, "assets/icons/material-filled/remove.svg"), "utf8").replace("<svg ", '<svg class="checkbox__icon checkbox__icon--remove" ');
+// The sportsbook UI icon set only ships composite check-in-a-box glyphs
+// (checkbox / check-circle), not a bare tick — the checkbox draws its own box in
+// CSS and overlays just the mark, so the check (checked) and minus (indeterminate)
+// are minimal inline geometry here, currentColor so the box's own color rules apply.
+const iconCheck = '<svg class="checkbox__icon checkbox__icon--check" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.55 17.25 4.3 12l1.4-1.4 3.85 3.85 8.35-8.35 1.4 1.4z"/></svg>';
+const iconRemove = '<svg class="checkbox__icon checkbox__icon--remove" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 11h14v2H5z"/></svg>';
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;

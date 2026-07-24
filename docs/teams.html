@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Teams</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 3rem 3rem 4rem; max-width: 1200px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.2rem; }
+  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 12px 16px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1.2rem; }
+  .legend .row { display: flex; gap: 14px; padding: 5px 0; border-bottom: 0.5px solid var(--border); }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .row b { width: 130px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  .legend a { color: var(--accent); }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+  #search { width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 13px; border: 0.5px solid var(--border-strong); border-radius: 8px; background: var(--bg-card); color: var(--text-primary); margin-bottom: 0.4rem; }
+  #search:focus { outline: none; border-color: var(--accent); }
+  #count { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem; }
+  .asset-group { margin: 0 0 2rem; }
+  .asset-group > h2 { font-size: 13px; font-weight: 600; margin: 0 0 0.7rem; display: flex; align-items: baseline; gap: 8px; }
+  .asset-group > h2 .n { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .asset-group.hidden { display: none; }
+
+  .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 8px; }
+  .icon-card { border: 0.5px solid var(--border); border-radius: 10px; background: var(--bg-card); padding: 14px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .icon-glyph { width: 28px; height: 28px; color: #8E929F; }
+  .icon-glyph svg { width: 28px; height: 28px; display: block; }
+  .icon-name { font-family: var(--mono); font-size: 10px; color: var(--text-secondary); word-break: break-all; }
+  .icon-card.hidden { display: none; }
+
+  .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .img-card { border: 0.5px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 16px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .img-thumb { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; }
+  .img-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .img-name { font-size: 11.5px; color: var(--text-primary); line-height: 1.35; }
+  .img-card.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
+    <a class="navlink" href="index.html">Overview</a>
+    <p class="nav-category">Tokens</p>
+    <a class="navlink" href="colors.html">Colors</a>
+    <a class="navlink" href="semantic-colors.html">Semantic colors</a>
+    <a class="navlink" href="typography.html">Typography</a>
+    <a class="navlink" href="layout.html">Layout</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink active" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
+    <p class="nav-category">Components</p>
+    <a class="navlink" href="button.html">Button</a>
+    <a class="navlink" href="counter.html">Counter</a>
+    <a class="navlink" href="input.html">Input</a>
+    <a class="navlink" href="select.html">Select</a>
+    <a class="navlink" href="search.html">Search</a>
+    <a class="navlink" href="pagination.html">Pagination</a>
+    <a class="navlink" href="separator.html">Separator</a>
+    <a class="navlink" href="tabs.html">Tabs</a>
+    <a class="navlink" href="checkbox.html">Checkbox</a>
+    <a class="navlink" href="radio.html">Radio</a>
+    <a class="navlink" href="box.html">Box</a>
+    <a class="navlink" href="card.html">Card</a>
+    <a class="navlink" href="switch.html">Switch</a>
+    <a class="navlink" href="grid.html">Grid</a>
+    <a class="navlink" href="tooltip.html">Tooltip</a>
+    <a class="navlink" href="popover.html">Popover</a>
+    <a class="navlink" href="drawer.html">Drawer</a>
+    <a class="navlink" href="modal.html">Modal</a>
+    <a class="navlink" href="menu.html">Menu</a>
+    <a class="navlink" href="listbox.html">Listbox</a>
+    <a class="navlink" href="badge.html">Badge</a>
+    <a class="navlink" href="chip.html">Chip</a>
+  </nav>
+  <main>
+    <h1>Teams</h1>
+    <p class="sub">assets/images/teams/*.png · 40 team logos across 5 disciplines — the badge artwork shown against fixtures, betslip rows and team pages</p>
+
+    <div class="legend">
+      <div class="row"><b>Source</b><span>Team badge/logo images (PNG with transparency), grouped by discipline. Sample set for the design system — the live product loads these per-fixture from the feed, not from this folder.</span></div>
+      <div class="row"><b>Naming</b><span>Files are named <code class="tok">&lt;Sport&gt; - &lt;Team&gt;.png</code>; the sport prefix drives the grouping below and is stripped from the displayed name.</span></div>
+      <div class="row"><b>Usage</b><span>Rendered as an <code class="tok">&lt;img&gt;</code> (raster, not a themeable glyph) — size the container, the logo keeps its own colors on any surface.</span></div>
+    </div>
+
+    <input id="search" type="text" placeholder="Search teams by sport or name…" autocomplete="off" />
+    <p id="count"></p>
+
+    <div id="results">
+      <section class="asset-group">
+        <h2>American Football <span class="n">8</span></h2>
+        <div class="img-grid">
+        <div class="img-card" data-name="American Football DC Defenders">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20DC%20Defenders.png" alt="DC Defenders" loading="lazy" /></div>
+          <span class="img-name">DC Defenders</span>
+        </div>
+        <div class="img-card" data-name="American Football Hamilton Tiger-Cats">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20Hamilton%20Tiger-Cats.png" alt="Hamilton Tiger-Cats" loading="lazy" /></div>
+          <span class="img-name">Hamilton Tiger-Cats</span>
+        </div>
+        <div class="img-card" data-name="American Football Los Angeles Rams">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20Los%20Angeles%20Rams.png" alt="Los Angeles Rams" loading="lazy" /></div>
+          <span class="img-name">Los Angeles Rams</span>
+        </div>
+        <div class="img-card" data-name="American Football Louisville Kings">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20Louisville%20Kings.png" alt="Louisville Kings" loading="lazy" /></div>
+          <span class="img-name">Louisville Kings</span>
+        </div>
+        <div class="img-card" data-name="American Football New England Patriots">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20New%20England%20Patriots.png" alt="New England Patriots" loading="lazy" /></div>
+          <span class="img-name">New England Patriots</span>
+        </div>
+        <div class="img-card" data-name="American Football New York Giants">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20New%20York%20Giants.png" alt="New York Giants" loading="lazy" /></div>
+          <span class="img-name">New York Giants</span>
+        </div>
+        <div class="img-card" data-name="American Football SMU Mustangs">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20SMU%20Mustangs.png" alt="SMU Mustangs" loading="lazy" /></div>
+          <span class="img-name">SMU Mustangs</span>
+        </div>
+        <div class="img-card" data-name="American Football Winnipeg Blue Bombers">
+          <div class="img-thumb"><img src="../assets/images/teams/American%20Football%20-%20Winnipeg%20Blue%20Bombers.png" alt="Winnipeg Blue Bombers" loading="lazy" /></div>
+          <span class="img-name">Winnipeg Blue Bombers</span>
+        </div>
+        </div>
+      </section>
+      <section class="asset-group">
+        <h2>Basketball <span class="n">8</span></h2>
+        <div class="img-grid">
+        <div class="img-card" data-name="Basketball Boston Celtics">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Boston%20Celtics.png" alt="Boston Celtics" loading="lazy" /></div>
+          <span class="img-name">Boston Celtics</span>
+        </div>
+        <div class="img-card" data-name="Basketball Cleveland Cavaliers">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Cleveland%20Cavaliers.png" alt="Cleveland Cavaliers" loading="lazy" /></div>
+          <span class="img-name">Cleveland Cavaliers</span>
+        </div>
+        <div class="img-card" data-name="Basketball Detroit Pistons">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Detroit%20Pistons.png" alt="Detroit Pistons" loading="lazy" /></div>
+          <span class="img-name">Detroit Pistons</span>
+        </div>
+        <div class="img-card" data-name="Basketball Indiana Pacers">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Indiana%20Pacers.png" alt="Indiana Pacers" loading="lazy" /></div>
+          <span class="img-name">Indiana Pacers</span>
+        </div>
+        <div class="img-card" data-name="Basketball Miami Heat">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Miami%20Heat.png" alt="Miami Heat" loading="lazy" /></div>
+          <span class="img-name">Miami Heat</span>
+        </div>
+        <div class="img-card" data-name="Basketball Milwaukee Bucks">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Milwaukee%20Bucks.png" alt="Milwaukee Bucks" loading="lazy" /></div>
+          <span class="img-name">Milwaukee Bucks</span>
+        </div>
+        <div class="img-card" data-name="Basketball New York Knicks">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20New%20York%20Knicks.png" alt="New York Knicks" loading="lazy" /></div>
+          <span class="img-name">New York Knicks</span>
+        </div>
+        <div class="img-card" data-name="Basketball Orlando Magic">
+          <div class="img-thumb"><img src="../assets/images/teams/Basketball%20-%20Orlando%20Magic.png" alt="Orlando Magic" loading="lazy" /></div>
+          <span class="img-name">Orlando Magic</span>
+        </div>
+        </div>
+      </section>
+      <section class="asset-group">
+        <h2>CS2 <span class="n">8</span></h2>
+        <div class="img-grid">
+        <div class="img-card" data-name="CS2 Arcade Esports">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20Arcade%20Esports.png" alt="Arcade Esports" loading="lazy" /></div>
+          <span class="img-name">Arcade Esports</span>
+        </div>
+        <div class="img-card" data-name="CS2 Lavked">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20Lavked.png" alt="Lavked" loading="lazy" /></div>
+          <span class="img-name">Lavked</span>
+        </div>
+        <div class="img-card" data-name="CS2 Misa Esports">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20Misa%20Esports.png" alt="Misa Esports" loading="lazy" /></div>
+          <span class="img-name">Misa Esports</span>
+        </div>
+        <div class="img-card" data-name="CS2 Monte">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20Monte.png" alt="Monte" loading="lazy" /></div>
+          <span class="img-name">Monte</span>
+        </div>
+        <div class="img-card" data-name="CS2 Oxuji">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20Oxuji.png" alt="Oxuji" loading="lazy" /></div>
+          <span class="img-name">Oxuji</span>
+        </div>
+        <div class="img-card" data-name="CS2 paiN">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20paiN.png" alt="paiN" loading="lazy" /></div>
+          <span class="img-name">paiN</span>
+        </div>
+        <div class="img-card" data-name="CS2 TyLoo">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20TyLoo.png" alt="TyLoo" loading="lazy" /></div>
+          <span class="img-name">TyLoo</span>
+        </div>
+        <div class="img-card" data-name="CS2 WAZABI">
+          <div class="img-thumb"><img src="../assets/images/teams/CS2%20-%20WAZABI.png" alt="WAZABI" loading="lazy" /></div>
+          <span class="img-name">WAZABI</span>
+        </div>
+        </div>
+      </section>
+      <section class="asset-group">
+        <h2>Dota 2 <span class="n">8</span></h2>
+        <div class="img-grid">
+        <div class="img-card" data-name="Dota 2 Balu">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Balu.png" alt="Balu" loading="lazy" /></div>
+          <span class="img-name">Balu</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Cloud Rising">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Cloud%20Rising.png" alt="Cloud Rising" loading="lazy" /></div>
+          <span class="img-name">Cloud Rising</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Eye Gaming">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Eye%20Gaming.png" alt="Eye Gaming" loading="lazy" /></div>
+          <span class="img-name">Eye Gaming</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Lunar Vibes">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Lunar%20Vibes.png" alt="Lunar Vibes" loading="lazy" /></div>
+          <span class="img-name">Lunar Vibes</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Nethercore">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Nethercore.png" alt="Nethercore" loading="lazy" /></div>
+          <span class="img-name">Nethercore</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Night Force">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota2%20-%20Night%20Force.png" alt="Night Force" loading="lazy" /></div>
+          <span class="img-name">Night Force</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Power Rangers">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Power%20Rangers.png" alt="Power Rangers" loading="lazy" /></div>
+          <span class="img-name">Power Rangers</span>
+        </div>
+        <div class="img-card" data-name="Dota 2 Refuser">
+          <div class="img-thumb"><img src="../assets/images/teams/Dota%202%20-%20Refuser.png" alt="Refuser" loading="lazy" /></div>
+          <span class="img-name">Refuser</span>
+        </div>
+        </div>
+      </section>
+      <section class="asset-group">
+        <h2>Football <span class="n">8</span></h2>
+        <div class="img-grid">
+        <div class="img-card" data-name="Football Arsenal">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Arsenal.png" alt="Arsenal" loading="lazy" /></div>
+          <span class="img-name">Arsenal</span>
+        </div>
+        <div class="img-card" data-name="Football Aston Villa">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Aston%20Villa.png" alt="Aston Villa" loading="lazy" /></div>
+          <span class="img-name">Aston Villa</span>
+        </div>
+        <div class="img-card" data-name="Football Barcelona">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Barcelona.png" alt="Barcelona" loading="lazy" /></div>
+          <span class="img-name">Barcelona</span>
+        </div>
+        <div class="img-card" data-name="Football Bayern Munich">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Bayern%20Munich.png" alt="Bayern Munich" loading="lazy" /></div>
+          <span class="img-name">Bayern Munich</span>
+        </div>
+        <div class="img-card" data-name="Football Castellon">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Castellon.png" alt="Castellon" loading="lazy" /></div>
+          <span class="img-name">Castellon</span>
+        </div>
+        <div class="img-card" data-name="Football Liverpool">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Liverpool.png" alt="Liverpool" loading="lazy" /></div>
+          <span class="img-name">Liverpool</span>
+        </div>
+        <div class="img-card" data-name="Football Manchester City">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20Manchester%20City.png" alt="Manchester City" loading="lazy" /></div>
+          <span class="img-name">Manchester City</span>
+        </div>
+        <div class="img-card" data-name="Football PSG">
+          <div class="img-thumb"><img src="../assets/images/teams/Football%20-%20PSG.png" alt="PSG" loading="lazy" /></div>
+          <span class="img-name">PSG</span>
+        </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+  const input = document.getElementById("search");
+  const cards = [...document.querySelectorAll("[data-name]")];
+  const groups = [...document.querySelectorAll(".asset-group")];
+  const countEl = document.getElementById("count");
+  function update() {
+    const q = input.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach((c) => {
+      const match = !q || c.dataset.name.toLowerCase().includes(q);
+      c.classList.toggle("hidden", !match);
+      if (match) visible++;
+    });
+    groups.forEach((g) => {
+      g.classList.toggle("hidden", ![...g.querySelectorAll("[data-name]")].some((c) => !c.classList.contains("hidden")));
+    });
+    countEl.textContent = visible + " / " + cards.length;
+  }
+  input.addEventListener("input", update);
+  update();
+</script>
+</body>
+</html>

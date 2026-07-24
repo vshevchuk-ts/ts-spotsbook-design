@@ -107,7 +107,7 @@ const counterOnNeutralPaths = {
   activeLabel: stripBraces(counter.onNeutral.state.active.label.$value),
 };
 
-const iconInbox = fs.readFileSync(path.join(root, "assets/icons/material-filled/mail.svg"), "utf8").replace("<svg ", '<svg class="tab__icon" ');
+const iconMyBets = fs.readFileSync(path.join(root, "assets/icons/ui/my-bets.svg"), "utf8").replace("<svg ", '<svg class="tab__icon" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -150,7 +150,7 @@ function tabItem({ style, size, state = "default", content = "text", label = "La
   const hasIcon = content === "icon-left" || content === "icon-counter" || content === "icon-only";
   const hasCounter = content === "counter" || content === "icon-counter";
   const hasLabel = content !== "icon-only";
-  const icon = hasIcon ? (live ? iconInbox : `<svg class="tab__icon"><!-- icon: mail --></svg>`) : "";
+  const icon = hasIcon ? (live ? iconMyBets : `<svg class="tab__icon"><!-- icon: my-bets --></svg>`) : "";
   const labelHtml = hasLabel ? `<span class="tab__label">${label}</span>` : "";
   const counterState = state === "active" ? "active" : "inactive";
   const counterHtml = hasCounter ? `<span class="counter counter--${size} counter--onNeutral counter--${counterState}">${count}</span>` : "";
@@ -174,20 +174,20 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 const styleStories = [
   storyCard(
     "Segmented",
-    tabBar("segmented", "base", [{ label: "Inbox", content: "counter", state: "default" }, { label: "Resolved", state: "active" }], true),
-    tabBar("segmented", "base", [{ label: "Inbox", content: "counter", state: "default" }, { label: "Resolved", state: "active" }], false),
+    tabBar("segmented", "base", [{ label: "My bets", content: "counter", state: "default" }, { label: "Resolved", state: "active" }], true),
+    tabBar("segmented", "base", [{ label: "My bets", content: "counter", state: "default" }, { label: "Resolved", state: "active" }], false),
     "Active tab raised on a white pill (surface.default) over the sunken track."
   ),
   storyCard(
     "Underline",
-    tabBar("underline", "base", [{ label: "Inbox", state: "active" }, { label: "Archived", state: "default" }], true),
-    tabBar("underline", "base", [{ label: "Inbox", state: "active" }, { label: "Archived", state: "default" }], false),
+    tabBar("underline", "base", [{ label: "My bets", state: "active" }, { label: "Archived", state: "default" }], true),
+    tabBar("underline", "base", [{ label: "My bets", state: "active" }, { label: "Archived", state: "default" }], false),
     "Active tab marked by a 2px border.focus bar over the 1px baseline."
   ),
 ].join("\n");
 
 const sizeStories = sizes
-  .map((s) => storyCard(`${s.key} — ${px(s.height)}`, tabBar("segmented", s.key, [{ label: "Inbox", content: "icon-left", state: "default" }, { label: "Resolved", state: "active" }], true), tabBar("segmented", s.key, [{ label: "Inbox", content: "icon-left", state: "default" }, { label: "Resolved", state: "active" }], false)))
+  .map((s) => storyCard(`${s.key} — ${px(s.height)}`, tabBar("segmented", s.key, [{ label: "My bets", content: "icon-left", state: "default" }, { label: "Resolved", state: "active" }], true), tabBar("segmented", s.key, [{ label: "My bets", content: "icon-left", state: "default" }, { label: "Resolved", state: "active" }], false)))
   .join("\n");
 
 const contentVariants = [
@@ -196,7 +196,7 @@ const contentVariants = [
   { key: "counter", label: "With counter", content: "counter" },
   { key: "icon-counter", label: "Icon + counter", content: "icon-counter" },
   { key: "icon-only", label: "Icon only", content: "icon-only" },
-].map((v) => storyCard(v.label, tabItem({ style: "segmented", size: "base", content: v.content, label: "Inbox", state: "active", live: true }), tabItem({ style: "segmented", size: "base", content: v.content, label: "Inbox", state: "active", live: false })))
+].map((v) => storyCard(v.label, tabItem({ style: "segmented", size: "base", content: v.content, label: "My bets", state: "active", live: true }), tabItem({ style: "segmented", size: "base", content: v.content, label: "My bets", state: "active", live: false })))
   .join("\n");
 
 const stateDefs = [
@@ -213,7 +213,7 @@ function styleStateStories(style) {
   const wrap = (inner) => `<div class="tabs tabs--${style} tabs--base">${inner}</div>`;
   return stateDefs
     .map((s) => {
-      const opts = { style, size: "base", content: "text", label: "Inbox", state: s.key === "hover" ? "default" : s.key };
+      const opts = { style, size: "base", content: "text", label: "My bets", state: s.key === "hover" ? "default" : s.key };
       const baseClass = `tab tab--${style} tab--base`;
       const finalClass = s.key === "hover" ? `tab tab--${style} tab--base tab--hover-demo` : baseClass;
       const live = wrap(tabItem({ ...opts, live: true }).replace(`class="${baseClass}"`, `class="${finalClass}"`));

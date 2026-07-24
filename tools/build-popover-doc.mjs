@@ -78,7 +78,7 @@ const bodyType = resolveToken(popover.body);
 const shadow = resolveToken(popover.shadow);
 const shadowCss = `${px(shadow.offsetX)} ${px(shadow.offsetY)} ${px(shadow.blur)} ${px(shadow.spread)} ${shadow.color}`;
 
-const iconClose = fs.readFileSync(path.join(root, "assets/icons/material-filled/close.svg"), "utf8").replace("<svg ", '<svg class="popover__close-icon" ');
+const iconClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace("<svg ", '<svg class="popover__close-icon" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;

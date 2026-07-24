@@ -1,4 +1,5 @@
-// Regenerates docs/icons.html from assets/icons/material-filled/*.svg.
+// Regenerates docs/icons.html from assets/icons/ui/*.svg — the Turbo Sportsbook
+// UI icon set (search, close, arrows, betslip/odds/live glyphs, etc.).
 // Run: node tools/build-icons-doc.mjs
 import fs from "node:fs";
 import path from "node:path";
@@ -6,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const iconsDir = path.join(root, "assets/icons/material-filled");
+const iconsDir = path.join(root, "assets/icons/ui");
 const files = fs.readdirSync(iconsDir).filter((f) => f.endsWith(".svg"));
 const allSlugs = files.map((f) => f.replace(".svg", "")).sort();
 
@@ -47,7 +48,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Turbo Sportsbook — icons</title>
+<title>Turbo Sportsbook — UI icons</title>
 <link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
 <style>
   :root {
@@ -112,14 +113,14 @@ const html = `<!doctype html>
     ${renderNav("icons")}
   </nav>
   <main>
-    <h1>Icons</h1>
-    <p class="sub">assets/icons/material-filled/*.svg · Material Icons, "Filled" style, Apache 2.0 · ${allSlugs.length} icons so far — extracted on demand, not the full ~2100-icon set</p>
+    <h1>UI icons</h1>
+    <p class="sub">assets/icons/ui/*.svg · Turbo Sportsbook UI icon set · ${allSlugs.length} icons — the product's interface glyphs (search, close, arrows, betslip / odds / live / favorites, cards, etc.)</p>
 
     <div class="legend">
-      <div class="row"><b>Source</b><span>google/material-design-icons, "Filled" style, 24px SVG. Extracted selectively (this batch matched an existing product icon audit + common UI basics) — add more the same way as new needs come up, not a one-time full import.</span></div>
-      <div class="row"><b>Color</b><span>Every SVG has fill="currentColor" — never hardcode a fill. Previewed here at icon.default (${iconDefaultHex}); set icon.primary/success/danger/warning as the wrapper's CSS color to switch it.</span></div>
-      <div class="row"><b>Size</b><span>Sourced at 24px, the standard UI icon grid — scale via CSS width/height, the paths stay crisp at typical UI sizes (16–32px).</span></div>
-      <div class="row"><b>Used by</b><span>Placeholder for now — every icon says "not yet used" since no components consume them yet. Gets rewritten to real component references as they're built, per the standing token-docs-legend rule.</span></div>
+      <div class="row"><b>Source</b><span>The Turbo Sportsbook UI set, exported from Figma at 20px. This is the interface icon library components pull from (Button, Input, Select, Search, Pagination, Menu, Chip, …); the sport-discipline glyphs live on their own <a href="disciplines.html">Discipline icons</a> page.</span></div>
+      <div class="row"><b>Color</b><span>Monotone glyphs are recolored to <code class="tok">fill="currentColor"</code> on import, so the wrapper's CSS color themes them — previewed here at icon.default (${iconDefaultHex}). A few are intentionally multi-tone and keep fixed brand colors: <code class="tok">red-card</code>, <code class="tok">yellow-card</code>, <code class="tok">globe</code> (gradient).</span></div>
+      <div class="row"><b>Size</b><span>Authored on a 20px grid — scale via CSS width/height, the paths stay crisp at typical UI sizes (16–24px).</span></div>
+      <div class="row"><b>Used by</b><span>Placeholder for now — a real per-icon usage index (like the semantic-colors "Used in") is a later pass; components currently pull search / close / plus / arrows / copy / delete / favorites / filters / settings.</span></div>
     </div>
 
     <input id="search" type="text" placeholder="Search icons by name…" autocomplete="off" />

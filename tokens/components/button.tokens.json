@@ -168,6 +168,96 @@
             "$description": "Stays transparent (no fill.disabled here, unlike primary/secondary) — ghost never has a background at rest, so disabled shouldn't suddenly gain one; only the label/icon fade."
           }
         }
+      },
+      "twoRow": {
+        "$description": "Product-specific two-row layout modifier (a small top label over a large value line) applied on top of the primary or secondary colour variant — the resting fill and hover/pressed/disabled states come from that underlying variant; only the column layout, per-row typography, and the secondary bottom-row's muted colour are twoRow-specific. A hero bet button ('Popular bet $20' / 'Win $941.2!') or a neutral max-stake shortcut ('Max' / '$1,000.99').",
+        "gap": { "$type": "dimension", "$value": "{spacing.0_5}" },
+        "paddingX": { "$type": "dimension", "$value": "{spacing.4}" },
+        "radius": { "$type": "dimension", "$value": "{radius.default}" },
+        "primary": {
+          "$description": "48px tall, sits on the primary (active) fill — bottom row is the large semibold value.",
+          "height": { "$type": "dimension", "$value": "{spacing.12}" },
+          "topLabel": { "$type": "typography", "$value": "{text-style.body-sm}" },
+          "bottomLabel": { "$type": "typography", "$value": "{text-style.heading-base}" }
+        },
+        "secondary": {
+          "$description": "40px tall, sits on the neutral fill — both rows are body-weight, and the bottom row is muted (text.secondary) so the label reads as a caption under the value.",
+          "height": { "$type": "dimension", "$value": "{spacing.10}" },
+          "topLabel": { "$type": "typography", "$value": "{text-style.body-sm}" },
+          "bottomLabel": { "$type": "typography", "$value": "{text-style.body-sm}" },
+          "bottomLabelColor": { "$type": "color", "$value": "{text.secondary}" }
+        }
+      },
+      "roundIcon": {
+        "$description": "Circular icon-only button (radius.full), for nav/widget affordances — back arrows, a betslip swap toggle. Two sizes (base 40 / xs 24, icon at 60% of the box) and two fills (outline over the page, or a filled neutral surface). Both fills whiten the icon (icon → text.default) on hover/pressed.",
+        "radius": { "$type": "dimension", "$value": "{radius.full}" },
+        "size": {
+          "base": {
+            "$description": "40×40, 24px icon.",
+            "box": { "$type": "dimension", "$value": "{spacing.10}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.6}" }
+          },
+          "xs": {
+            "$description": "24×24, 16px icon.",
+            "box": { "$type": "dimension", "$value": "{spacing.6}" },
+            "iconSize": { "$type": "dimension", "$value": "{spacing.4}" }
+          }
+        },
+        "outline": {
+          "$description": "Transparent fill + outline.strong border; hover fills with lighten.2 (12% white wash) and whitens the icon, pressed deepens to darken.2.",
+          "state": {
+            "default": {
+              "border": { "$type": "color", "$value": "{outline.strong}" },
+              "icon": { "$type": "color", "$value": "{icon.default}" }
+            },
+            "hover": {
+              "fill": { "$type": "color", "$value": "{lighten.2}" },
+              "icon": { "$type": "color", "$value": "{text.default}" }
+            },
+            "pressed": {
+              "fill": { "$type": "color", "$value": "{darken.2}" },
+              "icon": { "$type": "color", "$value": "{text.default}" }
+            }
+          }
+        },
+        "filledNeutral": {
+          "$description": "Filled neutral surface (surface.raised) at rest; hover/pressed reuse the shared neutral hover/pressed fills (same progression as secondary/ghost) and whiten the icon.",
+          "state": {
+            "default": {
+              "fill": { "$type": "color", "$value": "{surface.raised}" },
+              "icon": { "$type": "color", "$value": "{icon.default}" }
+            },
+            "hover": {
+              "fill": { "$type": "color", "$value": "{fill.neutralHover}" },
+              "icon": { "$type": "color", "$value": "{text.default}" }
+            },
+            "pressed": {
+              "fill": { "$type": "color", "$value": "{fill.neutralPressed}" },
+              "icon": { "$type": "color", "$value": "{text.default}" }
+            }
+          }
+        }
+      },
+      "betslip": {
+        "$description": "Fully-rounded (radius.full) pill with a trailing bet-count counter (see component.counter — onNeutral surface). Outline style: sits on the page with a surface.card fill and an outline.default border, brightening to surface.raised on hover and outline.strong when pressed. Fixed 40px height, generous 24px horizontal padding, heading-base (14px/semibold) label.",
+        "radius": { "$type": "dimension", "$value": "{radius.full}" },
+        "height": { "$type": "dimension", "$value": "{spacing.10}" },
+        "paddingX": { "$type": "dimension", "$value": "{spacing.6}" },
+        "gap": { "$type": "dimension", "$value": "{spacing.2_5}" },
+        "label": { "$type": "typography", "$value": "{text-style.heading-base}" },
+        "state": {
+          "default": {
+            "fill": { "$type": "color", "$value": "{surface.card}" },
+            "border": { "$type": "color", "$value": "{outline.default}" },
+            "label": { "$type": "color", "$value": "{text.default}" }
+          },
+          "hover": {
+            "fill": { "$type": "color", "$value": "{surface.raised}" }
+          },
+          "pressed": {
+            "fill": { "$type": "color", "$value": "{outline.strong}" }
+          }
+        }
       }
     }
   }

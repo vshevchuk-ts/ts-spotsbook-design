@@ -112,9 +112,9 @@ const counterSurfaces = {
 };
 
 // ---- icons ----
-const iconOf = (name, cls) => fs.readFileSync(path.join(root, `assets/icons/material-filled/${name}.svg`), "utf8").replace("<svg ", `<svg class="${cls}" `);
-const iconFlag = iconOf("flag", "chip__icon");
-const iconTune = iconOf("tune", "chip__icon");
+const iconOf = (name, cls) => fs.readFileSync(path.join(root, `assets/icons/ui/${name}.svg`), "utf8").replace("<svg ", `<svg class="${cls}" `);
+const iconFlag = iconOf("favorites", "chip__icon");
+const iconTune = iconOf("filters", "chip__icon");
 const iconClose = iconOf("close", "chip__remove-icon");
 
 const css = `${rootVars}
@@ -199,7 +199,7 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 // ---- Sizes (toggle, unchecked, as reference) ----
 function sizeStories() {
   return sizeDefs
-    .map((s) => storyCard(`${s.key} — ${px(s.height)}`, toggleChipMarkup(s.key, { label: "Flagged", icon: iconFlag }), toggleChipMarkup(s.key, { label: "Flagged", icon: iconFlag })))
+    .map((s) => storyCard(`${s.key} — ${px(s.height)}`, toggleChipMarkup(s.key, { label: "Favorites", icon: iconFlag }), toggleChipMarkup(s.key, { label: "Favorites", icon: iconFlag })))
     .join("\n");
 }
 
@@ -214,14 +214,14 @@ const toggleStateDefs = [
   { key: "checked-disabled", label: "disabled (checked)", opts: { disabled: true, pressed: true }, note: "fill.disabled — brand blue never shows on an inert control." },
 ];
 function toggleStateStories() {
-  return toggleStateDefs.map((s) => storyCard(s.label, toggleChipMarkup("base", { label: "Flagged", ...s.opts }), toggleChipMarkup("base", { label: "Flagged", ...s.opts }), s.note)).join("\n");
+  return toggleStateDefs.map((s) => storyCard(s.label, toggleChipMarkup("base", { label: "Favorites", ...s.opts }), toggleChipMarkup("base", { label: "Favorites", ...s.opts }), s.note)).join("\n");
 }
 
 // ---- Content variants (real interactive, base size) ----
 function contentStories() {
   const defs = [
-    { title: "Text only", html: toggleChipMarkup("base", { label: "Flagged" }) },
-    { title: "Icon + text", html: toggleChipMarkup("base", { label: "Flagged", icon: iconFlag }) },
+    { title: "Text only", html: toggleChipMarkup("base", { label: "Favorites" }) },
+    { title: "Icon + text", html: toggleChipMarkup("base", { label: "Favorites", icon: iconFlag }) },
     { title: "Text + counter", html: toggleChipMarkup("base", { label: "Recent", counterSurface: "onNeutral" }), note: "Unchecked/light bg pairs with counter.onNeutral — click to check it and the counter switches to onPrimary automatically via CSS, no JS." },
     { title: "Icon + text + counter", html: toggleChipMarkup("base", { label: "Filters", icon: iconTune, counterSurface: "onNeutral", outline: true, pressed: true }), note: "Shown pre-checked with the outline treatment — a 'Filters' trigger chip summarizing N active filters is an aggregate/trigger, not a single boolean, so it uses checkedOutline (bg.primary tint + border) instead of a full solid fill. Still real — click it." },
   ];
@@ -232,7 +232,7 @@ function contentStories() {
 function removableStories() {
   const defs = [
     { title: "Default", html: removableChipMarkup("base", { label: "Calam Xavier" }) },
-    { title: "With icon", html: removableChipMarkup("base", { label: "Engineering", icon: iconFlag }) },
+    { title: "With icon", html: removableChipMarkup("base", { label: "Favorites", icon: iconFlag }) },
     { title: "Disabled", html: removableChipMarkup("base", { label: "Calam Xavier", disabled: true }), note: "Remove button hidden (visibility:hidden, keeps layout stable) — nothing to remove when the whole chip is inert." },
   ];
   return defs.map((d) => storyCard(d.title, d.html, d.html, d.note || "")).join("\n");
@@ -320,7 +320,7 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/chip.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, nothing hand-copied. Every toggle chip below is a real, clickable <code class="tok">&lt;button aria-pressed&gt;</code> — try one.</p>
 
     <div class="legend">
-      <div class="row"><b>toggle vs. removable</b><span>Two kinds sharing one shell. <code class="tok">toggle</code> = filter selection, checkbox-like (click flips checked/unchecked — "I'm Involved"/"Flagged"/"Expires Soon"). <code class="tok">removable</code> = a selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient chip. Existence IS the selection for removable; there's no checked ladder, only present-or-removed.</span></div>
+      <div class="row"><b>toggle vs. removable</b><span>Two kinds sharing one shell. <code class="tok">toggle</code> = filter selection, checkbox-like (click flips checked/unchecked — "I'm Involved"/"Favorites"/"Expires Soon"). <code class="tok">removable</code> = a selected value with a trailing dismiss (×) — a chosen multi-select option, a recipient chip. Existence IS the selection for removable; there's no checked ladder, only present-or-removed.</span></div>
       <div class="row"><b>Not Badge</b><span>Badge is the display-only sibling this was deliberately split from — a status/tag pill you look at, not click. Chip is the checkbox-like, interactive one. Same ARIA-role reasoning as the Menu/Listbox split.</span></div>
       <div class="row"><b>solid vs. outline checked</b><span>Two checked treatments for <code class="tok">toggle</code>, not a ladder — pick by content. Solid (fill.primary + white text) for a real single boolean. Outline (bg.primary tint + border, reuses Badge's own tint recipe) for a chip carrying a <code class="tok">Counter</code> — a "Filters · 3" trigger summarizing several sub-selections is an aggregate, not one thing being on, so filling it fully solid would overstate it.</span></div>
       <div class="row"><b>Sizes</b><span>sm 24 / base 32 / lg 40 — Button's own height ladder (32/40/48) shifted down one dim-step at every size, since a chip is clickable like a button but reads as a small pill like Badge.</span></div>

@@ -85,8 +85,8 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   return base;
 });
 
-const iconChevron = fs.readFileSync(path.join(root, "assets/icons/material-filled/expand_more.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
-const iconSearch = fs.readFileSync(path.join(root, "assets/icons/material-filled/search.svg"), "utf8").replace("<svg ", '<svg class="select__icon" ');
+const iconChevron = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
+const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="select__icon" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;

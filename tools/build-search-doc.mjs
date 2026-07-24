@@ -80,8 +80,8 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   };
 });
 
-const iconSearch = fs.readFileSync(path.join(root, "assets/icons/material-filled/search.svg"), "utf8").replace("<svg ", '<svg class="search__icon" ');
-const iconClose = fs.readFileSync(path.join(root, "assets/icons/material-filled/close.svg"), "utf8").replace("<svg ", '<svg class="search__clear" ');
+const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="search__icon" ');
+const iconClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace("<svg ", '<svg class="search__clear" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;

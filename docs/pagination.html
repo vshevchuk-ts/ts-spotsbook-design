@@ -130,7 +130,11 @@
     <a class="navlink" href="semantic-colors.html">Semantic colors</a>
     <a class="navlink" href="typography.html">Typography</a>
     <a class="navlink" href="layout.html">Layout</a>
-    <a class="navlink" href="icons.html">Icons</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
     <p class="nav-category">Components</p>
     <a class="navlink" href="button.html">Button</a>
     <a class="navlink" href="counter.html">Counter</a>
@@ -217,7 +221,22 @@
     <h2 class="big-section">Full bar</h2>
     <p class="section-desc">Rows-per-page and the page-range nav almost always appear together — a table/list footer, not two isolated controls. <code class="tok">.pagination-bar</code> spreads them with <code class="tok">justify-content: space-between</code> across the full width; the 24px gap only matters if the container is narrower than the two groups combined.</p>
     <div class="full-bar-demo">
-      <div class="story-preview"><div class="pagination-bar"><div class="rows-per-page"><span class="rows-per-page__label">Rows per page</span><div class="select"><span class="select__value">10</span><svg class="select__chevron" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg></div></div><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="page-item">1</button><button class="page-item">2</button><button class="page-item page-item--active" aria-current="page">3</button><button class="page-item">4</button><button class="page-item">5</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></nav></div></div>
+      <div class="story-preview"><div class="pagination-bar"><div class="rows-per-page"><span class="rows-per-page__label">Rows per page</span><div class="select"><span class="select__value">10</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
+</g>
+</svg>
+</div></div><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="page-item">1</button><button class="page-item">2</button><button class="page-item page-item--active" aria-current="page">3</button><button class="page-item">4</button><button class="page-item">5</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></nav></div></div>
       <pre class="code"><code>&lt;div class="pagination-bar"&gt;&lt;div class="rows-per-page"&gt;&lt;span class="rows-per-page__label"&gt;Rows per page&lt;/span&gt;&lt;div class="select"&gt;&lt;span class="select__value"&gt;10&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/div&gt;&lt;nav class="pagination"&gt;&lt;button class="page-item" aria-label="Previous page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;button class="page-item"&gt;1&lt;/button&gt;&lt;button class="page-item"&gt;2&lt;/button&gt;&lt;button class="page-item page-item--active" aria-current="page"&gt;3&lt;/button&gt;&lt;button class="page-item"&gt;4&lt;/button&gt;&lt;button class="page-item"&gt;5&lt;/button&gt;&lt;span class="page-ellipsis"&gt;…&lt;/span&gt;&lt;button class="page-item"&gt;12&lt;/button&gt;&lt;button class="page-item" aria-label="Next page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_right --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/nav&gt;&lt;/div&gt;</code></pre>
     </div>
 
@@ -227,28 +246,68 @@
       
       <div class="story">
         <h3>Near the start</h3>
-        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="page-item">1</button><button class="page-item">2</button><button class="page-item page-item--active" aria-current="page">3</button><button class="page-item">4</button><button class="page-item">5</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></nav></div>
+        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="page-item">1</button><button class="page-item">2</button><button class="page-item page-item--active" aria-current="page">3</button><button class="page-item">4</button><button class="page-item">5</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></nav></div>
         <pre class="code"><code>&lt;nav class="pagination"&gt;&lt;button class="page-item" aria-label="Previous page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;button class="page-item"&gt;1&lt;/button&gt;&lt;button class="page-item"&gt;2&lt;/button&gt;&lt;button class="page-item page-item--active" aria-current="page"&gt;3&lt;/button&gt;&lt;button class="page-item"&gt;4&lt;/button&gt;&lt;button class="page-item"&gt;5&lt;/button&gt;&lt;span class="page-ellipsis"&gt;…&lt;/span&gt;&lt;button class="page-item"&gt;12&lt;/button&gt;&lt;button class="page-item" aria-label="Next page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_right --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/nav&gt;</code></pre>
         <p class="story-note">current=3, total=12 → 1 2 3 4 5 … 12. First 5 pages fit within the sibling window, so only the trailing range collapses.</p>
       </div>
 
       <div class="story">
         <h3>In the middle</h3>
-        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="page-item">1</button><span class="page-ellipsis">…</span><button class="page-item">6</button><button class="page-item page-item--active" aria-current="page">7</button><button class="page-item">8</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></nav></div>
+        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="page-item">1</button><span class="page-ellipsis">…</span><button class="page-item">6</button><button class="page-item page-item--active" aria-current="page">7</button><button class="page-item">8</button><span class="page-ellipsis">…</span><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></nav></div>
         <pre class="code"><code>&lt;nav class="pagination"&gt;&lt;button class="page-item" aria-label="Previous page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;button class="page-item"&gt;1&lt;/button&gt;&lt;span class="page-ellipsis"&gt;…&lt;/span&gt;&lt;button class="page-item"&gt;6&lt;/button&gt;&lt;button class="page-item page-item--active" aria-current="page"&gt;7&lt;/button&gt;&lt;button class="page-item"&gt;8&lt;/button&gt;&lt;span class="page-ellipsis"&gt;…&lt;/span&gt;&lt;button class="page-item"&gt;12&lt;/button&gt;&lt;button class="page-item" aria-label="Next page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_right --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/nav&gt;</code></pre>
         <p class="story-note">current=7, total=12 → 1 … 6 7 8 … 12. Both sides collapse, but page 1 and page 12 stay real, clickable numbers — never hidden behind the ellipsis.</p>
       </div>
 
       <div class="story">
         <h3>Near the end</h3>
-        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="page-item">1</button><span class="page-ellipsis">…</span><button class="page-item">8</button><button class="page-item">9</button><button class="page-item">10</button><button class="page-item page-item--active" aria-current="page">11</button><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></nav></div>
+        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="page-item">1</button><span class="page-ellipsis">…</span><button class="page-item">8</button><button class="page-item">9</button><button class="page-item">10</button><button class="page-item page-item--active" aria-current="page">11</button><button class="page-item">12</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></nav></div>
         <pre class="code"><code>&lt;nav class="pagination"&gt;&lt;button class="page-item" aria-label="Previous page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;button class="page-item"&gt;1&lt;/button&gt;&lt;span class="page-ellipsis"&gt;…&lt;/span&gt;&lt;button class="page-item"&gt;8&lt;/button&gt;&lt;button class="page-item"&gt;9&lt;/button&gt;&lt;button class="page-item"&gt;10&lt;/button&gt;&lt;button class="page-item page-item--active" aria-current="page"&gt;11&lt;/button&gt;&lt;button class="page-item"&gt;12&lt;/button&gt;&lt;button class="page-item" aria-label="Next page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_right --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/nav&gt;</code></pre>
         <p class="story-note">current=11, total=12 → 1 … 8 9 10 11 12. Mirrors the start case.</p>
       </div>
 
       <div class="story">
         <h3>Short enough — no ellipsis</h3>
-        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="page-item">1</button><button class="page-item page-item--active" aria-current="page">2</button><button class="page-item">3</button><button class="page-item">4</button><button class="page-item">5</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></nav></div>
+        <div class="story-preview"><nav class="pagination"><button class="page-item" aria-label="Previous page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="page-item">1</button><button class="page-item page-item--active" aria-current="page">2</button><button class="page-item">3</button><button class="page-item">4</button><button class="page-item">5</button><button class="page-item" aria-label="Next page"><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></nav></div>
         <pre class="code"><code>&lt;nav class="pagination"&gt;&lt;button class="page-item" aria-label="Previous page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;button class="page-item"&gt;1&lt;/button&gt;&lt;button class="page-item page-item--active" aria-current="page"&gt;2&lt;/button&gt;&lt;button class="page-item"&gt;3&lt;/button&gt;&lt;button class="page-item"&gt;4&lt;/button&gt;&lt;button class="page-item"&gt;5&lt;/button&gt;&lt;button class="page-item" aria-label="Next page"&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_right --&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/nav&gt;</code></pre>
         <p class="story-note">total=5 fits entirely within the visible window (5 numbers), so nothing collapses at all.</p>
       </div>
@@ -280,7 +339,12 @@
 
       <div class="story">
         <h3>disabled (arrow at a boundary)</h3>
-        <div class="story-preview"><button class="page-item page-item--disabled" aria-label="Previous page" disabled><svg class="page-item__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div>
+        <div class="story-preview"><button class="page-item page-item--disabled" aria-label="Previous page" disabled><svg class="page-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="page-item page-item--disabled" aria-label="Previous page" disabled&gt;&lt;svg class="page-item__icon"&gt;&lt;!-- icon: chevron_left --&gt;&lt;/svg&gt;&lt;/button&gt;</code></pre>
         
       </div>
@@ -292,7 +356,12 @@
       
       <div class="story">
         <h3>Rows per page</h3>
-        <div class="story-preview"><div class="rows-per-page"><span class="rows-per-page__label">Rows per page</span><div class="select"><span class="select__value">10</span><svg class="select__chevron" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg></div></div></div>
+        <div class="story-preview"><div class="rows-per-page"><span class="rows-per-page__label">Rows per page</span><div class="select"><span class="select__value">10</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
+</g>
+</svg>
+</div></div></div>
         <pre class="code"><code>&lt;div class="rows-per-page"&gt;&lt;span class="rows-per-page__label"&gt;Rows per page&lt;/span&gt;&lt;div class="select"&gt;&lt;span class="select__value"&gt;10&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         
       </div>

@@ -67,7 +67,11 @@
   .story-preview { min-height: 90px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-  .demo-trigger { font-family: var(--sans); font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--tok-outline-default); background: var(--tok-surface-card); color: var(--tok-text-default); cursor: pointer; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
+  .btn--base { height: 40px; padding: 0 12px; gap: 8px; border-radius: 8px; font-weight: 500; font-size: 14px; line-height: 1.4; }
+  .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+  .btn--secondary:hover { background: var(--tok-fill-neutral-hover); }
+  .btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
   .demo-force-show .tooltip { opacity: 1 !important; transition-delay: 0s !important; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -75,9 +79,10 @@
   :root {
   --tok-surface-raised: #282E3E;
   --tok-text-on-fill: #FFFFFF;
-  --tok-surface-card: #1C202B;
-  --tok-outline-default: #282E3E;
+  --tok-fill-neutral: #3E4351;
   --tok-text-default: #FFFFFF;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -87,13 +92,13 @@
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
 .tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-raised); transform: rotate(45deg); }
 
-.tooltip--top { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tooltip--top { bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: -4px; left: 50%; margin-left: -4px; }
-.tooltip--bottom { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tooltip--bottom { top: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
 .tooltip--bottom::after { top: -4px; left: 50%; margin-left: -4px; }
-.tooltip--left { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tooltip--left { right: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
 .tooltip--left::after { right: -4px; top: 50%; margin-top: -4px; }
-.tooltip--right { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tooltip--right { left: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
 .tooltip--right::after { left: -4px; top: 50%; margin-top: -4px; }
 </style>
 </head>
@@ -108,7 +113,11 @@
     <a class="navlink" href="semantic-colors.html">Semantic colors</a>
     <a class="navlink" href="typography.html">Typography</a>
     <a class="navlink" href="layout.html">Layout</a>
-    <a class="navlink" href="icons.html">Icons</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
     <p class="nav-category">Components</p>
     <a class="navlink" href="button.html">Button</a>
     <a class="navlink" href="counter.html">Counter</a>
@@ -149,9 +158,10 @@
     <pre class="code"><code>:root {
   --tok-surface-raised: #282E3E;
   --tok-text-on-fill: #FFFFFF;
-  --tok-surface-card: #1C202B;
-  --tok-outline-default: #282E3E;
+  --tok-fill-neutral: #3E4351;
   --tok-text-default: #FFFFFF;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -161,27 +171,27 @@
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
 .tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-raised); transform: rotate(45deg); }
 
-.tooltip--top { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tooltip--top { bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: -4px; left: 50%; margin-left: -4px; }
-.tooltip--bottom { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tooltip--bottom { top: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
 .tooltip--bottom::after { top: -4px; left: 50%; margin-left: -4px; }
-.tooltip--left { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tooltip--left { right: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
 .tooltip--left::after { right: -4px; top: 50%; margin-top: -4px; }
-.tooltip--right { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tooltip--right { left: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
 .tooltip--right::after { left: -4px; top: 50%; margin-top: -4px; }</code></pre>
 
     <h2 class="big-section">Placement</h2>
-    <p class="section-desc">All four forced visible (via a docs-only class) so every placement is visible at once — try hovering any of the real buttons to see the actual :hover/:focus-within behavior, including the show delay.</p>
+    <p class="section-desc">All four forced visible (via a docs-only class) so every placement is visible at once — try hovering any of the triggers (real <a href="button.html">Button</a> components, secondary / base) to see the actual :hover/:focus-within behavior, including the show delay.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>top</h3>
         <div class="story-preview"><span class="tooltip-wrapper demo-force-show">
-      <button class="demo-trigger">Hover me</button>
+      <button class="btn btn--secondary btn--base">Hover me</button>
       <span class="tooltip tooltip--top">Tooltip label</span>
     </span></div>
         <pre class="code"><code>&lt;span class="tooltip-wrapper"&gt;
-  &lt;button&gt;Hover me&lt;/button&gt;
+  &lt;button class="btn btn--secondary btn--base"&gt;Hover me&lt;/button&gt;
   &lt;span class="tooltip tooltip--top"&gt;Tooltip label&lt;/span&gt;
 &lt;/span&gt;</code></pre>
         
@@ -190,11 +200,11 @@
       <div class="story">
         <h3>bottom</h3>
         <div class="story-preview"><span class="tooltip-wrapper demo-force-show">
-      <button class="demo-trigger">Hover me</button>
+      <button class="btn btn--secondary btn--base">Hover me</button>
       <span class="tooltip tooltip--bottom">Tooltip label</span>
     </span></div>
         <pre class="code"><code>&lt;span class="tooltip-wrapper"&gt;
-  &lt;button&gt;Hover me&lt;/button&gt;
+  &lt;button class="btn btn--secondary btn--base"&gt;Hover me&lt;/button&gt;
   &lt;span class="tooltip tooltip--bottom"&gt;Tooltip label&lt;/span&gt;
 &lt;/span&gt;</code></pre>
         
@@ -203,11 +213,11 @@
       <div class="story">
         <h3>left</h3>
         <div class="story-preview"><span class="tooltip-wrapper demo-force-show">
-      <button class="demo-trigger">Hover me</button>
+      <button class="btn btn--secondary btn--base">Hover me</button>
       <span class="tooltip tooltip--left">Tooltip label</span>
     </span></div>
         <pre class="code"><code>&lt;span class="tooltip-wrapper"&gt;
-  &lt;button&gt;Hover me&lt;/button&gt;
+  &lt;button class="btn btn--secondary btn--base"&gt;Hover me&lt;/button&gt;
   &lt;span class="tooltip tooltip--left"&gt;Tooltip label&lt;/span&gt;
 &lt;/span&gt;</code></pre>
         
@@ -216,11 +226,11 @@
       <div class="story">
         <h3>right</h3>
         <div class="story-preview"><span class="tooltip-wrapper demo-force-show">
-      <button class="demo-trigger">Hover me</button>
+      <button class="btn btn--secondary btn--base">Hover me</button>
       <span class="tooltip tooltip--right">Tooltip label</span>
     </span></div>
         <pre class="code"><code>&lt;span class="tooltip-wrapper"&gt;
-  &lt;button&gt;Hover me&lt;/button&gt;
+  &lt;button class="btn btn--secondary btn--base"&gt;Hover me&lt;/button&gt;
   &lt;span class="tooltip tooltip--right"&gt;Tooltip label&lt;/span&gt;
 &lt;/span&gt;</code></pre>
         

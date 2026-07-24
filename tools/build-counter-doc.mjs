@@ -102,7 +102,9 @@ ${surfaceCss("onPrimary")}
 ${surfaceCss("onNeutral")}`;
 
 function markup(size, surface, state) {
-  return `<span class="counter counter--${size} counter--${surface} counter--${state}">3</span>`;
+  // inactive = seen/zero count → show 0; active = a meaningful count → show a digit.
+  const value = state === "inactive" ? "0" : "3";
+  return `<span class="counter counter--${size} counter--${surface} counter--${state}">${value}</span>`;
 }
 
 function storyCard(title, liveHtml, codeHtml, note = "", boxClass = "") {

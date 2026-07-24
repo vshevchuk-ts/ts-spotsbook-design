@@ -93,12 +93,12 @@
   --tok-outline-active: #FB8C33;
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-darken-2: rgba(17, 20, 28, 0.12);
-  --tok-outline-default: #282E3E;
-  --tok-outline-strong: #3E4351;
-  --tok-surface-raised: #282E3E;
-  --tok-surface-card: #1C202B;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -187,14 +187,17 @@
 .counter--onPrimary.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-for-active-bg); }
 .counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 
-/* ---- sportsbook variants ---- */
+/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
 .btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
 .btn--tworow.btn--primary { height: 48px; }
 .btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow .btn__top { font-weight: 400; font-size: 12px; }
-.btn--tworow .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--primary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: 500; font-size: 14px; }
 .btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
 .btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
 .btn--round { border-radius: 999px; padding: 0; gap: 0; }
 .btn--round-base { width: 40px; height: 40px; }
 .btn--round-base .btn__icon { width: 24px; height: 24px; }
@@ -206,6 +209,8 @@
 .btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
 .btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
 .btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
@@ -223,7 +228,11 @@
     <a class="navlink" href="semantic-colors.html">Semantic colors</a>
     <a class="navlink" href="typography.html">Typography</a>
     <a class="navlink" href="layout.html">Layout</a>
-    <a class="navlink" href="icons.html">Icons</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
     <p class="nav-category">Components</p>
     <a class="navlink active" href="button.html">Button</a>
     <a class="navlink" href="counter.html">Counter</a>
@@ -284,12 +293,12 @@
   --tok-outline-active: #FB8C33;
   --tok-color-white: #FFFFFF;
   --tok-text-active: #FB8C33;
+  --tok-surface-card: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-darken-2: rgba(17, 20, 28, 0.12);
-  --tok-outline-default: #282E3E;
-  --tok-outline-strong: #3E4351;
-  --tok-surface-raised: #282E3E;
-  --tok-surface-card: #1C202B;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -378,14 +387,17 @@
 .counter--onPrimary.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-for-active-bg); }
 .counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 
-/* ---- sportsbook variants ---- */
+/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
 .btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
 .btn--tworow.btn--primary { height: 48px; }
 .btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow .btn__top { font-weight: 400; font-size: 12px; }
-.btn--tworow .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--primary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: 500; font-size: 14px; }
 .btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
 .btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
 .btn--round { border-radius: 999px; padding: 0; gap: 0; }
 .btn--round-base { width: 40px; height: 40px; }
 .btn--round-base .btn__icon { width: 24px; height: 24px; }
@@ -397,6 +409,8 @@
 .btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
 .btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
 .btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
 .btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
@@ -410,7 +424,12 @@
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--sm"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--sm"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--sm"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -421,7 +440,12 @@
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -432,7 +456,12 @@
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--lg"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--lg"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--lg"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -457,7 +486,12 @@
 
       <div class="story">
         <h3>Icon left + text</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -468,7 +502,12 @@
 
       <div class="story">
         <h3>Icon only (square)</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button></div>
+        <div class="story-preview"><button class="btn btn--primary btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--base btn--icon-only" aria-label="Icon only"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
 &lt;/button&gt;</code></pre>
@@ -477,9 +516,19 @@
 
       <div class="story">
         <h3>Icon left + text + icon right</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button></div>
+  <svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
@@ -490,13 +539,18 @@
 
       <div class="story">
         <h3>Icon left + text + counter right</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <span class="counter counter--base counter--onPrimary counter--inactive">3</span></button></div>
+  <span class="counter counter--base counter--onPrimary counter--inactive">0</span></button></div>
         <pre class="code"><code>&lt;button class="btn btn--primary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
-  &lt;span class="counter counter--base counter--onPrimary counter--inactive"&gt;3&lt;/span&gt;
+  &lt;span class="counter counter--base counter--onPrimary counter--inactive"&gt;0&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         
       </div>
@@ -508,7 +562,12 @@
       
       <div class="story">
         <h3>default</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--primary {
   background: var(--tok-fill-active);
@@ -518,7 +577,12 @@
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-hover)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-hover)"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--primary:hover {
   background: var(--tok-fill-active-hover);
@@ -528,7 +592,12 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-pressed)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="background:var(--tok-fill-active-pressed)"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--primary:active {
   background: var(--tok-fill-active-pressed);
@@ -538,7 +607,12 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--primary:focus-visible {
   outline: none;
@@ -549,7 +623,12 @@
 
       <div class="story">
         <h3>disabled</h3>
-        <div class="story-preview"><button class="btn btn--primary btn--base" disabled style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--primary btn--base" disabled style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--primary:disabled {
   background: var(--tok-fill-disabled);
@@ -566,7 +645,12 @@
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--sm"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--sm"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--sm"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -577,7 +661,12 @@
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -588,7 +677,12 @@
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--lg"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--lg"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--lg"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -613,7 +707,12 @@
 
       <div class="story">
         <h3>Icon left + text</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -624,7 +723,12 @@
 
       <div class="story">
         <h3>Icon only (square)</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button></div>
+        <div class="story-preview"><button class="btn btn--secondary btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--base btn--icon-only" aria-label="Icon only"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
 &lt;/button&gt;</code></pre>
@@ -633,9 +737,19 @@
 
       <div class="story">
         <h3>Icon left + text + icon right</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button></div>
+  <svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
@@ -646,13 +760,18 @@
 
       <div class="story">
         <h3>Icon left + text + counter right</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <span class="counter counter--base counter--onNeutral counter--inactive">3</span></button></div>
+  <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>
         <pre class="code"><code>&lt;button class="btn btn--secondary btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
-  &lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;3&lt;/span&gt;
+  &lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;0&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         
       </div>
@@ -664,7 +783,12 @@
       
       <div class="story">
         <h3>default</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--secondary {
   background: var(--tok-fill-neutral);
@@ -674,7 +798,12 @@
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-hover)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-hover)"><svg style="color:var(--tok-text-default)" class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--secondary:hover {
   background: var(--tok-fill-neutral-hover);
@@ -684,7 +813,12 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--secondary:active {
   background: var(--tok-fill-neutral-pressed);
@@ -694,7 +828,12 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--secondary:focus-visible {
   outline: none;
@@ -705,7 +844,12 @@
 
       <div class="story">
         <h3>disabled</h3>
-        <div class="story-preview"><button class="btn btn--secondary btn--base" disabled style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--secondary btn--base" disabled style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--secondary:disabled {
   background: var(--tok-fill-disabled);
@@ -722,7 +866,12 @@
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--sm"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--sm"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--sm"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -733,7 +882,12 @@
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -744,7 +898,12 @@
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--lg"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--lg"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--lg"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -769,7 +928,12 @@
 
       <div class="story">
         <h3>Icon left + text</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
@@ -780,7 +944,12 @@
 
       <div class="story">
         <h3>Icon only (square)</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button></div>
+        <div class="story-preview"><button class="btn btn--ghost btn--base btn--icon-only" aria-label="Icon only"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--base btn--icon-only" aria-label="Icon only"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
 &lt;/button&gt;</code></pre>
@@ -789,9 +958,19 @@
 
       <div class="story">
         <h3>Icon left + text + icon right</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button></div>
+  <svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M8.33334 5L7.15834 6.175L10.975 10L7.15834 13.825L8.33334 15L13.3333 10L8.33334 5Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
@@ -802,13 +981,18 @@
 
       <div class="story">
         <h3>Icon left + text + counter right</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
   Label
-  <span class="counter counter--base counter--onNeutral counter--inactive">3</span></button></div>
+  <span class="counter counter--base counter--onNeutral counter--inactive">0</span></button></div>
         <pre class="code"><code>&lt;button class="btn btn--ghost btn--base"&gt;
   &lt;svg class="btn__icon"&gt;&lt;!-- icon: add --&gt;&lt;/svg&gt;
   Label
-  &lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;3&lt;/span&gt;
+  &lt;span class="counter counter--base counter--onNeutral counter--inactive"&gt;0&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         
       </div>
@@ -820,7 +1004,12 @@
       
       <div class="story">
         <h3>default</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--ghost {
   background: transparent;
@@ -830,7 +1019,12 @@
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-hover)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-hover)"><svg style="color:var(--tok-text-default)" class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--ghost:hover {
   background: var(--tok-fill-neutral-hover);
@@ -840,7 +1034,12 @@
 
       <div class="story">
         <h3>pressed</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="background:var(--tok-fill-neutral-pressed)"><svg style="color:var(--tok-text-default)" class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--ghost:active {
   background: var(--tok-fill-neutral-pressed);
@@ -850,7 +1049,12 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" style="box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active);"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--ghost:focus-visible {
   outline: none;
@@ -861,7 +1065,12 @@
 
       <div class="story">
         <h3>disabled</h3>
-        <div class="story-preview"><button class="btn btn--ghost btn--base" disabled style=""><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div class="story-preview"><button class="btn btn--ghost btn--base" disabled style=""><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M15.8333 10.8333H10.8333V15.8333H9.16666V10.8333H4.16666V9.16667H9.16666V4.16667H10.8333V9.16667H15.8333V10.8333Z" fill="currentColor"/>
+</g>
+</svg>
+
     Label</button></div>
         <pre class="code"><code>.btn--ghost:disabled {
   background: transparent;
@@ -897,7 +1106,17 @@
       
       <div class="story">
         <h3>Round icon — outline (base / xs)</h3>
-        <div class="story-preview"><div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div></div>
+        <div class="story-preview"><div style="display:flex; gap:16px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="Back"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="btn btn--round btn--round-xs btn--outline" aria-label="Back"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div></div>
         <pre class="code"><code>&lt;button class="btn btn--round btn--round-base btn--outline" aria-label="Back"&gt;
   &lt;!-- icon: chevron_left --&gt;
 &lt;/button&gt;</code></pre>
@@ -930,7 +1149,27 @@
       
       <div class="story">
         <h3>Round — outline</h3>
-        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:var(--tok-lighten-2); color:var(--tok-text-default)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:var(--tok-darken-2); color:var(--tok-text-default)"><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled><svg class="btn__icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button></div></div>
+        <div class="story-preview"><div style="display:flex; gap:20px; align-items:center;"><button class="btn btn--round btn--round-base btn--outline" aria-label="default"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="btn btn--round btn--round-base btn--outline" aria-label="hover" style="background:var(--tok-lighten-2); color:var(--tok-text-default)"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="btn btn--round btn--round-base btn--outline" aria-label="pressed" style="background:var(--tok-darken-2); color:var(--tok-text-default)"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button><button class="btn btn--round btn--round-base btn--outline" aria-label="disabled" disabled><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.8417 6.175L11.6667 5L6.66667 10L11.6667 15L12.8417 13.825L9.025 10L12.8417 6.175Z" fill="currentColor"/>
+</g>
+</svg>
+</button></div></div>
         <pre class="code"><code>default · hover (lighten-2 bg + white icon) · pressed (darken-2) · disabled</code></pre>
         
       </div>
