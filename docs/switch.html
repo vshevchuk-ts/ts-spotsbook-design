@@ -79,6 +79,11 @@
   --tok-text-disabled: #8E929F;
   --tok-color-base-secondary: #8E929F;
   --tok-color-white: #FFFFFF;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
+  --tok-fill-warning: #FFC12E;
+  --tok-icon-default: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -97,6 +102,13 @@
 .switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }
+
+/* quick-bet variant — a 40px betslip toggle: a 32px thumb carrying the bolt icon */
+.switch--quickbet .switch__track { width: 64px; height: 40px; background-color: var(--tok-surface-card); }
+.switch--quickbet .switch__thumb { width: 32px; height: 32px; top: 4px; left: 4px; background: var(--tok-surface-raised); border: 2px solid var(--tok-outline-strong); display: inline-flex; align-items: center; justify-content: center; }
+.switch--quickbet .switch__icon { width: 24px; height: 24px; color: var(--tok-icon-default); flex-shrink: 0; }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(24px); background: var(--tok-fill-warning); border-color: var(--tok-fill-warning); }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: var(--tok-surface-page); }
 </style>
 </head>
 <body>
@@ -163,6 +175,11 @@
   --tok-text-disabled: #8E929F;
   --tok-color-base-secondary: #8E929F;
   --tok-color-white: #FFFFFF;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
+  --tok-surface-page: #11141C;
+  --tok-fill-warning: #FFC12E;
+  --tok-icon-default: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -180,7 +197,14 @@
 .switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-color-white); transform: translateX(16px); }
 .switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
-.switch:has(.switch__input:disabled) { cursor: not-allowed; }</code></pre>
+.switch:has(.switch__input:disabled) { cursor: not-allowed; }
+
+/* quick-bet variant — a 40px betslip toggle: a 32px thumb carrying the bolt icon */
+.switch--quickbet .switch__track { width: 64px; height: 40px; background-color: var(--tok-surface-card); }
+.switch--quickbet .switch__thumb { width: 32px; height: 32px; top: 4px; left: 4px; background: var(--tok-surface-raised); border: 2px solid var(--tok-outline-strong); display: inline-flex; align-items: center; justify-content: center; }
+.switch--quickbet .switch__icon { width: 24px; height: 24px; color: var(--tok-icon-default); flex-shrink: 0; }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(24px); background: var(--tok-fill-warning); border-color: var(--tok-fill-warning); }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: var(--tok-surface-page); }</code></pre>
 
     <h2 class="big-section">States</h2>
     <p class="section-desc">Single size. Hover/focused are forced via inline style for a static screenshot — the real rule is :hover / :focus-visible on the native input, shown in the CSS above.</p>
@@ -289,6 +313,47 @@
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
         <p class="story-note">Same fill.disabled regardless of checked — brand blue never shows on an inert control. Thumb still slides right (position follows :checked independently of :disabled).</p>
+      </div>
+    </div>
+
+    <h2 class="big-section">Quick Bet (betslip)</h2>
+    <p class="section-desc">A larger 40px switch variant for the betslip's Quick Bet toggle — a 32px thumb carrying the bolt icon. Off: surface-2 track, surface-4 thumb with a surface-6 ring, grey bolt. On: the thumb (and ring) fill warning-yellow and the bolt turns surface-0 (near-black).</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>off</h3>
+        <div class="story-preview"><label class="switch switch--quickbet">
+    <input type="checkbox" class="switch__input" id="qb-off" />
+    <span class="switch__track"><span class="switch__thumb"><svg class="switch__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/>
+</g>
+</svg>
+</span></span>
+  </label></div>
+        <pre class="code"><code>&lt;label class="switch switch--quickbet"&gt;
+    &lt;input type="checkbox" class="switch__input" id="qb-off" /&gt;
+    &lt;span class="switch__track"&gt;&lt;span class="switch__thumb"&gt;&lt;svg class="switch__icon"&gt;&lt;!-- icon: quick-bet --&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;/label&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>on</h3>
+        <div class="story-preview"><label class="switch switch--quickbet">
+    <input type="checkbox" class="switch__input" id="qb-on" checked />
+    <span class="switch__track"><span class="switch__thumb"><svg class="switch__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/>
+</g>
+</svg>
+</span></span>
+  </label></div>
+        <pre class="code"><code>&lt;label class="switch switch--quickbet"&gt;
+    &lt;input type="checkbox" class="switch__input" id="qb-on" checked /&gt;
+    &lt;span class="switch__track"&gt;&lt;span class="switch__thumb"&gt;&lt;svg class="switch__icon"&gt;&lt;!-- icon: quick-bet --&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;/label&gt;</code></pre>
+        
       </div>
     </div>
 

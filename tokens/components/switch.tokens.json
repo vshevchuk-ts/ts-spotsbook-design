@@ -48,6 +48,28 @@
           "label": { "$type": "color", "$value": "{text.disabled}" },
           "$description": "Covers disabled in both off and on positions alike — fill.disabled (gray.100) either way, same pair Button secondary/Input/Checkbox already use for their own disabled states. Thumb stays white; only the track loses color."
         }
+      },
+      "quickBet": {
+        "$description": "A larger switch variant for the betslip's Quick Bet toggle — a 40px track holding a 32px thumb that carries the bolt (quick-bet) icon, rather than a plain circle. Off: surface-2 track, a surface-4 thumb ringed in surface-6, grey bolt. On: the thumb fills warning-yellow and the bolt turns surface-0 (near-black), so the lit state reads as 'turbo/quick mode on'. Shares the base switch's slide mechanics and native-input plumbing.",
+        "trackWidth": { "$type": "dimension", "$value": "{spacing.16}", "$description": "64px." },
+        "trackHeight": { "$type": "dimension", "$value": "{spacing.10}", "$description": "40px." },
+        "thumb": { "$type": "dimension", "$value": "{spacing.8}", "$description": "32px — leaves a 4px inset on every side of the 40px track." },
+        "thumbInset": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px gap between the thumb and the track edge, all sides." },
+        "thumbBorderWidth": { "$type": "dimension", "$value": "{spacing.0_5}", "$description": "2px thumb ring." },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px bolt inside the 32px thumb." },
+        "state": {
+          "track": { "$type": "color", "$value": "{surface.card}" },
+          "thumb": { "$type": "color", "$value": "{surface.raised}" },
+          "thumbBorder": { "$type": "color", "$value": "{outline.strong}" },
+          "icon": { "$type": "color", "$value": "{icon.default}" },
+          "$description": "Off — surface-2 track, surface-4 thumb, surface-6 ring, grey bolt."
+        },
+        "checked": {
+          "thumb": { "$type": "color", "$value": "{fill.warning}" },
+          "thumbBorder": { "$type": "color", "$value": "{fill.warning}" },
+          "icon": { "$type": "color", "$value": "{surface.page}" },
+          "$description": "On — the thumb (and its ring) go warning-yellow and the bolt turns surface-0 (near-black) for maximum contrast on the yellow."
+        }
       }
     }
   }

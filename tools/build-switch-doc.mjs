@@ -66,6 +66,7 @@ const colorPaths = [
   "fill.active", "fill.disabled", "lighten.2",
   "text.default", "text.disabled",
   "color.base.secondary", "color.white",
+  "surface.card", "surface.raised", "surface.page", "fill.warning", "icon.default",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -82,6 +83,17 @@ const ringWidth = px(resolve(switchTok.state.focused.ringWidth.$value));
 const ringOffset = px(resolve(switchTok.state.focused.ringOffset.$value));
 
 const travel = trackWidth.value - thumb.value - 2 * inset.value;
+
+// ---- quick-bet variant (betslip 40px toggle with a bolt thumb) ----
+const qb = switchTok.quickBet;
+const qbTrackW = resolve(qb.trackWidth.$value);
+const qbTrackH = px(resolve(qb.trackHeight.$value));
+const qbThumb = resolve(qb.thumb.$value);
+const qbInset = resolve(qb.thumbInset.$value);
+const qbBorderW = px(resolve(qb.thumbBorderWidth.$value));
+const qbIconSize = px(resolve(qb.iconSize.$value));
+const qbTravel = qbTrackW.value - qbThumb.value - 2 * qbInset.value;
+const iconBolt = fs.readFileSync(path.join(root, "assets/icons/ui/quick-bet.svg"), "utf8").replace("<svg ", '<svg class="switch__icon" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -103,7 +115,14 @@ const css = `${rootVars}
 .switch__input:checked ~ .switch__track .switch__thumb { background: ${cv("color.white")}; transform: translateX(${travel}px); }
 .switch__input:disabled ~ .switch__track { background-color: ${cv("fill.disabled")}; background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: ${cv("text.disabled")}; }
-.switch:has(.switch__input:disabled) { cursor: not-allowed; }`;
+.switch:has(.switch__input:disabled) { cursor: not-allowed; }
+
+/* quick-bet variant — a 40px betslip toggle: a 32px thumb carrying the bolt icon */
+.switch--quickbet .switch__track { width: ${px(qbTrackW)}; height: ${qbTrackH}; background-color: ${cv("surface.card")}; }
+.switch--quickbet .switch__thumb { width: ${px(qbThumb)}; height: ${px(qbThumb)}; top: ${px(qbInset)}; left: ${px(qbInset)}; background: ${cv("surface.raised")}; border: ${qbBorderW} solid ${cv("outline.strong")}; display: inline-flex; align-items: center; justify-content: center; }
+.switch--quickbet .switch__icon { width: ${qbIconSize}; height: ${qbIconSize}; color: ${cv("icon.default")}; flex-shrink: 0; }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(${qbTravel}px); background: ${cv("fill.warning")}; border-color: ${cv("fill.warning")}; }
+.switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: ${cv("surface.page")}; }`;
 
 function markup(id, { checked = false, disabled = false, hover = false, focused = false } = {}) {
   const attrs = [checked ? " checked" : "", disabled ? " disabled" : ""].join("");
@@ -115,6 +134,14 @@ function markup(id, { checked = false, disabled = false, hover = false, focused 
     <input type="checkbox" class="switch__input" id="${id}"${attrs} />
     <span class="switch__track"${trackStyle}><span class="switch__thumb"${thumbStyle}></span></span>
     <span class="switch__label">Label</span>
+  </label>`;
+}
+
+function quickBetMarkup(id, { checked = false, live = true } = {}) {
+  const icon = live ? iconBolt : `<svg class="switch__icon"><!-- icon: quick-bet --></svg>`;
+  return `<label class="switch switch--quickbet">
+    <input type="checkbox" class="switch__input" id="${id}"${checked ? " checked" : ""} />
+    <span class="switch__track"><span class="switch__thumb">${icon}</span></span>
   </label>`;
 }
 
@@ -240,6 +267,13 @@ const html = `<!doctype html>
     <p class="section-desc">Single size. Hover/focused are forced via inline style for a static screenshot — the real rule is :hover / :focus-visible on the native input, shown in the CSS above.</p>
     <div class="story-grid">
       ${stateStories()}
+    </div>
+
+    <h2 class="big-section">Quick Bet (betslip)</h2>
+    <p class="section-desc">A larger 40px switch variant for the betslip's Quick Bet toggle — a 32px thumb carrying the bolt icon. Off: surface-2 track, surface-4 thumb with a surface-6 ring, grey bolt. On: the thumb (and ring) fill warning-yellow and the bolt turns surface-0 (near-black).</p>
+    <div class="story-grid">
+      ${storyCard("off", quickBetMarkup("qb-off", { checked: false, live: true }), quickBetMarkup("qb-off", { checked: false, live: false }))}
+      ${storyCard("on", quickBetMarkup("qb-on", { checked: true, live: true }), quickBetMarkup("qb-on", { checked: true, live: false }))}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
