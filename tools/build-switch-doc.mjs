@@ -121,6 +121,8 @@ const css = `${rootVars}
 .switch--quickbet .switch__track { width: ${px(qbTrackW)}; height: ${qbTrackH}; background-color: ${cv("surface.card")}; }
 .switch--quickbet .switch__thumb { width: ${px(qbThumb)}; height: ${px(qbThumb)}; top: ${px(qbInset)}; left: ${px(qbInset)}; background: ${cv("surface.raised")}; border: ${qbBorderW} solid ${cv("outline.strong")}; display: inline-flex; align-items: center; justify-content: center; }
 .switch--quickbet .switch__icon { width: ${qbIconSize}; height: ${qbIconSize}; color: ${cv("icon.default")}; flex-shrink: 0; }
+/* track stays surface-2 when on (only the thumb lights up) — overrides the base switch's active-fill track */
+.switch--quickbet .switch__input:checked ~ .switch__track { background-color: ${cv("surface.card")}; }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(${qbTravel}px); background: ${cv("fill.warning")}; border-color: ${cv("fill.warning")}; }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: ${cv("surface.page")}; }`;
 

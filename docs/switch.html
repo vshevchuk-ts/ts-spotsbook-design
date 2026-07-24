@@ -107,6 +107,8 @@
 .switch--quickbet .switch__track { width: 64px; height: 40px; background-color: var(--tok-surface-card); }
 .switch--quickbet .switch__thumb { width: 32px; height: 32px; top: 4px; left: 4px; background: var(--tok-surface-raised); border: 2px solid var(--tok-outline-strong); display: inline-flex; align-items: center; justify-content: center; }
 .switch--quickbet .switch__icon { width: 24px; height: 24px; color: var(--tok-icon-default); flex-shrink: 0; }
+/* track stays surface-2 when on (only the thumb lights up) — overrides the base switch's active-fill track */
+.switch--quickbet .switch__input:checked ~ .switch__track { background-color: var(--tok-surface-card); }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(24px); background: var(--tok-fill-warning); border-color: var(--tok-fill-warning); }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: var(--tok-surface-page); }
 </style>
@@ -203,6 +205,8 @@
 .switch--quickbet .switch__track { width: 64px; height: 40px; background-color: var(--tok-surface-card); }
 .switch--quickbet .switch__thumb { width: 32px; height: 32px; top: 4px; left: 4px; background: var(--tok-surface-raised); border: 2px solid var(--tok-outline-strong); display: inline-flex; align-items: center; justify-content: center; }
 .switch--quickbet .switch__icon { width: 24px; height: 24px; color: var(--tok-icon-default); flex-shrink: 0; }
+/* track stays surface-2 when on (only the thumb lights up) — overrides the base switch's active-fill track */
+.switch--quickbet .switch__input:checked ~ .switch__track { background-color: var(--tok-surface-card); }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(24px); background: var(--tok-fill-warning); border-color: var(--tok-fill-warning); }
 .switch--quickbet .switch__input:checked ~ .switch__track .switch__thumb .switch__icon { color: var(--tok-surface-page); }</code></pre>
 
