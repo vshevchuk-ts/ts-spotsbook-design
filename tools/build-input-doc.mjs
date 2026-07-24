@@ -133,8 +133,11 @@ const css = `${rootVars}
 .input__prefix { color: ${cv("text.secondary")}; margin-right: ${prefixGap}; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: ${cv("text.secondary")}; }
-/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
-.input--action { justify-content: space-between; padding-right: ${prefixGap}; gap: ${prefixGap}; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
+.input.input--action { justify-content: space-between; padding-right: ${prefixGap}; gap: ${prefixGap}; }
 .input--action .input__stack { flex: 1; min-width: 0; }
 .input--action > .btn { flex-shrink: 0; }
 

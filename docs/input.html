@@ -112,8 +112,11 @@
 .input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
-.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
+.input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
 .input--action .input__stack { flex: 1; min-width: 0; }
 .input--action > .btn { flex-shrink: 0; }
 
@@ -230,8 +233,11 @@
 .input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
-.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
+.input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
 .input--action .input__stack { flex: 1; min-width: 0; }
 .input--action &gt; .btn { flex-shrink: 0; }
 
