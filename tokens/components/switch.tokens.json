@@ -18,14 +18,14 @@
       },
       "state": {
         "default": {
-          "track": { "$type": "color", "$value": "{surface.raised}" },
-          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
+          "track": { "$type": "color", "$value": "{outline.strong}" },
+          "thumb": { "$type": "color", "$value": "{color.base.secondary}" },
           "label": { "$type": "color", "$value": "{text.default}" },
-          "$description": "Off, at rest — border.default as a solid fill (gray.200), not an outline. White thumb sits on the left."
+          "$description": "Off, at rest — the track is a solid surface-6 (outline.strong) fill, chosen so the off switch reads clearly on any surface (page/card/raised) rather than blending into one of them. Thumb is a light grey (base.secondary) circle sitting on the left."
         },
         "hover": {
-          "track": { "$type": "color", "$value": "{outline.strong}" },
-          "$description": "Off+hover darkens one gray step (border.strong) — unlike Checkbox/Radio's hollow box, the track is already a sizeable filled area at rest, so a plain gray-darken reads clearly here (the 'too weak a cue' problem was specific to a 2px hairline, not a full fill)."
+          "overlay": { "$type": "color", "$value": "{lighten.2}" },
+          "$description": "A 12% lighten layer over the track (off: over surface-6, on: over the active fill) — the sportsbook hover overlay, same as Search/Tabs, applied to whichever base the track currently has."
         },
         "focused": {
           "ringColor": { "$type": "color", "$value": "{outline.accent}" },
@@ -35,12 +35,12 @@
         },
         "checked": {
           "track": { "$type": "color", "$value": "{fill.active}" },
-          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
-          "$description": "Track fills fill.primary (blue.500, same brand blue as checked Checkbox/Radio), thumb stays white and slides to the right."
+          "thumb": { "$type": "color", "$value": "{color.white}" },
+          "$description": "Track fills fill.active (the brand active colour), and the thumb turns white and slides to the right — the white thumb pops off the active fill, where the light-grey off thumb would be too quiet."
         },
         "checkedHover": {
-          "track": { "$type": "color", "$value": "{fill.activeHover}" },
-          "$description": "fill.activeHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover already use."
+          "overlay": { "$type": "color", "$value": "{lighten.2}" },
+          "$description": "Same 12% lighten layer as the off hover, here over the active fill — hovers are a consistent lighten overlay across states, not a separate darken token."
         },
         "disabled": {
           "track": { "$type": "color", "$value": "{fill.disabled}" },

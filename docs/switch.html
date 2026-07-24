@@ -70,33 +70,31 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-card: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
   --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
-  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-surface-raised: #282E3E;
-  --tok-color-base-contrast: #FFFFFF;
+  --tok-color-base-secondary: #8E929F;
+  --tok-color-white: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .switch:has(.switch__input:disabled) { opacity: 0.5; }
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-surface-raised); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-white); transform: translateX(0); }
+.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background-color: var(--tok-outline-strong); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-base-secondary); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.switch:hover .switch__track { background: var(--tok-outline-strong); }
+/* hover adds a 12% lighten LAYER over the current track fill (off: surface-6, on: active) — background-color stays, lighten.2 composites on top */
+.switch:hover .switch__input:not(:disabled) ~ .switch__track { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
-.switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
-.switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
-.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
-.switch__input:disabled ~ .switch__track { background: var(--tok-fill-disabled); cursor: not-allowed; }
+.switch__input:checked ~ .switch__track { background-color: var(--tok-fill-active); }
+.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-color-white); transform: translateX(16px); }
+.switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }
 </style>
@@ -148,7 +146,7 @@
     <div class="legend">
       <div class="row"><b>Native input</b><span>A real <code class="tok">&lt;input type="checkbox"&gt;</code> stays in the DOM, visually hidden (clip-rect, not display:none) — keyboard/forms/screen-readers work for free, same approach as <a href="checkbox.html">Checkbox</a>/<a href="radio.html">Radio</a>.</span></div>
       <div class="row"><b>Single size</b><span>36×20px track, 16px thumb, 2px inset on every side — no sm/base/lg grid, same rationale as Checkbox/Radio.</span></div>
-      <div class="row"><b>Always filled</b><span>Unlike Checkbox/Radio, the track is a solid fill even when off (border.default) — every reference checked (Radix/MUI/Ant/iOS) draws it this way, since the track itself is the whole affordance, not just an outline.</span></div>
+      <div class="row"><b>Always filled</b><span>Unlike Checkbox/Radio, the track is a solid fill even when off (surface-6) — every reference checked (Radix/MUI/Ant/iOS) draws it this way, since the track itself is the whole affordance, not just an outline.</span></div>
       <div class="row"><b>No indeterminate</b><span>Checkbox-specific tri-state concept — no switch equivalent.</span></div>
       <div class="row"><b>No shadow on the thumb</b><span>Flat white circle, no drop shadow — consistent with the rest of this system having no shadow/elevation token; contrast against the track color alone provides definition.</span></div>
       <div class="row"><b>States</b><span>default / hover / focused / checked / checked+hover / disabled / disabled+checked. No error state — not asked for.</span></div>
@@ -156,33 +154,31 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-card: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
   --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
-  --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-surface-raised: #282E3E;
-  --tok-color-base-contrast: #FFFFFF;
+  --tok-color-base-secondary: #8E929F;
+  --tok-color-white: #FFFFFF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
 .switch:has(.switch__input:disabled) { opacity: 0.5; }
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background: var(--tok-surface-raised); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-white); transform: translateX(0); }
+.switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background-color: var(--tok-outline-strong); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-base-secondary); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
-.switch:hover .switch__track { background: var(--tok-outline-strong); }
+/* hover adds a 12% lighten LAYER over the current track fill (off: surface-6, on: active) — background-color stays, lighten.2 composites on top */
+.switch:hover .switch__input:not(:disabled) ~ .switch__track { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
-.switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
-.switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
-.switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
-.switch__input:disabled ~ .switch__track { background: var(--tok-fill-disabled); cursor: not-allowed; }
+.switch__input:checked ~ .switch__track { background-color: var(--tok-fill-active); }
+.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-color-white); transform: translateX(16px); }
+.switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }</code></pre>
 
@@ -202,22 +198,22 @@
     &lt;span class="switch__track"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">Off, at rest — border.default as a solid track fill, not an outline.</p>
+        <p class="story-note">Off, at rest — the track is a solid surface-6 (outline.strong) fill (reads on any surface), with a light-grey (base.secondary) thumb on the left.</p>
       </div>
 
       <div class="story">
         <h3>hover</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-1" />
-    <span class="switch__track" style="background:var(--tok-outline-strong)"><span class="switch__thumb"></span></span>
+    <span class="switch__track" style="background-image:linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2))"><span class="switch__thumb"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-1" /&gt;
-    &lt;span class="switch__track" style="background:var(--tok-outline-strong)"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="background-image:linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2))"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">outline.strong — a plain gray-darken reads fine here since the track is already a sizeable filled area, unlike Checkbox/Radio's hairline border.</p>
+        <p class="story-note">Adds a 12% lighten layer over the surface-6 track (the sportsbook hover overlay, same as Search/Tabs) — not a colour swap.</p>
       </div>
 
       <div class="story">
@@ -247,22 +243,22 @@
     &lt;span class="switch__track"&gt;&lt;span class="switch__thumb" style="transform:translateX(16px)"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">Track fills fill.primary (blue.500), thumb slides right via transform.</p>
+        <p class="story-note">Track fills fill.active (the brand active colour); the thumb turns white and slides right via transform.</p>
       </div>
 
       <div class="story">
         <h3>checked + hover</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-4" checked />
-    <span class="switch__track" style="background:var(--tok-fill-active-hover)"><span class="switch__thumb" style="transform:translateX(16px)"></span></span>
+    <span class="switch__track" style="background-image:linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2))"><span class="switch__thumb" style="transform:translateX(16px)"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-4" checked /&gt;
-    &lt;span class="switch__track" style="background:var(--tok-fill-active-hover)"&gt;&lt;span class="switch__thumb" style="transform:translateX(16px)"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="background-image:linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2))"&gt;&lt;span class="switch__thumb" style="transform:translateX(16px)"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
-        <p class="story-note">fill.activeHover (blue.600) — same darken-on-hover pair Button primary and Checkbox/Radio's own checked+hover use.</p>
+        <p class="story-note">The same 12% lighten layer as the off hover, here over the active fill — hovers are a consistent lighten overlay across states.</p>
       </div>
 
       <div class="story">
