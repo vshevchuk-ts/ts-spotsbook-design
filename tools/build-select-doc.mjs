@@ -59,8 +59,8 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "surface.raised", "surface.page", "surface.disabled", "outline.default", "outline.strong", "outline.active", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.active", "icon.default", "icon.disabled",
+  "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.accent", "outline.negative",
+  "text.secondary", "text.default", "text.disabled", "text.negative", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -84,9 +84,14 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   }
   return base;
 });
+const errorTextSize = px(resolve("{size.sm}"));
+const errorGap = px(resolve("{spacing.1}"));
+// keyboard-focus ring (:focus-visible), accent, same additive treatment as Input/Button
+const ringWidth = px(resolve(select.state.focused.ringWidth.$value));
+const ringOffset = px(resolve(select.state.focused.ringOffset.$value));
+const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.accent")};`;
 
 const iconChevron = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
-const iconSearch = fs.readFileSync(path.join(root, "assets/icons/ui/search.svg"), "utf8").replace("<svg ", '<svg class="select__icon" ');
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -94,30 +99,27 @@ function typoCss(t) {
 
 const css = `${rootVars}
 
-.select--disabled { opacity: 0.5; }
 .select {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("surface.raised")};
-  border: 1px solid ${cv("outline.default")};
+  background: ${cv("surface.page")};
+  border: 1px solid ${cv("outline.strong")};
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
   cursor: pointer;
 }
-.select__icon { flex-shrink: 0; color: ${cv("icon.default")}; }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; transition: transform 0.12s ease; }
 .select__placeholder { color: ${cv("text.secondary")}; }
 .select__value { color: ${cv("text.default")}; }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: ${cv("text.secondary")}; }
-.select--outlined { background: ${cv("surface.page")}; border-color: ${cv("outline.strong")}; }
 
 ${sizes
   .map((s) => {
     const lines = [
       `.select--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; gap: ${px(s.gap)}; }`,
-      `.select--${s.key} .select__icon, .select--${s.key} .select__chevron { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`,
+      `.select--${s.key} .select__chevron { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`,
       `.select--${s.key} .select__placeholder, .select--${s.key} .select__value { ${typoCss(s.value)} }`,
     ];
     if (s.label) {
@@ -128,23 +130,35 @@ ${sizes
   })
   .join("\n\n")}
 
-.select:not(.select--disabled):hover, .select--hover { border-color: ${cv("outline.strong")}; }
-.select--focus { border-color: ${cv("outline.active")}; }
-.select--focus .select__label { color: ${cv("text.active")}; }
-.select--disabled { background: ${cv("surface.disabled")}; cursor: not-allowed; }
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: ${cv("outline.active")}; }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: ${cv("outline.active")}; ${ringShadow} }
+.select--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: ${cv("text.disabled")}; }
-.select--disabled .select__icon, .select--disabled .select__chevron { color: ${cv("icon.disabled")}; }
-.select--error { border-color: ${cv("outline.negative")}; }`;
+.select--disabled .select__chevron { color: ${cv("icon.disabled")}; }
+.select--error { border-color: ${cv("outline.negative")}; }
+.select-field { display: inline-flex; flex-direction: column; gap: ${errorGap}; }
+.select__error { color: ${cv("text.negative")}; font-family: ${cv("family.sans")}; font-size: ${errorTextSize}; line-height: 1.4; }`;
 
-function restingMarkup(size, { icon = false, placeholder = "Country", live = true } = {}) {
-  const ic = icon ? (live ? iconSearch : `<svg class="select__icon"><!-- icon: search --></svg>`) : "";
-  const chev = live ? iconChevron : `<svg class="select__chevron"><!-- icon: expand_more --></svg>`;
-  return `<div class="select select--${size}">${ic}<span class="select__placeholder">${placeholder}</span>${chev}</div>`;
+const chevron = (live) => (live ? iconChevron : `<svg class="select__chevron"><!-- icon: chevron --></svg>`);
+function restingMarkup(size, { placeholder = "Select", live = true } = {}) {
+  return `<div class="select select--${size}"><span class="select__placeholder">${placeholder}</span>${chevron(live)}</div>`;
 }
-function floatedMarkup(size, { icon = false, label = "Country", value = "", live = true } = {}) {
-  const ic = icon ? (live ? iconSearch : `<svg class="select__icon"><!-- icon: search --></svg>`) : "";
-  const chev = live ? iconChevron : `<svg class="select__chevron"><!-- icon: expand_more --></svg>`;
-  return `<div class="select select--${size}">${ic}<div class="select__stack"><span class="select__label">${label}</span><span class="select__value">${value}</span></div>${chev}</div>`;
+// single-line filled trigger (sm — no floating label, chosen value shown directly)
+function filledMarkup(size, { value = "Last Added", live = true } = {}) {
+  return `<div class="select select--${size}"><span class="select__value">${value}</span>${chevron(live)}</div>`;
+}
+function floatedMarkup(size, { label = "Sort by", value = "Last Added", cls = "", live = true } = {}) {
+  return `<div class="select select--${size}${cls}"><div class="select__stack"><span class="select__label">${label}</span><span class="select__value">${value}</span></div>${chevron(live)}</div>`;
+}
+// error state wraps the trigger with a helper line below it
+function errorMarkup(size, { label = "Sort by", value = "Last Added", message = "Please choose a value", live = true } = {}) {
+  const field = floatedMarkup(size, { label, value, live }).replace('class="select select--' + size + '"', 'class="select select--' + size + ' select--error"');
+  return `<div class="select-field">${field}<span class="select__error">${message}</span></div>`;
 }
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
@@ -160,30 +174,22 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 function sizeStories() {
   return sizes
     .map((s) => {
-      const live = s.key === "sm" ? restingMarkup(s.key, { live: true }) : floatedMarkup(s.key, { value: "Ukraine", live: true });
-      const code = s.key === "sm" ? restingMarkup(s.key, { live: false }) : floatedMarkup(s.key, { value: "Ukraine", live: false });
-      return storyCard(`${s.key} — ${px(s.height)}`, live, code);
+      // sm has no floating label — show it with a chosen value too (single-line),
+      // so every size in the row reads as "has a selection".
+      const mk = (live) => (s.key === "sm" ? filledMarkup(s.key, { live }) : floatedMarkup(s.key, { live }));
+      return storyCard(`${s.key} — ${px(s.height)}`, mk(true), mk(false));
     })
     .join("\n");
 }
-function contentStories() {
-  const items = [];
-  for (const withIcon of [false, true]) {
-    const title = withIcon ? "Icon left + value" : "Value only";
-    const live = floatedMarkup("base", { icon: withIcon, value: "Ukraine", live: true });
-    const code = floatedMarkup("base", { icon: withIcon, value: "Ukraine", live: false });
-    items.push(storyCard(title, live, code));
-  }
-  return items.join("\n");
-}
 
 const stateDefs = [
-  { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused." },
-  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--hover"'), note: "outline.strong." },
-  { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="select select--base"', 'class="select select--base select--focus"'), note: "Trigger is focused (e.g. via keyboard) — label floats the same as input.state.focus." },
-  { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { value: "Ukraine", live }), note: "Has a chosen value, not focused — label stays floated, colors revert to default." },
-  { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--disabled"'), note: "surface.disabled equals surface.sunken — same pattern as input/secondary-button." },
-  { key: "error", label: "error", node: (live) => floatedMarkup("base", { value: "—", live }).replace('class="select select--base"', 'class="select select--base select--error"'), note: "e.g. a required field left unselected." },
+  { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — surface-0 fill + surface-6 hairline border, grey placeholder, grey chevron down." },
+  { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--hover"'), note: "Fills to surface-4 and drops the visible border — the trigger lifts into a solid filled look." },
+  { key: "active", label: "active", node: (live) => floatedMarkup("base", { cls: " select--active", live }), note: "Menu open: accent border, chevron flipped to point up (stays grey), chosen value shown. The floated label stays grey. No keyboard ring — that's the separate focused state." },
+  { key: "focused", label: "focused", node: (live) => floatedMarkup("base", { cls: " select--focused", live }), note: "Keyboard focus on the closed trigger (:focus-visible) — active border + an additive accent ring, chevron still down. A pointer open gives active (chevron up) without the ring." },
+  { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { live }), note: "Has a chosen value, not focused — label stays floated, colours revert to default." },
+  { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="select select--base"', 'class="select select--base select--disabled"'), note: "Swaps to surface.disabled and fades the text/chevron — same pattern as input/secondary-button." },
+  { key: "error", label: "error", node: (live) => errorMarkup("base", { live }), note: "Red border on the trigger (outline.negative) plus a red helper line below it — e.g. a required field left unselected." },
 ];
 function stateStories() {
   return stateDefs.map((s) => storyCard(s.label, s.node(true), s.node(false), s.note)).join("\n");
@@ -274,11 +280,11 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/select.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex. Documents the closed trigger only — the open menu/listbox isn't built yet.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a> — surface.sunken bg + border.default hairline.</span></div>
-      <div class="row"><b>Sizes</b><span>Identical grid to Input: sm 32px (no floating label) / base 40px / lg 48px, 16px value text throughout.</span></div>
-      <div class="row"><b>Chevron</b><span>Always present, right-aligned (margin-left: auto pushes it to the far edge regardless of value length) — unlike the optional icon-left, this isn't a content variant, every select has one.</span></div>
+      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a> — one fill: surface-0 (page) bg + surface-6 (outline.strong) hairline, lifting to a surface-4 filled look on hover.</span></div>
+      <div class="row"><b>Sizes</b><span>Identical grid to Input: sm 32px (no floating label) / base 40px / lg 48px, 16px value text throughout, 10px floated label.</span></div>
+      <div class="row"><b>Chevron</b><span>Always present, right-aligned, grey — flips to point up when active (the menu is open); the flip, not a colour change, is the open cue.</span></div>
       <div class="row"><b>Floating label</b><span>Same mechanics as Input — see <a href="input.html">input.html</a> for the full reasoning.</span></div>
-      <div class="row"><b>States</b><span>Same set as Input: default / hover / focus / populated / disabled / error.</span></div>
+      <div class="row"><b>States</b><span>Same set as Input: default / hover / active (open) / focused (keyboard ring) / populated / disabled / error.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -286,15 +292,9 @@ const html = `<!doctype html>
     <pre class="code"><code>${esc(css)}</code></pre>
 
     <h2 class="big-section">Sizes</h2>
-    <p class="section-desc">sm shows the resting layout. base/lg shown populated.</p>
+    <p class="section-desc">All three shown with a chosen value — sm as a single-line value (no floating label), base/lg with the value floated under the label.</p>
     <div class="story-grid">
       ${sizeStories()}
-    </div>
-
-    <h2 class="big-section">Content variants</h2>
-    <p class="section-desc">Base size, populated.</p>
-    <div class="story-grid">
-      ${contentStories()}
     </div>
 
     <h2 class="big-section">States</h2>

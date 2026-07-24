@@ -71,64 +71,68 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
+  --tok-outline-default: #282E3E;
   --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-outline-negative: #F90643;
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-active: #FB8C33;
+  --tok-text-negative: #F90643;
   --tok-icon-default: #8E929F;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.select--disabled { opacity: 0.5; }
 .select {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: pointer;
 }
-.select__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); transition: transform 0.12s ease; }
 .select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
-.select--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }
+.select--sm .select__chevron { width: 16px; height: 16px; }
 .select--sm .select__placeholder, .select--sm .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
 .select--base { height: 40px; padding: 0 12px; gap: 8px; }
-.select--base .select__icon, .select--base .select__chevron { width: 20px; height: 20px; }
+.select--base .select__chevron { width: 20px; height: 20px; }
 .select--base .select__placeholder, .select--base .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--base .select__stack { gap: 0px; }
-.select--base .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.select--base .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
 .select--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.select--lg .select__icon, .select--lg .select__chevron { width: 24px; height: 24px; }
+.select--lg .select__chevron { width: 24px; height: 24px; }
 .select--lg .select__placeholder, .select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--lg .select__stack { gap: 4px; }
-.select--lg .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-outline-strong); }
-.select--focus { border-color: var(--tok-outline-active); }
-.select--focus .select__label { color: var(--tok-text-active); }
-.select--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: var(--tok-outline-active); }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.select--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
-.select--disabled .select__icon, .select--disabled .select__chevron { color: var(--tok-icon-disabled); }
+.select--disabled .select__chevron { color: var(--tok-icon-disabled); }
 .select--error { border-color: var(--tok-outline-negative); }
+.select-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -176,146 +180,116 @@
     <p class="sub">tokens/components/select.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, not hand-copied. Colors are CSS custom properties, not literal hex. Documents the closed trigger only — the open menu/listbox isn't built yet.</p>
 
     <div class="legend">
-      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a> — surface.sunken bg + border.default hairline.</span></div>
-      <div class="row"><b>Sizes</b><span>Identical grid to Input: sm 32px (no floating label) / base 40px / lg 48px, 16px value text throughout.</span></div>
-      <div class="row"><b>Chevron</b><span>Always present, right-aligned (margin-left: auto pushes it to the far edge regardless of value length) — unlike the optional icon-left, this isn't a content variant, every select has one.</span></div>
+      <div class="row"><b>Fill + border</b><span>Same as <a href="input.html">Input</a> — one fill: surface-0 (page) bg + surface-6 (outline.strong) hairline, lifting to a surface-4 filled look on hover.</span></div>
+      <div class="row"><b>Sizes</b><span>Identical grid to Input: sm 32px (no floating label) / base 40px / lg 48px, 16px value text throughout, 10px floated label.</span></div>
+      <div class="row"><b>Chevron</b><span>Always present, right-aligned, grey — flips to point up when active (the menu is open); the flip, not a colour change, is the open cue.</span></div>
       <div class="row"><b>Floating label</b><span>Same mechanics as Input — see <a href="input.html">input.html</a> for the full reasoning.</span></div>
-      <div class="row"><b>States</b><span>Same set as Input: default / hover / focus / populated / disabled / error.</span></div>
+      <div class="row"><b>States</b><span>Same set as Input: default / hover / active (open) / focused (keyboard ring) / populated / disabled / error.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">Same structure as Input's stylesheet, plus <code class="tok">.select__chevron</code> — always rendered, pushed to the trailing edge.</p>
     <pre class="code"><code>:root {
-  --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
-  --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
+  --tok-outline-default: #282E3E;
   --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-outline-negative: #F90643;
   --tok-text-secondary: #8E929F;
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-text-active: #FB8C33;
+  --tok-text-negative: #F90643;
   --tok-icon-default: #8E929F;
   --tok-icon-disabled: #8E929F;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.select--disabled { opacity: 0.5; }
 .select {
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-surface-raised);
-  border: 1px solid var(--tok-outline-default);
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
   border-radius: 8px;
   font-family: var(--tok-family-sans);
   cursor: pointer;
 }
-.select__icon { flex-shrink: 0; color: var(--tok-icon-default); }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); transition: transform 0.12s ease; }
 .select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
-.select--outlined { background: var(--tok-surface-page); border-color: var(--tok-outline-strong); }
 
 .select--sm { height: 32px; padding: 0 8px; gap: 8px; }
-.select--sm .select__icon, .select--sm .select__chevron { width: 16px; height: 16px; }
+.select--sm .select__chevron { width: 16px; height: 16px; }
 .select--sm .select__placeholder, .select--sm .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
 .select--base { height: 40px; padding: 0 12px; gap: 8px; }
-.select--base .select__icon, .select--base .select__chevron { width: 20px; height: 20px; }
+.select--base .select__chevron { width: 20px; height: 20px; }
 .select--base .select__placeholder, .select--base .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--base .select__stack { gap: 0px; }
-.select--base .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.select--base .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
 .select--lg { height: 48px; padding: 0 16px; gap: 8px; }
-.select--lg .select__icon, .select--lg .select__chevron { width: 24px; height: 24px; }
+.select--lg .select__chevron { width: 24px; height: 24px; }
 .select--lg .select__placeholder, .select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--lg .select__stack { gap: 4px; }
-.select--lg .select__label { font-weight: 400; font-size: 12px; line-height: 1.2; }
+.select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.select:not(.select--disabled):hover, .select--hover { border-color: var(--tok-outline-strong); }
-.select--focus { border-color: var(--tok-outline-active); }
-.select--focus .select__label { color: var(--tok-text-active); }
-.select--disabled { background: var(--tok-surface-disabled); cursor: not-allowed; }
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: var(--tok-outline-active); }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.select--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
-.select--disabled .select__icon, .select--disabled .select__chevron { color: var(--tok-icon-disabled); }
-.select--error { border-color: var(--tok-outline-negative); }</code></pre>
+.select--disabled .select__chevron { color: var(--tok-icon-disabled); }
+.select--error { border-color: var(--tok-outline-negative); }
+.select-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
-    <p class="section-desc">sm shows the resting layout. base/lg shown populated.</p>
+    <p class="section-desc">All three shown with a chosen value — sm as a single-line value (no floating label), base/lg with the value floated under the label.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><div class="select select--sm"><span class="select__placeholder">Country</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--sm"><span class="select__value">Last Added</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--sm"&gt;&lt;span class="select__placeholder"&gt;Country&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <pre class="code"><code>&lt;div class="select select--sm"&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><div class="select select--base"><div class="select__stack"><span class="select__label">Country</span><span class="select__value">Ukraine</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--base"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;Ukraine&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><div class="select select--lg"><div class="select__stack"><span class="select__label">Country</span><span class="select__value">Ukraine</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--lg"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--lg"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;Ukraine&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        
-      </div>
-    </div>
-
-    <h2 class="big-section">Content variants</h2>
-    <p class="section-desc">Base size, populated.</p>
-    <div class="story-grid">
-      
-      <div class="story">
-        <h3>Value only</h3>
-        <div class="story-preview"><div class="select select--base"><div class="select__stack"><span class="select__label">Country</span><span class="select__value">Ukraine</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
-</g>
-</svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;Ukraine&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        
-      </div>
-
-      <div class="story">
-        <h3>Icon left + value</h3>
-        <div class="story-preview"><div class="select select--base"><svg class="select__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M12.9167 11.6667H12.2583L12.025 11.4417C12.8417 10.4917 13.3333 9.25833 13.3333 7.91667C13.3333 4.925 10.9083 2.5 7.91667 2.5C4.925 2.5 2.5 4.925 2.5 7.91667C2.5 10.9083 4.925 13.3333 7.91667 13.3333C9.25833 13.3333 10.4917 12.8417 11.4417 12.025L11.6667 12.2583V12.9167L15.8333 17.075L17.075 15.8333L12.9167 11.6667ZM7.91667 11.6667C5.84167 11.6667 4.16667 9.99167 4.16667 7.91667C4.16667 5.84167 5.84167 4.16667 7.91667 4.16667C9.99167 4.16667 11.6667 5.84167 11.6667 7.91667C11.6667 9.99167 9.99167 11.6667 7.91667 11.6667Z" fill="currentColor"/>
-</g>
-</svg>
-<div class="select__stack"><span class="select__label">Country</span><span class="select__value">Ukraine</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
-</g>
-</svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;svg class="select__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;Ukraine&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <pre class="code"><code>&lt;div class="select select--lg"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
         
       </div>
     </div>
@@ -326,74 +300,86 @@
       
       <div class="story">
         <h3>default</h3>
-        <div class="story-preview"><div class="select select--base"><span class="select__placeholder">Country</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--base"><span class="select__placeholder">Select</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;span class="select__placeholder"&gt;Country&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Empty, not focused.</p>
+        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;span class="select__placeholder"&gt;Select&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Empty, not focused — surface-0 fill + surface-6 hairline border, grey placeholder, grey chevron down.</p>
       </div>
 
       <div class="story">
         <h3>hover</h3>
-        <div class="story-preview"><div class="select select--base select--hover"><span class="select__placeholder">Country</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--base select--hover"><span class="select__placeholder">Select</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base select--hover"&gt;&lt;span class="select__placeholder"&gt;Country&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">outline.strong.</p>
+        <pre class="code"><code>&lt;div class="select select--base select--hover"&gt;&lt;span class="select__placeholder"&gt;Select&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Fills to surface-4 and drops the visible border — the trigger lifts into a solid filled look.</p>
       </div>
 
       <div class="story">
-        <h3>focus</h3>
-        <div class="story-preview"><div class="select select--base select--focus"><div class="select__stack"><span class="select__label">Country</span><span class="select__value"></span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <h3>active</h3>
+        <div class="story-preview"><div class="select select--base select--active"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base select--focus"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Trigger is focused (e.g. via keyboard) — label floats the same as input.state.focus.</p>
+        <pre class="code"><code>&lt;div class="select select--base select--active"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Menu open: accent border, chevron flipped to point up (stays grey), chosen value shown. The floated label stays grey. No keyboard ring — that's the separate focused state.</p>
+      </div>
+
+      <div class="story">
+        <h3>focused</h3>
+        <div class="story-preview"><div class="select select--base select--focused"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
+</g>
+</svg>
+</div></div>
+        <pre class="code"><code>&lt;div class="select select--base select--focused"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Keyboard focus on the closed trigger (:focus-visible) — active border + an additive accent ring, chevron still down. A pointer open gives active (chevron up) without the ring.</p>
       </div>
 
       <div class="story">
         <h3>populated</h3>
-        <div class="story-preview"><div class="select select--base"><div class="select__stack"><span class="select__label">Country</span><span class="select__value">Ukraine</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--base"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;Ukraine&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Has a chosen value, not focused — label stays floated, colors revert to default.</p>
+        <pre class="code"><code>&lt;div class="select select--base"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Has a chosen value, not focused — label stays floated, colours revert to default.</p>
       </div>
 
       <div class="story">
         <h3>disabled</h3>
-        <div class="story-preview"><div class="select select--base select--disabled"><span class="select__placeholder">Country</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select select--base select--disabled"><span class="select__placeholder">Select</span><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
 </div></div>
-        <pre class="code"><code>&lt;div class="select select--base select--disabled"&gt;&lt;span class="select__placeholder"&gt;Country&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">surface.disabled equals surface.sunken — same pattern as input/secondary-button.</p>
+        <pre class="code"><code>&lt;div class="select select--base select--disabled"&gt;&lt;span class="select__placeholder"&gt;Select&lt;/span&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Swaps to surface.disabled and fades the text/chevron — same pattern as input/secondary-button.</p>
       </div>
 
       <div class="story">
         <h3>error</h3>
-        <div class="story-preview"><div class="select select--base select--error"><div class="select__stack"><span class="select__label">Country</span><span class="select__value">—</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="story-preview"><div class="select-field"><div class="select select--base select--error"><div class="select__stack"><span class="select__label">Sort by</span><span class="select__value">Last Added</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/>
 </g>
 </svg>
-</div></div>
-        <pre class="code"><code>&lt;div class="select select--base select--error"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Country&lt;/span&gt;&lt;span class="select__value"&gt;—&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: expand_more --&gt;&lt;/svg&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">e.g. a required field left unselected.</p>
+</div><span class="select__error">Please choose a value</span></div></div>
+        <pre class="code"><code>&lt;div class="select-field"&gt;&lt;div class="select select--base select--error"&gt;&lt;div class="select__stack"&gt;&lt;span class="select__label"&gt;Sort by&lt;/span&gt;&lt;span class="select__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;svg class="select__chevron"&gt;&lt;!-- icon: chevron --&gt;&lt;/svg&gt;&lt;/div&gt;&lt;span class="select__error"&gt;Please choose a value&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Red border on the trigger (outline.negative) plus a red helper line below it — e.g. a required field left unselected.</p>
       </div>
     </div>
 

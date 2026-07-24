@@ -1,7 +1,7 @@
 {
   "component": {
     "select": {
-      "$description": "Closed dropdown trigger — same box model as component.input (sm has no floating label; base/lg float a 12px label above the 16px selected-value once a choice is made or the trigger is focused). Always shows a trailing chevron; open-menu/listbox styling is out of scope here — deferred the same way a standalone counter or z-index-aware floating UI was deferred, until a real need to actually open something exists.",
+      "$description": "Closed dropdown trigger — same box model as component.input: one fill (surface-0 page background + a surface-6 hairline border), lifting to a surface-4 filled look on hover. base/lg float a 10px label above the 16px selected value; sm has no floating label (shows the value single-line). Always shows a trailing chevron that flips to point up when active (the menu is open). The open menu/listbox itself is out of scope; this documents the trigger.",
       "radius": { "$type": "dimension", "$value": "{radius.default}" },
       "size": {
         "sm": {
@@ -26,7 +26,7 @@
           },
           "label": {
             "$type": "typography",
-            "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.sm}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
+            "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.xs}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
           }
         },
         "lg": {
@@ -41,30 +41,37 @@
           },
           "label": {
             "$type": "typography",
-            "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.sm}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
+            "$value": { "fontFamily": "{family.sans}", "fontWeight": "{weight.normal}", "fontSize": "{size.xs}", "lineHeight": "{leading.tight}", "letterSpacing": "{tracking.normal}" }
           }
         },
-        "$description": "Identical to component.input.size — same reasoning, see that token's own $description."
+        "$description": "Identical to component.input.size — same reasoning, see that token's own $description. iconSize drives the chevron."
       },
       "state": {
         "default": {
-          "bg": { "$type": "color", "$value": "{surface.raised}" },
-          "border": { "$type": "color", "$value": "{outline.default}" },
+          "$description": "Empty, not focused. surface.page (surface-0) fill + outline.strong (surface-6) hairline border, grey placeholder, grey chevron pointing down.",
+          "bg": { "$type": "color", "$value": "{surface.page}" },
+          "border": { "$type": "color", "$value": "{outline.strong}" },
           "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
-          "icon": { "$type": "color", "$value": "{icon.default}" },
           "chevron": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "border": { "$type": "color", "$value": "{outline.strong}" }
+          "$description": "Fills to the raised surface (surface-4) with the border blended in — the trigger lifts into a solid filled look, same move as input.state.hover.",
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
+          "border": { "$type": "color", "$value": "{surface.raised}" }
         },
-        "focus": {
-          "border": { "$type": "color", "$value": "{outline.active}" },
-          "label": { "$type": "color", "$value": "{text.active}" },
-          "$description": "Same as input.state.focus — keyboard focus on the trigger, before/without the menu necessarily being open."
+        "active": {
+          "$description": "The menu is open. Fill stays surface-0; the border turns the active accent (outline.active) and the chevron flips to point up (still grey — the flip, not a colour change, signals open). The floating label stays grey. Distinct from 'focused', the keyboard-focus ring.",
+          "border": { "$type": "color", "$value": "{outline.active}" }
+        },
+        "focused": {
+          "ringColor": { "$type": "color", "$value": "{outline.accent}" },
+          "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+          "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
+          "$description": "Keyboard focus (:focus-visible) on the closed trigger — the active border plus an additive accent ring, the same focus indicator used on Button/Input/etc. The chevron stays down (the menu isn't open yet)."
         },
         "populated": {
-          "$description": "Has a chosen value — label stays floated, colors revert to default.",
+          "$description": "Has a chosen value, not focused — label stays floated, colours revert to default.",
           "label": { "$type": "color", "$value": "{text.secondary}" }
         },
         "disabled": {
@@ -72,12 +79,13 @@
           "border": { "$type": "color", "$value": "{outline.default}" },
           "placeholder": { "$type": "color", "$value": "{text.disabled}" },
           "value": { "$type": "color", "$value": "{text.disabled}" },
-          "icon": { "$type": "color", "$value": "{icon.disabled}" },
           "chevron": { "$type": "color", "$value": "{icon.disabled}" },
           "label": { "$type": "color", "$value": "{text.disabled}" }
         },
         "error": {
-          "border": { "$type": "color", "$value": "{outline.negative}" }
+          "border": { "$type": "color", "$value": "{outline.negative}" },
+          "text": { "$type": "color", "$value": "{text.negative}" },
+          "$description": "Red border on the trigger (outline.negative) plus a red helper/error line below it (text.negative) — e.g. a required field left unselected."
         }
       }
     }
