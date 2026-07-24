@@ -55,10 +55,16 @@
           "bg": { "$type": "color", "$value": "{surface.raised}" },
           "border": { "$type": "color", "$value": "{surface.raised}" }
         },
-        "focus": {
+        "active": {
           "border": { "$type": "color", "$value": "{outline.active}" },
           "label": { "$type": "color", "$value": "{text.active}" },
-          "$description": "Fill stays surface-0; the border turns brand-blue (outline.active) and the floating label (base/lg only) turns blue too — reverts to text.secondary once blurred, even if still populated, so blue always means 'this is the active field', not 'this field has a value'."
+          "$description": "The field is being edited (pointer/click focus). Fill stays surface-0; the border turns brand-blue (outline.active), the floating label turns blue, and a blue text caret blinks in the value. This is the editing highlight — distinct from 'focused', the keyboard-focus ring. Reverts to text.secondary once blurred, so blue always means 'this is the active field', not 'this field has a value'."
+        },
+        "focused": {
+          "ringColor": { "$type": "color", "$value": "{outline.active}" },
+          "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
+          "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
+          "$description": "Keyboard focus (:focus-visible) — the active look plus an additive brand-blue ring offset from the field, the same focus indicator used on Button/Checkbox/etc. Composes on top of the active border/label; a mouse click gives the active state without the ring."
         },
         "populated": {
           "$description": "Has a value, not focused — the base/lg floating label stays up (that's a layout state, not a color one) but every color reverts to default. Named 'populated' rather than 'filled' to avoid colliding with the unrelated fill.* token family.",

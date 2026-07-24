@@ -86,6 +86,12 @@ const sizes = ["sm", "base", "lg"].map((key) => {
 });
 const errorTextSize = px(resolve("{size.sm}"));
 const errorGap = px(resolve("{spacing.1}"));
+// keyboard-focus ring (:focus-visible), same additive treatment as Button.
+// var(--bg-card) is the docs surface the field sits on — the ring's inner gap
+// must match whatever surface the field is placed on, inherently contextual.
+const ringWidth = px(resolve(input.state.focused.ringWidth.$value));
+const ringOffset = px(resolve(input.state.focused.ringOffset.$value));
+const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.active")};`;
 
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
@@ -123,9 +129,16 @@ ${sizes
   })
   .join("\n\n")}
 
-.input:not(.input--disabled):hover, .input--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
-.input--focus { border-color: ${cv("outline.active")}; }
-.input--focus .input__label { color: ${cv("text.active")}; }
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
+/* active = pointer/editing focus: blue border + blue label + blinking caret */
+.input--active { border-color: ${cv("outline.active")}; }
+.input--active .input__label { color: ${cv("text.active")}; }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: ${cv("outline.active")}; ${ringShadow} }
+.input--focused .input__label { color: ${cv("text.active")}; }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: ${cv("text.active")}; animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 .input--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: ${cv("text.disabled")}; }
 .input--error { border-color: ${cv("outline.negative")}; }
@@ -136,8 +149,9 @@ ${sizes
 function restingMarkup(size, { placeholder = "Enter", live = true } = {}) {
   return `<div class="input input--${size}"><span class="input__placeholder">${placeholder}</span></div>`;
 }
-function floatedMarkup(size, { label = "Sort by", value = "Last Added", live = true } = {}) {
-  return `<div class="input input--${size}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${value}</span></div></div>`;
+function floatedMarkup(size, { label = "Sort by", value = "Last Added", caret = false, cls = "", live = true } = {}) {
+  const car = caret ? `<span class="input__caret"></span>` : "";
+  return `<div class="input input--${size}${cls}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${value}${car}</span></div></div>`;
 }
 // error state wraps the field with a helper line below it
 function errorMarkup(size, { label = "Sort by", value = "Last Added", message = "Error text", live = true } = {}) {
@@ -168,7 +182,8 @@ function sizeStories() {
 const stateDefs = [
   { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — surface-0 fill + surface-6 hairline border, placeholder centered at value size (16px), no floated label yet." },
   { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "Fills to surface-4 and drops the visible border — the field lifts into a solid filled look on hover." },
-  { key: "focus", label: "focus", node: (live) => floatedMarkup("base", { value: "", live }).replace('class="input input--base"', 'class="input input--base input--focus"'), note: "Fill stays surface-0, border turns brand-blue, and the placeholder has already floated into the (blue) label — value area starts empty, ready to type." },
+  { key: "active", label: "active", node: (live) => floatedMarkup("base", { value: "Last Ad", caret: true, cls: " input--active", live }), note: "Being edited (pointer/click focus): fill stays surface-0, border + floated label turn brand-blue, and a blue caret blinks in the value as text is typed. No keyboard ring — that's the separate focused state." },
+  { key: "focused", label: "focused", node: (live) => floatedMarkup("base", { value: "Last Ad", caret: true, cls: " input--focused", live }), note: "Keyboard focus (:focus-visible) — the active look plus an additive blue ring, the same a11y focus indicator used across Button/Checkbox/etc. A mouse click gives active without the ring." },
   { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { live }), note: "Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default." },
   { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--disabled"'), note: "Swaps to surface.disabled and fades the text — same pattern as the secondary button's disabled state." },
   { key: "error", label: "error", node: (live) => errorMarkup("base", { live }), note: "Red border on the field (outline.negative) plus a red helper line below it (text.negative)." },
@@ -267,7 +282,7 @@ const html = `<!doctype html>
       <div class="row"><b>Fill + border</b><span>One fill: surface-0 (page) background + a surface-6 (outline.strong) hairline border, so the field reads as recessed into the page. On hover it fills to surface-4 and the border blends away — lifting into a solid filled look.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px (no floating label) / base 40px (default) / lg 48px. Value/placeholder text is 16px at every size — Safari on iOS auto-zooms the page on focus if it's smaller.</span></div>
       <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 10px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
-      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · focus → blue border + blue label · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
+      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · active → blue border + blue label + blinking caret (being edited) · focused → active + a keyboard-focus ring (:focus-visible, matches Button/Checkbox) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>

@@ -116,9 +116,16 @@
 .input--lg .input__stack { gap: 4px; }
 .input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
-.input--focus { border-color: var(--tok-outline-active); }
-.input--focus .input__label { color: var(--tok-text-active); }
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = pointer/editing focus: blue border + blue label + blinking caret */
+.input--active { border-color: var(--tok-outline-active); }
+.input--active .input__label { color: var(--tok-text-active); }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
+.input--focused .input__label { color: var(--tok-text-active); }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 .input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
 .input--error { border-color: var(--tok-outline-negative); }
@@ -174,7 +181,7 @@
       <div class="row"><b>Fill + border</b><span>One fill: surface-0 (page) background + a surface-6 (outline.strong) hairline border, so the field reads as recessed into the page. On hover it fills to surface-4 and the border blends away — lifting into a solid filled look.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px (no floating label) / base 40px (default) / lg 48px. Value/placeholder text is 16px at every size — Safari on iOS auto-zooms the page on focus if it's smaller.</span></div>
       <div class="row"><b>Floating label</b><span>base/lg only. Resting (empty, unfocused): one centered 16px placeholder line. Focused or populated: splits into a 10px label above the 16px value, vertically centered as a group via flexbox rather than hand-computed padding.</span></div>
-      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · focus → blue border + blue label · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
+      <div class="row"><b>States</b><span>default → surface-0 + surface-6 border · hover → fills to surface-4, borderless · active → blue border + blue label + blinking caret (being edited) · focused → active + a keyboard-focus ring (:focus-visible, matches Button/Checkbox) · populated → colors revert to default, only the layout (label floated) persists · disabled → surface.disabled + faded text · error → red border + red helper line below.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -223,9 +230,16 @@
 .input--lg .input__stack { gap: 4px; }
 .input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
-.input:not(.input--disabled):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
-.input--focus { border-color: var(--tok-outline-active); }
-.input--focus .input__label { color: var(--tok-text-active); }
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = pointer/editing focus: blue border + blue label + blinking caret */
+.input--active { border-color: var(--tok-outline-active); }
+.input--active .input__label { color: var(--tok-text-active); }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
+.input--focused .input__label { color: var(--tok-text-active); }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 .input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
 .input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
 .input--error { border-color: var(--tok-outline-negative); }
@@ -277,10 +291,17 @@
       </div>
 
       <div class="story">
-        <h3>focus</h3>
-        <div class="story-preview"><div class="input input--base input--focus"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value"></span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--focus"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Fill stays surface-0, border turns brand-blue, and the placeholder has already floated into the (blue) label — value area starts empty, ready to type.</p>
+        <h3>active</h3>
+        <div class="story-preview"><div class="input input--base input--active"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Ad<span class="input__caret"></span></span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--active"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Ad&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Being edited (pointer/click focus): fill stays surface-0, border + floated label turn brand-blue, and a blue caret blinks in the value as text is typed. No keyboard ring — that's the separate focused state.</p>
+      </div>
+
+      <div class="story">
+        <h3>focused</h3>
+        <div class="story-preview"><div class="input input--base input--focused"><div class="input__stack"><span class="input__label">Sort by</span><span class="input__value">Last Ad<span class="input__caret"></span></span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--focused"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Sort by&lt;/span&gt;&lt;span class="input__value"&gt;Last Ad&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <p class="story-note">Keyboard focus (:focus-visible) — the active look plus an additive blue ring, the same a11y focus indicator used across Button/Checkbox/etc. A mouse click gives active without the ring.</p>
       </div>
 
       <div class="story">
