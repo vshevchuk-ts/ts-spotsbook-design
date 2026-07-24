@@ -59,7 +59,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const colorPaths = [
-  "fill.neutral", "fill.neutralHover", "surface.disabled", "outline.active", "lighten.2",
+  "surface.raised", "surface.disabled", "outline.active", "lighten.2",
   "text.secondary", "text.default", "text.disabled", "icon.default", "icon.disabled",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -98,7 +98,7 @@ const css = `${rootVars}
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: ${cv("fill.neutral")};
+  background-color: ${cv("surface.raised")};
   border: 1px solid transparent;
   border-radius: ${fieldRadius};
   font-family: ${cv("family.sans")};
@@ -119,8 +119,8 @@ ${sizes
   )
   .join("\n\n")}
 
-/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
-.search:not(.search--disabled):hover, .search--hover { background: ${cv("fill.neutralHover")}; }
+/* hover adds a 12% lighten LAYER over the surface-4 fill (background-color stays surface-4, a translucent lighten.2 image composites on top) — not a border, not a baked colour */
+.search:not(.search--disabled):hover, .search--hover { background-image: linear-gradient(${cv("lighten.2")}, ${cv("lighten.2")}); }
 .search--focus { border-color: ${cv("outline.active")}; }
 .search--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: ${cv("text.disabled")}; }
@@ -153,7 +153,7 @@ function sizeStories() {
 
 const stateDefs = [
   { key: "default", label: "default", value: "", note: "Empty, not focused — filled neutral (surface-4), no border, placeholder visible." },
-  { key: "hover", label: "hover", value: "", note: "Adds the 12% lighten wash on the fill (fill.neutralHover) — same hover move as the neutral/ghost Button, not a border change. Hover the live field to see it." },
+  { key: "hover", label: "hover", value: "", note: "Adds a 12% lighten layer over the surface-4 fill (the fill stays surface-4; a translucent lighten.2 composites on top) — the sportsbook hover overlay, not a border change. Hover the live field to see it." },
   { key: "focus", label: "focus", value: "", note: "A border appears (outline.active); the placeholder vanishes the instant the field is focused, at every size — the value area just starts empty." },
   { key: "populated", label: "populated (with clear)", value: "Football", note: "Once there's a value, the clear (×) ghost button appears at the trailing edge. Hover it: it fills with the lighten wash and the × turns white — a ghost icon button, not the blue-on-hover from the mockup." },
   { key: "disabled", label: "disabled", value: "", note: "surface.disabled + faded text/icon — same recurring pattern as input/select/secondary-button." },
@@ -248,7 +248,7 @@ const html = `<!doctype html>
 
     <div class="legend">
       <div class="row"><b>Fill</b><span>A <strong>filled</strong> field: fill.neutral (surface-4), no border at rest — deliberately NOT the recessed surface-0 + surface-6-outline of <a href="input.html">Input</a>/<a href="select.html">Select</a>. A border appears only on focus.</span></div>
-      <div class="row"><b>Hover</b><span>Adds the 12% lighten wash on the fill (fill.neutralHover), the same hover move as the neutral/ghost <a href="button.html">Button</a> — a lighten layer, not a border change.</span></div>
+      <div class="row"><b>Hover</b><span>Adds a 12% lighten layer over the surface-4 fill (the fill stays surface-4; lighten.2 composites on top) — the sportsbook hover overlay, not a border change.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px / base 40px / lg 48px — same grid, but no floating label at any size. Value/placeholder is 16px throughout (Safari-zoom-safe).</span></div>
       <div class="row"><b>Clear button</b><span>The trailing × renders once there's a value — a <strong>ghost icon button</strong>: transparent at rest, filling with the lighten wash and whitening the × on hover, like the ghost Button (not blue-on-hover).</span></div>
       <div class="row"><b>States</b><span>default / hover / focus / populated / disabled — no error state; a search box has no validation concept the way a form input/select does.</span></div>

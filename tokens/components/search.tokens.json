@@ -31,15 +31,15 @@
       },
       "state": {
         "default": {
-          "$description": "Filled neutral field (fill.neutral = surface-4), no visible border — search is a filled affordance, deliberately NOT the recessed surface-0 + surface-6-outline look of input/select.",
-          "bg": { "$type": "color", "$value": "{fill.neutral}" },
+          "$description": "Filled field on the raised surface (surface.raised = surface-4), no visible border — search is a filled affordance, deliberately NOT the recessed surface-0 + surface-6-outline look of input/select.",
+          "bg": { "$type": "color", "$value": "{surface.raised}" },
           "placeholder": { "$type": "color", "$value": "{text.secondary}" },
           "value": { "$type": "color", "$value": "{text.default}" },
           "icon": { "$type": "color", "$value": "{icon.default}" }
         },
         "hover": {
-          "bg": { "$type": "color", "$value": "{fill.neutralHover}" },
-          "$description": "Adds the 12% lighten wash on top of the neutral fill — the exact hover move the neutral/ghost Button uses (fill.neutralHover = fill.neutral + lighten.2), not a border change."
+          "overlay": { "$type": "color", "$value": "{lighten.2}" },
+          "$description": "Adds a 12% lighten layer on top of the surface-4 fill — the sportsbook hover overlay, kept as a real translucent layer over the base (not a pre-composited colour), so the fill underneath stays surface-4."
         },
         "focus": {
           "border": { "$type": "color", "$value": "{outline.active}" },

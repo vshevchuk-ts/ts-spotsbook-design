@@ -71,8 +71,7 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-fill-neutral: #3E4351;
-  --tok-fill-neutral-hover: #555A66;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
   --tok-outline-active: #FB8C33;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
@@ -88,7 +87,7 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-fill-neutral);
+  background-color: var(--tok-surface-raised);
   border: 1px solid transparent;
   border-radius: 8px;
   font-family: var(--tok-family-sans);
@@ -111,8 +110,8 @@
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .search--lg .search__icon, .search--lg .search__clear-icon { width: 24px; height: 24px; display: block; }
 
-/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
-.search:not(.search--disabled):hover, .search--hover { background: var(--tok-fill-neutral-hover); }
+/* hover adds a 12% lighten LAYER over the surface-4 fill (background-color stays surface-4, a translucent lighten.2 image composites on top) — not a border, not a baked colour */
+.search:not(.search--disabled):hover, .search--hover { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .search--focus { border-color: var(--tok-outline-active); }
 .search--disabled { opacity: 0.5; background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
@@ -166,7 +165,7 @@
 
     <div class="legend">
       <div class="row"><b>Fill</b><span>A <strong>filled</strong> field: fill.neutral (surface-4), no border at rest — deliberately NOT the recessed surface-0 + surface-6-outline of <a href="input.html">Input</a>/<a href="select.html">Select</a>. A border appears only on focus.</span></div>
-      <div class="row"><b>Hover</b><span>Adds the 12% lighten wash on the fill (fill.neutralHover), the same hover move as the neutral/ghost <a href="button.html">Button</a> — a lighten layer, not a border change.</span></div>
+      <div class="row"><b>Hover</b><span>Adds a 12% lighten layer over the surface-4 fill (the fill stays surface-4; lighten.2 composites on top) — the sportsbook hover overlay, not a border change.</span></div>
       <div class="row"><b>Sizes</b><span>sm 32px / base 40px / lg 48px — same grid, but no floating label at any size. Value/placeholder is 16px throughout (Safari-zoom-safe).</span></div>
       <div class="row"><b>Clear button</b><span>The trailing × renders once there's a value — a <strong>ghost icon button</strong>: transparent at rest, filling with the lighten wash and whitening the × on hover, like the ghost Button (not blue-on-hover).</span></div>
       <div class="row"><b>States</b><span>default / hover / focus / populated / disabled — no error state; a search box has no validation concept the way a form input/select does.</span></div>
@@ -175,8 +174,7 @@
     <h2 class="big-section">CSS</h2>
     <p class="section-desc">One shared value/placeholder text style (16px at every size, no per-size label) plus size modifiers and state classes.</p>
     <pre class="code"><code>:root {
-  --tok-fill-neutral: #3E4351;
-  --tok-fill-neutral-hover: #555A66;
+  --tok-surface-raised: #282E3E;
   --tok-surface-disabled: #1C202B;
   --tok-outline-active: #FB8C33;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
@@ -192,7 +190,7 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  background: var(--tok-fill-neutral);
+  background-color: var(--tok-surface-raised);
   border: 1px solid transparent;
   border-radius: 8px;
   font-family: var(--tok-family-sans);
@@ -215,8 +213,8 @@
 .search--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .search--lg .search__icon, .search--lg .search__clear-icon { width: 24px; height: 24px; display: block; }
 
-/* hover adds the 12% lighten wash on the fill (like the neutral Button), not a border */
-.search:not(.search--disabled):hover, .search--hover { background: var(--tok-fill-neutral-hover); }
+/* hover adds a 12% lighten LAYER over the surface-4 fill (background-color stays surface-4, a translucent lighten.2 image composites on top) — not a border, not a baked colour */
+.search:not(.search--disabled):hover, .search--hover { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .search--focus { border-color: var(--tok-outline-active); }
 .search--disabled { opacity: 0.5; background: var(--tok-surface-disabled); cursor: not-allowed; }
 .search--disabled .search__placeholder, .search--disabled .search__value { color: var(--tok-text-disabled); }
@@ -304,7 +302,7 @@
 </svg>
 <span class="search__placeholder">Search (⌘K)</span></div></div>
         <pre class="code"><code>&lt;div class="search search--base search--hover"&gt;&lt;svg class="search__icon"&gt;&lt;!-- icon: search --&gt;&lt;/svg&gt;&lt;span class="search__placeholder"&gt;Search (⌘K)&lt;/span&gt;&lt;/div&gt;</code></pre>
-        <p class="story-note">Adds the 12% lighten wash on the fill (fill.neutralHover) — same hover move as the neutral/ghost Button, not a border change. Hover the live field to see it.</p>
+        <p class="story-note">Adds a 12% lighten layer over the surface-4 fill (the fill stays surface-4; a translucent lighten.2 composites on top) — the sportsbook hover overlay, not a border change. Hover the live field to see it.</p>
       </div>
 
       <div class="story">
