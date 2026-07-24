@@ -63,7 +63,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
   "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative", "fill.neutral",
+  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative", "fill.neutral", "outline.accent",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -92,7 +92,7 @@ const errorGap = px(resolve("{spacing.1}"));
 // must match whatever surface the field is placed on, inherently contextual.
 const ringWidth = px(resolve(input.state.focused.ringWidth.$value));
 const ringOffset = px(resolve(input.state.focused.ringOffset.$value));
-const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.active")};`;
+const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.accent")};`;
 
 // leading affix ($) on the value line
 const prefixGap = px(resolve(input.prefix.gap.$value));

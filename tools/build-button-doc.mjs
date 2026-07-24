@@ -85,7 +85,7 @@ const colorPaths = [...new Set([
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "text.default", "icon.default",
   "text.secondary", "icon.secondary",
   "fill.disabled", "text.disabled", "icon.disabled",
-  "outline.active", "color.white", "text.active",
+  "outline.accent", "color.white", "text.active",
   ...sportsbookColorRefs,
 ])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -126,7 +126,7 @@ const focusOffset = resolve(button.primary.state.focused.ringOffset.$value);
 // token — the ring's inner box-shadow has to match whatever surface the button
 // actually sits on, which is inherently contextual. Called out explicitly in
 // the printed comment below so nobody copies --bg-card expecting it to exist.
-const ringShadow = `box-shadow: 0 0 0 ${px(focusOffset)} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${px(focusOffset)} + ${px(focusWidth)}) ${cv("outline.active")};`;
+const ringShadow = `box-shadow: 0 0 0 ${px(focusOffset)} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${px(focusOffset)} + ${px(focusWidth)}) ${cv("outline.accent")};`;
 
 // ---- resolve counter (needed for the icon+text+counter variant) ----
 const counterRadius = px(resolve(counter.radius.$value));

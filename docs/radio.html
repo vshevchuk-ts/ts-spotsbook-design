@@ -73,7 +73,7 @@
   --tok-surface-card: #1C202B;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -93,7 +93,7 @@
 .radio__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .radio:hover .radio__circle { border-color: var(--tok-fill-active); }
-.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-active); }
 .radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-active); }
 .radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-active-hover); }
@@ -167,7 +167,7 @@
   --tok-surface-card: #1C202B;
   --tok-surface-disabled: #1C202B;
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -187,7 +187,7 @@
 .radio__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .radio:hover .radio__circle { border-color: var(--tok-fill-active); }
-.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.radio__input:focus-visible ~ .radio__circle { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .radio__input:checked ~ .radio__circle { border-color: var(--tok-fill-active); }
 .radio__input:checked ~ .radio__circle .radio__dot { background: var(--tok-fill-active); }
 .radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: var(--tok-fill-active-hover); }
@@ -241,12 +241,12 @@
         <h3>focused</h3>
         <div class="story-preview"><label class="radio">
     <input type="radio" class="radio__input" id="r-state-2" name="state-demo-2" />
-    <span class="radio__circle" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="radio__dot"></span></span>
+    <span class="radio__circle" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"><span class="radio__dot"></span></span>
     <span class="radio__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="radio"&gt;
     &lt;input type="radio" class="radio__input" id="r-state-2" name="state-demo-2" /&gt;
-    &lt;span class="radio__circle" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="radio__circle" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"&gt;&lt;span class="radio__dot"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="radio__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
         <p class="story-note">Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style.</p>

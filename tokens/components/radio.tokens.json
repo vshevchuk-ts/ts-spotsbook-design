@@ -25,7 +25,7 @@
           "$description": "outline.strong (gray) read as too weak a hover cue in practice — same lesson learned building Card's interactive hover — so this uses fill.primary (blue.500) instead, same brand blue the checked state uses."
         },
         "focused": {
-          "ringColor": { "$type": "color", "$value": "{outline.active}" },
+          "ringColor": { "$type": "color", "$value": "{outline.accent}" },
           "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
           "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Same additive-ring pattern as Button/Checkbox."

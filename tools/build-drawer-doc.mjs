@@ -66,7 +66,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
   "surface.raised",
-  "surface.card", "surface.overlay", "outline.default", "outline.active", "text.default", "text.secondary", "lighten.2", "text.onFill", "text.forActiveBg", "icon.secondary",
+  "surface.card", "surface.overlay", "outline.default", "outline.accent", "text.default", "text.secondary", "lighten.2", "text.onFill", "text.forActiveBg", "icon.secondary",
   "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "fill.active", "fill.activeHover", "fill.activePressed",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -116,7 +116,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__close { position: absolute; right: ${px(resolve("spacing.2"))}; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .drawer__close:hover { background: ${cv("fill.neutralHover")}; }
 .drawer__close:active { background: ${cv("fill.neutralPressed")}; }
-.drawer__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+.drawer__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.accent")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: ${px(resolve("spacing.10"))}; padding: 0 ${px(resolve("spacing.3"))}; border-radius: ${px(resolve("radius.default"))}; border: none; cursor: pointer; font-family: ${cv("family.sans")}; ${typoCss(resolveToken(get("text-style.heading-base")))} }
@@ -126,7 +126,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .ov-btn--primary { background: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; font-weight: 600; }
 .ov-btn--primary:hover { background: ${cv("fill.activeHover")}; }
 .ov-btn--primary:active { background: ${cv("fill.activePressed")}; }
-.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
+.ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.accent")}; outline-offset: ${px(resolve("spacing.0_5"))}; }`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `

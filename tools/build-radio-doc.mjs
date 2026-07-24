@@ -64,7 +64,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
   "surface.card", "surface.disabled",
-  "outline.default", "outline.active",
+  "outline.default", "outline.accent",
   "fill.active", "fill.activeHover", "fill.disabled",
   "text.default", "text.disabled", "text.secondary",
   "outline.strong", "surface.raised",
@@ -103,7 +103,7 @@ const css = `${rootVars}
 .radio__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
 .radio:hover .radio__circle { border-color: ${cv("fill.active")}; }
-.radio__input:focus-visible ~ .radio__circle { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.radio__input:focus-visible ~ .radio__circle { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .radio__input:checked ~ .radio__circle { border-color: ${cv("fill.active")}; }
 .radio__input:checked ~ .radio__circle .radio__dot { background: ${cv("fill.active")}; }
 .radio:hover .radio__input:checked:not(:disabled) ~ .radio__circle { border-color: ${cv("fill.activeHover")}; }
@@ -124,7 +124,7 @@ function markup(id, name, { checked = false, disabled = false, hover = false, fo
   let circleStyle = "";
   let dotStyle = "";
   if (focused) {
-    circleStyle = ` style="outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}"`;
+    circleStyle = ` style="outline:${ringWidth} solid ${cv("outline.accent")}; outline-offset:${ringOffset}"`;
   } else if (hover && checked) {
     circleStyle = ` style="border-color:${cv("fill.activeHover")}"`;
     dotStyle = ` style="background:${cv("fill.activeHover")}"`;

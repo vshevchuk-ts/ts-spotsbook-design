@@ -73,7 +73,7 @@
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-on-fill: #FFFFFF;
@@ -106,7 +106,7 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .modal__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .modal__close:hover { background: var(--tok-fill-neutral-hover); }
 .modal__close:active { background: var(--tok-fill-neutral-pressed); }
-.modal__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.modal__close:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .modal__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
@@ -115,7 +115,7 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
 .ov-btn--danger { background: var(--tok-fill-negative); color: var(--tok-text-on-fill); font-weight: 600; }
 .ov-btn--danger:hover { background: var(--tok-fill-negative-hover); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -179,7 +179,7 @@ dialog.modal[open]::backdrop { opacity: 1; }
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-on-fill: #FFFFFF;
@@ -212,7 +212,7 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .modal__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .modal__close:hover { background: var(--tok-fill-neutral-hover); }
 .modal__close:active { background: var(--tok-fill-neutral-pressed); }
-.modal__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.modal__close:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .modal__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
@@ -221,7 +221,7 @@ dialog.modal[open]::backdrop { opacity: 1; }
 .ov-btn--secondary:active { background: var(--tok-fill-neutral-pressed); }
 .ov-btn--danger { background: var(--tok-fill-negative); color: var(--tok-text-on-fill); font-weight: 600; }
 .ov-btn--danger:hover { background: var(--tok-fill-negative-hover); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }</code></pre>
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }</code></pre>
 
     <h2 class="big-section">Open script</h2>
     <p class="section-desc">The only JS needed to open — focus-trap/Escape/::backdrop are native, same reasoning as Drawer.</p>

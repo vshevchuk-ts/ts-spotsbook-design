@@ -63,7 +63,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.card", "outline.default", "outline.active", "text.default", "text.disabled", "text.negative",
+  "surface.card", "outline.default", "outline.accent", "text.default", "text.disabled", "text.negative",
   "icon.secondary", "icon.disabled", "icon.negative", "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "bg.negative",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -246,7 +246,7 @@ const html = `<!doctype html>
   .ov-btn--secondary { background: ${cv("fill.neutral")}; color: ${cv("text.default")}; }
   .ov-btn--secondary:hover { background: ${cv("fill.neutralHover")}; }
   .ov-btn--secondary:active { background: ${cv("fill.neutralPressed")}; }
-  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+  .ov-btn:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.accent")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 

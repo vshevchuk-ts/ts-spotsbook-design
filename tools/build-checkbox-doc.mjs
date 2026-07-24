@@ -64,7 +64,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
   "surface.card", "surface.disabled",
-  "outline.default", "outline.active",
+  "outline.default", "outline.accent",
   "fill.active", "fill.activeHover", "fill.disabled",
   "icon.forActiveBg", "icon.disabled",
   "text.default", "text.disabled", "text.secondary",
@@ -111,7 +111,7 @@ const css = `${rootVars}
 .checkbox__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
 .checkbox:hover .checkbox__box { border-color: ${cv("fill.active")}; }
-.checkbox__input:focus-visible ~ .checkbox__box { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.checkbox__input:focus-visible ~ .checkbox__box { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .checkbox__input:checked ~ .checkbox__box, .checkbox__input:indeterminate ~ .checkbox__box {
   background: ${cv("fill.active")}; border-color: ${cv("fill.active")};
 }
@@ -156,7 +156,7 @@ function markup(id, { checked = false, indeterminate = false, disabled = false, 
     indeterminate ? ' data-indeterminate="true"' : "",
   ].join("");
   const extraStyle = focused
-    ? ` style="outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}"`
+    ? ` style="outline:${ringWidth} solid ${cv("outline.accent")}; outline-offset:${ringOffset}"`
     : hover && (checked || indeterminate)
     ? ` style="background:${cv("fill.activeHover")}; border-color:${cv("fill.activeHover")}"`
     : hover

@@ -94,6 +94,7 @@
   --tok-text-active: #FB8C33;
   --tok-text-negative: #F90643;
   --tok-fill-neutral: #3E4351;
+  --tok-outline-accent: #31A8FF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -138,7 +139,7 @@
 /* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
 .input--active { border-color: var(--tok-outline-active); }
 /* focused = keyboard focus (:focus-visible): the active look + an additive ring */
-.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
 .input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
 @keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 .input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
@@ -215,6 +216,7 @@
   --tok-text-active: #FB8C33;
   --tok-text-negative: #F90643;
   --tok-fill-neutral: #3E4351;
+  --tok-outline-accent: #31A8FF;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -259,7 +261,7 @@
 /* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
 .input--active { border-color: var(--tok-outline-active); }
 /* focused = keyboard focus (:focus-visible): the active look + an additive ring */
-.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-active); }
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
 .input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
 @keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 .input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }

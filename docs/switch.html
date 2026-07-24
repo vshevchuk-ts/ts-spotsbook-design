@@ -73,7 +73,7 @@
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -92,7 +92,7 @@
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .switch:hover .switch__track { background: var(--tok-outline-strong); }
-.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
 .switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
@@ -159,7 +159,7 @@
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-fill-disabled: #282E3E;
@@ -178,7 +178,7 @@
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 .switch:hover .switch__track { background: var(--tok-outline-strong); }
-.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .switch__input:checked ~ .switch__track { background: var(--tok-fill-active); }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(16px); }
 .switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: var(--tok-fill-active-hover); }
@@ -224,12 +224,12 @@
         <h3>focused</h3>
         <div class="story-preview"><label class="switch">
     <input type="checkbox" class="switch__input" id="sw-state-2" />
-    <span class="switch__track" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="switch__thumb"></span></span>
+    <span class="switch__track" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"><span class="switch__thumb"></span></span>
     <span class="switch__label">Label</span>
   </label></div>
         <pre class="code"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" class="switch__input" id="sw-state-2" /&gt;
-    &lt;span class="switch__track" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="switch__track" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"&gt;&lt;span class="switch__thumb"&gt;&lt;/span&gt;&lt;/span&gt;
     &lt;span class="switch__label"&gt;Label&lt;/span&gt;
   &lt;/label&gt;</code></pre>
         <p class="story-note">Additive ring (border.focus). Real CSS is :focus-visible on the input; forced here via inline style.</p>

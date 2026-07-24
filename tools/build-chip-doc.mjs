@@ -66,7 +66,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const refPath = (ref) => ref.replace(/[{}]/g, "");
 
 const colorPaths = [
-  "surface.card", "outline.default", "outline.strong", "outline.active", "text.default", "icon.default",
+  "surface.card", "outline.default", "outline.strong", "outline.accent", "text.default", "icon.default",
   "fill.active", "fill.activeHover", "fill.disabled", "text.forActiveBg", "icon.forActiveBg",
   "bg.active", "text.active", "icon.active",
   "text.disabled", "icon.disabled",
@@ -139,7 +139,7 @@ ${sizeDefs
 .chip--toggle[aria-pressed="true"]:not(:disabled):hover { background: ${cv("fill.activeHover")}; border-color: ${cv("fill.activeHover")}; }
 .chip--toggle.chip--outline[aria-pressed="true"] { background: ${cv("bg.active")}; border-color: ${cv("fill.active")}; color: ${cv("text.active")}; }
 .chip--toggle.chip--outline[aria-pressed="true"] .chip__icon { color: ${cv("icon.active")}; }
-.chip--toggle:focus-visible { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.chip--toggle:focus-visible { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .chip--toggle:disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .chip--toggle:disabled .chip__icon { color: ${cv("icon.disabled")}; }
 .chip--toggle:disabled[aria-pressed="true"] { background: ${cv("fill.disabled")}; border-color: ${cv("fill.disabled")}; color: ${cv("text.disabled")}; }
@@ -153,7 +153,7 @@ ${sizeDefs
 .chip__remove { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .chip__remove:hover { background: ${cv("fill.neutralHover")}; }
 .chip__remove:active { background: ${cv("fill.neutralPressed")}; }
-.chip__remove:focus-visible { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.chip__remove:focus-visible { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .chip--disabled .chip__remove { visibility: hidden; }
 
 .counter { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; border-radius: ${counterRadius}; flex-shrink: 0; }
@@ -209,7 +209,7 @@ const toggleStateDefs = [
   { key: "hover", label: "hover (unchecked)", opts: { forceHoverStyle: `border-color:${cv("fill.active")}` }, note: "fill.active border — same 'gray reads too weak' lesson Checkbox/Radio/Card's own unchecked-hover already applied. Forced via inline style for a static screenshot; the real rule is :hover in the CSS above." },
   { key: "checked", label: "checked (solid)", opts: { pressed: true }, note: "fill.active bg + text.onFill — a real boolean toggle, no counter." },
   { key: "checked-hover", label: "checked + hover", opts: { pressed: true, forceHoverStyle: `background:${cv("fill.activeHover")}; border-color:${cv("fill.activeHover")}` }, note: "fill.activeHover, the same darken-on-hover pair every other checked control in this system uses." },
-  { key: "focused", label: "focused", opts: { forceHoverStyle: `outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}` }, note: "Additive ring. Real CSS is :focus-visible on the button." },
+  { key: "focused", label: "focused", opts: { forceHoverStyle: `outline:${ringWidth} solid ${cv("outline.accent")}; outline-offset:${ringOffset}` }, note: "Additive ring. Real CSS is :focus-visible on the button." },
   { key: "disabled", label: "disabled (unchecked)", opts: { disabled: true }, note: "Keeps its background, only text/icon fade — same convention as every other disabled control in this system." },
   { key: "checked-disabled", label: "disabled (checked)", opts: { disabled: true, pressed: true }, note: "fill.disabled — brand blue never shows on an inert control." },
 ];

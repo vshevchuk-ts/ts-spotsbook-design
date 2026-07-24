@@ -65,7 +65,7 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const colorPaths = ["surface.card", "outline.default", "outline.active", "text.default", "text.secondary", "icon.secondary", "fill.neutralHover", "fill.neutralPressed"];
+const colorPaths = ["surface.card", "outline.default", "outline.accent", "text.default", "text.secondary", "icon.secondary", "fill.neutralHover", "fill.neutralPressed"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -93,7 +93,7 @@ const css = `${rootVars}
 .popover__close { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: ${px(resolve("radius.default"))}; background: transparent; padding: 0; cursor: pointer; color: ${cv("icon.secondary")}; }
 .popover__close:hover { background: ${cv("fill.neutralHover")}; }
 .popover__close:active { background: ${cv("fill.neutralPressed")}; }
-.popover__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.active")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
+.popover__close:focus-visible { outline: ${px(resolve("spacing.1"))} solid ${cv("outline.accent")}; outline-offset: ${px(resolve("spacing.0_5"))}; }
 .popover__close-icon { width: 18px; height: 18px; display: block; }
 .popover__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .popover__menu-item { border: none; background: none; text-align: left; width: 100%; padding: 8px; border-radius: 6px; cursor: pointer; color: ${cv("text.default")}; font-family: inherit; ${typoCss(bodyType)} }

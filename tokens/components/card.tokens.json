@@ -21,7 +21,7 @@
             "border": { "$type": "color", "$value": "{fill.active}" }
           },
           "focused": {
-            "ringColor": { "$type": "color", "$value": "{outline.active}" },
+            "ringColor": { "$type": "color", "$value": "{outline.accent}" },
             "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
             "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" }
           }

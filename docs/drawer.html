@@ -74,7 +74,7 @@
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
@@ -114,7 +114,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
 .drawer__close:active { background: var(--tok-fill-neutral-pressed); }
-.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
@@ -124,7 +124,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .ov-btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 600; }
 .ov-btn--primary:hover { background: var(--tok-fill-active-hover); }
 .ov-btn--primary:active { background: var(--tok-fill-active-pressed); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -188,7 +188,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
   --tok-surface-card: #1C202B;
   --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
@@ -228,7 +228,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .drawer__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .drawer__close:hover { background: var(--tok-fill-neutral-hover); }
 .drawer__close:active { background: var(--tok-fill-neutral-pressed); }
-.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .drawer__close-icon { width: 20px; height: 20px; display: block; }
 
 .ov-btn { box-sizing: border-box; height: 40px; padding: 0 12px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; }
@@ -238,7 +238,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .ov-btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 600; }
 .ov-btn--primary:hover { background: var(--tok-fill-active-hover); }
 .ov-btn--primary:active { background: var(--tok-fill-active-pressed); }
-.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }</code></pre>
+.ov-btn:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }</code></pre>
 
     <h2 class="big-section">Open script</h2>
     <p class="section-desc">&lt;dialog&gt; has no declarative "open" attribute equivalent to Popover's popovertarget, so a tiny script calls showModal(). Focus-trap, Escape-to-close, and ::backdrop are native — click-outside is not (see below).</p>

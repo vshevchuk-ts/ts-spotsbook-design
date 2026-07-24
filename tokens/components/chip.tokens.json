@@ -115,7 +115,7 @@
       },
       "focus": {
         "$description": "Shared by both kinds — same system-wide ring (border.focus, dim.1 width, dim.0_5 offset) every focusable component uses.",
-        "ringColor": { "$type": "color", "$value": "{outline.active}" },
+        "ringColor": { "$type": "color", "$value": "{outline.accent}" },
         "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
         "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" }
       }

@@ -28,7 +28,7 @@
           "$description": "Off+hover darkens one gray step (border.strong) — unlike Checkbox/Radio's hollow box, the track is already a sizeable filled area at rest, so a plain gray-darken reads clearly here (the 'too weak a cue' problem was specific to a 2px hairline, not a full fill)."
         },
         "focused": {
-          "ringColor": { "$type": "color", "$value": "{outline.active}" },
+          "ringColor": { "$type": "color", "$value": "{outline.accent}" },
           "ringWidth": { "$type": "dimension", "$value": "{spacing.1}" },
           "ringOffset": { "$type": "dimension", "$value": "{spacing.0_5}" },
           "$description": "Same additive-ring pattern as Button/Checkbox/Radio/Card."

@@ -62,7 +62,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.card", "outline.default", "outline.strong", "outline.active",
+  "surface.card", "outline.default", "outline.strong", "outline.accent",
   "fill.active", "fill.activeHover", "fill.disabled",
   "text.default", "text.disabled",
   "surface.raised", "color.base.contrast",
@@ -97,7 +97,7 @@ const css = `${rootVars}
 .switch__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
 .switch:hover .switch__track { background: ${cv("outline.strong")}; }
-.switch__input:focus-visible ~ .switch__track { outline: ${ringWidth} solid ${cv("outline.active")}; outline-offset: ${ringOffset}; }
+.switch__input:focus-visible ~ .switch__track { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .switch__input:checked ~ .switch__track { background: ${cv("fill.active")}; }
 .switch__input:checked ~ .switch__track .switch__thumb { transform: translateX(${travel}px); }
 .switch:hover .switch__input:checked:not(:disabled) ~ .switch__track { background: ${cv("fill.activeHover")}; }
@@ -108,7 +108,7 @@ const css = `${rootVars}
 function markup(id, { checked = false, disabled = false, hover = false, focused = false } = {}) {
   const attrs = [checked ? " checked" : "", disabled ? " disabled" : ""].join("");
   let trackStyle = "";
-  if (focused) trackStyle = ` style="outline:${ringWidth} solid ${cv("outline.active")}; outline-offset:${ringOffset}"`;
+  if (focused) trackStyle = ` style="outline:${ringWidth} solid ${cv("outline.accent")}; outline-offset:${ringOffset}"`;
   else if (hover && checked) trackStyle = ` style="background:${cv("fill.activeHover")}"`;
   else if (hover) trackStyle = ` style="background:${cv("outline.strong")}"`;
   const thumbStyle = checked ? ` style="transform:translateX(${travel}px)"` : "";

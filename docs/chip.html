@@ -71,7 +71,7 @@
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-icon-default: #8E929F;
   --tok-fill-active: #FB8C33;
@@ -115,7 +115,7 @@
 .chip--toggle[aria-pressed="true"]:not(:disabled):hover { background: var(--tok-fill-active-hover); border-color: var(--tok-fill-active-hover); }
 .chip--toggle.chip--outline[aria-pressed="true"] { background: var(--tok-bg-active); border-color: var(--tok-fill-active); color: var(--tok-text-active); }
 .chip--toggle.chip--outline[aria-pressed="true"] .chip__icon { color: var(--tok-icon-active); }
-.chip--toggle:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.chip--toggle:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .chip--toggle:disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .chip--toggle:disabled .chip__icon { color: var(--tok-icon-disabled); }
 .chip--toggle:disabled[aria-pressed="true"] { background: var(--tok-fill-disabled); border-color: var(--tok-fill-disabled); color: var(--tok-text-disabled); }
@@ -129,7 +129,7 @@
 .chip__remove { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .chip__remove:hover { background: var(--tok-fill-neutral-hover); }
 .chip__remove:active { background: var(--tok-fill-neutral-pressed); }
-.chip__remove:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.chip__remove:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .chip--disabled .chip__remove { visibility: hidden; }
 
 .counter { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; flex-shrink: 0; }
@@ -197,7 +197,7 @@
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
   --tok-outline-strong: #3E4351;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-text-default: #FFFFFF;
   --tok-icon-default: #8E929F;
   --tok-fill-active: #FB8C33;
@@ -241,7 +241,7 @@
 .chip--toggle[aria-pressed="true"]:not(:disabled):hover { background: var(--tok-fill-active-hover); border-color: var(--tok-fill-active-hover); }
 .chip--toggle.chip--outline[aria-pressed="true"] { background: var(--tok-bg-active); border-color: var(--tok-fill-active); color: var(--tok-text-active); }
 .chip--toggle.chip--outline[aria-pressed="true"] .chip__icon { color: var(--tok-icon-active); }
-.chip--toggle:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.chip--toggle:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .chip--toggle:disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
 .chip--toggle:disabled .chip__icon { color: var(--tok-icon-disabled); }
 .chip--toggle:disabled[aria-pressed="true"] { background: var(--tok-fill-disabled); border-color: var(--tok-fill-disabled); color: var(--tok-text-disabled); }
@@ -255,7 +255,7 @@
 .chip__remove { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
 .chip__remove:hover { background: var(--tok-fill-neutral-hover); }
 .chip__remove:active { background: var(--tok-fill-neutral-pressed); }
-.chip__remove:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.chip__remove:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .chip--disabled .chip__remove { visibility: hidden; }
 
 .counter { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; flex-shrink: 0; }
@@ -364,8 +364,8 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"><span class="chip__label">Favorites</span></button></div>
-        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-active); outline-offset:2px"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
+        <div class="story-preview"><button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"><span class="chip__label">Favorites</span></button></div>
+        <pre class="code"><code>&lt;button class="chip chip--base chip--toggle" aria-pressed="false" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px"&gt;&lt;span class="chip__label"&gt;Favorites&lt;/span&gt;&lt;/button&gt;</code></pre>
         <p class="story-note">Additive ring. Real CSS is :focus-visible on the button.</p>
       </div>
 

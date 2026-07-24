@@ -79,7 +79,7 @@
   :root {
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-text-default: #FFFFFF;
@@ -96,7 +96,7 @@
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
 .card--interactive:hover { border-color: var(--tok-fill-active); }
 .card--interactive:active { background: var(--tok-bg-active); border-color: var(--tok-fill-active); }
-.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }
+.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -155,7 +155,7 @@
     <pre class="code"><code>:root {
   --tok-surface-card: #1C202B;
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
+  --tok-outline-accent: #31A8FF;
   --tok-fill-active: #FB8C33;
   --tok-bg-active: rgba(251, 140, 51, 0.12);
   --tok-text-default: #FFFFFF;
@@ -172,7 +172,7 @@
 .card--interactive { width: 100%; text-align: left; cursor: pointer; appearance: none; outline: none; }
 .card--interactive:hover { border-color: var(--tok-fill-active); }
 .card--interactive:active { background: var(--tok-bg-active); border-color: var(--tok-fill-active); }
-.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-active); outline-offset: 2px; }</code></pre>
+.card--interactive:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }</code></pre>
 
     <h2 class="big-section">Static</h2>
     <p class="section-desc">The gray bars are docs-only placeholders standing in for arbitrary content, not a fixed set of "card types" — Card has no opinion on what goes inside. The printed code below each one shows real starter text instead of the bars.</p>
@@ -273,7 +273,7 @@
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><button class="card card--interactive demo-card" style="outline:4px solid var(--tok-outline-active); outline-offset:2px">
+        <div class="story-preview"><button class="card card--interactive demo-card" style="outline:4px solid var(--tok-outline-accent); outline-offset:2px">
       <p class="card__title"><span class="ph-line ph-line--title" style="width:60%"></span></p>
       <p class="card__body-text"><span class="ph-line ph-line--body" style="width:100%"></span><span class="ph-line ph-line--body" style="width:45%"></span></p>
     </button></div>
