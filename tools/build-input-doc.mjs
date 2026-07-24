@@ -23,6 +23,7 @@ const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
 const input = load("tokens/components/input.tokens.json").component.input;
+const button = load("tokens/components/button.tokens.json").component.button;
 
 const registry = {
   color: colorPrim,
@@ -62,7 +63,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
   "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative",
+  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative", "fill.neutral",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -93,6 +94,23 @@ const ringWidth = px(resolve(input.state.focused.ringWidth.$value));
 const ringOffset = px(resolve(input.state.focused.ringOffset.$value));
 const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.active")};`;
 
+// leading affix ($) on the value line
+const prefixGap = px(resolve(input.prefix.gap.$value));
+
+// ---- reused Button component: the secondary two-row button, for the trailing
+// "Max / $1,000.50" action. Resolved from button.tokens.json (never retyped), the
+// same twoRow/secondary tokens the Button page renders. refP: "{x.y}" -> "x.y". ----
+const refP = (v) => v.replace(/[{}]/g, "");
+const tr = button.twoRow;
+const trTop = resolve(tr.secondary.topLabel.$value);
+const trBottom = resolve(tr.secondary.bottomLabel.$value);
+const buttonCss = `.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: ${cv("family.sans")}; }
+  .btn--secondary { background: ${cv(refP(button.secondary.state.default.fill.$value))}; color: ${cv(refP(button.secondary.state.default.label.$value))}; }
+  .btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: ${px(resolve(tr.gap.$value))}; padding: 0 ${px(resolve(tr.paddingX.$value))}; border-radius: ${px(resolve(tr.radius.$value))}; line-height: 1.2; }
+  .btn--tworow.btn--secondary { height: ${px(resolve(tr.secondary.height.$value))}; }
+  .btn--tworow.btn--secondary .btn__top { font-weight: ${trTop.fontWeight}; font-size: ${px(trTop.fontSize)}; }
+  .btn--tworow.btn--secondary .btn__bottom { font-weight: ${trBottom.fontWeight}; font-size: ${px(trBottom.fontSize)}; color: ${cv(refP(tr.secondary.bottomLabelColor.$value))}; }`;
+
 function typoCss(t) {
   return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
 }
@@ -112,8 +130,13 @@ const css = `${rootVars}
 }
 .input__placeholder { color: ${cv("text.secondary")}; }
 .input__value { color: ${cv("text.default")}; }
+.input__prefix { color: ${cv("text.secondary")}; margin-right: ${prefixGap}; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: ${cv("text.secondary")}; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
+.input--action { justify-content: space-between; padding-right: ${prefixGap}; gap: ${prefixGap}; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action > .btn { flex-shrink: 0; }
 
 ${sizes
   .map((s) => {
@@ -147,14 +170,24 @@ ${sizes
 function restingMarkup(size, { placeholder = "Enter", live = true } = {}) {
   return `<div class="input input--${size}"><span class="input__placeholder">${placeholder}</span></div>`;
 }
-function floatedMarkup(size, { label = "Enter", value = "Last Added", caret = false, cls = "", live = true } = {}) {
+// single-line filled field (sm — no floating label, value shown directly)
+function filledMarkup(size, { value = "Entered value", live = true } = {}) {
+  return `<div class="input input--${size}"><span class="input__value">${value}</span></div>`;
+}
+function floatedMarkup(size, { label = "Enter", value = "Entered value", prefix = "", caret = false, cls = "", live = true } = {}) {
   const car = caret ? `<span class="input__caret"></span>` : "";
-  return `<div class="input input--${size}${cls}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${value}${car}</span></div></div>`;
+  const pre = prefix ? `<span class="input__prefix">${prefix}</span>` : "";
+  return `<div class="input input--${size}${cls}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${pre}${value}${car}</span></div></div>`;
 }
 // error state wraps the field with a helper line below it
-function errorMarkup(size, { label = "Enter", value = "Last Added", message = "Error text", live = true } = {}) {
+function errorMarkup(size, { label = "Enter", value = "Entered value", message = "Error text", live = true } = {}) {
   const field = floatedMarkup(size, { label, value, live }).replace('class="input input--' + size + '"', 'class="input input--' + size + ' input--error"');
   return `<div class="input-field">${field}<span class="input__error">${message}</span></div>`;
+}
+// trailing action: field (currency prefix) + the secondary two-row Button pinned right
+function actionMarkup(size, { live = true } = {}) {
+  const btn = `<button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>`;
+  return `<div class="input input--${size} input--action"><div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div>${btn}</div>`;
 }
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
@@ -170,9 +203,10 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 function sizeStories() {
   return sizes
     .map((s) => {
-      const live = s.key === "sm" ? restingMarkup(s.key, { live: true }) : floatedMarkup(s.key, { live: true });
-      const code = s.key === "sm" ? restingMarkup(s.key, { live: false }) : floatedMarkup(s.key, { live: false });
-      return storyCard(`${s.key} — ${px(s.height)}`, live, code);
+      // sm has no floating label — show it populated too (single-line value), so
+      // every size in this row reads as "has a value", not one empty + two filled.
+      const mk = (live) => (s.key === "sm" ? filledMarkup(s.key, { live }) : floatedMarkup(s.key, { live }));
+      return storyCard(`${s.key} — ${px(s.height)}`, mk(true), mk(false));
     })
     .join("\n");
 }
@@ -180,8 +214,8 @@ function sizeStories() {
 const stateDefs = [
   { key: "default", label: "default", node: (live) => restingMarkup("base", { live }), note: "Empty, not focused — surface-0 fill + surface-6 hairline border, placeholder centered at value size (16px), no floated label yet." },
   { key: "hover", label: "hover", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--hover"'), note: "Fills to surface-4 and drops the visible border — the field lifts into a solid filled look on hover." },
-  { key: "active", label: "active", node: (live) => floatedMarkup("base", { value: "Last Ad", caret: true, cls: " input--active", live }), note: "Being edited (pointer/click focus): fill stays surface-0, the border turns the active accent and a matching caret blinks in the value as text is typed. The floated label stays grey. No keyboard ring — that's the separate focused state." },
-  { key: "focused", label: "focused", node: (live) => floatedMarkup("base", { value: "Last Ad", caret: true, cls: " input--focused", live }), note: "Keyboard focus (:focus-visible) — the active look plus an additive accent ring, the same a11y focus indicator used across Button/Checkbox/etc. A mouse click gives active without the ring." },
+  { key: "active", label: "active", node: (live) => floatedMarkup("base", { value: "Entered value", caret: true, cls: " input--active", live }), note: "Being edited (pointer/click focus): fill stays surface-0, the border turns the active accent and a matching caret blinks in the value as text is typed. The floated label stays grey. No keyboard ring — that's the separate focused state." },
+  { key: "focused", label: "focused", node: (live) => floatedMarkup("base", { value: "Entered value", caret: true, cls: " input--focused", live }), note: "Keyboard focus (:focus-visible) — the active look plus an additive accent ring, the same a11y focus indicator used across Button/Checkbox/etc. A mouse click gives active without the ring." },
   { key: "populated", label: "populated", node: (live) => floatedMarkup("base", { live }), note: "Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default." },
   { key: "disabled", label: "disabled", node: (live) => restingMarkup("base", { live }).replace('class="input input--base"', 'class="input input--base input--disabled"'), note: "Swaps to surface.disabled and fades the text — same pattern as the secondary button's disabled state." },
   { key: "error", label: "error", node: (live) => errorMarkup("base", { live }), note: "Red border on the field (outline.negative) plus a red helper line below it (text.negative)." },
@@ -258,8 +292,11 @@ const html = `<!doctype html>
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-preview .input { width: 100%; max-width: 260px; }
+  .story-preview .input--action { max-width: 420px; }
   .story-preview .input-field { width: 100%; max-width: 260px; }
   .story-preview .input-field .input { max-width: none; }
+
+  ${buttonCss}
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -288,7 +325,7 @@ const html = `<!doctype html>
     <pre class="code"><code>${esc(css)}</code></pre>
 
     <h2 class="big-section">Sizes</h2>
-    <p class="section-desc">sm shows the resting single-line layout (its only layout). base/lg shown populated, to demonstrate the floated label at each size.</p>
+    <p class="section-desc">All three shown populated — sm as a single-line value (it has no floating label), base/lg with the value floated under the label.</p>
     <div class="story-grid">
       ${sizeStories()}
     </div>
@@ -297,6 +334,13 @@ const html = `<!doctype html>
     <p class="section-desc">Base size.</p>
     <div class="story-grid">
       ${stateStories()}
+    </div>
+
+    <h2 class="big-section">Content variants</h2>
+    <p class="section-desc">Optional additions on the value line, composed onto the same field. <strong>Currency prefix</strong> — a grey <code class="tok">$</code> symbol 4px before the amount (input.prefix). <strong>Trailing action</strong> — the secondary <a href="button.html">two-row button</a> pinned to the right, e.g. a bet-amount field's Max-stake shortcut showing the limit on its second row.</p>
+    <div class="story-grid">
+      ${storyCard("Currency prefix", floatedMarkup("lg", { label: "Bet amount", value: "10", prefix: "$", live: true }), floatedMarkup("lg", { label: "Bet amount", value: "10", prefix: "$", live: false }))}
+      ${storyCard("Trailing action (Max)", actionMarkup("lg", { live: true }), actionMarkup("lg", { live: false }))}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>

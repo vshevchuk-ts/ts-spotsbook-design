@@ -3,6 +3,11 @@
     "input": {
       "$description": "Single-line text field. One fill only: surface-0 (page) background with a surface-6 (outline.strong) hairline border — the field recedes into the page at rest and lifts to a surface-4 filled look on hover. sm has no floating label — the placeholder simply vanishes on focus/when typing, same text stays 16px throughout. base/lg float the placeholder into a 10px label above the value on focus or once populated. Value/placeholder text is 16px at every size, deliberately — Safari on iOS auto-zooms the page on focus if an input's font-size is under 16px, so going smaller would trigger that on every mobile focus.",
       "radius": { "$type": "dimension", "$value": "{radius.default}" },
+      "prefix": {
+        "$description": "Optional leading affix on the value line — e.g. a currency symbol before a bet amount. Same font as the value, one step quieter in colour.",
+        "gap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between the affix (e.g. $) and the value it precedes." },
+        "color": { "$type": "color", "$value": "{text.secondary}", "$description": "Grey, one step quieter than the value — the symbol supports the number without competing with it." }
+      },
       "size": {
         "sm": {
           "$description": "32px. No floating label — the box isn't tall enough to hold a 10px label + 16px value stacked and still read as anything but cramped. Placeholder disappears the moment the field is focused or has a value, same as a plain unlabeled input.",

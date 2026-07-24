@@ -66,8 +66,16 @@
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
   .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-preview .input { width: 100%; max-width: 260px; }
+  .story-preview .input--action { max-width: 420px; }
   .story-preview .input-field { width: 100%; max-width: 260px; }
   .story-preview .input-field .input { max-width: none; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
+  .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+  .btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+  .btn--tworow.btn--secondary { height: 40px; }
+  .btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
+  .btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -85,6 +93,7 @@
   --tok-text-disabled: #8E929F;
   --tok-text-active: #FB8C33;
   --tok-text-negative: #F90643;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -100,8 +109,13 @@
 }
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
+.input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
+.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action > .btn { flex-shrink: 0; }
 
 .input--sm { height: 32px; padding: 0 8px; }
 .input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
@@ -197,6 +211,7 @@
   --tok-text-disabled: #8E929F;
   --tok-text-active: #FB8C33;
   --tok-text-negative: #F90643;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -212,8 +227,13 @@
 }
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
+.input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right */
+.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action &gt; .btn { flex-shrink: 0; }
 
 .input--sm { height: 32px; padding: 0 8px; }
 .input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
@@ -243,27 +263,27 @@
 .input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }</code></pre>
 
     <h2 class="big-section">Sizes</h2>
-    <p class="section-desc">sm shows the resting single-line layout (its only layout). base/lg shown populated, to demonstrate the floated label at each size.</p>
+    <p class="section-desc">All three shown populated — sm as a single-line value (it has no floating label), base/lg with the value floated under the label.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>sm — 32px</h3>
-        <div class="story-preview"><div class="input input--sm"><span class="input__placeholder">Enter</span></div></div>
-        <pre class="code"><code>&lt;div class="input input--sm"&gt;&lt;span class="input__placeholder"&gt;Enter&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--sm"><span class="input__value">Entered value</span></div></div>
+        <pre class="code"><code>&lt;div class="input input--sm"&gt;&lt;span class="input__value"&gt;Entered value&lt;/span&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>base — 40px</h3>
-        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Added</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         
       </div>
 
       <div class="story">
         <h3>lg — 48px</h3>
-        <div class="story-preview"><div class="input input--lg"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Added</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--lg"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--lg"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--lg"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         
       </div>
     </div>
@@ -288,22 +308,22 @@
 
       <div class="story">
         <h3>active</h3>
-        <div class="story-preview"><div class="input input--base input--active"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Ad<span class="input__caret"></span></span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--active"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Ad&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base input--active"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value<span class="input__caret"></span></span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--active"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         <p class="story-note">Being edited (pointer/click focus): fill stays surface-0, the border turns the active accent and a matching caret blinks in the value as text is typed. The floated label stays grey. No keyboard ring — that's the separate focused state.</p>
       </div>
 
       <div class="story">
         <h3>focused</h3>
-        <div class="story-preview"><div class="input input--base input--focused"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Ad<span class="input__caret"></span></span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base input--focused"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Ad&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base input--focused"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value<span class="input__caret"></span></span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base input--focused"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;span class="input__caret"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         <p class="story-note">Keyboard focus (:focus-visible) — the active look plus an additive accent ring, the same a11y focus indicator used across Button/Checkbox/etc. A mouse click gives active without the ring.</p>
       </div>
 
       <div class="story">
         <h3>populated</h3>
-        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Added</span></div></div></div>
-        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input input--base"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--base"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
         <p class="story-note">Has a value, not focused — label stays floated (layout doesn't revert) but every color returns to default.</p>
       </div>
 
@@ -316,9 +336,28 @@
 
       <div class="story">
         <h3>error</h3>
-        <div class="story-preview"><div class="input-field"><div class="input input--base input--error"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Last Added</span></div></div><span class="input__error">Error text</span></div></div>
-        <pre class="code"><code>&lt;div class="input-field"&gt;&lt;div class="input input--base input--error"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Last Added&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="input__error"&gt;Error text&lt;/span&gt;&lt;/div&gt;</code></pre>
+        <div class="story-preview"><div class="input-field"><div class="input input--base input--error"><div class="input__stack"><span class="input__label">Enter</span><span class="input__value">Entered value</span></div></div><span class="input__error">Error text</span></div></div>
+        <pre class="code"><code>&lt;div class="input-field"&gt;&lt;div class="input input--base input--error"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Enter&lt;/span&gt;&lt;span class="input__value"&gt;Entered value&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="input__error"&gt;Error text&lt;/span&gt;&lt;/div&gt;</code></pre>
         <p class="story-note">Red border on the field (outline.negative) plus a red helper line below it (text.negative).</p>
+      </div>
+    </div>
+
+    <h2 class="big-section">Content variants</h2>
+    <p class="section-desc">Optional additions on the value line, composed onto the same field. <strong>Currency prefix</strong> — a grey <code class="tok">$</code> symbol 4px before the amount (input.prefix). <strong>Trailing action</strong> — the secondary <a href="button.html">two-row button</a> pinned to the right, e.g. a bet-amount field's Max-stake shortcut showing the limit on its second row.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Currency prefix</h3>
+        <div class="story-preview"><div class="input input--lg"><div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div></div></div>
+        <pre class="code"><code>&lt;div class="input input--lg"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Bet amount&lt;/span&gt;&lt;span class="input__value"&gt;&lt;span class="input__prefix"&gt;$&lt;/span&gt;10&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Trailing action (Max)</h3>
+        <div class="story-preview"><div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div></div>
+        <pre class="code"><code>&lt;div class="input input--lg input--action"&gt;&lt;div class="input__stack"&gt;&lt;span class="input__label"&gt;Bet amount&lt;/span&gt;&lt;span class="input__value"&gt;&lt;span class="input__prefix"&gt;$&lt;/span&gt;10&lt;/span&gt;&lt;/div&gt;&lt;button class="btn btn--secondary btn--tworow"&gt;&lt;span class="btn__top"&gt;Max&lt;/span&gt;&lt;span class="btn__bottom"&gt;$1,000.50&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;</code></pre>
+        
       </div>
     </div>
 
