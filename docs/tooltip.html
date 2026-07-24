@@ -77,7 +77,7 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-text-on-fill: #FFFFFF;
   --tok-fill-neutral: #3E4351;
   --tok-text-default: #FFFFFF;
@@ -87,18 +87,18 @@
 }
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-raised); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
-.tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-raised); transform: rotate(45deg); }
+.tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: rotate(45deg); }
 
-.tooltip--top { bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
+.tooltip--top { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: -4px; left: 50%; margin-left: -4px; }
-.tooltip--bottom { top: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
+.tooltip--bottom { top: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 .tooltip--bottom::after { top: -4px; left: 50%; margin-left: -4px; }
-.tooltip--left { right: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
+.tooltip--left { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
 .tooltip--left::after { right: -4px; top: 50%; margin-top: -4px; }
-.tooltip--right { left: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
+.tooltip--right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
 .tooltip--right::after { left: -4px; top: 50%; margin-top: -4px; }
 </style>
 </head>
@@ -148,7 +148,7 @@
 
     <div class="legend">
       <div class="row"><b>Pure CSS</b><span>:hover/:focus-within on a wrapper + position:absolute — no JS, no native popover API. Unlike <a href="popover.html">Popover</a>, a tooltip only ever tracks its trigger's own hover/focus, never needs outside-click dismissal.</span></div>
-      <div class="row"><b>First shadow consumer</b><span>surface.inverse (the one dark surface role in this system) + shadow.sm — the first component to use either, added specifically for the floating/overlay family. See shadow.tokens.json's own $description for why a shadow is warranted here but nowhere else.</span></div>
+      <div class="row"><b>Surface + shadow</b><span>surface-6 (outline.strong) bubble + a soft shadow — a raised floating surface that reads as lifted above whatever it's over, regardless of the surface underneath.</span></div>
       <div class="row"><b>Arrow</b><span>A small rotated square (::after, same bg as the bubble) pointing at the trigger — makes the trigger-tooltip relationship unambiguous at a glance.</span></div>
       <div class="row"><b>Show delay, no hide delay</b><span>400ms delay before appearing (so passing the mouse over a trigger doesn't flash a tooltip), disappears immediately on hover/focus-out — standard practice.</span></div>
       <div class="row"><b>Placement</b><span>top/bottom/left/right, plain CSS positioning (no collision detection — a real app would want a positioning library for that; out of scope for a static token demo).</span></div>
@@ -156,7 +156,7 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
   --tok-text-on-fill: #FFFFFF;
   --tok-fill-neutral: #3E4351;
   --tok-text-default: #FFFFFF;
@@ -166,18 +166,18 @@
 }
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-surface-raised); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: 4px 8px; border-radius: 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); white-space: nowrap; font-family: var(--tok-family-sans); font-weight: 400; font-size: 12px; line-height: 1.4;
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: 400ms; }
-.tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-surface-raised); transform: rotate(45deg); }
+.tooltip::after { content: ""; position: absolute; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: rotate(45deg); }
 
-.tooltip--top { bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
+.tooltip--top { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: -4px; left: 50%; margin-left: -4px; }
-.tooltip--bottom { top: calc(100% + 4px); left: 50%; transform: translateX(-50%); }
+.tooltip--bottom { top: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 .tooltip--bottom::after { top: -4px; left: 50%; margin-left: -4px; }
-.tooltip--left { right: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
+.tooltip--left { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
 .tooltip--left::after { right: -4px; top: 50%; margin-top: -4px; }
-.tooltip--right { left: calc(100% + 4px); top: 50%; transform: translateY(-50%); }
+.tooltip--right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
 .tooltip--right::after { left: -4px; top: 50%; margin-top: -4px; }</code></pre>
 
     <h2 class="big-section">Placement</h2>

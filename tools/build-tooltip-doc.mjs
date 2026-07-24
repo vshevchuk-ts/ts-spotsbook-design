@@ -66,7 +66,7 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 // The demo triggers are real Button-component buttons (secondary / base), so this
 // page reuses the button component's own tokens — never retyping a color role by
 // hand — for both the shown-off trigger and the tooltip bubble itself.
-const colorPaths = ["surface.raised", "text.onFill", "fill.neutral", "text.default", "fill.neutralHover", "fill.neutralPressed"];
+const colorPaths = ["outline.strong", "text.onFill", "fill.neutral", "text.default", "fill.neutralHover", "fill.neutralPressed"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -89,10 +89,10 @@ function typoCss(t) {
 const css = `${rootVars}
 
 .tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: ${paddingY} ${paddingX}; border-radius: ${radius}; background: ${cv("surface.raised")}; color: ${cv("text.onFill")}; box-shadow: ${shadowCss}; white-space: nowrap; font-family: ${cv("family.sans")}; ${typoCss(labelType)}
+.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: ${paddingY} ${paddingX}; border-radius: ${radius}; background: ${cv("outline.strong")}; color: ${cv("text.onFill")}; box-shadow: ${shadowCss}; white-space: nowrap; font-family: ${cv("family.sans")}; ${typoCss(labelType)}
   opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
 .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: ${showDelay.value}${showDelay.unit}; }
-.tooltip::after { content: ""; position: absolute; width: ${px(arrowSize)}; height: ${px(arrowSize)}; background: ${cv("surface.raised")}; transform: rotate(45deg); }
+.tooltip::after { content: ""; position: absolute; width: ${px(arrowSize)}; height: ${px(arrowSize)}; background: ${cv("outline.strong")}; transform: rotate(45deg); }
 
 .tooltip--top { bottom: calc(100% + ${gap}); left: 50%; transform: translateX(-50%); }
 .tooltip--top::after { bottom: ${arrowNeg}; left: 50%; margin-left: ${arrowNeg}; }
@@ -232,7 +232,7 @@ const html = `<!doctype html>
 
     <div class="legend">
       <div class="row"><b>Pure CSS</b><span>:hover/:focus-within on a wrapper + position:absolute — no JS, no native popover API. Unlike <a href="popover.html">Popover</a>, a tooltip only ever tracks its trigger's own hover/focus, never needs outside-click dismissal.</span></div>
-      <div class="row"><b>First shadow consumer</b><span>surface.inverse (the one dark surface role in this system) + shadow.sm — the first component to use either, added specifically for the floating/overlay family. See shadow.tokens.json's own $description for why a shadow is warranted here but nowhere else.</span></div>
+      <div class="row"><b>Surface + shadow</b><span>surface-6 (outline.strong) bubble + a soft shadow — a raised floating surface that reads as lifted above whatever it's over, regardless of the surface underneath.</span></div>
       <div class="row"><b>Arrow</b><span>A small rotated square (::after, same bg as the bubble) pointing at the trigger — makes the trigger-tooltip relationship unambiguous at a glance.</span></div>
       <div class="row"><b>Show delay, no hide delay</b><span>400ms delay before appearing (so passing the mouse over a trigger doesn't flash a tooltip), disappears immediately on hover/focus-out — standard practice.</span></div>
       <div class="row"><b>Placement</b><span>top/bottom/left/right, plain CSS positioning (no collision detection — a real app would want a positioning library for that; out of scope for a static token demo).</span></div>
