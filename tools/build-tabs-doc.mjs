@@ -61,8 +61,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 // ---- color tokens this page uses, as CSS custom properties ----
 const colorPaths = [
-  "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralPressed", "surface.raised", "surface.card",
-  "outline.default", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled", "lighten.2", "text.secondary", "fill.active", "text.forActiveBg", "color.white", "bg.active",
+  "text.secondary", "text.default", "text.disabled", "fill.neutralHover", "fill.neutralPressed", "surface.raised", "surface.card", "surface.page",
+  "outline.default", "outline.strong", "outline.active", "text.onFill", "text.forActiveBg", "fill.active", "icon.default", "icon.disabled", "lighten.2", "text.secondary", "fill.active", "text.forActiveBg", "color.white", "bg.active",
   "bg.active",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -81,7 +81,7 @@ const sizes = ["sm", "base"].map((key) => {
 
 // ---- segmented ----
 const seg = {
-  trackBg: resolve("surface.raised"),
+  trackBg: resolve("surface.page"),
   trackRadius: px(resolve(tabs.segmented.trackRadius.$value)),
   trackPadding: px(resolve(tabs.segmented.trackPadding.$value)),
   pillRadius: px(resolve(tabs.segmented.pillRadius.$value)),
@@ -123,9 +123,9 @@ ${sizes
 .tab--${s.key} .tab__icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`)
   .join("\n")}
 
-.tabs--segmented { display: inline-flex; align-items: center; gap: ${seg.trackPadding}; background: ${cv("surface.raised")}; border-radius: ${seg.trackRadius}; padding: ${seg.trackPadding}; max-width: 100%; overflow-x: auto; }
+.tabs--segmented { display: inline-flex; align-items: center; gap: ${seg.trackPadding}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${seg.trackRadius}; padding: ${seg.trackPadding}; max-width: 100%; overflow-x: auto; }
 .tabs--segmented .tab { border-radius: ${seg.pillRadius}; }
-.tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("fill.neutralHover")}; color: ${cv("text.default")}; }
+.tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .tabs--segmented .tab--active { background: ${cv("bg.active")}; border: 1px solid ${cv("outline.active")}; color: ${cv("text.default")}; font-weight: ${activeWeightSegmented}; }
 .tabs--segmented .tab--disabled { color: ${cv("text.disabled")}; cursor: not-allowed; }
 .tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: ${cv("icon.disabled")}; }

@@ -29,8 +29,9 @@
         "$description": "Reuses component.counter.onNeutral exactly as built for the secondary button — inactive tab pairs with onNeutral.inactive (quiet gray.300 bg, dark label), active tab pairs with onNeutral.active (inverts to fill.primary blue, white label). Repurposes the same visual distinction (quiet vs. pops-blue) for tab-selection state instead of notification-freshness state — the tokens don't encode 'why', only how it looks, so this reuse is legitimate rather than a semantic stretch. No new counter tokens needed; sized via component.counter.size (sm/base, same keys)."
       },
       "segmented": {
-        "$description": "A track (surface.sunken — literally the same 'recessed' token as an input's own background) holding the tabs; the active tab sits on a raised white pill (surface.default) directly over the track, the exact sunken/default surface pairing cards already use for 'raised above the page'. pillRadius (8px) = trackRadius (12px) − trackPadding (4px) — concentric corners, not a coincidence: an inset shape needs a proportionally smaller radius to look correctly nested inside its parent's rounded corner. trackPadding doubles as the gap between adjacent pills — tight by design, they're meant to read as one contained control, unlike underline's own (looser) inter-tab gap.",
-        "trackBg": { "$type": "color", "$value": "{surface.raised}" },
+        "$description": "A recessed track — surface-0 (surface.page) fill + a surface-6 (outline.strong) hairline border, the same recessed pairing input/select use — holding the tabs; the active tab sits on it as a bg.active-tinted pill with an outline.active border. pillRadius (8px) = trackRadius (12px) − trackPadding (4px) — concentric corners, not a coincidence: an inset shape needs a proportionally smaller radius to look correctly nested inside its parent's rounded corner. trackPadding doubles as the gap between adjacent pills — tight by design, they're meant to read as one contained control, unlike underline's own (looser) inter-tab gap.",
+        "trackBg": { "$type": "color", "$value": "{surface.page}" },
+        "trackBorder": { "$type": "color", "$value": "{outline.strong}" },
         "trackRadius": { "$type": "dimension", "$value": "{radius.md}" },
         "trackPadding": { "$type": "dimension", "$value": "{spacing.1}" },
         "pillRadius": { "$type": "dimension", "$value": "{radius.default}" },
@@ -39,9 +40,9 @@
             "label": { "$type": "color", "$value": "{text.secondary}" }
           },
           "hover": {
-            "bg": { "$type": "color", "$value": "{fill.neutralHover}" },
+            "bg": { "$type": "color", "$value": "{lighten.2}" },
             "label": { "$type": "color", "$value": "{text.default}" },
-            "$description": "fill.neutralHover — one step darker than the track itself (surface.sunken/gray.100 → gray.200), same 'darker on hover so it stays visible' rule used everywhere else this session."
+            "$description": "A 12% lighten layer over the surface-0 track — the sportsbook hover overlay (matching Search/Button). The tab is transparent at rest, so lighten.2 composites over the track rather than swapping to a baked colour."
           },
           "active": {
             "bg": { "$type": "color", "$value": "{bg.active}" }, "border": { "$type": "color", "$value": "{outline.active}" },
