@@ -1,0 +1,91 @@
+{
+  "component": {
+    "betCard": {
+      "$description": "The betslip selection card — one bet (event + market + outcome + odds), the core repeating block of the betslip. Two densities share one anatomy: `compact` (Combo/System — odds sits inline to the right of the outcome, no stake field) and `amount` (Single — a Bet-amount field to the right of the outcome column). Header, market and outcome roles are identical across both. Built on Card's surface/border/radius language (surface.card + outline.default) but a dedicated component: it fixes a specific header/market/outcome/odds layout Card has no opinion on. Radius/padding/rhythm per Figma spec (radius.md, 8px padding, 8/4 vertical rhythm). Odds movement colours (up/down/changed) and the LIVE/FB/BB badges and suspended/error states are deliberately OUT of this first pass — they become the separate Odds component + Badge variants + card states.",
+      "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — a touch rounder than the 8px go-to (Card/Button), matching the betslip cards' softer corner." },
+      "bg": { "$type": "color", "$value": "{surface.card}", "$description": "The card sits on the page (surface.page); it is the first elevation, surface.card — same as Card." },
+      "border": { "$type": "color", "$value": "{outline.default}", "$description": "Hairline, same as Card's edge." },
+      "padding": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px inner padding (Figma spec) — tighter than Card's 16px because betslip cards stack densely." },
+      "sectionGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px — header ↔ body block." },
+      "lineGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px — between market ↔ outcome ↔ odds lines." },
+      "header": {
+        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the leading icon, event link and remove ×." },
+        "icon": {
+          "size": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px discipline (sport) glyph." },
+          "color": { "$type": "color", "$value": "{icon.secondary}", "$description": "Muted grey — chrome icon, not content." }
+        },
+        "event": {
+          "type": { "$type": "typography", "$value": "{text-style.link-sm}", "$description": "12px underlined link — the event is tappable (opens the event page); truncates with ellipsis." },
+          "color": { "$type": "color", "$value": "{text.secondary}", "$description": "Secondary grey; the outcome below is the emphasised line, not the event name." }
+        },
+        "remove": {
+          "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
+          "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
+          "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px — subtle rounding on the hover square." },
+          "color": { "$type": "color", "$value": "{icon.secondary}" },
+          "hoverFill": { "$type": "color", "$value": "{lighten.2}", "$description": "12% white lighten on hover — the dark-surface hover overlay, same as every other icon button." },
+          "hoverColor": { "$type": "color", "$value": "{text.default}" }
+        }
+      },
+      "market": {
+        "type": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular — the market name (e.g. 'Match Winner'), muted; truncates." },
+        "color": { "$type": "color", "$value": "{text.secondary}" },
+        "info": {
+          "size": { "$type": "dimension", "$value": "{spacing.3_5}", "$description": "14px settlement-rules info glyph (ui/info-outline)." },
+          "color": { "$type": "color", "$value": "{icon.warning}", "$description": "Gold/warning — flags a market with special settlement rules; tapping opens the rich tooltip. Plain markets have no info icon." }
+        }
+      },
+      "outcome": {
+        "type": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{family.sans}",
+            "fontWeight": "{weight.bold}",
+            "fontSize": "{size.base}",
+            "lineHeight": "{leading.tight}",
+            "letterSpacing": "{tracking.normal}"
+          },
+          "$description": "14px bold (weight.bold = the odds/team-name strong step) — the selected outcome, the card's emphasised line. Composed inline: no text-style pairs bold weight with a non-caps body size."
+        },
+        "color": { "$type": "color", "$value": "{text.default}" }
+      },
+      "odds": {
+        "type": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{family.sans}",
+            "fontWeight": "{weight.bold}",
+            "fontSize": "{size.md}",
+            "lineHeight": "{leading.tight}",
+            "letterSpacing": "{tracking.normal}"
+          },
+          "$description": "16px bold, tabular-nums — the odds value. A hair larger than the outcome so the number reads first. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there."
+        },
+        "color": { "$type": "color", "$value": "{text.default}" }
+      },
+      "amount": {
+        "$description": "The per-selection Bet-amount field (Single/`amount` density only). A floating-label box inset in the card: darker than the card (surface.page) so it reads as an input well, not another card. The ticket-notched silhouette from Figma is deferred to the Input component's bet-amount variant — this pass uses a clean rounded well.",
+        "bg": { "$type": "color", "$value": "{surface.page}", "$description": "Darker than the card — an inset input well on surface.card." },
+        "border": { "$type": "color", "$value": "{outline.default}" },
+        "focusBorder": { "$type": "color", "$value": "{outline.active}", "$description": "Active-colour border on focus — same focus cue as every field." },
+        "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — matches the card's own corner." },
+        "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
+        "paddingY": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px vertical." },
+        "labelType": { "$type": "typography", "$value": "{text-style.body-xs}", "$description": "10px — the 'Bet amount' floating label." },
+        "labelColor": { "$type": "color", "$value": "{text.secondary}" },
+        "valueType": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{family.sans}",
+            "fontWeight": "{weight.bold}",
+            "fontSize": "{size.md}",
+            "lineHeight": "{leading.tight}",
+            "letterSpacing": "{tracking.normal}"
+          },
+          "$description": "16px bold — the entered stake, tabular-nums."
+        },
+        "valueColor": { "$type": "color", "$value": "{text.default}" }
+      }
+    }
+  }
+}

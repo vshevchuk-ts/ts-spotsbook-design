@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Mobile betslip</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 4rem 4rem 6rem; max-width: 1120px; }
+
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 70ch; line-height: 1.6; }
+
+  .stage { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
+  .phone { width: 390px; height: 780px; flex-shrink: 0; border-radius: 44px; padding: 12px; background: #050506; box-shadow: 0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--border); }
+  .phone__screen { position: relative; width: 100%; height: 100%; border-radius: 33px; overflow: hidden; background: #000; }
+  .phone__notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 26px; border-radius: 14px; background: #050506; z-index: 5; }
+  .phone__inner { position: absolute; inset: 0; padding-top: 44px; display: flex; }
+
+  .notes { max-width: 340px; }
+  .notes h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+  .notes ul { margin: 0 0 1.75rem; padding-left: 18px; }
+  .notes li { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 6px; }
+  .notes li b { color: var(--text-primary); font-weight: 600; }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  :root {
+  --tok-surface-page: #11141C;
+  --tok-surface-card: #1C202B;
+  --tok-surface-raised: #282E3E;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-neutral: #3E4351;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-bg-accent: rgba(49, 168, 255, 0.12);
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-outline-default: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-active: #FB8C33;
+  --tok-text-positive: #00A828;
+  --tok-text-for-active-bg: #11141C;
+  --tok-text-accent: #31A8FF;
+  --tok-icon-default: #8E929F;
+  --tok-icon-active: #FB8C33;
+  --tok-icon-secondary: #8E929F;
+  --tok-label-live: rgba(49, 168, 255, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.bs {
+  font-family: var(--tok-family-sans);
+  background: var(--tok-surface-page);
+  color: var(--tok-text-default);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* header */
+.bs__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; }
+.bs__title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; }
+.bs__count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-size: 12px; font-weight: 700; }
+.bs__clear { display: inline-flex; align-items: center; gap: 5px; border: none; background: none; cursor: pointer; color: var(--tok-icon-secondary); font-family: inherit; font-size: 12px; padding: 6px 8px; border-radius: 8px; }
+.bs__clear:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.bs__clear svg { width: 16px; height: 16px; }
+
+/* bet-type tabs (underline) */
+.bs__tabs { display: flex; gap: 4px; padding: 0 16px; border-bottom: 1px solid var(--tok-outline-default); }
+.bs__tab { position: relative; flex: 1; text-align: center; padding: 10px 4px 12px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--tok-text-secondary); }
+.bs__tab .n { color: var(--tok-text-secondary); font-weight: 700; }
+.bs__tab.is-active { color: var(--tok-text-default); }
+.bs__tab.is-active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--tok-outline-active); }
+
+/* scrolling selection list */
+.bs__list { flex: 1; overflow-y: auto; padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 10px; }
+
+.pick { background: var(--tok-surface-card); border: 0.5px solid var(--tok-outline-default); border-radius: 14px; padding: 12px 14px; }
+.pick__top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.pick__live { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px 2px 5px; border-radius: 6px; background: var(--tok-bg-accent); color: var(--tok-text-accent); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.pick__live svg { width: 12px; height: 12px; }
+.pick__league { font-size: 11.5px; color: var(--tok-text-secondary); }
+.pick__x { margin-left: auto; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 7px; border: none; background: none; cursor: pointer; color: var(--tok-icon-secondary); }
+.pick__x:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.pick__x svg { width: 18px; height: 18px; }
+.pick__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.pick__sel { font-size: 14.5px; font-weight: 600; }
+.pick__market { font-size: 12px; color: var(--tok-text-secondary); margin-top: 2px; }
+.pick__match { font-size: 12px; color: var(--tok-text-secondary); margin-top: 6px; }
+.pick__odds { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pick__odds.up { color: var(--tok-text-positive); }
+
+/* footer summary — sticky combo block */
+.bs__foot { border-top: 1px solid var(--tok-outline-default); background: var(--tok-surface-card); padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
+.stake { display: flex; align-items: center; gap: 10px; }
+.stake__field { flex: 1; display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border-radius: 12px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); }
+.stake__field:focus-within { border-color: var(--tok-outline-active); }
+.stake__cur { color: var(--tok-text-secondary); font-size: 15px; }
+.stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-family: inherit; font-size: 16px; font-weight: 600; }
+.chips { display: flex; gap: 6px; }
+.chip { flex-shrink: 0; padding: 0 12px; height: 44px; border-radius: 12px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.chip:hover { border-color: var(--tok-outline-strong); }
+.chip--bolt { display: inline-flex; align-items: center; justify-content: center; padding: 0; width: 44px; color: var(--tok-icon-active); }
+.chip--bolt svg { width: 18px; height: 18px; }
+
+.summ { display: flex; flex-direction: column; gap: 6px; }
+.summ__row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+.summ__row .k { color: var(--tok-text-secondary); display: inline-flex; align-items: center; gap: 4px; }
+.summ__row .k svg { width: 14px; height: 14px; color: var(--tok-icon-secondary); }
+.summ__row .v { font-weight: 600; font-variant-numeric: tabular-nums; }
+.summ__row.win .k { color: var(--tok-text-default); font-weight: 600; font-size: 14px; }
+.summ__row.win .v { color: var(--tok-text-positive); font-weight: 700; font-size: 18px; }
+
+.place { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; width: 100%; height: 54px; border: none; border-radius: 14px; cursor: pointer; font-family: inherit; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.place:hover { background: var(--tok-fill-active-hover); }
+.place__t { font-size: 15px; font-weight: 700; }
+.place__s { font-size: 12px; font-weight: 500; opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab" href="index.html">DS</a>
+    <a class="ds-tab active" href="mobile-betslip.html">Designs</a>
+  </div>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Product designs & prototypes</p>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink active" href="mobile-betslip.html">Mobile betslip</a>
+  </nav>
+  <main>
+    <h1>Mobile betslip</h1>
+    <p class="sub">A multi (combo) betslip for the mobile app — built from the Turbo Sportsbook tokens. Every colour on the screen resolves from <code class="tok">tokens/semantic/color.tokens.json</code> into a <code class="tok">--tok-*</code> variable; nothing is a literal hex. This is a screen prototype for the betslip task, not a component contract — iterate on it here before it goes into the app.</p>
+
+    <div class="stage">
+      <div class="phone">
+        <div class="phone__screen">
+          <div class="phone__notch"></div>
+          <div class="phone__inner">
+            
+      <div class="bs">
+        <div class="bs__head">
+          <div class="bs__title">Betslip <span class="bs__count">3</span></div>
+          <button class="bs__clear"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM7.05 9.9L8.225 8.725L10 10.4917L11.7667 8.725L12.9417 9.9L11.175 11.6667L12.9417 13.4333L11.7667 14.6083L10 12.8417L8.23333 14.6083L7.05833 13.4333L8.825 11.6667L7.05 9.9ZM12.9167 3.33333L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333H12.9167Z" fill="currentColor"/></g></svg> Clear all</button>
+        </div>
+
+        <div class="bs__tabs">
+          <button class="bs__tab">Single</button>
+          <button class="bs__tab is-active">Multi <span class="n">×3</span></button>
+          <button class="bs__tab">System</button>
+        </div>
+
+        <div class="bs__list">
+          
+        <div class="pick">
+          <div class="pick__top">
+            <span class="pick__live"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 2.5H4.16667C3.2475 2.5 2.5 3.2475 2.5 4.16667V15.8333C2.5 16.7525 3.2475 17.5 4.16667 17.5H15.8333C16.7525 17.5 17.5 16.7525 17.5 15.8333V4.16667C17.5 3.2475 16.7525 2.5 15.8333 2.5ZM12.9592 10.6442L8.60917 13.13C8.115 13.4125 7.5 13.055 7.5 12.4858V7.51417C7.5 6.94417 8.115 6.5875 8.61 6.87L12.96 9.35583C13.4583 9.64083 13.4583 10.3592 12.9592 10.6442Z" fill="currentColor"/></svg> Live</span>
+            <span class="pick__league">Premier League</span>
+            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+          </div>
+          <div class="pick__row">
+            <div>
+              <div class="pick__sel">Arsenal to win</div>
+              <div class="pick__market">Match Result — 1X2</div>
+            </div>
+            <div class="pick__odds up">2.10</div>
+          </div>
+          <div class="pick__match">Arsenal — Chelsea</div>
+        </div>
+
+        <div class="pick">
+          <div class="pick__top">
+            
+            <span class="pick__league">La Liga</span>
+            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+          </div>
+          <div class="pick__row">
+            <div>
+              <div class="pick__sel">Over 2.5 goals</div>
+              <div class="pick__market">Total Goals</div>
+            </div>
+            <div class="pick__odds">1.72</div>
+          </div>
+          <div class="pick__match">Real Madrid — Sevilla</div>
+        </div>
+
+        <div class="pick">
+          <div class="pick__top">
+            
+            <span class="pick__league">NBA</span>
+            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+          </div>
+          <div class="pick__row">
+            <div>
+              <div class="pick__sel">L. Dončić 30+ points</div>
+              <div class="pick__market">Player Props</div>
+            </div>
+            <div class="pick__odds">2.33</div>
+          </div>
+          <div class="pick__match">Mavericks — Nuggets</div>
+        </div>
+        </div>
+
+        <div class="bs__foot">
+          <div class="stake">
+            <div class="stake__field">
+              <span class="stake__cur">$</span>
+              <input class="stake__input" value="20.00" inputmode="decimal" aria-label="Stake" />
+            </div>
+            <button class="chip">Max</button>
+            <button class="chip chip--bolt" aria-label="Quick bet"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></button>
+          </div>
+
+          <div class="summ">
+            <div class="summ__row"><span class="k">Total odds</span><span class="v">8.42</span></div>
+            <div class="summ__row"><span class="k">Total stake</span><span class="v">$20.00</span></div>
+            <div class="summ__row win"><span class="k">Potential win <span aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="v">$168.40</span></div>
+          </div>
+
+          <button class="place">
+            <span class="place__t">Place bet</span>
+            <span class="place__s">Win $168.40</span>
+          </button>
+        </div>
+      </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h2>What's on the screen</h2>
+        <ul>
+          <li><b>Header</b> — title + live selection count (<code class="tok">fill.active</code> pill), Clear all.</li>
+          <li><b>Bet-type tabs</b> — Single / Multi / System, underline style with <code class="tok">outline.active</code>.</li>
+          <li><b>Selection cards</b> — <code class="tok">surface.card</code> on <code class="tok">surface.page</code>; live tag uses the accent tint (<code class="tok">bg.accent</code> / <code class="tok">text.accent</code>); odds that drifted up show in <code class="tok">text.positive</code>.</li>
+          <li><b>Footer</b> — sticky combo block: stake field + quick chips (Max, quick-bet bolt), total odds / stake, potential win in <code class="tok">text.positive</code>, and the Place bet two-row primary button.</li>
+        </ul>
+        <h2>Open questions</h2>
+        <ul>
+          <li>Per-selection stake in Single mode — separate layout, not built yet.</li>
+          <li>Errors / suspended markets (<code class="tok">outline.negative</code>, lock icon) — to add.</li>
+          <li>Freebet toggle & bonus rows in the summary.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

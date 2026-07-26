@@ -49,9 +49,17 @@ A design system for the **Turbo Sportsbook** product, started as a detached dupl
 
 **Known non-bugs:** `file://` preview is flaky (use `python3 -m http.server 8743` in `docs/`). The screenshot action returns blank on tall pages after scrolling far — verify via `read_page`/`get_page_text`/computed-style JS.
 
-## Components (23)
+## Components (23 core + betslip)
 
 Button, Counter, Input, Select, Search, Pagination, Separator, Tabs, Checkbox, Radio, Box, Card, Switch, Grid, Tooltip, Popover, Drawer, Modal, Menu, Listbox, Avatar, Badge, Chip. **All migrated to canonical sportsbook colours; all 28 doc pages build.**
+
+## Betslip build (mobile — in progress)
+
+Reference screens live in `~/Documents/betslip-mobile/` (82 screens, Blue theme). Full component gap analysis done → checklist artifact (9 build-new · 7 extend · 8 reuse). A **Designs** section was added to the docs nav (DS ⇄ Designs tabs at the top of the sidebar, in `nav.mjs` + hand-authored `index.html`); first Designs page is `docs/mobile-betslip.html` (a screen prototype, colours token-driven, layout literal px).
+
+Component progress:
+- ✅ **Bet selection card** (`tokens/components/bet-card.tokens.json` + `build-bet-card-doc.mjs` → `docs/bet-card.html`, nav under a new **Betslip** category in both DS Components and index.html). Two densities off one anatomy: `--compact` (Combo/System, inline odds) and `--amount` (Single, per-selection Bet-amount well). Spec locked with the user: radius.md (12px), 8px padding, 8/4 vertical rhythm; outcome 14px bold, odds 16px bold (weight.bold), tabular-nums; event = link-sm underline (text.secondary, truncates); remove × = 24px, icon.secondary, lighten.2 hover; settlement info = icon.warning (only on special-rules markets); amount well = surface.page inset, outline.active on focus. **Deferred to later passes** (called out in the page legend): odds *movement* → Odds component; LIVE/FB/BB → Badge variants; suspended (lock) + per-card error strip → card states; the amount field's ticket-notch silhouette → Input bet-amount variant.
+- Next candidates (highest downstream unblock): **Alert/inline banner** and **Toast** (neither exists in the system).
 
 ## Phase 2 — DONE (autonomous run)
 

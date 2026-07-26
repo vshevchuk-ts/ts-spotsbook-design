@@ -80,6 +80,16 @@
 <body>
 <div class="shell">
   <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab active" href="index.html">DS</a>
+    <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+  </div>
     <p class="brand">Turbo Sportsbook</p>
     <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink" href="index.html">Overview</a>
@@ -116,6 +126,8 @@
     <a class="navlink" href="listbox.html">Listbox</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
   </nav>
   <main>
     <h1>Semantic colors</h1>
@@ -134,7 +146,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#11141C</code> &nbsp;·&nbsp; alias of <code>color.base.surface-0</code></p>
-        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li></ul>
+        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>amount</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>quickBet · checked</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -148,7 +160,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#1C202B</code> &nbsp;·&nbsp; alias of <code>color.base.surface-2</code></p>
-        <p class="used-h">Used in 8 components:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li></ul>
+        <p class="used-h">Used in 10 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>—</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>quickBet · state</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -162,7 +174,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#282E3E</code> &nbsp;·&nbsp; alias of <code>color.base.surface-4</code></p>
-        <p class="used-h">Used in 11 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code> <code>role · neutral · solid</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · filledNeutral · state · default</code> <code>betslip · state · hover</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · hover</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>state · checked</code> <code>state · checkedHover</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented</code></span></li></ul>
+        <p class="used-h">Used in 10 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code> <code>role · neutral · solid</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>surface</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · filledNeutral · state · default</code> <code>betslip · state · hover</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · hover</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>state · checked</code> <code>state · checkedHover</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · hover</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>quickBet · state</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -225,7 +237,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#DD7B2D</code></p>
-        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · hover</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · checkedHover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedHover</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · checkedHover</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · checkedHover</code></span></li></ul>
+        <p class="used-h">Used in 4 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · hover</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · checkedHover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedHover</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · checkedHover</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -323,7 +335,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
-        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · warning · solid</code></span></li></ul>
+        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · warning · solid</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>quickBet · checked</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -351,7 +363,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#555A66</code></p>
-        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · hover</code> <code>ghost · state · hover</code> <code>roundIcon · filledNeutral · state · hover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · remove</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · hover</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · hover</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · hover</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · hover</code></span></li></ul>
+        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · hover</code> <code>ghost · state · hover</code> <code>roundIcon · filledNeutral · state · hover</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · remove</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · hover</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · hover</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · hover</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -486,7 +498,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#282E3E</code> &nbsp;·&nbsp; alias of <code>color.base.surface-4</code></p>
-        <p class="used-h">Used in 16 components:</p><ul class="used-list"><li><a href="box.html">Box</a><span class="ctx"><code>—</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · disabled</code> <code>state · disabledChecked</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code> <code>state · disabled</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>—</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>underline</code></span></li></ul>
+        <p class="used-h">Used in 16 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>amount</code></span></li><li><a href="box.html">Box</a><span class="ctx"><code>—</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>—</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · disabled</code> <code>state · disabledChecked</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · disabled</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>—</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>underline</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -500,7 +512,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#3E4351</code> &nbsp;·&nbsp; alias of <code>color.base.surface-6</code></p>
-        <p class="used-h">Used in 8 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · outline · state · default</code> <code>betslip · state · pressed</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · hover</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · hover</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · hover</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · hover</code></span></li></ul>
+        <p class="used-h">Used in 9 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · outline · state · default</code> <code>betslip · state · pressed</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · hover</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code> <code>quickBet · state</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented</code></span></li><li><a href="tooltip.html">Tooltip</a><span class="ctx"><code>—</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -514,7 +526,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-2</code></p>
-        <p class="used-h">Used in 4 components:</p><ul class="used-list"><li><a href="input.html">Input</a><span class="ctx"><code>state · active</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · focus</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · focus</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · active</code> <code>underline</code></span></li></ul>
+        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>amount</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · active</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · focus</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · active</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · active</code> <code>underline</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -528,7 +540,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#31A8FF</code> &nbsp;·&nbsp; alias of <code>color.base.accent</code></p>
-        <p class="used-h">Used in 7 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · focused</code> <code>secondary · state · focused</code> <code>ghost · state · focused</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>interactive · state · focused</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · focused</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>focus</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · focused</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · focused</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · focused</code></span></li></ul>
+        <p class="used-h">Used in 8 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>primary · state · focused</code> <code>secondary · state · focused</code> <code>ghost · state · focused</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>interactive · state · focused</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · focused</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>focus</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · focused</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · focused</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · focused</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · focused</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -588,7 +600,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#FFFFFF</code> &nbsp;·&nbsp; alias of <code>color.base.contrast</code></p>
-        <p class="used-h">Used in 18 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · solid</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code> <code>roundIcon · outline · state · hover</code> <code>roundIcon · outline · state · pressed</code> <code>roundIcon · filledNeutral · state · hover</code> <code>roundIcon · filledNeutral · state · pressed</code> <code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onNeutral · state · inactive</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · default</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · hover</code> <code>segmented · state · active</code> <code>underline · state · hover</code> <code>underline · state · active</code></span></li></ul>
+        <p class="used-h">Used in 19 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · solid</code></span></li><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>header · remove</code> <code>outcome</code> <code>odds</code> <code>amount</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code> <code>roundIcon · outline · state · hover</code> <code>roundIcon · outline · state · pressed</code> <code>roundIcon · filledNeutral · state · hover</code> <code>roundIcon · filledNeutral · state · pressed</code> <code>betslip · state · default</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onNeutral · state · inactive</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · default</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>state · default</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>state · default</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>state · default</code> <code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>clear</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · default</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · hover</code> <code>segmented · state · active</code> <code>underline · state · hover</code> <code>underline · state · active</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -602,7 +614,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#8E929F</code> &nbsp;·&nbsp; alias of <code>color.base.secondary</code></p>
-        <p class="used-h">Used in 15 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>ghost · state · default</code> <code>twoRow · secondary</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>group</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>prefix</code> <code>state · default</code> <code>state · populated</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>selectAllRow</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>ellipsis</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code> <code>state · populated</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>label</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · default</code> <code>underline · state · default</code></span></li></ul>
+        <p class="used-h">Used in 16 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · neutral · tint</code></span></li><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>header · event</code> <code>market</code> <code>amount</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>ghost · state · default</code> <code>twoRow · secondary</code></span></li><li><a href="card.html">Card</a><span class="ctx"><code>—</code></span></li><li><a href="checkbox.html">Checkbox</a><span class="ctx"><code>group</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>prefix</code> <code>state · default</code> <code>state · populated</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>selectAllRow</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="pagination.html">Pagination</a><span class="ctx"><code>ellipsis</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li><li><a href="radio.html">Radio</a><span class="ctx"><code>group</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code> <code>state · populated</code></span></li><li><a href="separator.html">Separator</a><span class="ctx"><code>label</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · default</code> <code>underline · state · default</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -644,7 +656,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#FB8C33</code> &nbsp;·&nbsp; alias of <code>color.base.active-1</code></p>
-        <p class="used-h">Used in 4 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · active · tint</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedOutline</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>selectAllRow</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · focus</code></span></li></ul>
+        <p class="used-h">Used in 3 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · active · tint</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · checkedOutline</code></span></li><li><a href="listbox.html">Listbox</a><span class="ctx"><code>selectAllRow</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -686,7 +698,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#F90643</code> &nbsp;·&nbsp; alias of <code>color.status.negative</code></p>
-        <p class="used-h">Used in 3 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · negative · tint</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · error</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · destructive</code></span></li></ul>
+        <p class="used-h">Used in 4 components:</p><ul class="used-list"><li><a href="badge.html">Badge</a><span class="ctx"><code>role · negative · tint</code></span></li><li><a href="input.html">Input</a><span class="ctx"><code>state · error</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · destructive</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · error</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -746,7 +758,7 @@
       <div class="tbody">
         <p class="tdesc">Most sportsbook icons (field/leading icons, chevrons, pagination arrows, tab icons, close ×) are muted grey, not full-contrast white; use icon.contrast/onFill/forActiveBg where an icon genuinely needs to be bright/dark.</p>
         <p class="tresolves">Resolves to <code>#8E929F</code> &nbsp;·&nbsp; alias of <code>color.base.secondary</code></p>
-        <p class="used-h">Used in 4 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code> <code>roundIcon · outline · state · default</code> <code>roundIcon · filledNeutral · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>state · populated</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li></ul>
+        <p class="used-h">Used in 5 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>secondary · state · default</code> <code>roundIcon · outline · state · default</code> <code>roundIcon · filledNeutral · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>toggle · default</code> <code>removable · default</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · default</code> <code>clear</code></span></li><li><a href="select.html">Select</a><span class="ctx"><code>state · default</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>quickBet · state</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -760,7 +772,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#8E929F</code> &nbsp;·&nbsp; alias of <code>color.base.secondary</code></p>
-        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>ghost · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · remove</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li></ul>
+        <p class="used-h">Used in 7 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>header · icon</code> <code>header · remove</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>ghost · state · default</code></span></li><li><a href="chip.html">Chip</a><span class="ctx"><code>removable · remove</code></span></li><li><a href="drawer.html">Drawer</a><span class="ctx"><code>—</code></span></li><li><a href="menu.html">Menu</a><span class="ctx"><code>state · default</code></span></li><li><a href="modal.html">Modal</a><span class="ctx"><code>—</code></span></li><li><a href="popover.html">Popover</a><span class="ctx"><code>—</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -844,7 +856,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>#FFC12E</code> &nbsp;·&nbsp; alias of <code>color.status.warning</code></p>
-        <p class="used none">Not yet referenced by any component token.</p>
+        <p class="used-h">Used in 1 component:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>market · info</code></span></li></ul>
       </div>
     </details>
 <details class="tok">
@@ -1192,7 +1204,7 @@
       <div class="tbody">
         
         <p class="tresolves">Resolves to <code>rgba(255, 255, 255, 0.12)</code> &nbsp;·&nbsp; alias of <code>color.sub.white-2</code></p>
-        <p class="used-h">Used in 2 components:</p><ul class="used-list"><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · outline · state · hover</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onPrimary · state · inactive</code> <code>onNeutral · state · inactive</code></span></li></ul>
+        <p class="used-h">Used in 6 components:</p><ul class="used-list"><li><a href="bet-card.html">Bet-card</a><span class="ctx"><code>header · remove</code></span></li><li><a href="button.html">Button</a><span class="ctx"><code>roundIcon · outline · state · hover</code></span></li><li><a href="counter.html">Counter</a><span class="ctx"><code>onPrimary · state · inactive</code> <code>onNeutral · state · inactive</code></span></li><li><a href="search.html">Search</a><span class="ctx"><code>state · hover</code> <code>clear</code></span></li><li><a href="switch.html">Switch</a><span class="ctx"><code>state · hover</code> <code>state · checkedHover</code></span></li><li><a href="tabs.html">Tabs</a><span class="ctx"><code>segmented · state · hover</code> <code>underline · state · hover</code></span></li></ul>
       </div>
     </details>
 <details class="tok">

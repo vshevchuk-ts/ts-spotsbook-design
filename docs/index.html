@@ -54,6 +54,10 @@
   .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
   .navlink.disabled { color: var(--text-muted); cursor: default; pointer-events: none; }
   .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+  .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+  .ds-tab:hover { color: var(--text-primary); }
+  .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
   .tag { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border: 0.5px solid var(--border-strong); border-radius: 4px; padding: 1px 5px; }
   main { flex: 1; padding: 3rem 3rem 4rem; max-width: 980px; }
   h1 { font-size: 24px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
@@ -75,6 +79,10 @@
 <body>
 <div class="shell">
   <nav class="side">
+    <div class="ds-tabs">
+      <a class="ds-tab active" href="index.html">DS</a>
+      <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+    </div>
     <p class="brand">Turbo Sportsbook</p>
     <p class="brand-sub">Turbo Sportsbook design system</p>
     <a class="navlink active" href="index.html">Overview</a>
@@ -111,6 +119,8 @@
     <a class="navlink" href="listbox.html">Listbox</a>
     <a class="navlink" href="badge.html">Badge</a>
     <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
   </nav>
   <main>
     <h1>Turbo Sportsbook</h1>
