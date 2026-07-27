@@ -1,11 +1,10 @@
 {
   "component": {
     "betCard": {
-      "$description": "The betslip selection card — one bet (event + market + outcome + odds), the core repeating block of the betslip. Two densities share one anatomy: `compact` (Combo/System — odds sits inline to the right of the outcome, no stake field) and `amount` (Single — a Bet-amount field to the right of the outcome column). Header, market and outcome roles are identical across both. Built on Card's surface/border/radius language (surface.card + outline.default) but a dedicated component: it fixes a specific header/market/outcome/odds layout Card has no opinion on. Radius/padding/rhythm per Figma spec (radius.md, 8px padding, 8/4 vertical rhythm). Odds movement colours (up/down/changed) and the LIVE/FB/BB badges and suspended/error states are deliberately OUT of this first pass — they become the separate Odds component + Badge variants + card states.",
+      "$description": "The betslip selection card — one bet (event + market + outcome + odds), the core repeating block of the betslip. Two densities share one anatomy: `compact` (Combo/System — odds sits inline to the right of the outcome, no stake field) and `amount` (Single — a Bet-amount field to the right of the outcome column). Header and market are identical across both; the outcome differs (see outcome). Sits directly on the page (surface.page), one elevation up (surface.raised = surface-4), NO border — the surface step alone separates it, unlike Card's hairline. Radius/padding/rhythm per Figma spec (radius.md, 8px padding, 8/4 vertical rhythm). Odds movement colours (up/down/changed) and the LIVE/FB/BB badges and suspended/error states are deliberately OUT of this first pass — they become the separate Odds component + Badge variants + card states.",
       "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — a touch rounder than the 8px go-to (Card/Button), matching the betslip cards' softer corner." },
-      "bg": { "$type": "color", "$value": "{surface.card}", "$description": "The card sits on the page (surface.page); it is the first elevation, surface.card — same as Card." },
-      "border": { "$type": "color", "$value": "{outline.default}", "$description": "Hairline, same as Card's edge." },
-      "padding": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px inner padding (Figma spec) — tighter than Card's 16px because betslip cards stack densely." },
+      "bg": { "$type": "color", "$value": "{surface.raised}", "$description": "surface-4 — one elevation above the page (surface.page); no border, the surface step alone lifts the card." },
+      "padding": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px inner padding (Figma spec) — 20px sport icon / × sit flush 8px from the card edges." },
       "sectionGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px — header ↔ body block." },
       "lineGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px — between market ↔ outcome ↔ odds lines." },
       "header": {
@@ -17,14 +16,14 @@
         "event": {
           "type": { "$type": "typography", "$value": "{text-style.link-sm}", "$description": "12px underlined link — the event is tappable (opens the event page); truncates with ellipsis." },
           "color": { "$type": "color", "$value": "{text.secondary}", "$description": "Secondary grey; the outcome below is the emphasised line, not the event name." },
-          "hoverColor": { "$type": "color", "$value": "{text.default}", "$description": "Brightens to white on hover — the link is a tap target." }
+          "hoverColor": { "$type": "color", "$value": "{text.active}", "$description": "Turns the active colour on hover — the link is a tap target (opens the event)." }
         },
         "remove": {
-          "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
+          "box": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px — the × is a ghost icon button, same 20px footprint as the sport icon, flush 8px from the card edge." },
           "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
           "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px — subtle rounding on the hover square." },
           "color": { "$type": "color", "$value": "{icon.secondary}" },
-          "hoverFill": { "$type": "color", "$value": "{lighten.2}", "$description": "12% white lighten on hover — the dark-surface hover overlay, same as every other icon button." },
+          "hoverFill": { "$type": "color", "$value": "{lighten.2}", "$description": "12% white lighten on hover — the ghost-button hover overlay for a small icon button on an elevated surface." },
           "hoverColor": { "$type": "color", "$value": "{text.default}" }
         }
       },
@@ -38,11 +37,13 @@
         }
       },
       "outcome": {
-        "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold (heading-base) — the selected outcome, the card's emphasised line." },
+        "$description": "The selected outcome. Density-specific weight: in `compact` (Combo/System) it is the emphasised line — 14px semibold (heading-base); in `amount` (Single) the odds is the emphasised value instead, so the outcome steps down to 12px regular (body-sm) but stays white (text.default), not muted.",
+        "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold (heading-base) — Combo/System." },
+        "singleType": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular (body-sm), white — Single density, where the odds carries the emphasis." },
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "odds": {
-        "type": { "$type": "typography", "$value": "{text-style.heading-md}", "$description": "16px semibold (heading-md), tabular-nums — the odds value. A hair larger than the outcome so the number reads first. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there." },
+        "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold (heading-base), tabular-nums — the odds value, in both densities. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there." },
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "amount": {
@@ -51,6 +52,7 @@
         "border": { "$type": "color", "$value": "{outline.default}" },
         "focusBorder": { "$type": "color", "$value": "{outline.active}", "$description": "Active-colour border on focus — same focus cue as every field." },
         "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — matches the card's own corner." },
+        "width": { "$type": "dimension", "$value": "{spacing.40}", "$description": "160px fixed — a column of Single cards lines up." },
         "height": { "$type": "dimension", "$value": "{spacing.12}", "$description": "48px fixed — a standard field height; bottom-aligned in the card, not stretched to the content height." },
         "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
         "labelType": { "$type": "typography", "$value": "{text-style.body-xs}", "$description": "10px — the 'Bet amount' floating label." },

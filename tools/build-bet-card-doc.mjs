@@ -63,9 +63,9 @@ const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 // ---- colours this page uses, emitted as :root --tok-* vars ----
 const colorPaths = [
-  "surface.card", "surface.page",
+  "surface.raised", "surface.page",
   "outline.default", "outline.active",
-  "text.default", "text.secondary",
+  "text.default", "text.active", "text.secondary",
   "icon.secondary", "icon.warning",
   "lighten.2",
 ];
@@ -86,6 +86,7 @@ const removeRadius = px(resolve(bc.header.remove.radius.$value));
 const infoSize = px(resolve(bc.market.info.size.$value));
 const marketGap = px(resolve(bc.market.gap.$value));
 const amtRadius = px(resolve(bc.amount.radius.$value));
+const amtWidth = px(resolve(bc.amount.width.$value));
 const amtHeight = px(resolve(bc.amount.height.$value));
 const amtPadX = px(resolve(bc.amount.paddingX.$value));
 
@@ -105,6 +106,7 @@ function typoOf(node) {
 const eventType = typoOf(bc.header.event.type);
 const marketType = typoOf(bc.market.type);
 const outcomeType = typoOf(bc.outcome.type);
+const outcomeSingleType = typoOf(bc.outcome.singleType);
 const oddsType = typoOf(bc.odds.type);
 const amtLabelType = typoOf(bc.amount.labelType);
 const amtValueType = typoOf(bc.amount.valueType);
@@ -112,7 +114,7 @@ const amtValueType = typoOf(bc.amount.valueType);
 // ---- the stylesheet — printed as code AND used to render the live previews ----
 const css = `${rootVars}
 
-.betcard { box-sizing: border-box; background: ${cv("surface.card")}; border: 1px solid ${cv("outline.default")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
+.betcard { box-sizing: border-box; background: ${cv("surface.raised")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
 .betcard * { box-sizing: border-box; }
 
 /* header: leading discipline icon · event link · remove × */
@@ -120,7 +122,7 @@ const css = `${rootVars}
 .betcard__icon { width: ${iconSize}; height: ${iconSize}; flex-shrink: 0; color: ${cv("icon.secondary")}; }
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 1; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
-.betcard__event:hover { color: ${cv("text.default")}; }
+.betcard__event:hover { color: ${cv("text.active")}; }
 .betcard__remove { flex-shrink: 0; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
 .betcard__remove:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
@@ -130,8 +132,10 @@ const css = `${rootVars}
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; }
 
-/* outcome + odds */
+/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
+   compact, stepped down to 12px regular in the amount density where odds leads. */
 .betcard__outcome { color: ${cv("text.default")}; ${outcomeType} }
+.betcard--amount .betcard__outcome { ${outcomeSingleType} }
 .betcard__odds { color: ${cv("text.default")}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* --- compact density (Combo / System): odds inline, no stake field --- */
@@ -141,7 +145,7 @@ const css = `${rootVars}
 /* --- amount density (Single): outcome column + Bet-amount field --- */
 .betcard--amount .betcard__body { display: flex; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
 .betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${lineGap}; }
-.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 150px; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.default")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: ${amtWidth}; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.default")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
 .betcard__amount:focus-within { border-color: ${cv("outline.active")}; }
 .betcard__amount-label { color: ${cv("text.secondary")}; ${amtLabelType} }
 .betcard__amount-value { display: flex; align-items: baseline; gap: 3px; }
@@ -338,10 +342,10 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/bet-card.tokens.json · the core repeating block of the betslip — one bet: event, market, outcome and odds. Two densities share one anatomy. Generated — the CSS below is resolved from the same tokens driving every preview; colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Anatomy</b><span>Header (discipline icon · event link · remove ×) → market name (with an optional settlement-rules info icon) → outcome → odds. Built on <a href="card.html">Card</a>'s surface/border language (surface.card + outline.default) but a dedicated layout.</span></div>
+      <div class="row"><b>Anatomy</b><span>Header (discipline icon · event link · remove ×) → market name (with an optional settlement-rules info icon) → outcome → odds. Sits on surface.raised (surface-4), one step above the page, with <em>no border</em> — the surface step alone separates it (unlike <a href="card.html">Card</a>'s hairline).</span></div>
       <div class="row"><b>Densities</b><span><code class="tok">--compact</code> (Combo / System): odds sits inline to the right of the outcome, no stake field. <code class="tok">--amount</code> (Single): a Bet-amount field to the right of the outcome column. Header/market/outcome roles are byte-for-byte the same across both.</span></div>
-      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding · 8px header↔body, 4px between market/outcome/odds lines (per Figma). Outcome heading-base (14px semibold), odds heading-md (16px semibold) — odds a hair larger so the number reads first, and tabular-nums. The settlement info icon is 16px with an 8px gap to the market name.</span></div>
-      <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis. Remove × is a 24px hit target, icon.secondary, lighten.2 (12% white) on hover.</span></div>
+      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding (20px sport icon / × flush 8px from the edges) · 8px header↔body, 4px between lines. Market 12px. Odds 14px semibold (heading-base) in both densities, tabular-nums. Outcome is density-specific: 14px semibold in Combo/System (it leads), 12px regular white in Single (the odds leads there). Settlement info icon 16px, 8px gap to the market name.</span></div>
+      <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button (icon.secondary → lighten.2 12% white on hover), flush 8px from the card edge.</span></div>
       <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules; tapping it opens the rich tooltip. Plain markets omit it.</span></div>
       <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. LIVE / FB / BB badges → Badge variants. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant. This pass ships the static anatomy the rest hangs off.</span></div>
     </div>
