@@ -60,8 +60,8 @@
             "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           },
           "active": {
-            "$description": "Has a meaningful count — a solid white pill with dark text so it pops off the active fill.",
-            "bg": { "$type": "color", "$value": "{color.white}" },
+            "$description": "Has a meaningful count — a solid contrast (white) pill with dark text so it pops off the active fill.",
+            "bg": { "$type": "color", "$value": "{fill.contrast}" },
             "label": { "$type": "color", "$value": "{text.forActiveBg}" }
           }
         }

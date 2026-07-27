@@ -4,6 +4,7 @@
     "page": { "$type": "color", "$value": "{color.base.surface-0}", "$description": "The page background — the darkest surface everything sits on." },
     "card": { "$type": "color", "$value": "{color.base.surface-2}", "$description": "Cards, popups, drawers, modals — the first elevation above the page." },
     "raised": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Sub elements raised above a card — filled inputs, secondary buttons, chips, filled counters." },
+    "floating": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "A surface that floats ABOVE the card/raised stack, lifted by a shadow rather than seated by a border — toasts, and other transient notification surfaces. The sanctioned surface-6-as-background role (supersedes the ad-hoc exception label.score once repointed): surface-6 is otherwise a fill/outline colour, but a floating element needs to sit a step lighter than raised (surface-4) to read as 'on top'." },
     "overlay": { "$type": "color", "$value": "{color.sub.black-6}", "$description": "The scrim behind modals/drawers — the page colour at 50%." },
     "disabled": { "$type": "color", "$value": "{color.base.surface-2}", "$description": "Disabled surface — same as a card; the disabled cue comes from faded text/icon, not a background shift." }
   },
@@ -21,6 +22,7 @@
     "neutral": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "Neutral/secondary button fill — surface-6 (the borders/outline/secondary-control step), a step lighter than the raised surface-4 used by fields/chips/toggles, so a secondary button reads as raised above a card." },
     "neutralHover": { "$type": "color", "$value": "#555A66", "$description": "neutral (surface-6) + 12% lighten overlay (hover)." },
     "neutralPressed": { "$type": "color", "$value": "#6C707B", "$description": "neutral (surface-6) + 24% lighten overlay (pressed)." },
+    "contrast": { "$type": "color", "$value": "{color.base.contrast}", "$description": "A solid max-contrast (white on the dark themes) fill — a small element that must POP off a coloured/active fill: the active-counter pill, a switch's lit thumb. Theme-adaptive (follows base.contrast), unlike a raw color.white; distinct from text/icon.onFill which are text/icon roles, this is a filled shape." },
     "disabled": { "$type": "color", "$value": "{color.base.surface-4}", "$description": "Disabled fill — the raised surface; the disabled cue is faded text/icon." }
   },
   "bg": {

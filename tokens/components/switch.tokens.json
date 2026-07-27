@@ -19,9 +19,9 @@
       "state": {
         "default": {
           "track": { "$type": "color", "$value": "{outline.strong}" },
-          "thumb": { "$type": "color", "$value": "{color.base.secondary}" },
+          "thumb": { "$type": "color", "$value": "{icon.secondary}" },
           "label": { "$type": "color", "$value": "{text.default}" },
-          "$description": "Off, at rest — the track is a solid surface-6 (outline.strong) fill, chosen so the off switch reads clearly on any surface (page/card/raised) rather than blending into one of them. Thumb is a light grey (base.secondary) circle sitting on the left."
+          "$description": "Off, at rest — the track is a solid surface-6 (outline.strong) fill, chosen so the off switch reads clearly on any surface (page/card/raised) rather than blending into one of them. Thumb is a muted grey (icon.secondary — the thumb reads as an indicator dot on the track fill) sitting on the left."
         },
         "hover": {
           "overlay": { "$type": "color", "$value": "{lighten.2}" },
@@ -35,8 +35,8 @@
         },
         "checked": {
           "track": { "$type": "color", "$value": "{fill.active}" },
-          "thumb": { "$type": "color", "$value": "{color.white}" },
-          "$description": "Track fills fill.active (the brand active colour), and the thumb turns white and slides to the right — the white thumb pops off the active fill, where the light-grey off thumb would be too quiet."
+          "thumb": { "$type": "color", "$value": "{icon.onFill}" },
+          "$description": "Track fills fill.active (the brand active colour), and the thumb turns icon.onFill (white — indicator on a solid fill) and slides to the right, popping off the active fill where the muted off thumb would be too quiet."
         },
         "checkedHover": {
           "overlay": { "$type": "color", "$value": "{lighten.2}" },
@@ -44,9 +44,9 @@
         },
         "disabled": {
           "track": { "$type": "color", "$value": "{fill.disabled}" },
-          "thumb": { "$type": "color", "$value": "{color.base.contrast}" },
+          "thumb": { "$type": "color", "$value": "{icon.onFill}" },
           "label": { "$type": "color", "$value": "{text.disabled}" },
-          "$description": "Covers disabled in both off and on positions alike — fill.disabled (gray.100) either way, same pair Button secondary/Input/Checkbox already use for their own disabled states. Thumb stays white; only the track loses color."
+          "$description": "Covers disabled in both off and on positions alike — fill.disabled either way, same pair Button secondary/Input/Checkbox already use for their own disabled states. Thumb stays icon.onFill (white); only the track loses color."
         }
       },
       "quickBet": {

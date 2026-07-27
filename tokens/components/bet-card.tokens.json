@@ -23,7 +23,7 @@
           "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
           "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px — subtle rounding on the hover square." },
           "color": { "$type": "color", "$value": "{icon.secondary}" },
-          "hoverFill": { "$type": "color", "$value": "{lighten.2}", "$description": "12% white lighten on hover — the ghost-button hover overlay for a small icon button on an elevated surface." },
+          "hoverFill": { "$type": "color", "$value": "{fill.neutralHover}", "$description": "The ghost Button's hover fill (fill.neutralHover) — this × IS a ghost icon button, so it reuses the ghost hover, not a bespoke overlay." },
           "hoverColor": { "$type": "color", "$value": "{text.default}" }
         }
       },
@@ -47,19 +47,8 @@
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "amount": {
-        "$description": "The per-selection Bet-amount field (Single/`amount` density only). A fixed-height floating-label well inset in the card, darker than the card (surface.page) so it reads as an input, not another card. It is a fixed 48px tall and bottom-aligned to the outcome column — deliberately NOT stretched to match the market+outcome+odds height. The currency symbol is a permanent prefix (not typed into the value), and the value is the same semibold as the odds. The ticket-notched silhouette from Figma is deferred to the Input component's bet-amount variant — this pass uses a clean rounded well.",
-        "bg": { "$type": "color", "$value": "{surface.page}", "$description": "Darker than the card — an inset input well on surface.card." },
-        "border": { "$type": "color", "$value": "{outline.default}" },
-        "focusBorder": { "$type": "color", "$value": "{outline.active}", "$description": "Active-colour border on focus — same focus cue as every field." },
-        "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — matches the card's own corner." },
-        "width": { "$type": "dimension", "$value": "{spacing.40}", "$description": "160px fixed — a column of Single cards lines up." },
-        "height": { "$type": "dimension", "$value": "{spacing.12}", "$description": "48px fixed — a standard field height; bottom-aligned in the card, not stretched to the content height." },
-        "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
-        "labelType": { "$type": "typography", "$value": "{text-style.body-xs}", "$description": "10px — the 'Bet amount' floating label." },
-        "labelColor": { "$type": "color", "$value": "{text.secondary}" },
-        "valueType": { "$type": "typography", "$value": "{text-style.heading-md}", "$description": "16px semibold (heading-md, same as odds), tabular-nums — the entered stake." },
-        "valueColor": { "$type": "color", "$value": "{text.default}" },
-        "currencyColor": { "$type": "color", "$value": "{text.secondary}", "$description": "The permanent '$' prefix — muted, so it reads as a unit, not part of the number." }
+        "$description": "The per-selection Bet-amount field (Single/`amount` density only) IS the Input component — the lg (48px) floating-label variant with a currency prefix. It is NOT restyled here: its height, radius, paddings, the 10px floating label, the 16px REGULAR value, the '$' prefix (input.prefix), the surface.page fill + outline.strong border and the outline.active focus border are all resolved from tokens/components/input.tokens.json at build time, so a bet-card stake field and a standalone Input stay identical (same regular 16px value — not a bespoke semibold). The only bet-card-specific bits are the fixed width and that the field is bottom-aligned to the outcome column, not stretched to the market+outcome+odds height.",
+        "width": { "$type": "dimension", "$value": "{spacing.40}", "$description": "160px fixed — a column of Single cards lines up." }
       }
     }
   }

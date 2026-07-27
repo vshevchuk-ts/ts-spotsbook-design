@@ -39,13 +39,15 @@ const resolve = (ref) => resolveToken(get(ref));
 const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
+// resolve a colour token's ROLE straight from its node — never hardcode a role name.
+const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 const colorPaths = [
   "text.default",
   "bg.warning", "bg.negative", "bg.positive", "bg.accent",
   "outline.warning", "outline.negative", "outline.positive", "outline.accent",
   "icon.warning", "icon.negative", "icon.positive", "icon.accent", "icon.secondary",
-  "lighten.2",
+  "fill.neutralHover",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -74,8 +76,8 @@ const css = `${rootVars}
 .alert__icon svg { display: block; width: 100%; height: 100%; }
 .alert__body { flex: 1; min-width: 0; }
 .alert__message { margin: 0; color: inherit; ${messageCss} }
-.alert__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
-.alert__close:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
+.alert__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cvOf(alert.close.color)}; cursor: pointer; }
+.alert__close:hover { background: ${cvOf(alert.close.hoverFill)}; color: ${cvOf(alert.close.hoverColor)}; }
 .alert__close svg { display: block; width: ${closeIcon}; height: ${closeIcon}; }
 
 ${roleCss}`;

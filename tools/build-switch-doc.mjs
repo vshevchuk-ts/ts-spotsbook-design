@@ -60,12 +60,15 @@ const resolve = (ref) => resolveToken(get(ref));
 const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
+// resolve a colour token's ROLE straight from its node — never hardcode the role
+// name in the CSS below, so a token repoint flows through without a build edit.
+const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 const colorPaths = [
   "outline.strong", "outline.accent",
   "fill.active", "fill.disabled", "lighten.2",
   "text.default", "text.disabled",
-  "color.base.secondary", "color.white",
+  "icon.secondary", "icon.onFill",
   "surface.card", "surface.raised", "surface.page", "fill.warning", "icon.default",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -105,14 +108,14 @@ const css = `${rootVars}
 .switch { display: inline-flex; align-items: center; gap: ${gap}; font-family: ${cv("family.sans")}; cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: ${px(trackWidth)}; height: ${px(trackHeight)}; border-radius: ${radius}; background-color: ${cv("outline.strong")}; }
-.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cv("color.base.secondary")}; transform: translateX(0); }
+.switch__thumb { position: absolute; top: ${px(inset)}; left: ${px(inset)}; width: ${px(thumb)}; height: ${px(thumb)}; border-radius: ${radius}; background: ${cvOf(switchTok.state.default.thumb)}; transform: translateX(0); }
 .switch__label { color: ${cv("text.default")}; ${typoCss(labelType)} }
 
 /* hover adds a 12% lighten LAYER over the current track fill (off: surface-6, on: active) — background-color stays, lighten.2 composites on top */
 .switch:hover .switch__input:not(:disabled) ~ .switch__track { background-image: linear-gradient(${cv("lighten.2")}, ${cv("lighten.2")}); }
 .switch__input:focus-visible ~ .switch__track { outline: ${ringWidth} solid ${cv("outline.accent")}; outline-offset: ${ringOffset}; }
 .switch__input:checked ~ .switch__track { background-color: ${cv("fill.active")}; }
-.switch__input:checked ~ .switch__track .switch__thumb { background: ${cv("color.white")}; transform: translateX(${travel}px); }
+.switch__input:checked ~ .switch__track .switch__thumb { background: ${cvOf(switchTok.state.checked.thumb)}; transform: translateX(${travel}px); }
 .switch__input:disabled ~ .switch__track { background-color: ${cv("fill.disabled")}; background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: ${cv("text.disabled")}; }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }

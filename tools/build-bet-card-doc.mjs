@@ -24,6 +24,9 @@ const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
 const bc = load("tokens/components/bet-card.tokens.json").component.betCard;
+// The Single stake field IS the Input component (lg + currency prefix) — resolve its
+// real values here, never restyle, so a bet-card stake field == a standalone Input.
+const input = load("tokens/components/input.tokens.json").component.input;
 
 const registry = {
   color: colorPrim,
@@ -60,14 +63,16 @@ const resolve = (ref) => resolveToken(get(ref));
 const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
+// resolve a colour token's ROLE straight from its node — never hardcode a role name.
+const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 // ---- colours this page uses, emitted as :root --tok-* vars ----
 const colorPaths = [
   "surface.raised", "surface.page",
-  "outline.default", "outline.active",
+  "outline.strong", "outline.active",
   "text.default", "text.active", "text.secondary",
   "icon.secondary", "icon.warning",
-  "lighten.2",
+  "fill.neutralHover",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -85,10 +90,14 @@ const removeIcon = px(resolve(bc.header.remove.iconSize.$value));
 const removeRadius = px(resolve(bc.header.remove.radius.$value));
 const infoSize = px(resolve(bc.market.info.size.$value));
 const marketGap = px(resolve(bc.market.gap.$value));
-const amtRadius = px(resolve(bc.amount.radius.$value));
-const amtWidth = px(resolve(bc.amount.width.$value));
-const amtHeight = px(resolve(bc.amount.height.$value));
-const amtPadX = px(resolve(bc.amount.paddingX.$value));
+// Bet-amount field = Input / lg + prefix — every value below comes from input.tokens.json.
+const amtWidth = px(resolve(bc.amount.width.$value)); // bet-card layout: fixed column width
+const inLg = input.size.lg;
+const amtHeight = px(resolve(inLg.height.$value));
+const amtPadX = px(resolve(inLg.paddingX.$value));
+const amtLabelGap = px(resolve(inLg.labelGap.$value));
+const amtRadius = px(resolve(input.radius.$value));
+const amtPrefixGap = px(resolve(input.prefix.gap.$value));
 
 // typography → CSS. `text-style.*` refs can carry a textDecoration in
 // $extensions that resolveToken() drops, so read it straight off the node.
@@ -108,8 +117,8 @@ const marketType = typoOf(bc.market.type);
 const outcomeType = typoOf(bc.outcome.type);
 const outcomeSingleType = typoOf(bc.outcome.singleType);
 const oddsType = typoOf(bc.odds.type);
-const amtLabelType = typoOf(bc.amount.labelType);
-const amtValueType = typoOf(bc.amount.valueType);
+const amtLabelType = typoOf(inLg.label);
+const amtValueType = typoOf(inLg.value);
 
 // ---- the stylesheet — printed as code AND used to render the live previews ----
 const css = `${rootVars}
@@ -123,8 +132,8 @@ const css = `${rootVars}
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 1; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
 .betcard__event:hover { color: ${cv("text.active")}; }
-.betcard__remove { flex-shrink: 0; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
-.betcard__remove:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
+.betcard__remove { flex-shrink: 0; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cvOf(bc.header.remove.color)}; cursor: pointer; }
+.betcard__remove:hover { background: ${cvOf(bc.header.remove.hoverFill)}; color: ${cvOf(bc.header.remove.hoverColor)}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
 
 /* market line (+ optional settlement-rules info icon) */
@@ -145,10 +154,13 @@ const css = `${rootVars}
 /* --- amount density (Single): outcome column + Bet-amount field --- */
 .betcard--amount .betcard__body { display: flex; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
 .betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${lineGap}; }
-.betcard__amount { flex-shrink: 0; align-self: flex-end; width: ${amtWidth}; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.default")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
+/* Bet-amount field = Input / lg + prefix — surface.page fill, outline.strong border,
+   10px floating label over a 16px REGULAR value, '$' prefix (input.prefix). All from
+   input.tokens.json; only width + bottom-alignment are bet-card layout. */
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: ${amtWidth}; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: ${amtLabelGap}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
 .betcard__amount:focus-within { border-color: ${cv("outline.active")}; }
 .betcard__amount-label { color: ${cv("text.secondary")}; ${amtLabelType} }
-.betcard__amount-value { display: flex; align-items: baseline; gap: 3px; }
+.betcard__amount-value { display: flex; align-items: baseline; gap: ${amtPrefixGap}; }
 .betcard__amount-cur { flex-shrink: 0; color: ${cv("text.secondary")}; ${amtValueType} }
 .betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${amtValueType} font-variant-numeric: tabular-nums; font-family: inherit; }
 .betcard__amount-input::placeholder { color: ${cv("text.secondary")}; }`;
@@ -345,7 +357,7 @@ const html = `<!doctype html>
       <div class="row"><b>Anatomy</b><span>Header (discipline icon · event link · remove ×) → market name (with an optional settlement-rules info icon) → outcome → odds. Sits on surface.raised (surface-4), one step above the page, with <em>no border</em> — the surface step alone separates it (unlike <a href="card.html">Card</a>'s hairline).</span></div>
       <div class="row"><b>Densities</b><span><code class="tok">--compact</code> (Combo / System): odds sits inline to the right of the outcome, no stake field. <code class="tok">--amount</code> (Single): a Bet-amount field to the right of the outcome column. Header/market/outcome roles are byte-for-byte the same across both.</span></div>
       <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding (20px sport icon / × flush 8px from the edges) · 8px header↔body, 4px between lines. Market 12px. Odds 14px semibold (heading-base) in both densities, tabular-nums. Outcome is density-specific: 14px semibold in Combo/System (it leads), 12px regular white in Single (the odds leads there). Settlement info icon 16px, 8px gap to the market name.</span></div>
-      <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button (icon.secondary → lighten.2 12% white on hover), flush 8px from the card edge.</span></div>
+      <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button — the Button ghost treatment: icon.secondary → text.default, transparent → fill.neutralHover on hover, flush 8px from the card edge.</span></div>
       <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules; tapping it opens the rich tooltip. Plain markets omit it.</span></div>
       <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. LIVE / FB / BB badges → Badge variants. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant. This pass ships the static anatomy the rest hangs off.</span></div>
     </div>
@@ -362,7 +374,7 @@ const html = `<!doctype html>
     </div>
 
     <h2 class="big-section">With amount — Single</h2>
-    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field, to the right of the outcome column. The field is a fixed 48px well (surface.page, darker than the card) bottom-aligned to the column — not stretched to the content height. A permanent "$" prefix (muted) precedes the value; focus turns the border to outline.active.</p>
+    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field. That field <em>is</em> the <a href="input.html">Input</a> component — the lg (48px) floating-label variant with a currency prefix, resolved straight from input.tokens.json (10px label over a 16px <strong>regular</strong> value, "$" prefix, surface.page fill + outline.strong border, outline.active on focus). Nothing about it is restyled here; the only bet-card additions are the fixed 160px width and bottom-alignment to the outcome column.</p>
     <div class="story-grid">
       ${storyCard("Bet-amount field", amountCard(dAmount), sampleCode("amount", dAmount))}
       ${storyCard("Long market + info", amountCard(dAmountInfo), sampleCode("amount", dAmountInfo), "Outcome column flexes and truncates; the stake field keeps a fixed width so a column of cards lines up.")}

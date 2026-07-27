@@ -42,12 +42,14 @@ const resolve = (ref) => resolveToken(get(ref));
 const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
+// resolve a colour token's ROLE straight from its node — never hardcode a role name.
+const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 const colorPaths = [
-  "color.base.surface-6",
+  "surface.floating",
   "text.default", "text.secondary", "text.forActiveBg", "text.contrast",
   "icon.positive", "icon.warning", "icon.negative", "icon.secondary", "icon.contrast",
-  "fill.positive", "fill.warning", "fill.negative", "fill.neutral",
+  "fill.positive", "fill.warning", "fill.negative", "fill.neutral", "fill.neutralHover",
   "fill.active", "fill.activeHover",
   "lighten.2",
 ];
@@ -82,7 +84,7 @@ const roleCss = roles.map((r) => `.toast--${r} .toast__icon { color: ${cv(toast.
 
 const css = `${rootVars}
 
-.toast { position: relative; display: flex; align-items: center; gap: ${gap}; min-width: 300px; max-width: 420px; padding: ${padY} ${padX}; background: ${cv("color.base.surface-6")}; border-radius: ${radius}; box-shadow: ${shadowCss}; overflow: hidden; font-family: ${cv("family.sans")}; }
+.toast { position: relative; display: flex; align-items: center; gap: ${gap}; min-width: 300px; max-width: 420px; padding: ${padY} ${padX}; background: ${cvOf(toast.bg)}; border-radius: ${radius}; box-shadow: ${shadowCss}; overflow: hidden; font-family: ${cv("family.sans")}; }
 .toast * { box-sizing: border-box; }
 .toast__icon { flex-shrink: 0; align-self: center; width: ${iconSize}; height: ${iconSize}; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
@@ -95,8 +97,8 @@ const css = `${rootVars}
 .toast__action:hover { background: ${cv("fill.activeHover")}; }
 
 /* trailing close */
-.toast__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
-.toast__close:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
+.toast__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cvOf(toast.close.color)}; cursor: pointer; }
+.toast__close:hover { background: ${cvOf(toast.close.hoverFill)}; color: ${cvOf(toast.close.hoverColor)}; }
 .toast__close svg { display: block; width: ${closeIcon}; height: ${closeIcon}; }
 
 /* auto-dismiss timer bar */

@@ -60,10 +60,18 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 // ---- color tokens this page uses, as CSS custom properties ----
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
-const colorPaths = ["lighten.2", "text.forActiveBg", "color.white", "text.secondary", "fill.active", "fill.neutral"];
+const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
+// resolve a colour token's ROLE straight from its node — never hardcode a role name.
+const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
+const refOf = (node) => node.$value.replace(/[{}]/g, "");
+// colour roles this page emits: auto-collected from the surface tokens (bg/label of
+// each state) so a token repoint can't leave a var undefined, plus the two demo-box
+// fills used to preview each surface.
+const surfaceKeys = ["onPrimary", "onNeutral"];
+const surfaceRefs = surfaceKeys.flatMap((k) => ["inactive", "active"].flatMap((s) => ["bg", "label"].map((f) => refOf(counter[k].state[s][f]))));
+const colorPaths = [...new Set([...surfaceRefs, "fill.active", "fill.neutral"])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
 const counterRadius = px(resolve(counter.radius.$value));
@@ -72,14 +80,11 @@ const sizes = ["sm", "base", "lg"].map((key) => {
   return { key, height: resolve(s.height.$value), minWidth: resolve(s.minWidth.$value), paddingX: resolve(s.paddingX.$value), label: resolveToken(s.label) };
 });
 
-const surfaces = {
-  onPrimary: { label: "On Primary", inactiveBg: "lighten.2", inactiveLabel: "text.forActiveBg", activeBg: "color.white", activeLabel: "text.forActiveBg" },
-  onNeutral: { label: "On Neutral", inactiveBg: "lighten.2", inactiveLabel: "text.default", activeBg: "fill.active", activeLabel: "text.forActiveBg" },
-};
+const surfaceLabels = { onPrimary: "On Primary", onNeutral: "On Neutral" };
 function surfaceCss(key) {
-  const s = surfaces[key];
-  return `.counter--${key}.counter--inactive { background: ${cv(s.inactiveBg)}; color: ${cv(s.inactiveLabel)}; }
-.counter--${key}.counter--active { background: ${cv(s.activeBg)}; color: ${cv(s.activeLabel)}; }`;
+  const st = counter[key].state;
+  return `.counter--${key}.counter--inactive { background: ${cvOf(st.inactive.bg)}; color: ${cvOf(st.inactive.label)}; }
+.counter--${key}.counter--active { background: ${cvOf(st.active.bg)}; color: ${cvOf(st.active.label)}; }`;
 }
 
 const css = `${rootVars}
@@ -120,9 +125,8 @@ function storyCard(title, liveHtml, codeHtml, note = "", boxClass = "") {
 const sizeStories = sizes.map((s) => storyCard(`${s.key} — ${px(s.height)}`, markup(s.key, "onPrimary", "inactive"), markup(s.key, "onPrimary", "inactive"), "", "demo-box--onPrimary")).join("\n");
 
 function surfaceSection(key) {
-  const s = surfaces[key];
   return `
-    <h2 class="big-section">${s.label}</h2>
+    <h2 class="big-section">${surfaceLabels[key]}</h2>
     <p class="section-desc">For use on <code class="tok">${key === "onPrimary" ? "button.primary" : "button.secondary"}</code>'s fill — the demo box below is coloured to match that surface (orange active fill for onPrimary, the neutral surface-6 for onNeutral), fixed 64×64; see <a href="button.html">the icon+text+counter button variant</a> for how it looks in a real button.</p>
     <div class="story-grid">
       ${storyCard("inactive", markup("base", key, "inactive"), markup("base", key, "inactive"), key === "onPrimary" ? "Seen/zero count — a faint lighten-2 wash over the button's active fill, white text." : "A faint lighten-2 wash over the neutral surface, white text.", `demo-box--${key}`)}

@@ -77,8 +77,8 @@
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-color-base-secondary: #8E929F;
-  --tok-color-white: #FFFFFF;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-on-fill: #FFFFFF;
   --tok-surface-card: #1C202B;
   --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
@@ -91,14 +91,14 @@
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background-color: var(--tok-outline-strong); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-base-secondary); transform: translateX(0); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-icon-secondary); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 /* hover adds a 12% lighten LAYER over the current track fill (off: surface-6, on: active) — background-color stays, lighten.2 composites on top */
 .switch:hover .switch__input:not(:disabled) ~ .switch__track { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .switch__input:checked ~ .switch__track { background-color: var(--tok-fill-active); }
-.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-color-white); transform: translateX(16px); }
+.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-icon-on-fill); transform: translateX(16px); }
 .switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }
@@ -190,8 +190,8 @@
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-text-default: #FFFFFF;
   --tok-text-disabled: #8E929F;
-  --tok-color-base-secondary: #8E929F;
-  --tok-color-white: #FFFFFF;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-on-fill: #FFFFFF;
   --tok-surface-card: #1C202B;
   --tok-surface-raised: #282E3E;
   --tok-surface-page: #11141C;
@@ -204,14 +204,14 @@
 .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
 .switch__input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .switch__track { box-sizing: border-box; position: relative; flex-shrink: 0; width: 36px; height: 20px; border-radius: 999px; background-color: var(--tok-outline-strong); }
-.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-color-base-secondary); transform: translateX(0); }
+.switch__thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: var(--tok-icon-secondary); transform: translateX(0); }
 .switch__label { color: var(--tok-text-default); font-weight: 400; font-size: 14px; line-height: 1.4; }
 
 /* hover adds a 12% lighten LAYER over the current track fill (off: surface-6, on: active) — background-color stays, lighten.2 composites on top */
 .switch:hover .switch__input:not(:disabled) ~ .switch__track { background-image: linear-gradient(var(--tok-lighten-2), var(--tok-lighten-2)); }
 .switch__input:focus-visible ~ .switch__track { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
 .switch__input:checked ~ .switch__track { background-color: var(--tok-fill-active); }
-.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-color-white); transform: translateX(16px); }
+.switch__input:checked ~ .switch__track .switch__thumb { background: var(--tok-icon-on-fill); transform: translateX(16px); }
 .switch__input:disabled ~ .switch__track { background-color: var(--tok-fill-disabled); background-image: none; cursor: not-allowed; }
 .switch__input:disabled ~ .switch__label { color: var(--tok-text-disabled); }
 .switch:has(.switch__input:disabled) { cursor: not-allowed; }

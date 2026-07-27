@@ -70,7 +70,7 @@
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-color-base-surface-6: #3E4351;
+  --tok-surface-floating: #3E4351;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-for-active-bg: #11141C;
@@ -84,13 +84,14 @@
   --tok-fill-warning: #FFC12E;
   --tok-fill-negative: #F90643;
   --tok-fill-neutral: #3E4351;
+  --tok-fill-neutral-hover: #555A66;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-color-base-surface-6); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
+.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-surface-floating); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
 .toast * { box-sizing: border-box; }
 .toast__icon { flex-shrink: 0; align-self: center; width: 24px; height: 24px; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
@@ -104,7 +105,7 @@
 
 /* trailing close */
 .toast__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
-.toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.toast__close:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .toast__close svg { display: block; width: 20px; height: 20px; }
 
 /* auto-dismiss timer bar */
@@ -209,7 +210,7 @@
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-color-base-surface-6: #3E4351;
+  --tok-surface-floating: #3E4351;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-for-active-bg: #11141C;
@@ -223,13 +224,14 @@
   --tok-fill-warning: #FFC12E;
   --tok-fill-negative: #F90643;
   --tok-fill-neutral: #3E4351;
+  --tok-fill-neutral-hover: #555A66;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-color-base-surface-6); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
+.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-surface-floating); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
 .toast * { box-sizing: border-box; }
 .toast__icon { flex-shrink: 0; align-self: center; width: 24px; height: 24px; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
@@ -243,7 +245,7 @@
 
 /* trailing close */
 .toast__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
-.toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.toast__close:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .toast__close svg { display: block; width: 20px; height: 20px; }
 
 /* auto-dismiss timer bar */

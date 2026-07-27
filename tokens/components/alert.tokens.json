@@ -14,7 +14,7 @@
         "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
         "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px hover square." },
         "color": { "$type": "color", "$value": "{icon.secondary}" },
-        "hoverFill": { "$type": "color", "$value": "{lighten.2}" },
+        "hoverFill": { "$type": "color", "$value": "{fill.neutralHover}", "$description": "The ghost Button's hover fill — the × is a ghost icon button (icon.secondary → text.default, transparent → fill.neutralHover)." },
         "hoverColor": { "$type": "color", "$value": "{text.default}" }
       },
       "role": {

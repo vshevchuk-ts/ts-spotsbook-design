@@ -2,7 +2,7 @@
   "component": {
     "toast": {
       "$description": "Transient top-docked notification — 'Betslip loaded', 'Betslip cleared' (Undo), 'Quick Bet mode active', 'Share link copied'. New to the system. A floating surface-6 pill lifted off the page with elevation.sm; a status icon, a semibold heading and an OPTIONAL secondary line. Two independent axes: content (one line = heading only · two lines = heading + secondary) and trailing control (none · close × · Undo action · auto-dismiss timer — and the timer combines with either button). Roles success/warning/negative/neutral change only the icon colour (and the timer tint); the glyph itself is passed per toast. Quick-Bet toasts are just plain toasts with a close and a bolt/bolt-off icon — not a separate component. The `global` kind is the solid full-bleed app-wide bar (moved here from Alert — it is a toast, not an inline banner). Distinct from Alert: Alert is a persistent in-flow banner tied to state; Toast is brief, self-dismissing, and stacks.",
-      "bg": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "surface-6 — a sanctioned surface-6-as-background exception (like label.score): the toast floats above cards/sheets, so it needs to sit a step lighter than the raised surface-4, lifted by the shadow rather than seated by a border." },
+      "bg": { "$type": "color", "$value": "{surface.floating}", "$description": "surface.floating (surface-6) — the semantic role for a surface that floats above the card/raised stack, lifted by the shadow rather than a border." },
       "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px." },
       "shadow": { "$type": "shadow", "$value": "{elevation.sm}", "$description": "The small floating-panel shadow (same weight as Popover/Menu) — a toast lifts off the page, so it carries a shadow, not a border." },
       "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
@@ -40,7 +40,7 @@
         "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
         "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px hover square." },
         "color": { "$type": "color", "$value": "{icon.secondary}" },
-        "hoverFill": { "$type": "color", "$value": "{lighten.2}" },
+        "hoverFill": { "$type": "color", "$value": "{fill.neutralHover}", "$description": "The ghost Button's hover fill — the × is a ghost icon button (icon.secondary → text.default, transparent → fill.neutralHover)." },
         "hoverColor": { "$type": "color", "$value": "{text.default}" }
       },
       "progress": {
