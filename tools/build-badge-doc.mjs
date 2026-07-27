@@ -63,10 +63,12 @@ const px = (d) => `${d.value}${d.unit}`;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const ROLES = ["neutral", "active", "positive", "negative", "warning"];
+const ROLES = ["neutral", "active", "positive", "negative", "warning", "accent"];
 const COLORS = []; // decorative hue axis removed — sportsbook labels carry meaning (role-driven)
 const FILLS = ["tint", "solid"];
 const SIZES = ["sm", "base", "lg"];
+const NAMED = ["live", "betbuilder", "freebet", "score"]; // named product labels
+const STATUS = ["win", "loose", "cashout", "halfWin", "halfLoose", "refund", "pending"]; // My Bets, always solid
 
 // ---- resolve every role/color x tint/solid pair straight from the component
 // token file's own $value refs (never retype a color-role name by hand) ----
@@ -94,6 +96,8 @@ function pathsOf(node) {
 }
 for (const r of ROLES) for (const f of FILLS) pathsOf(badge.role[r][f]);
 for (const c of COLORS) for (const f of FILLS) pathsOf(badge.color[c][f]);
+for (const n of NAMED) pathsOf(badge.named[n]);
+for (const s of STATUS) pathsOf(badge.betStatus[s]);
 const uniqPaths = [...colorVarPaths];
 const colorValue = Object.fromEntries(uniqPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -116,11 +120,17 @@ const css = `${rootVars}
 .badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: ${radius}; font-family: ${cv("family.sans")}; white-space: nowrap; }
 ${sizeDefs.map((s) => `.badge--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; ${typoCss(s.label)} }`).join("\n")}
 ${ROLES.map((r) => FILLS.map((f) => `.badge--role-${r}.badge--${f} { background: ${cv(refPath(badge.role[r][f].bg.$value))}; color: ${cv(refPath(badge.role[r][f].text.$value))}; }`).join("\n")).join("\n")}
-${COLORS.map((c) => FILLS.map((f) => `.badge--color-${c}.badge--${f} { background: ${cv(refPath(badge.color[c][f].bg.$value))}; color: ${cv(refPath(badge.color[c][f].text.$value))}; }`).join("\n")).join("\n")}`;
+${COLORS.map((c) => FILLS.map((f) => `.badge--color-${c}.badge--${f} { background: ${cv(refPath(badge.color[c][f].bg.$value))}; color: ${cv(refPath(badge.color[c][f].text.$value))}; }`).join("\n")).join("\n")}
+${NAMED.map((n) => `.badge--named-${n} { background: ${cv(refPath(badge.named[n].bg.$value))}; color: ${cv(refPath(badge.named[n].text.$value))}; }`).join("\n")}
+${STATUS.map((s) => `.badge--status-${s} { background: ${cv(refPath(badge.betStatus[s].bg.$value))}; color: ${cv(refPath(badge.betStatus[s].text.$value))}; }`).join("\n")}`;
 
 function markup(sizeKey, kind, name, fill, label) {
   const flavor = kind === "role" ? `role-${name}` : `color-${name}`;
   return `<span class="badge badge--${sizeKey} badge--${fill} badge--${flavor}">${label}</span>`;
+}
+// single-style badges (no tint/solid axis): named product labels + My Bets statuses
+function markupOne(sizeKey, prefix, name, label) {
+  return `<span class="badge badge--${sizeKey} badge--${prefix}-${name}">${label}</span>`;
 }
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
@@ -189,19 +199,34 @@ const usageCode = `<div class="event-row">
   <span class="badge badge--base badge--tint badge--role-warning">Cash out</span>
 </div>`;
 
-// Named sportsbook labels & bet statuses are just Badges in a given role.
-const labelDemo = `<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      ${markup("sm", "role", "active", "tint", "Freebet")}
-      ${markup("sm", "role", "warning", "tint", "Postponed")}
-      ${markup("sm", "role", "positive", "tint", "Won")}
-      ${markup("sm", "role", "negative", "tint", "Lost")}
-      ${markup("sm", "role", "neutral", "tint", "Pending")}
-    </div>`;
-const labelCode = `<span class="badge badge--sm badge--tint badge--role-active">Freebet</span>
-<span class="badge badge--sm badge--tint badge--role-warning">Postponed</span>
-<span class="badge badge--sm badge--tint badge--role-positive">Won</span>
-<span class="badge badge--sm badge--tint badge--role-negative">Lost</span>
-<span class="badge badge--sm badge--tint badge--role-neutral">Pending</span>`;
+// ---- Named product labels (live / betbuilder / freebet / score) ----
+const namedLabels = { live: "LIVE", betbuilder: "BETBUILDER", freebet: "FREEBET", score: "5:3" };
+const namedShort = { betbuilder: "BB", freebet: "FB" };
+const namedNotes = {
+  live: "active tint — active text on a 12% active wash.",
+  betbuilder: "active tint (same as live). Shown short as BB inline; full BETBUILDER where it fits.",
+  freebet: "accent tint — accent text on a 12% accent wash. Short FB inline; full FREEBET where it fits.",
+  score: "label.score — a surface-6 chip with white text (the sanctioned surface-6-as-background).",
+};
+function namedStories() {
+  return NAMED.map((n) => {
+    const previews = namedShort[n]
+      ? `<div style="display:flex; gap:10px; align-items:center;">${markupOne("base", "named", n, namedShort[n])}${markupOne("base", "named", n, namedLabels[n])}</div>`
+      : markupOne("base", "named", n, namedLabels[n]);
+    const code = namedShort[n]
+      ? `${markupOne("base", "named", n, namedShort[n])}\n${markupOne("base", "named", n, namedLabels[n])}`
+      : markupOne("base", "named", n, namedLabels[n]);
+    return storyCard(n, previews, code, namedNotes[n]);
+  }).join("\n");
+}
+
+// ---- My Bets settlement statuses (always solid) ----
+const statusLabels = { win: "WIN", loose: "LOOSE", cashout: "CASHOUT", halfWin: "HALF-WIN", halfLoose: "HALF-LOOSE", refund: "REFUND", pending: "PENDING" };
+function statusStories() {
+  return STATUS.map((s) =>
+    storyCard(s, markupOne("base", "status", s, statusLabels[s]), markupOne("base", "status", s, statusLabels[s]))
+  ).join("\n");
+}
 
 const html = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -287,12 +312,12 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/badge.tokens.json · generated — the CSS below is generated from the same resolved tokens driving every preview on this page, nothing hand-copied. Colors are CSS custom properties, not literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Purpose</b><span>A non-interactive display pill — status/expiry indicators in Message Center's thread list, and a generic tag/label for any other product surface. Display only — no click, no dismiss.</span></div>
-      <div class="row"><b>role vs. color</b><span>Two independent axes, never combined. <code class="tok">role</code> = 5 meaningful states (neutral/primary/success/warning/danger), reusing the exact same <code class="tok">bg.*</code>/<code class="tok">fill.*</code>/<code class="tok">text.*</code> roles Button/Card/Menu already use. <code class="tok">color</code> = 10 decorative hues for generic tagging, unrelated to status meaning — picking <code class="tok">color="orange"</code> means "I want an orange label," not "this is a warning."</span></div>
-      <div class="row"><b>tint vs. solid</b><span>Every role and color supports both: <code class="tok">tint</code> (pale bg + colored text, 100/600 step) and <code class="tok">solid</code> (saturated bg + <code class="tok">text.onFill</code>, 500 step) — the same intensity pair Button/Card/Menu already split into <code class="tok">bg.*</code> vs. <code class="tok">fill.*</code>.</span></div>
-      <div class="row"><b>Not Chip</b><span>The interactive filter-toggle sibling (checked/unchecked, clickable) is a separate component on purpose — a status/tag pill and a checkbox-like control are different ARIA roles, same reasoning the Menu/Listbox split already established.</span></div>
-      <div class="row"><b>Zero-to-minimal new tokens</b><span>Every <code class="tok">role</code> pair and 5 of the 10 <code class="tok">color</code> pairs (gray/blue/red/green/amber) are pure reuses of existing semantic tokens. Only orange/violet/magenta/teal/brown needed new leaf color references (<code class="tok">tag.*</code>, tokens/semantic/color.tokens.json).</span></div>
-      <div class="row"><b>Sizes</b><span>sm 16 / base 20 / lg 24 — deliberately mirrors Counter's own height/paddingX/label ladder (resolved from Counter's real values, not re-guessed) so the two small-pill components line up when they sit side by side.</span></div>
+      <div class="row"><b>Purpose</b><span>A non-interactive display pill — the sportsbook's status/label chips (live, freebet, betbuilder, score, My-Bets settlement statuses). Display only — no click, no dismiss. Every colour is a semantic role/label/betStatus token; no decorative hues.</span></div>
+      <div class="row"><b>role × tint/solid</b><span>6 semantic roles (neutral/active/positive/negative/warning/accent), each in <code class="tok">tint</code> (12% wash + coloured text) or <code class="tok">solid</code> (saturated fill + contrasting text). The abstract building blocks the named badges below apply.</span></div>
+      <div class="row"><b>Product labels</b><span>Named, fixed-vocabulary badges: <code class="tok">live</code>/<code class="tok">betbuilder</code> = active tint, <code class="tok">freebet</code> = accent tint, <code class="tok">score</code> = surface-6 (label.score) + white. Betbuilder/Freebet render short (BB/FB) and full.</span></div>
+      <div class="row"><b>My Bets statuses</b><span>Seven solid settlement badges (win/loose/cashout/halfWin/halfLoose/refund/pending) filled with <code class="tok">betStatus.*</code>; text dark on the bright win/cashout, white on the rest (the deferred text.forLabelBg, per-badge for now).</span></div>
+      <div class="row"><b>Not Chip</b><span>The interactive filter-toggle sibling (checked/unchecked, clickable) is a separate component — a status pill and a checkbox-like control are different ARIA roles.</span></div>
+      <div class="row"><b>Sizes</b><span>sm 16 / base 20 / lg 24 — mirrors Counter's own height/paddingX/label ladder (resolved from Counter's real values) so the two small-pill components line up side by side.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -310,10 +335,17 @@ const html = `<!doctype html>
       ${roleStories()}
     </div>
 
-    <h2 class="big-section">Named labels & bet statuses</h2>
-    <p class="section-desc">The sportsbook's named labels (live, freebet, postponed…) and bet-settlement statuses (won, lost, pending…) are just Badges in the matching role — no extra tokens.</p>
-    <div class="usage-preview">${labelDemo}</div>
-    <pre class="code"><code>${esc(labelCode)}</code></pre>
+    <h2 class="big-section">Product labels</h2>
+    <p class="section-desc">Named badges with a fixed vocabulary + colour. <strong>Live</strong> / <strong>Betbuilder</strong> = the active tint (active text on a 12% active wash); <strong>Freebet</strong> = the accent tint; <strong>Score</strong> = a surface-6 chip with white text. Betbuilder & Freebet show short (BB / FB) and full.</p>
+    <div class="story-grid">
+      ${namedStories()}
+    </div>
+
+    <h2 class="big-section">My Bets — settlement statuses</h2>
+    <p class="section-desc">Solid filled badges, one per settlement outcome. Filled with the betStatus.* colour; text goes dark on the bright win/cashout, white on the rest.</p>
+    <div class="story-grid">
+      ${statusStories()}
+    </div>
 
     <h2 class="big-section">In context</h2>
     <p class="section-desc">A live event row — a solid active "Live" pill, the fixture, and a warning "Cash out" tint.</p>

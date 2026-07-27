@@ -66,6 +66,10 @@ Component progress:
 - Both live under a new **Feedback** nav category (in `nav.mjs` + hand-authored `index.html`), between Components and Betslip.
 - Next candidates: **Odds value & movement**, **Summary list** (betslip footer), or the **suspended/error card states** for Bet-card.
 
+## Badge rework (done)
+
+Badge extended for the betslip/My-Bets vocabulary (all via semantic tokens, 0 primitive refs): added **`role.accent`** (accent tint/solid); a **`named`** group (live/betbuilder = active tint · freebet = accent tint · score = `label.score` surface-6 + white) rendered as `.badge--named-*` with BB/FB short + full labels; and a **`betStatus`** group — 7 solid My-Bets settlement badges (`.badge--status-*`, filled with `betStatus.*`; text `text.contrast` dark on win/cashout, `text.onFill` white on the rest — the deferred text.forLabelBg, per-badge for now). 3 sizes unchanged. Docs page: Product labels + My Bets sections replace the old role-application demo. Next: wire these badges INTO the bet cards (header BB/LIVE/FB) now that Badge is done.
+
 ## Semantic audit + component-reuse pass (done)
 
 Full token→component audit: **0 hardcoded hex** in components, **0 dangling** semantic refs. Found + fixed **5 component→primitive violations** (components must alias semantic, never primitives):

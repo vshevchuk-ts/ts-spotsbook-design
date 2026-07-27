@@ -51,7 +51,28 @@
         "warning": {
           "tint": { "bg": { "$type": "color", "$value": "{bg.warning}" }, "text": { "$type": "color", "$value": "{text.warning}" } },
           "solid": { "bg": { "$type": "color", "$value": "{fill.warning}" }, "text": { "$type": "color", "$value": "{text.forActiveBg}" } }
+        },
+        "accent": {
+          "tint": { "bg": { "$type": "color", "$value": "{bg.accent}" }, "text": { "$type": "color", "$value": "{text.accent}" } },
+          "solid": { "bg": { "$type": "color", "$value": "{fill.accent}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
         }
+      },
+      "named": {
+        "$description": "Named product labels — first-class named badges that are specific applications of the tint colours (given their own class + display label so they read as a fixed vocabulary, not an arbitrary role choice). live & betbuilder = the active tint (active text on a 12% active wash); freebet = the accent tint (accent text on a 12% accent wash); score = a surface-6 chip with white text (label.score — the sanctioned surface-6-as-background). betbuilder/freebet display the short BB/FB inline; the docs also show the full word for the rare place it fits.",
+        "live": { "bg": { "$type": "color", "$value": "{bg.active}" }, "text": { "$type": "color", "$value": "{text.active}" } },
+        "betbuilder": { "bg": { "$type": "color", "$value": "{bg.active}" }, "text": { "$type": "color", "$value": "{text.active}" } },
+        "freebet": { "bg": { "$type": "color", "$value": "{bg.accent}" }, "text": { "$type": "color", "$value": "{text.accent}" } },
+        "score": { "bg": { "$type": "color", "$value": "{label.score}" }, "text": { "$type": "color", "$value": "{text.default}" } }
+      },
+      "betStatus": {
+        "$description": "My Bets settlement badges — always SOLID, filled with the betStatus.* colour. Text is dark (text.contrast) on the bright win/cashout fills and white (text.onFill) on the rest — the per-fill label-text choice that a future text.forLabelBg will formalise; per-status for now. Mirrors the seven betStatus semantic roles (win/loose/cashout = positive/negative/warning; halfWin/halfLoose/refund/pending = the file-only status color-4..7).",
+        "win": { "bg": { "$type": "color", "$value": "{betStatus.win}" }, "text": { "$type": "color", "$value": "{text.contrast}" } },
+        "loose": { "bg": { "$type": "color", "$value": "{betStatus.loose}" }, "text": { "$type": "color", "$value": "{text.onFill}" } },
+        "cashout": { "bg": { "$type": "color", "$value": "{betStatus.cashout}" }, "text": { "$type": "color", "$value": "{text.contrast}" } },
+        "halfWin": { "bg": { "$type": "color", "$value": "{betStatus.halfWin}" }, "text": { "$type": "color", "$value": "{text.onFill}" } },
+        "halfLoose": { "bg": { "$type": "color", "$value": "{betStatus.halfLoose}" }, "text": { "$type": "color", "$value": "{text.onFill}" } },
+        "refund": { "bg": { "$type": "color", "$value": "{betStatus.refund}" }, "text": { "$type": "color", "$value": "{text.onFill}" } },
+        "pending": { "bg": { "$type": "color", "$value": "{betStatus.pending}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
       }
     }
   }
