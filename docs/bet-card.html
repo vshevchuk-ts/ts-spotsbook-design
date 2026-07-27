@@ -91,18 +91,19 @@
 .betcard__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--tok-icon-secondary); }
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 1; min-width: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.betcard__event:hover { color: var(--tok-text-default); }
 .betcard__remove { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .betcard__remove:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
 /* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: 4px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: 14px; height: 14px; color: var(--tok-icon-warning); }
+.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); }
 
 /* outcome + odds */
-.betcard__outcome { color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
-.betcard__odds { color: var(--tok-text-default); font-weight: 800; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.betcard__outcome { color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.betcard__odds { color: var(--tok-text-default); font-weight: 500; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* --- compact density (Combo / System): odds inline, no stake field --- */
 .betcard--compact .betcard__market { margin-top: 8px; }
@@ -111,11 +112,13 @@
 /* --- amount density (Single): outcome column + Bet-amount field --- */
 .betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
 .betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.betcard__amount { flex-shrink: 0; width: 150px; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-default); border-radius: 12px; padding: 8px 12px; }
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 150px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-default); border-radius: 12px; padding: 0 12px; }
 .betcard__amount:focus-within { border-color: var(--tok-outline-active); }
 .betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.4; }
-.betcard__amount-input { width: 100%; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 800; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: var(--tok-text-secondary); font-weight: 400; }
+.betcard__amount-value { display: flex; align-items: baseline; gap: 3px; }
+.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 500; font-size: 16px; line-height: 1.4; }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 500; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
 </style>
 </head>
 <body>
@@ -180,7 +183,7 @@
     <div class="legend">
       <div class="row"><b>Anatomy</b><span>Header (discipline icon · event link · remove ×) → market name (with an optional settlement-rules info icon) → outcome → odds. Built on <a href="card.html">Card</a>'s surface/border language (surface.card + outline.default) but a dedicated layout.</span></div>
       <div class="row"><b>Densities</b><span><code class="tok">--compact</code> (Combo / System): odds sits inline to the right of the outcome, no stake field. <code class="tok">--amount</code> (Single): a Bet-amount field to the right of the outcome column. Header/market/outcome roles are byte-for-byte the same across both.</span></div>
-      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding · 8px header↔body, 4px between market/outcome/odds lines (per Figma). Outcome 14px bold, odds 16px bold — both weight.bold (the odds/team-name strong step), odds a hair larger so the number reads first. Odds use tabular-nums.</span></div>
+      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding · 8px header↔body, 4px between market/outcome/odds lines (per Figma). Outcome heading-base (14px semibold), odds heading-md (16px semibold) — odds a hair larger so the number reads first, and tabular-nums. The settlement info icon is 16px with an 8px gap to the market name.</span></div>
       <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis. Remove × is a 24px hit target, icon.secondary, lighten.2 (12% white) on hover.</span></div>
       <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules; tapping it opens the rich tooltip. Plain markets omit it.</span></div>
       <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. LIVE / FB / BB badges → Badge variants. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant. This pass ships the static anatomy the rest hangs off.</span></div>
@@ -209,18 +212,19 @@
 .betcard__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--tok-icon-secondary); }
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 1; min-width: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.betcard__event:hover { color: var(--tok-text-default); }
 .betcard__remove { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .betcard__remove:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
 /* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: 4px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: 14px; height: 14px; color: var(--tok-icon-warning); }
+.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); }
 
 /* outcome + odds */
-.betcard__outcome { color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
-.betcard__odds { color: var(--tok-text-default); font-weight: 800; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.betcard__outcome { color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.betcard__odds { color: var(--tok-text-default); font-weight: 500; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* --- compact density (Combo / System): odds inline, no stake field --- */
 .betcard--compact .betcard__market { margin-top: 8px; }
@@ -229,11 +233,13 @@
 /* --- amount density (Single): outcome column + Bet-amount field --- */
 .betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
 .betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.betcard__amount { flex-shrink: 0; width: 150px; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-default); border-radius: 12px; padding: 8px 12px; }
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 150px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-default); border-radius: 12px; padding: 0 12px; }
 .betcard__amount:focus-within { border-color: var(--tok-outline-active); }
 .betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.4; }
-.betcard__amount-input { width: 100%; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 800; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: var(--tok-text-secondary); font-weight: 400; }</code></pre>
+.betcard__amount-value { display: flex; align-items: baseline; gap: 3px; }
+.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 500; font-size: 16px; line-height: 1.4; }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 500; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }</code></pre>
 
     <h2 class="big-section">Compact — Combo / System</h2>
     <p class="section-desc">The dense variant: no per-selection stake (the stake is set once for the whole slip). Odds sits inline to the right of the outcome, baseline-aligned.</p>
@@ -310,7 +316,7 @@
     </div>
 
     <h2 class="big-section">With amount — Single</h2>
-    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field, to the right of the outcome column. The field is an inset well (surface.page, darker than the card) with a floating label; focus turns the border to outline.active.</p>
+    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field, to the right of the outcome column. The field is a fixed 48px well (surface.page, darker than the card) bottom-aligned to the column — not stretched to the content height. A permanent "$" prefix (muted) precedes the value; focus turns the border to outline.active.</p>
     <div class="story-grid">
       
       <div class="story">
@@ -332,7 +338,10 @@
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
-      <input class="betcard__amount-input" value="$100" inputmode="decimal" aria-label="Bet amount" />
+      <span class="betcard__amount-value">
+        <span class="betcard__amount-cur">$</span>
+        <input class="betcard__amount-input" value="100" inputmode="decimal" aria-label="Bet amount" />
+      </span>
     </label>
   </div>
 </div></div>
@@ -352,7 +361,10 @@
     &lt;/div&gt;
     &lt;label class="betcard__amount"&gt;
       &lt;span class="betcard__amount-label"&gt;Bet amount&lt;/span&gt;
-      &lt;input class="betcard__amount-input" value="$100" /&gt;
+      &lt;span class="betcard__amount-value"&gt;
+        &lt;span class="betcard__amount-cur"&gt;$&lt;/span&gt;
+        &lt;input class="betcard__amount-input" value="100" /&gt;
+      &lt;/span&gt;
     &lt;/label&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -378,7 +390,10 @@
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
-      <input class="betcard__amount-input" value="$100" inputmode="decimal" aria-label="Bet amount" />
+      <span class="betcard__amount-value">
+        <span class="betcard__amount-cur">$</span>
+        <input class="betcard__amount-input" value="100" inputmode="decimal" aria-label="Bet amount" />
+      </span>
     </label>
   </div>
 </div></div>
@@ -399,7 +414,10 @@
     &lt;/div&gt;
     &lt;label class="betcard__amount"&gt;
       &lt;span class="betcard__amount-label"&gt;Bet amount&lt;/span&gt;
-      &lt;input class="betcard__amount-input" value="$100" /&gt;
+      &lt;span class="betcard__amount-value"&gt;
+        &lt;span class="betcard__amount-cur"&gt;$&lt;/span&gt;
+        &lt;input class="betcard__amount-input" value="100" /&gt;
+      &lt;/span&gt;
     &lt;/label&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>

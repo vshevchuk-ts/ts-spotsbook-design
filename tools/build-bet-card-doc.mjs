@@ -84,9 +84,10 @@ const removeBox = px(resolve(bc.header.remove.box.$value));
 const removeIcon = px(resolve(bc.header.remove.iconSize.$value));
 const removeRadius = px(resolve(bc.header.remove.radius.$value));
 const infoSize = px(resolve(bc.market.info.size.$value));
+const marketGap = px(resolve(bc.market.gap.$value));
 const amtRadius = px(resolve(bc.amount.radius.$value));
+const amtHeight = px(resolve(bc.amount.height.$value));
 const amtPadX = px(resolve(bc.amount.paddingX.$value));
-const amtPadY = px(resolve(bc.amount.paddingY.$value));
 
 // typography → CSS. `text-style.*` refs can carry a textDecoration in
 // $extensions that resolveToken() drops, so read it straight off the node.
@@ -119,12 +120,13 @@ const css = `${rootVars}
 .betcard__icon { width: ${iconSize}; height: ${iconSize}; flex-shrink: 0; color: ${cv("icon.secondary")}; }
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 1; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.betcard__event:hover { color: ${cv("text.default")}; }
 .betcard__remove { flex-shrink: 0; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
 .betcard__remove:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
 
 /* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: ${lineGap}; color: ${cv("text.secondary")}; ${marketType} }
+.betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; }
 
@@ -139,11 +141,13 @@ const css = `${rootVars}
 /* --- amount density (Single): outcome column + Bet-amount field --- */
 .betcard--amount .betcard__body { display: flex; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
 .betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${lineGap}; }
-.betcard__amount { flex-shrink: 0; width: 150px; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.default")}; border-radius: ${amtRadius}; padding: ${amtPadY} ${amtPadX}; }
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 150px; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: 2px; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.default")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
 .betcard__amount:focus-within { border-color: ${cv("outline.active")}; }
 .betcard__amount-label { color: ${cv("text.secondary")}; ${amtLabelType} }
-.betcard__amount-input { width: 100%; background: none; border: none; outline: none; color: ${cv("text.default")}; ${amtValueType} font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: ${cv("text.secondary")}; font-weight: 400; }`;
+.betcard__amount-value { display: flex; align-items: baseline; gap: 3px; }
+.betcard__amount-cur { flex-shrink: 0; color: ${cv("text.secondary")}; ${amtValueType} }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${amtValueType} font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: ${cv("text.secondary")}; }`;
 
 // ---- inline icons (currentColor) ----
 const iClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace(/\n/g, "");
@@ -185,7 +189,10 @@ function amountCard({ sport, event, market, info, outcome, odds, amount }) {
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
-      <input class="betcard__amount-input" value="${amount}" inputmode="decimal" aria-label="Bet amount" />
+      <span class="betcard__amount-value">
+        <span class="betcard__amount-cur">$</span>
+        <input class="betcard__amount-input" value="${amount}" inputmode="decimal" aria-label="Bet amount" />
+      </span>
     </label>
   </div>
 </div>`;
@@ -221,7 +228,10 @@ ${hdr}
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
-      <input class="betcard__amount-input" value="${d.amount}" />
+      <span class="betcard__amount-value">
+        <span class="betcard__amount-cur">$</span>
+        <input class="betcard__amount-input" value="${d.amount}" />
+      </span>
     </label>
   </div>
 </div>`;
@@ -240,8 +250,8 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 // sample data
 const dCompact = { sport: "football", event: "Fulham - Manchester City", market: "Handicap", info: false, outcome: "Manchester City -5.5", odds: "19.53" };
 const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
-const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "$100" };
-const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "$100" };
+const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
+const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
 
 const html = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -330,7 +340,7 @@ const html = `<!doctype html>
     <div class="legend">
       <div class="row"><b>Anatomy</b><span>Header (discipline icon · event link · remove ×) → market name (with an optional settlement-rules info icon) → outcome → odds. Built on <a href="card.html">Card</a>'s surface/border language (surface.card + outline.default) but a dedicated layout.</span></div>
       <div class="row"><b>Densities</b><span><code class="tok">--compact</code> (Combo / System): odds sits inline to the right of the outcome, no stake field. <code class="tok">--amount</code> (Single): a Bet-amount field to the right of the outcome column. Header/market/outcome roles are byte-for-byte the same across both.</span></div>
-      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding · 8px header↔body, 4px between market/outcome/odds lines (per Figma). Outcome 14px bold, odds 16px bold — both weight.bold (the odds/team-name strong step), odds a hair larger so the number reads first. Odds use tabular-nums.</span></div>
+      <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding · 8px header↔body, 4px between market/outcome/odds lines (per Figma). Outcome heading-base (14px semibold), odds heading-md (16px semibold) — odds a hair larger so the number reads first, and tabular-nums. The settlement info icon is 16px with an 8px gap to the market name.</span></div>
       <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis. Remove × is a 24px hit target, icon.secondary, lighten.2 (12% white) on hover.</span></div>
       <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules; tapping it opens the rich tooltip. Plain markets omit it.</span></div>
       <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. LIVE / FB / BB badges → Badge variants. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant. This pass ships the static anatomy the rest hangs off.</span></div>
@@ -348,7 +358,7 @@ const html = `<!doctype html>
     </div>
 
     <h2 class="big-section">With amount — Single</h2>
-    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field, to the right of the outcome column. The field is an inset well (surface.page, darker than the card) with a floating label; focus turns the border to outline.active.</p>
+    <p class="section-desc">Single-bet density: each selection carries its own Bet-amount field, to the right of the outcome column. The field is a fixed 48px well (surface.page, darker than the card) bottom-aligned to the column — not stretched to the content height. A permanent "$" prefix (muted) precedes the value; focus turns the border to outline.active.</p>
     <div class="story-grid">
       ${storyCard("Bet-amount field", amountCard(dAmount), sampleCode("amount", dAmount))}
       ${storyCard("Long market + info", amountCard(dAmountInfo), sampleCode("amount", dAmountInfo), "Outcome column flexes and truncates; the stake field keeps a fixed width so a column of cards lines up.")}

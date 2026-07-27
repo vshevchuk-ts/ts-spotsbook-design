@@ -16,7 +16,8 @@
         },
         "event": {
           "type": { "$type": "typography", "$value": "{text-style.link-sm}", "$description": "12px underlined link — the event is tappable (opens the event page); truncates with ellipsis." },
-          "color": { "$type": "color", "$value": "{text.secondary}", "$description": "Secondary grey; the outcome below is the emphasised line, not the event name." }
+          "color": { "$type": "color", "$value": "{text.secondary}", "$description": "Secondary grey; the outcome below is the emphasised line, not the event name." },
+          "hoverColor": { "$type": "color", "$value": "{text.default}", "$description": "Brightens to white on hover — the link is a tap target." }
         },
         "remove": {
           "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
@@ -30,61 +31,33 @@
       "market": {
         "type": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular — the market name (e.g. 'Match Winner'), muted; truncates." },
         "color": { "$type": "color", "$value": "{text.secondary}" },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the settlement-rules info icon and the market name." },
         "info": {
-          "size": { "$type": "dimension", "$value": "{spacing.3_5}", "$description": "14px settlement-rules info glyph (ui/info-outline)." },
+          "size": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px settlement-rules info glyph (ui/info-outline)." },
           "color": { "$type": "color", "$value": "{icon.warning}", "$description": "Gold/warning — flags a market with special settlement rules; tapping opens the rich tooltip. Plain markets have no info icon." }
         }
       },
       "outcome": {
-        "type": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{family.sans}",
-            "fontWeight": "{weight.bold}",
-            "fontSize": "{size.base}",
-            "lineHeight": "{leading.tight}",
-            "letterSpacing": "{tracking.normal}"
-          },
-          "$description": "14px bold (weight.bold = the odds/team-name strong step) — the selected outcome, the card's emphasised line. Composed inline: no text-style pairs bold weight with a non-caps body size."
-        },
+        "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold (heading-base) — the selected outcome, the card's emphasised line." },
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "odds": {
-        "type": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{family.sans}",
-            "fontWeight": "{weight.bold}",
-            "fontSize": "{size.md}",
-            "lineHeight": "{leading.tight}",
-            "letterSpacing": "{tracking.normal}"
-          },
-          "$description": "16px bold, tabular-nums — the odds value. A hair larger than the outcome so the number reads first. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there."
-        },
+        "type": { "$type": "typography", "$value": "{text-style.heading-md}", "$description": "16px semibold (heading-md), tabular-nums — the odds value. A hair larger than the outcome so the number reads first. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there." },
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "amount": {
-        "$description": "The per-selection Bet-amount field (Single/`amount` density only). A floating-label box inset in the card: darker than the card (surface.page) so it reads as an input well, not another card. The ticket-notched silhouette from Figma is deferred to the Input component's bet-amount variant — this pass uses a clean rounded well.",
+        "$description": "The per-selection Bet-amount field (Single/`amount` density only). A fixed-height floating-label well inset in the card, darker than the card (surface.page) so it reads as an input, not another card. It is a fixed 48px tall and bottom-aligned to the outcome column — deliberately NOT stretched to match the market+outcome+odds height. The currency symbol is a permanent prefix (not typed into the value), and the value is the same semibold as the odds. The ticket-notched silhouette from Figma is deferred to the Input component's bet-amount variant — this pass uses a clean rounded well.",
         "bg": { "$type": "color", "$value": "{surface.page}", "$description": "Darker than the card — an inset input well on surface.card." },
         "border": { "$type": "color", "$value": "{outline.default}" },
         "focusBorder": { "$type": "color", "$value": "{outline.active}", "$description": "Active-colour border on focus — same focus cue as every field." },
         "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — matches the card's own corner." },
+        "height": { "$type": "dimension", "$value": "{spacing.12}", "$description": "48px fixed — a standard field height; bottom-aligned in the card, not stretched to the content height." },
         "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
-        "paddingY": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px vertical." },
         "labelType": { "$type": "typography", "$value": "{text-style.body-xs}", "$description": "10px — the 'Bet amount' floating label." },
         "labelColor": { "$type": "color", "$value": "{text.secondary}" },
-        "valueType": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{family.sans}",
-            "fontWeight": "{weight.bold}",
-            "fontSize": "{size.md}",
-            "lineHeight": "{leading.tight}",
-            "letterSpacing": "{tracking.normal}"
-          },
-          "$description": "16px bold — the entered stake, tabular-nums."
-        },
-        "valueColor": { "$type": "color", "$value": "{text.default}" }
+        "valueType": { "$type": "typography", "$value": "{text-style.heading-md}", "$description": "16px semibold (heading-md, same as odds), tabular-nums — the entered stake." },
+        "valueColor": { "$type": "color", "$value": "{text.default}" },
+        "currencyColor": { "$type": "color", "$value": "{text.secondary}", "$description": "The permanent '$' prefix — muted, so it reads as a unit, not part of the number." }
       }
     }
   }
