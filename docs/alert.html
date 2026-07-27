@@ -72,7 +72,6 @@
 
   :root {
   --tok-text-default: #FFFFFF;
-  --tok-text-contrast: #11141C;
   --tok-bg-warning: rgba(255, 193, 46, 0.12);
   --tok-bg-negative: rgba(249, 6, 67, 0.12);
   --tok-bg-positive: rgba(0, 168, 40, 0.12);
@@ -85,9 +84,7 @@
   --tok-icon-negative: #F90643;
   --tok-icon-positive: #00A828;
   --tok-icon-accent: #31A8FF;
-  --tok-icon-contrast: #11141C;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-warning: #FFC12E;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
@@ -111,13 +108,6 @@
 .alert--positive .alert__icon { color: var(--tok-icon-positive); }
 .alert--info { background: var(--tok-bg-accent); border-color: var(--tok-outline-accent); }
 .alert--info .alert__icon { color: var(--tok-icon-accent); }
-
-/* solid style — the app-wide global bar (warning only this pass) */
-.alert--solid { border-color: transparent; }
-.alert--solid.alert--warning { background: var(--tok-fill-warning); color: var(--tok-text-contrast); }
-.alert--solid.alert--warning .alert__icon { color: var(--tok-icon-contrast); }
-.alert--solid.alert--warning .alert__close { color: var(--tok-icon-contrast); }
-.alert--solid.alert--warning .alert__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }
 </style>
 </head>
 <body>
@@ -177,20 +167,19 @@
   </nav>
   <main>
     <h1>Alert</h1>
-    <p class="sub">tokens/components/alert.tokens.json · inline status banner for contextual messaging inside a flow — the betslip's 'cannot include suspended outcome', 'odds have changed', 'balance too low', plus a solid app-wide global bar. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
+    <p class="sub">tokens/components/alert.tokens.json · inline status banner for contextual messaging inside a flow — the betslip's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Two styles</b><span><code class="tok">outline</code>: a 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white — every in-slip banner. <code class="tok">--solid</code>: a solid status fill with dark text — the full-bleed global bar (warning only this pass).</span></div>
+      <div class="row"><b>Style</b><span>A 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Sits inline in the flow (e.g. the betslip footer), not docked.</span></div>
       <div class="row"><b>Four roles</b><span>warning · negative · positive · info — mapped to the semantic status colours (warning/negative/positive) plus accent for info. The betslip uses <em>warning</em> for almost everything; Alert carries all four so it's reusable elsewhere.</span></div>
       <div class="row"><b>Anatomy</b><span>Status icon → body (optional bold title + message) → optional close ×. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
-      <div class="row"><b>Solid text</b><span>On the bright gold solid fill the text/icon go dark (text.contrast / icon.contrast). Solid negative/positive/info wait on a per-role 'text on a bright fill' token (deferred text.forLabelBg) — outline covers those roles meanwhile.</span></div>
       <div class="row"><b>Negative icon</b><span>Reuses the warning triangle for now (the UI icon set has no error-circle glyph yet); the red colour differentiates it. A dedicated glyph is a later swap.</span></div>
+      <div class="row"><b>vs. Toast</b><span>Alert is a persistent in-flow banner tied to state. The solid, full-bleed app-wide bar is a <a href="toast.html">Toast</a> (<code class="tok">--global</code>), not an Alert.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
   --tok-text-default: #FFFFFF;
-  --tok-text-contrast: #11141C;
   --tok-bg-warning: rgba(255, 193, 46, 0.12);
   --tok-bg-negative: rgba(249, 6, 67, 0.12);
   --tok-bg-positive: rgba(0, 168, 40, 0.12);
@@ -203,9 +192,7 @@
   --tok-icon-negative: #F90643;
   --tok-icon-positive: #00A828;
   --tok-icon-accent: #31A8FF;
-  --tok-icon-contrast: #11141C;
   --tok-icon-secondary: #8E929F;
-  --tok-fill-warning: #FFC12E;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
@@ -228,14 +215,7 @@
 .alert--positive { background: var(--tok-bg-positive); border-color: var(--tok-outline-positive); }
 .alert--positive .alert__icon { color: var(--tok-icon-positive); }
 .alert--info { background: var(--tok-bg-accent); border-color: var(--tok-outline-accent); }
-.alert--info .alert__icon { color: var(--tok-icon-accent); }
-
-/* solid style — the app-wide global bar (warning only this pass) */
-.alert--solid { border-color: transparent; }
-.alert--solid.alert--warning { background: var(--tok-fill-warning); color: var(--tok-text-contrast); }
-.alert--solid.alert--warning .alert__icon { color: var(--tok-icon-contrast); }
-.alert--solid.alert--warning .alert__close { color: var(--tok-icon-contrast); }
-.alert--solid.alert--warning .alert__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }</code></pre>
+.alert--info .alert__icon { color: var(--tok-icon-accent); }</code></pre>
 
     <h2 class="big-section">Roles — outline</h2>
     <p class="section-desc">The in-flow style. Message text stays white on all four; only the tint, border and icon change with the role.</p>
@@ -360,32 +340,6 @@
   &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
         
-      </div>
-    </div>
-
-    <h2 class="big-section">Solid — global bar</h2>
-    <p class="section-desc">The app-wide banner: a solid gold fill with a title, subtitle and close, docked full-bleed above the page content.</p>
-    <div class="story-grid" style="grid-template-columns:1fr;">
-      
-      <div class="story">
-        <h3>Global warning</h3>
-        <div class="story-preview"><div class="alert alert--warning alert--solid" role="alert">
-  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    <p class="alert__title">Global Warning</p>
-    <p class="alert__message">Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.</p>
-  </div>
-  <button class="alert__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
-</div></div>
-        <pre class="code"><code>&lt;div class="alert alert--warning alert--solid" role="alert"&gt;
-  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__title"&gt;Global Warning&lt;/p&gt;
-    &lt;p class="alert__message"&gt;Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
-&lt;/div&gt;</code></pre>
-        <p class="story-note">The one solid variant this pass. Dark text/icon on the bright fill; the × goes dark too.</p>
       </div>
     </div>
 

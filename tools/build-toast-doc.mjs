@@ -1,10 +1,10 @@
 // Regenerates docs/toast.html from tokens/components/toast.tokens.json.
-// Transient top-docked notification — 'Betslip loaded', 'Betslip cleared' (Undo),
-// 'Quick Bet mode active', 'Share link copied'. On a raised grey surface, with a
-// status icon, bold title + optional subtitle, optional Undo action and/or close,
-// and an optional auto-dismiss progress bar tinted to the role. Colours become
-// --tok-* CSS custom properties; the generated <style> IS the printed "CSS".
-// Run: node tools/build-toast-doc.mjs
+// Transient top-docked notification — floating surface-6 pill (elevation.sm), a
+// status icon, a semibold heading and an OPTIONAL second line. Two axes: content
+// (one / two lines) × trailing control (none / close / Undo / timer, timer combines
+// with a button). The Undo action reuses the real Button primary (base) tokens.
+// Colours become --tok-* CSS custom properties; the generated <style> IS the
+// printed "CSS". Run: node tools/build-toast-doc.mjs
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,13 +17,15 @@ const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
 const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
+const elevationPrim = load("tokens/primitives/elevation.tokens.json").elevation;
 const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
 const toast = load("tokens/components/toast.tokens.json").component.toast;
+const button = load("tokens/components/button.tokens.json").component.button;
 
 const registry = {
-  color: colorPrim, spacing: dim, radius: radiusPrim,
+  color: colorPrim, spacing: dim, radius: radiusPrim, elevation: elevationPrim,
   family: typo.family, weight: typo.weight, size: typo.size,
   leading: typo.leading, tracking: typo.tracking,
   "text-style": textStyle, ...semantic,
@@ -42,10 +44,11 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "surface.raised", "outline.default",
-  "text.default", "text.secondary", "text.forActiveBg",
-  "icon.positive", "icon.warning", "icon.secondary",
-  "fill.positive", "fill.warning", "fill.neutral", "fill.active", "fill.activeHover",
+  "color.base.surface-6",
+  "text.default", "text.secondary", "text.forActiveBg", "text.contrast",
+  "icon.positive", "icon.warning", "icon.negative", "icon.secondary", "icon.contrast",
+  "fill.positive", "fill.warning", "fill.negative", "fill.neutral",
+  "fill.active", "fill.activeHover",
   "lighten.2",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
@@ -58,44 +61,63 @@ const padX = px(resolve(toast.paddingX.$value));
 const padY = px(resolve(toast.paddingY.$value));
 const gap = px(resolve(toast.gap.$value));
 const iconSize = px(resolve(toast.iconSize.$value));
-const titleCss = typoCss(toast.title);
-const subtitleCss = typoCss(toast.subtitle);
-const actHeight = px(resolve(toast.action.height.$value));
-const actPadX = px(resolve(toast.action.paddingX.$value));
-const actRadius = px(resolve(toast.action.radius.$value));
-const actLabel = typoCss(toast.action.label);
+const headingCss = typoCss(toast.heading);
+const secondaryCss = typoCss(toast.secondary);
 const closeBox = px(resolve(toast.close.box.$value));
 const closeIcon = px(resolve(toast.close.iconSize.$value));
 const closeRadius = px(resolve(toast.close.radius.$value));
+const sh = resolveToken(toast.shadow);
+const shadowCss = `${px(sh.offsetX)} ${px(sh.offsetY)} ${px(sh.blur)} ${px(sh.spread)} ${sh.color}`;
 
-const roles = ["success", "warning", "neutral"];
+// --- Undo action = the real Button primary at base size, resolved from button.tokens.json ---
+const bp = button.primary;
+const actHeight = px(resolve(bp.size.base.height.$value));
+const actPadX = px(resolve(bp.size.base.paddingX.$value));
+const actRadius = px(resolve(bp.radius.$value));
+const actLabel = typoCss(bp.size.base.label);
+
+const roles = ["success", "warning", "negative", "neutral"];
 const roleCss = roles.map((r) => `.toast--${r} .toast__icon { color: ${cv(toast.role[r].icon.$value.replace(/[{}]/g, ""))}; }
 .toast--${r} .toast__progress-fill { background: ${cv(toast.role[r].accent.$value.replace(/[{}]/g, ""))}; }`).join("\n");
 
 const css = `${rootVars}
 
-.toast { position: relative; display: flex; align-items: flex-start; gap: ${gap}; min-width: 300px; max-width: 420px; padding: ${padY} ${padX}; padding-bottom: calc(${padY} + 3px); background: ${cv("surface.raised")}; border: 1px solid ${cv("outline.default")}; border-radius: ${radius}; overflow: hidden; font-family: ${cv("family.sans")}; }
+.toast { position: relative; display: flex; align-items: center; gap: ${gap}; min-width: 300px; max-width: 420px; padding: ${padY} ${padX}; background: ${cv("color.base.surface-6")}; border-radius: ${radius}; box-shadow: ${shadowCss}; overflow: hidden; font-family: ${cv("family.sans")}; }
 .toast * { box-sizing: border-box; }
-.toast__icon { flex-shrink: 0; width: ${iconSize}; height: ${iconSize}; }
+.toast__icon { flex-shrink: 0; align-self: flex-start; width: ${iconSize}; height: ${iconSize}; }
+.toast--oneline .toast__icon { align-self: center; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
-.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
-.toast__title { margin: 0; color: ${cv("text.default")}; ${titleCss} }
-.toast__subtitle { margin: 0; color: ${cv("text.secondary")}; ${subtitleCss} }
-.toast__action { flex-shrink: 0; align-self: center; height: ${actHeight}; padding: 0 ${actPadX}; border: none; border-radius: ${actRadius}; background: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; ${actLabel} cursor: pointer; font-family: inherit; }
+.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.toast__heading { margin: 0; color: ${cv("text.default")}; ${headingCss} }
+.toast__secondary { margin: 0; color: ${cv("text.secondary")}; ${secondaryCss} }
+
+/* trailing Undo action — Button / primary / base (resolved from button.tokens.json) */
+.toast__action { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: ${actHeight}; padding: 0 ${actPadX}; border: none; border-radius: ${actRadius}; background: ${cv("fill.active")}; color: ${cv("text.forActiveBg")}; ${actLabel} cursor: pointer; white-space: nowrap; font-family: inherit; }
 .toast__action:hover { background: ${cv("fill.activeHover")}; }
-.toast__close { flex-shrink: 0; align-self: flex-start; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
+
+/* trailing close */
+.toast__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
 .toast__close:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .toast__close svg { display: block; width: ${closeIcon}; height: ${closeIcon}; }
+
+/* auto-dismiss timer bar */
 .toast__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: ${cv("lighten.2")}; }
 .toast__progress-fill { position: absolute; left: 0; top: 0; bottom: 0; }
 
 ${roleCss}
 
-/* auto-dismiss animation — a real toast shrinks the fill to 0 over its lifetime */
 @keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
 @media (prefers-reduced-motion: no-preference) {
   .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
 }
+
+/* global — the solid full-bleed app-wide bar (warning only this pass) */
+.toast--global { width: 100%; max-width: none; box-shadow: none; }
+.toast--global.toast--warning { background: ${cv("fill.warning")}; }
+.toast--global.toast--warning .toast__heading, .toast--global.toast--warning .toast__secondary { color: ${cv("text.contrast")}; }
+.toast--global.toast--warning .toast__icon { color: ${cv("icon.contrast")}; }
+.toast--global.toast--warning .toast__close { color: ${cv("icon.contrast")}; }
+.toast--global.toast--warning .toast__close:hover { background: rgba(0,0,0,0.12); color: ${cv("icon.contrast")}; }
 
 /* stacked toasts */
 .toast-stack { display: flex; flex-direction: column; gap: 10px; }`;
@@ -103,31 +125,35 @@ ${roleCss}
 // ---- inline icons ----
 const glyph = {
   check: fs.readFileSync(path.join(root, "assets/icons/ui/check-circle.svg"), "utf8").replace(/\n/g, ""),
+  warning: fs.readFileSync(path.join(root, "assets/icons/ui/warning.svg"), "utf8").replace(/\n/g, ""),
   bolt: fs.readFileSync(path.join(root, "assets/icons/ui/quick-bet.svg"), "utf8").replace(/\n/g, ""),
   boltOff: fs.readFileSync(path.join(root, "assets/icons/ui/quick-bet-exit.svg"), "utf8").replace(/\n/g, ""),
   close: fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace(/\n/g, ""),
 };
 
 // ---- markup ----
-function toastEl({ role, icon, title, subtitle, action, close, progress, progressPct = 62 }) {
-  return `<div class="toast toast--${role}" role="status">
-  <span class="toast__icon">${glyph[icon]}</span>
+// opts: role, icon, heading, secondary?, action?, close?, progress?, progressPct?, global?
+function toastEl(o) {
+  const cls = ["toast", `toast--${o.role}`, o.secondary ? "" : "toast--oneline", o.global ? "toast--global" : ""].filter(Boolean).join(" ");
+  return `<div class="${cls}" role="status">
+  <span class="toast__icon">${glyph[o.icon]}</span>
   <div class="toast__body">
-    <p class="toast__title">${title}</p>
-    ${subtitle ? `<p class="toast__subtitle">${subtitle}</p>` : ""}
+    <p class="toast__heading">${o.heading}</p>
+    ${o.secondary ? `<p class="toast__secondary">${o.secondary}</p>` : ""}
   </div>
-  ${action ? `<button class="toast__action">${action}</button>` : ""}
-  ${close ? `<button class="toast__close" aria-label="Dismiss">${glyph.close}</button>` : ""}
-  ${progress ? `<div class="toast__progress"><div class="toast__progress-fill" style="width:${progressPct}%"></div></div>` : ""}
+  ${o.action ? `<button class="toast__action">${o.action}</button>` : ""}
+  ${o.close ? `<button class="toast__close" aria-label="Dismiss">${glyph.close}</button>` : ""}
+  ${o.progress ? `<div class="toast__progress"><div class="toast__progress-fill" style="width:${o.progressPct ?? 62}%"></div></div>` : ""}
 </div>`;
 }
-function toastCode({ role, title, subtitle, action, close, progress }) {
+function toastCode(o) {
   const ic = "<svg><!-- icon --></svg>";
-  return `<div class="toast toast--${role}" role="status">
+  const cls = ["toast", `toast--${o.role}`, o.secondary ? "" : "toast--oneline", o.global ? "toast--global" : ""].filter(Boolean).join(" ");
+  return `<div class="${cls}" role="status">
   <span class="toast__icon">${ic}</span>
   <div class="toast__body">
-    <p class="toast__title">${title}</p>
-${subtitle ? `    <p class="toast__subtitle">${subtitle}</p>\n` : ""}  </div>${action ? `\n  <button class="toast__action">${action}</button>` : ""}${close ? `\n  <button class="toast__close" aria-label="Dismiss">${ic}</button>` : ""}${progress ? `\n  <div class="toast__progress"><div class="toast__progress-fill"></div></div>` : ""}
+    <p class="toast__heading">${o.heading}</p>
+${o.secondary ? `    <p class="toast__secondary">${o.secondary}</p>\n` : ""}  </div>${o.action ? `\n  <button class="toast__action">${o.action}</button>` : ""}${o.close ? `\n  <button class="toast__close" aria-label="Dismiss">${ic}</button>` : ""}${o.progress ? `\n  <div class="toast__progress"><div class="toast__progress-fill"></div></div>` : ""}
 </div>`;
 }
 
@@ -140,15 +166,15 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
         ${note ? `<p class="story-note">${note}</p>` : ""}
       </div>`;
 }
-const story = (t, d, note) => storyCard(t, toastEl(d), toastCode(d), note);
+const story = (t, o, note) => storyCard(t, toastEl(o), toastCode(o), note);
 
 const stackLive = `<div class="toast-stack">
-  ${toastEl({ role: "success", icon: "check", title: "Share link copied", subtitle: "Link copied to clipboard" })}
-  ${toastEl({ role: "success", icon: "check", title: "Share code copied", subtitle: "Code copied to clipboard" })}
+  ${toastEl({ role: "success", icon: "check", heading: "Share link copied" })}
+  ${toastEl({ role: "success", icon: "check", heading: "Share code copied" })}
 </div>`;
 const stackCode = `<div class="toast-stack">
-  <div class="toast toast--success" role="status">…</div>
-  <div class="toast toast--success" role="status">…</div>
+  <div class="toast toast--success toast--oneline" role="status">…</div>
+  <div class="toast toast--success toast--oneline" role="status">…</div>
 </div>`;
 
 const html = `<!doctype html>
@@ -217,7 +243,7 @@ const html = `<!doctype html>
   .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; }
   .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
-  .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+  .story-preview { min-height: 72px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
@@ -235,34 +261,51 @@ const html = `<!doctype html>
     <p class="sub">tokens/components/toast.tokens.json · transient top-docked confirmation — 'Betslip loaded', 'Betslip cleared' (with Undo), 'Quick Bet mode active', 'Share link copied'. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Surface</b><span>surface.raised — a step above a card, so the toast reads as floating over whatever it covers. Hairline outline.default, radius.md.</span></div>
-      <div class="row"><b>Roles</b><span>success (green check) · warning (gold bolt — quick-bet) · neutral (grey). The role sets the leading icon colour and the progress-bar tint; the glyph itself is passed per toast (check-circle / quick-bet / quick-bet-exit).</span></div>
-      <div class="row"><b>Anatomy</b><span>Status icon → body (bold title + optional subtitle) → optional Undo action and/or close ×. 24px icon, 10px gap, 12px padding.</span></div>
-      <div class="row"><b>Action</b><span>The trailing button (Undo) reuses Button's active fill (fill.active + text.forActiveBg) at a compact 36px height.</span></div>
-      <div class="row"><b>Progress</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role's fill, over a faint lighten.2 track. Animates the width to 0 over the toast's lifetime; respects prefers-reduced-motion.</span></div>
-      <div class="row"><b>vs. Alert</b><span><a href="alert.html">Alert</a> is a persistent in-flow banner tied to state; Toast is a brief, self-dismissing confirmation that stacks.</span></div>
+      <div class="row"><b>Surface</b><span>surface-6 (a sanctioned surface-6-as-background exception) lifted off the page by elevation.sm — a toast floats, so it carries a shadow, not a border. radius.md.</span></div>
+      <div class="row"><b>Two axes</b><span><em>Content</em>: one line (heading only) or two lines (heading + secondary). Most messages fit one line — the second line is optional, not a default. <em>Trailing control</em>: none · close × · Undo action · auto-dismiss timer — and the timer combines with either button.</span></div>
+      <div class="row"><b>Heading</b><span>text-style.heading-base — 14px semibold, the standard heading style. On a one-line toast it is the whole message; the 12px secondary line is regular body.</span></div>
+      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role only colours the leading icon and the timer tint — the glyph is passed per toast, so a success and a warning toast can be identical but for the icon.</span></div>
+      <div class="row"><b>Undo action</b><span>The trailing button <em>is</em> <a href="button.html">Button</a> / primary / base (40px) — its size, label and colours resolve from button.tokens.json, so it's a real primary button, not a shrunk-down lookalike.</span></div>
+      <div class="row"><b>Timer</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role over a faint lighten.2 track; animates to zero and respects prefers-reduced-motion. Combines with a close or an Undo.</span></div>
+      <div class="row"><b>Quick Bet toasts</b><span>Not a separate component — a plain toast with a close and a bolt / bolt-off icon. Shown below in success/warning/negative to make the point: only the icon changes.</span></div>
+      <div class="row"><b>Global bar</b><span><code class="tok">--global</code>: the solid, full-bleed app-wide notification (moved here from Alert — it is a docked toast, not an inline banner). Warning only this pass.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>${esc(css)}</code></pre>
 
-    <h2 class="big-section">Roles</h2>
-    <p class="section-desc">Success and neutral confirmations, plus the quick-bet warning toast (gold bolt, dismissible).</p>
+    <h2 class="big-section">Content — one line vs two</h2>
+    <p class="section-desc">The heading alone carries most messages; add a second line only when there's genuinely more to say. Both are vertically centred in the pill.</p>
     <div class="story-grid">
-      ${story("Success", { role: "success", icon: "check", title: "Betslip loaded", subtitle: "Your bets have been added to the betslip" })}
-      ${story("Warning — dismissible", { role: "warning", icon: "bolt", title: "Quick Bet mode is active with $10 bet", close: true }, "The quick-bet activation toast — gold bolt, no subtitle, closable.")}
-      ${story("Neutral — dismissible", { role: "neutral", icon: "boltOff", title: "Quick Bet mode deactivated", close: true }, "Quick-bet off — the bolt-off glyph on the neutral grey role.")}
+      ${story("One line", { role: "success", icon: "check", heading: "Betslip loaded" })}
+      ${story("Two lines", { role: "success", icon: "check", heading: "Betslip loaded", secondary: "Your bets have been added to the betslip" })}
     </div>
 
-    <h2 class="big-section">With action · with timer</h2>
-    <p class="section-desc">An undoable action toast with the auto-dismiss progress meter running.</p>
+    <h2 class="big-section">Trailing control</h2>
+    <p class="section-desc">None, a close ×, an Undo button, or an auto-dismiss timer — and the timer combines with either button.</p>
     <div class="story-grid">
-      ${story("Undo + progress", { role: "success", icon: "check", title: "Betslip cleared", subtitle: "All bets have been removed", action: "Undo", progress: true }, "The progress meter is tinted to the role (green) and shrinks to zero; Undo cancels before it elapses.")}
-      ${story("Odds settings updated", { role: "success", icon: "check", title: "Odds settings updated", subtitle: "Your odds preference has been saved", progress: true })}
+      ${story("With close", { role: "neutral", icon: "check", heading: "Odds settings updated", secondary: "Your preference has been saved", close: true })}
+      ${story("With Undo (primary button)", { role: "success", icon: "check", heading: "Betslip cleared", secondary: "All bets have been removed", action: "Undo" })}
+      ${story("With timer", { role: "success", icon: "check", heading: "Betslip loaded", secondary: "Your bets have been added to the betslip", progress: true })}
+      ${story("Timer + Undo", { role: "success", icon: "check", heading: "Betslip cleared", secondary: "All bets have been removed", action: "Undo", progress: true }, "The timer runs while Undo is still available — it cancels the dismissal if tapped in time.")}
+    </div>
+
+    <h2 class="big-section">Quick Bet — one toast, three roles</h2>
+    <p class="section-desc">These are ordinary toasts (close + a bolt icon). Only the role — and therefore the icon colour and glyph — changes between them; everything else is identical.</p>
+    <div class="story-grid">
+      ${story("success", { role: "success", icon: "bolt", heading: "Quick Bet placed — $10", secondary: "View it in My Bets", close: true })}
+      ${story("warning", { role: "warning", icon: "bolt", heading: "Quick Bet mode is active with $10 bet", close: true })}
+      ${story("negative", { role: "negative", icon: "boltOff", heading: "Quick Bet mode deactivated", close: true })}
+    </div>
+
+    <h2 class="big-section">Global bar</h2>
+    <p class="section-desc">The app-wide solid notification, docked full-bleed above the page. Dark text/icon on the bright fill.</p>
+    <div class="story-grid" style="grid-template-columns:1fr;">
+      ${story("Global — warning", { role: "warning", global: true, icon: "warning", heading: "Global Warning", secondary: "Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.", close: true }, "Warning is the only solid role this pass; solid negative/positive await the deferred text.forLabelBg.")}
     </div>
 
     <h2 class="big-section">Stacked</h2>
-    <p class="section-desc">Multiple toasts stack vertically with a consistent gap — e.g. copying a share link then a code fires two.</p>
+    <p class="section-desc">Multiple toasts stack vertically with a consistent gap — e.g. copying a share link then a code fires two one-line toasts.</p>
     <div class="story-grid" style="grid-template-columns:1fr; max-width:460px;">
       ${storyCard("Two toasts", stackLive, stackCode)}
     </div>

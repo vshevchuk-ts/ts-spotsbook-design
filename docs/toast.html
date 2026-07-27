@@ -64,22 +64,25 @@
   .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; }
   .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
   .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
-  .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+  .story-preview { min-height: 72px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   :root {
-  --tok-surface-raised: #282E3E;
-  --tok-outline-default: #282E3E;
+  --tok-color-base-surface-6: #3E4351;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-for-active-bg: #11141C;
+  --tok-text-contrast: #11141C;
   --tok-icon-positive: #00A828;
   --tok-icon-warning: #FFC12E;
+  --tok-icon-negative: #F90643;
   --tok-icon-secondary: #8E929F;
+  --tok-icon-contrast: #11141C;
   --tok-fill-positive: #00A828;
   --tok-fill-warning: #FFC12E;
+  --tok-fill-negative: #F90643;
   --tok-fill-neutral: #3E4351;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
@@ -87,18 +90,25 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.toast { position: relative; display: flex; align-items: flex-start; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; padding-bottom: calc(12px + 3px); background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 12px; overflow: hidden; font-family: var(--tok-family-sans); }
+.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-color-base-surface-6); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
 .toast * { box-sizing: border-box; }
-.toast__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.toast__icon { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; }
+.toast--oneline .toast__icon { align-self: center; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
-.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
-.toast__title { margin: 0; color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
-.toast__subtitle { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
-.toast__action { flex-shrink: 0; align-self: center; height: 36px; padding: 0 12px; border: none; border-radius: 6px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 12px; line-height: 1.4; cursor: pointer; font-family: inherit; }
+.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.toast__heading { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.toast__secondary { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* trailing Undo action — Button / primary / base (resolved from button.tokens.json) */
+.toast__action { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 12px; border: none; border-radius: 8px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 14px; line-height: 1.4; cursor: pointer; white-space: nowrap; font-family: inherit; }
 .toast__action:hover { background: var(--tok-fill-active-hover); }
-.toast__close { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+
+/* trailing close */
+.toast__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 .toast__close svg { display: block; width: 20px; height: 20px; }
+
+/* auto-dismiss timer bar */
 .toast__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--tok-lighten-2); }
 .toast__progress-fill { position: absolute; left: 0; top: 0; bottom: 0; }
 
@@ -106,14 +116,23 @@
 .toast--success .toast__progress-fill { background: var(--tok-fill-positive); }
 .toast--warning .toast__icon { color: var(--tok-icon-warning); }
 .toast--warning .toast__progress-fill { background: var(--tok-fill-warning); }
+.toast--negative .toast__icon { color: var(--tok-icon-negative); }
+.toast--negative .toast__progress-fill { background: var(--tok-fill-negative); }
 .toast--neutral .toast__icon { color: var(--tok-icon-secondary); }
 .toast--neutral .toast__progress-fill { background: var(--tok-fill-neutral); }
 
-/* auto-dismiss animation — a real toast shrinks the fill to 0 over its lifetime */
 @keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
 @media (prefers-reduced-motion: no-preference) {
   .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
 }
+
+/* global — the solid full-bleed app-wide bar (warning only this pass) */
+.toast--global { width: 100%; max-width: none; box-shadow: none; }
+.toast--global.toast--warning { background: var(--tok-fill-warning); }
+.toast--global.toast--warning .toast__heading, .toast--global.toast--warning .toast__secondary { color: var(--tok-text-contrast); }
+.toast--global.toast--warning .toast__icon { color: var(--tok-icon-contrast); }
+.toast--global.toast--warning .toast__close { color: var(--tok-icon-contrast); }
+.toast--global.toast--warning .toast__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }
 
 /* stacked toasts */
 .toast-stack { display: flex; flex-direction: column; gap: 10px; }
@@ -179,26 +198,31 @@
     <p class="sub">tokens/components/toast.tokens.json · transient top-docked confirmation — 'Betslip loaded', 'Betslip cleared' (with Undo), 'Quick Bet mode active', 'Share link copied'. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Surface</b><span>surface.raised — a step above a card, so the toast reads as floating over whatever it covers. Hairline outline.default, radius.md.</span></div>
-      <div class="row"><b>Roles</b><span>success (green check) · warning (gold bolt — quick-bet) · neutral (grey). The role sets the leading icon colour and the progress-bar tint; the glyph itself is passed per toast (check-circle / quick-bet / quick-bet-exit).</span></div>
-      <div class="row"><b>Anatomy</b><span>Status icon → body (bold title + optional subtitle) → optional Undo action and/or close ×. 24px icon, 10px gap, 12px padding.</span></div>
-      <div class="row"><b>Action</b><span>The trailing button (Undo) reuses Button's active fill (fill.active + text.forActiveBg) at a compact 36px height.</span></div>
-      <div class="row"><b>Progress</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role's fill, over a faint lighten.2 track. Animates the width to 0 over the toast's lifetime; respects prefers-reduced-motion.</span></div>
-      <div class="row"><b>vs. Alert</b><span><a href="alert.html">Alert</a> is a persistent in-flow banner tied to state; Toast is a brief, self-dismissing confirmation that stacks.</span></div>
+      <div class="row"><b>Surface</b><span>surface-6 (a sanctioned surface-6-as-background exception) lifted off the page by elevation.sm — a toast floats, so it carries a shadow, not a border. radius.md.</span></div>
+      <div class="row"><b>Two axes</b><span><em>Content</em>: one line (heading only) or two lines (heading + secondary). Most messages fit one line — the second line is optional, not a default. <em>Trailing control</em>: none · close × · Undo action · auto-dismiss timer — and the timer combines with either button.</span></div>
+      <div class="row"><b>Heading</b><span>text-style.heading-base — 14px semibold, the standard heading style. On a one-line toast it is the whole message; the 12px secondary line is regular body.</span></div>
+      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role only colours the leading icon and the timer tint — the glyph is passed per toast, so a success and a warning toast can be identical but for the icon.</span></div>
+      <div class="row"><b>Undo action</b><span>The trailing button <em>is</em> <a href="button.html">Button</a> / primary / base (40px) — its size, label and colours resolve from button.tokens.json, so it's a real primary button, not a shrunk-down lookalike.</span></div>
+      <div class="row"><b>Timer</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role over a faint lighten.2 track; animates to zero and respects prefers-reduced-motion. Combines with a close or an Undo.</span></div>
+      <div class="row"><b>Quick Bet toasts</b><span>Not a separate component — a plain toast with a close and a bolt / bolt-off icon. Shown below in success/warning/negative to make the point: only the icon changes.</span></div>
+      <div class="row"><b>Global bar</b><span><code class="tok">--global</code>: the solid, full-bleed app-wide notification (moved here from Alert — it is a docked toast, not an inline banner). Warning only this pass.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>:root {
-  --tok-surface-raised: #282E3E;
-  --tok-outline-default: #282E3E;
+  --tok-color-base-surface-6: #3E4351;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
   --tok-text-for-active-bg: #11141C;
+  --tok-text-contrast: #11141C;
   --tok-icon-positive: #00A828;
   --tok-icon-warning: #FFC12E;
+  --tok-icon-negative: #F90643;
   --tok-icon-secondary: #8E929F;
+  --tok-icon-contrast: #11141C;
   --tok-fill-positive: #00A828;
   --tok-fill-warning: #FFC12E;
+  --tok-fill-negative: #F90643;
   --tok-fill-neutral: #3E4351;
   --tok-fill-active: #FB8C33;
   --tok-fill-active-hover: #DD7B2D;
@@ -206,18 +230,25 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.toast { position: relative; display: flex; align-items: flex-start; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; padding-bottom: calc(12px + 3px); background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 12px; overflow: hidden; font-family: var(--tok-family-sans); }
+.toast { position: relative; display: flex; align-items: center; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; background: var(--tok-color-base-surface-6); border-radius: 12px; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); overflow: hidden; font-family: var(--tok-family-sans); }
 .toast * { box-sizing: border-box; }
-.toast__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.toast__icon { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; }
+.toast--oneline .toast__icon { align-self: center; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
-.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
-.toast__title { margin: 0; color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
-.toast__subtitle { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
-.toast__action { flex-shrink: 0; align-self: center; height: 36px; padding: 0 12px; border: none; border-radius: 6px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 12px; line-height: 1.4; cursor: pointer; font-family: inherit; }
+.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.toast__heading { margin: 0; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.toast__secondary { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* trailing Undo action — Button / primary / base (resolved from button.tokens.json) */
+.toast__action { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 12px; border: none; border-radius: 8px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 14px; line-height: 1.4; cursor: pointer; white-space: nowrap; font-family: inherit; }
 .toast__action:hover { background: var(--tok-fill-active-hover); }
-.toast__close { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+
+/* trailing close */
+.toast__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
 .toast__close svg { display: block; width: 20px; height: 20px; }
+
+/* auto-dismiss timer bar */
 .toast__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--tok-lighten-2); }
 .toast__progress-fill { position: absolute; left: 0; top: 0; bottom: 0; }
 
@@ -225,29 +256,59 @@
 .toast--success .toast__progress-fill { background: var(--tok-fill-positive); }
 .toast--warning .toast__icon { color: var(--tok-icon-warning); }
 .toast--warning .toast__progress-fill { background: var(--tok-fill-warning); }
+.toast--negative .toast__icon { color: var(--tok-icon-negative); }
+.toast--negative .toast__progress-fill { background: var(--tok-fill-negative); }
 .toast--neutral .toast__icon { color: var(--tok-icon-secondary); }
 .toast--neutral .toast__progress-fill { background: var(--tok-fill-neutral); }
 
-/* auto-dismiss animation — a real toast shrinks the fill to 0 over its lifetime */
 @keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
 @media (prefers-reduced-motion: no-preference) {
   .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
 }
 
+/* global — the solid full-bleed app-wide bar (warning only this pass) */
+.toast--global { width: 100%; max-width: none; box-shadow: none; }
+.toast--global.toast--warning { background: var(--tok-fill-warning); }
+.toast--global.toast--warning .toast__heading, .toast--global.toast--warning .toast__secondary { color: var(--tok-text-contrast); }
+.toast--global.toast--warning .toast__icon { color: var(--tok-icon-contrast); }
+.toast--global.toast--warning .toast__close { color: var(--tok-icon-contrast); }
+.toast--global.toast--warning .toast__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }
+
 /* stacked toasts */
 .toast-stack { display: flex; flex-direction: column; gap: 10px; }</code></pre>
 
-    <h2 class="big-section">Roles</h2>
-    <p class="section-desc">Success and neutral confirmations, plus the quick-bet warning toast (gold bolt, dismissible).</p>
+    <h2 class="big-section">Content — one line vs two</h2>
+    <p class="section-desc">The heading alone carries most messages; add a second line only when there's genuinely more to say. Both are vertically centred in the pill.</p>
     <div class="story-grid">
       
       <div class="story">
-        <h3>Success</h3>
+        <h3>One line</h3>
+        <div class="story-preview"><div class="toast toast--success toast--oneline" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Betslip loaded</p>
+    
+  </div>
+  
+  
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success toast--oneline" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Betslip loaded&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Two lines</h3>
         <div class="story-preview"><div class="toast toast--success" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Betslip loaded</p>
-    <p class="toast__subtitle">Your bets have been added to the betslip</p>
+    <p class="toast__heading">Betslip loaded</p>
+    <p class="toast__secondary">Your bets have been added to the betslip</p>
   </div>
   
   
@@ -256,42 +317,25 @@
         <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
-    &lt;p class="toast__title"&gt;Betslip loaded&lt;/p&gt;
-    &lt;p class="toast__subtitle"&gt;Your bets have been added to the betslip&lt;/p&gt;
+    &lt;p class="toast__heading"&gt;Betslip loaded&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Your bets have been added to the betslip&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
+    </div>
+
+    <h2 class="big-section">Trailing control</h2>
+    <p class="section-desc">None, a close ×, an Undo button, or an auto-dismiss timer — and the timer combines with either button.</p>
+    <div class="story-grid">
       
       <div class="story">
-        <h3>Warning — dismissible</h3>
-        <div class="story-preview"><div class="toast toast--warning" role="status">
-  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
-  <div class="toast__body">
-    <p class="toast__title">Quick Bet mode is active with $10 bet</p>
-    
-  </div>
-  
-  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
-  
-</div></div>
-        <pre class="code"><code>&lt;div class="toast toast--warning" role="status"&gt;
-  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="toast__body"&gt;
-    &lt;p class="toast__title"&gt;Quick Bet mode is active with $10 bet&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
-&lt;/div&gt;</code></pre>
-        <p class="story-note">The quick-bet activation toast — gold bolt, no subtitle, closable.</p>
-      </div>
-      
-      <div class="story">
-        <h3>Neutral — dismissible</h3>
+        <h3>With close</h3>
         <div class="story-preview"><div class="toast toast--neutral" role="status">
-  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.20593 5.21037L9.90955 6.91399L12.9321 2.70115C13.1154 2.44282 13.0904 2.08449 12.8654 1.85949C12.6154 1.60949 12.2238 1.60115 11.9654 1.84282L8.20593 5.21037ZM11.5904 8.5948L14.6945 11.6989L16.1154 10.4261C16.6488 9.94282 16.3488 9.05115 15.6321 8.98449L11.5904 8.5948ZM16.2082 15.5695L16.2045 15.5658L3.2408 2.60226L3.23707 2.59851C2.91134 2.27675 2.38646 2.27798 2.06226 2.60219C1.73682 2.92762 1.73682 3.45526 2.06226 3.7807L5.71932 7.43776L3.33206 9.57615C2.79873 10.0594 3.09873 10.9511 3.8154 11.0178L9.88455 11.6029L10.3033 12.0216L6.5154 17.3011C6.33206 17.5594 6.35706 17.9178 6.58206 18.1428C6.83206 18.3928 7.22373 18.4011 7.48206 18.1594L12.2079 13.9263L15.0259 16.7443C15.3514 17.0697 15.879 17.0697 16.2044 16.7443C16.5286 16.4201 16.5299 15.8952 16.2082 15.5695Z" fill="currentColor"/></svg></span>
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Quick Bet mode deactivated</p>
-    
+    <p class="toast__heading">Odds settings updated</p>
+    <p class="toast__secondary">Your preference has been saved</p>
   </div>
   
   <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
@@ -300,25 +344,67 @@
         <pre class="code"><code>&lt;div class="toast toast--neutral" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
-    &lt;p class="toast__title"&gt;Quick Bet mode deactivated&lt;/p&gt;
+    &lt;p class="toast__heading"&gt;Odds settings updated&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Your preference has been saved&lt;/p&gt;
   &lt;/div&gt;
   &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-        <p class="story-note">Quick-bet off — the bolt-off glyph on the neutral grey role.</p>
+        
       </div>
-    </div>
-
-    <h2 class="big-section">With action · with timer</h2>
-    <p class="section-desc">An undoable action toast with the auto-dismiss progress meter running.</p>
-    <div class="story-grid">
       
       <div class="story">
-        <h3>Undo + progress</h3>
+        <h3>With Undo (primary button)</h3>
         <div class="story-preview"><div class="toast toast--success" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Betslip cleared</p>
-    <p class="toast__subtitle">All bets have been removed</p>
+    <p class="toast__heading">Betslip cleared</p>
+    <p class="toast__secondary">All bets have been removed</p>
+  </div>
+  <button class="toast__action">Undo</button>
+  
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Betslip cleared&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;All bets have been removed&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__action"&gt;Undo&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>With timer</h3>
+        <div class="story-preview"><div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Betslip loaded</p>
+    <p class="toast__secondary">Your bets have been added to the betslip</p>
+  </div>
+  
+  
+  <div class="toast__progress"><div class="toast__progress-fill" style="width:62%"></div></div>
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Betslip loaded&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Your bets have been added to the betslip&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="toast__progress"&gt;&lt;div class="toast__progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Timer + Undo</h3>
+        <div class="story-preview"><div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Betslip cleared</p>
+    <p class="toast__secondary">All bets have been removed</p>
   </div>
   <button class="toast__action">Undo</button>
   
@@ -327,61 +413,138 @@
         <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
-    &lt;p class="toast__title"&gt;Betslip cleared&lt;/p&gt;
-    &lt;p class="toast__subtitle"&gt;All bets have been removed&lt;/p&gt;
+    &lt;p class="toast__heading"&gt;Betslip cleared&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;All bets have been removed&lt;/p&gt;
   &lt;/div&gt;
   &lt;button class="toast__action"&gt;Undo&lt;/button&gt;
   &lt;div class="toast__progress"&gt;&lt;div class="toast__progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        <p class="story-note">The progress meter is tinted to the role (green) and shrinks to zero; Undo cancels before it elapses.</p>
+        <p class="story-note">The timer runs while Undo is still available — it cancels the dismissal if tapped in time.</p>
       </div>
+    </div>
+
+    <h2 class="big-section">Quick Bet — one toast, three roles</h2>
+    <p class="section-desc">These are ordinary toasts (close + a bolt icon). Only the role — and therefore the icon colour and glyph — changes between them; everything else is identical.</p>
+    <div class="story-grid">
       
       <div class="story">
-        <h3>Odds settings updated</h3>
+        <h3>success</h3>
         <div class="story-preview"><div class="toast toast--success" role="status">
-  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Odds settings updated</p>
-    <p class="toast__subtitle">Your odds preference has been saved</p>
+    <p class="toast__heading">Quick Bet placed — $10</p>
+    <p class="toast__secondary">View it in My Bets</p>
   </div>
   
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
   
-  <div class="toast__progress"><div class="toast__progress-fill" style="width:62%"></div></div>
 </div></div>
         <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
-    &lt;p class="toast__title"&gt;Odds settings updated&lt;/p&gt;
-    &lt;p class="toast__subtitle"&gt;Your odds preference has been saved&lt;/p&gt;
+    &lt;p class="toast__heading"&gt;Quick Bet placed — $10&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;View it in My Bets&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class="toast__progress"&gt;&lt;div class="toast__progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>warning</h3>
+        <div class="story-preview"><div class="toast toast--warning toast--oneline" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Quick Bet mode is active with $10 bet</p>
+    
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--warning toast--oneline" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Quick Bet mode is active with $10 bet&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>negative</h3>
+        <div class="story-preview"><div class="toast toast--negative toast--oneline" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.20593 5.21037L9.90955 6.91399L12.9321 2.70115C13.1154 2.44282 13.0904 2.08449 12.8654 1.85949C12.6154 1.60949 12.2238 1.60115 11.9654 1.84282L8.20593 5.21037ZM11.5904 8.5948L14.6945 11.6989L16.1154 10.4261C16.6488 9.94282 16.3488 9.05115 15.6321 8.98449L11.5904 8.5948ZM16.2082 15.5695L16.2045 15.5658L3.2408 2.60226L3.23707 2.59851C2.91134 2.27675 2.38646 2.27798 2.06226 2.60219C1.73682 2.92762 1.73682 3.45526 2.06226 3.7807L5.71932 7.43776L3.33206 9.57615C2.79873 10.0594 3.09873 10.9511 3.8154 11.0178L9.88455 11.6029L10.3033 12.0216L6.5154 17.3011C6.33206 17.5594 6.35706 17.9178 6.58206 18.1428C6.83206 18.3928 7.22373 18.4011 7.48206 18.1594L12.2079 13.9263L15.0259 16.7443C15.3514 17.0697 15.879 17.0697 16.2044 16.7443C16.5286 16.4201 16.5299 15.8952 16.2082 15.5695Z" fill="currentColor"/></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Quick Bet mode deactivated</p>
+    
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--negative toast--oneline" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Quick Bet mode deactivated&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
     </div>
 
+    <h2 class="big-section">Global bar</h2>
+    <p class="section-desc">The app-wide solid notification, docked full-bleed above the page. Dark text/icon on the bright fill.</p>
+    <div class="story-grid" style="grid-template-columns:1fr;">
+      
+      <div class="story">
+        <h3>Global — warning</h3>
+        <div class="story-preview"><div class="toast toast--warning toast--global" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Global Warning</p>
+    <p class="toast__secondary">Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.</p>
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--warning toast--global" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Global Warning&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        <p class="story-note">Warning is the only solid role this pass; solid negative/positive await the deferred text.forLabelBg.</p>
+      </div>
+    </div>
+
     <h2 class="big-section">Stacked</h2>
-    <p class="section-desc">Multiple toasts stack vertically with a consistent gap — e.g. copying a share link then a code fires two.</p>
+    <p class="section-desc">Multiple toasts stack vertically with a consistent gap — e.g. copying a share link then a code fires two one-line toasts.</p>
     <div class="story-grid" style="grid-template-columns:1fr; max-width:460px;">
       
       <div class="story">
         <h3>Two toasts</h3>
         <div class="story-preview"><div class="toast-stack">
-  <div class="toast toast--success" role="status">
+  <div class="toast toast--success toast--oneline" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Share link copied</p>
-    <p class="toast__subtitle">Link copied to clipboard</p>
+    <p class="toast__heading">Share link copied</p>
+    
   </div>
   
   
   
 </div>
-  <div class="toast toast--success" role="status">
+  <div class="toast toast--success toast--oneline" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__title">Share code copied</p>
-    <p class="toast__subtitle">Code copied to clipboard</p>
+    <p class="toast__heading">Share code copied</p>
+    
   </div>
   
   
@@ -389,8 +552,8 @@
 </div>
 </div></div>
         <pre class="code"><code>&lt;div class="toast-stack"&gt;
-  &lt;div class="toast toast--success" role="status"&gt;…&lt;/div&gt;
-  &lt;div class="toast toast--success" role="status"&gt;…&lt;/div&gt;
+  &lt;div class="toast toast--success toast--oneline" role="status"&gt;…&lt;/div&gt;
+  &lt;div class="toast toast--success toast--oneline" role="status"&gt;…&lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>

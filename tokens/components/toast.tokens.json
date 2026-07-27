@@ -1,30 +1,20 @@
 {
   "component": {
     "toast": {
-      "$description": "Transient top-docked notification — 'Betslip loaded', 'Betslip cleared' (with an Undo), 'Quick Bet mode is active', 'Odds settings updated', 'Share link copied'. New to the system. Sits on a raised grey surface (surface.raised, so it reads above whatever it covers), with a status icon, a bold title and an optional subtitle. Optional trailing action button (Undo) and/or close ×, and an optional auto-dismiss progress bar tinted to the role. Multiple toasts stack. Roles: success (green check) · warning (gold bolt, for quick-bet) · neutral (grey). Distinct from Alert: Alert is a persistent in-flow banner tied to state; Toast is a brief, self-dismissing confirmation.",
-      "bg": { "$type": "color", "$value": "{surface.raised}", "$description": "Raised grey — a step above a card, so the toast reads as floating over the page/sheet it covers." },
-      "border": { "$type": "color", "$value": "{outline.default}", "$description": "Hairline to seat it against a busy background." },
+      "$description": "Transient top-docked notification — 'Betslip loaded', 'Betslip cleared' (Undo), 'Quick Bet mode active', 'Share link copied'. New to the system. A floating surface-6 pill lifted off the page with elevation.sm; a status icon, a semibold heading and an OPTIONAL secondary line. Two independent axes: content (one line = heading only · two lines = heading + secondary) and trailing control (none · close × · Undo action · auto-dismiss timer — and the timer combines with either button). Roles success/warning/negative/neutral change only the icon colour (and the timer tint); the glyph itself is passed per toast. Quick-Bet toasts are just plain toasts with a close and a bolt/bolt-off icon — not a separate component. The `global` kind is the solid full-bleed app-wide bar (moved here from Alert — it is a toast, not an inline banner). Distinct from Alert: Alert is a persistent in-flow banner tied to state; Toast is brief, self-dismissing, and stacks.",
+      "bg": { "$type": "color", "$value": "{color.base.surface-6}", "$description": "surface-6 — a sanctioned surface-6-as-background exception (like label.score): the toast floats above cards/sheets, so it needs to sit a step lighter than the raised surface-4, lifted by the shadow rather than seated by a border." },
       "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px." },
+      "shadow": { "$type": "shadow", "$value": "{elevation.sm}", "$description": "The small floating-panel shadow (same weight as Popover/Menu) — a toast lifts off the page, so it carries a shadow, not a border." },
       "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
-      "paddingY": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px vertical." },
-      "gap": { "$type": "dimension", "$value": "{spacing.2_5}", "$description": "10px between icon, body and trailing controls." },
-      "iconSize": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px status icon (ui/check-circle · quick-bet · quick-bet-exit)." },
-      "title": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{family.sans}",
-          "fontWeight": "{weight.bold}",
-          "fontSize": "{size.base}",
-          "lineHeight": "{leading.tight}",
-          "letterSpacing": "{tracking.normal}"
-        },
-        "$description": "14px bold — the toast headline."
-      },
-      "titleColor": { "$type": "color", "$value": "{text.default}" },
-      "subtitle": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular — optional supporting line." },
-      "subtitleColor": { "$type": "color", "$value": "{text.secondary}" },
+      "paddingY": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px vertical (symmetric — content is vertically centred, single- or two-line)." },
+      "gap": { "$type": "dimension", "$value": "{spacing.2_5}", "$description": "10px between icon, body and trailing control." },
+      "iconSize": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px status icon (ui/check-circle · warning · quick-bet · quick-bet-exit)." },
+      "heading": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold — the toast headline. The standard heading style (not a bespoke bold 'title'); on a one-line toast this is the whole message." },
+      "headingColor": { "$type": "color", "$value": "{text.default}" },
+      "secondary": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular — the optional second line." },
+      "secondaryColor": { "$type": "color", "$value": "{text.secondary}" },
       "role": {
-        "$description": "Status colours: the leading icon and the progress-bar tint. success = positive (green check), warning = warning (gold — the quick-bet bolt), neutral = secondary grey.",
+        "$description": "Status colours: the leading-icon colour and the timer tint. success = positive (green), warning = warning (gold), negative = negative (red), neutral = secondary grey. The icon GLYPH is chosen per toast (a success toast can carry a check or, for Quick Bet, a bolt) — the role only colours it.",
         "success": {
           "icon": { "$type": "color", "$value": "{icon.positive}" },
           "accent": { "$type": "color", "$value": "{fill.positive}" }
@@ -33,32 +23,38 @@
           "icon": { "$type": "color", "$value": "{icon.warning}" },
           "accent": { "$type": "color", "$value": "{fill.warning}" }
         },
+        "negative": {
+          "icon": { "$type": "color", "$value": "{icon.negative}" },
+          "accent": { "$type": "color", "$value": "{fill.negative}" }
+        },
         "neutral": {
           "icon": { "$type": "color", "$value": "{icon.secondary}" },
           "accent": { "$type": "color", "$value": "{fill.neutral}" }
         }
       },
       "action": {
-        "$description": "Optional trailing action button (Undo) — the active fill, reusing Button's primary colours at a compact size.",
-        "fill": { "$type": "color", "$value": "{fill.active}" },
-        "hoverFill": { "$type": "color", "$value": "{fill.activeHover}" },
-        "text": { "$type": "color", "$value": "{text.forActiveBg}", "$description": "Dark text on the bright active fill (Pro orange)." },
-        "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px." },
-        "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px." },
-        "height": { "$type": "dimension", "$value": "{spacing.9}", "$description": "36px." },
-        "label": { "$type": "typography", "$value": "{text-style.heading-sm}", "$description": "12px medium button label." }
+        "$description": "The trailing Undo button IS the Button component, primary variant at base (40px) size — its size/label/colours are resolved from tokens/components/button.tokens.json at build time, never re-declared here (so it stays byte-identical to a real primary button)."
       },
       "close": {
         "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
-        "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph." },
-        "radius": { "$type": "dimension", "$value": "{radius.sm}" },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
+        "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px hover square." },
         "color": { "$type": "color", "$value": "{icon.secondary}" },
         "hoverFill": { "$type": "color", "$value": "{lighten.2}" },
         "hoverColor": { "$type": "color", "$value": "{text.default}" }
       },
       "progress": {
-        "$description": "Auto-dismiss timer bar along the bottom edge, tinted to the role's accent. Height is a baked 3px (not on the spacing grid — a hairline meter, not a layout step).",
+        "$description": "Auto-dismiss timer bar along the bottom edge, tinted to the role's accent over a faint track. Height is a baked 3px (a hairline meter, off the spacing grid). Combines with any trailing button.",
         "track": { "$type": "color", "$value": "{lighten.2}", "$description": "The faint unfilled remainder." }
+      },
+      "global": {
+        "$description": "The app-wide solid bar — full-bleed, a solid status fill with dark text/icon, title + subtitle + close. Moved here from Alert (it is a docked notification, not an inline banner). Warning only this pass; solid negative/positive need the deferred text.forLabelBg to pick dark-vs-white text legibly.",
+        "warning": {
+          "fill": { "$type": "color", "$value": "{fill.warning}" },
+          "text": { "$type": "color", "$value": "{text.contrast}", "$description": "Dark text on the bright gold fill (surface-0)." },
+          "icon": { "$type": "color", "$value": "{icon.contrast}" },
+          "close": { "$type": "color", "$value": "{icon.contrast}" }
+        }
       }
     }
   }

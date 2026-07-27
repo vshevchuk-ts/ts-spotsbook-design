@@ -1,7 +1,7 @@
 {
   "component": {
     "alert": {
-      "$description": "Inline status banner — contextual messaging inside a flow (the betslip footer's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'), plus a solid full-bleed global bar. New to the system: nothing else does colored contextual messaging. Two styles: `outline` (a 12% colored tint fill + a colored 1px border + a status icon, message in white) used for every in-slip banner; `solid` (a solid status fill with dark text) used for the app-wide global bar with a title + subtitle. Four roles map to the semantic status colours (warning/negative/positive) plus accent for info. The betslip itself uses `warning` for nearly everything (even 'balance too low' shows the gold triangle in the reference), but Alert carries all four so it's reusable beyond the slip.",
+      "$description": "Inline status banner — contextual messaging inside a flow (the betslip footer's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'). New to the system: nothing else does colored contextual messaging. One style: a 12% colored tint fill (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Four roles map to the semantic status colours (warning/negative/positive) plus accent for info. The betslip itself uses `warning` for nearly everything (even 'balance too low' shows the gold triangle in the reference), but Alert carries all four so it's reusable beyond the slip. The solid full-bleed app-wide bar lives in Toast (`toast --global`) — it is a docked notification, not an in-flow banner.",
       "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — same corner as Card/Bet-card." },
       "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
       "paddingY": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px vertical." },
@@ -49,15 +49,6 @@
           "bg": { "$type": "color", "$value": "{bg.accent}" },
           "border": { "$type": "color", "$value": "{outline.accent}" },
           "icon": { "$type": "color", "$value": "{icon.accent}" }
-        }
-      },
-      "solid": {
-        "$description": "Solid-fill style — the app-wide global bar. Only `warning` is defined this pass: it's the one solid banner in the reference (bright gold fill, dark text/icon). Solid negative/positive/info need per-role 'text on a bright fill' colours (the deferred text.forLabelBg) to pick dark vs white legibly, so they wait — outline covers those roles meanwhile.",
-        "warning": {
-          "fill": { "$type": "color", "$value": "{fill.warning}" },
-          "text": { "$type": "color", "$value": "{text.contrast}", "$description": "Dark text on the bright gold fill (surface-0)." },
-          "icon": { "$type": "color", "$value": "{icon.contrast}" },
-          "close": { "$type": "color", "$value": "{icon.contrast}" }
         }
       }
     }

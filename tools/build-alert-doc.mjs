@@ -41,11 +41,11 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 const colorPaths = [
-  "text.default", "text.contrast",
+  "text.default",
   "bg.warning", "bg.negative", "bg.positive", "bg.accent",
   "outline.warning", "outline.negative", "outline.positive", "outline.accent",
-  "icon.warning", "icon.negative", "icon.positive", "icon.accent", "icon.contrast", "icon.secondary",
-  "fill.warning", "lighten.2",
+  "icon.warning", "icon.negative", "icon.positive", "icon.accent", "icon.secondary",
+  "lighten.2",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -80,14 +80,7 @@ const css = `${rootVars}
 .alert__close:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
 .alert__close svg { display: block; width: ${closeIcon}; height: ${closeIcon}; }
 
-${roleCss}
-
-/* solid style — the app-wide global bar (warning only this pass) */
-.alert--solid { border-color: transparent; }
-.alert--solid.alert--warning { background: ${cv("fill.warning")}; color: ${cv("text.contrast")}; }
-.alert--solid.alert--warning .alert__icon { color: ${cv("icon.contrast")}; }
-.alert--solid.alert--warning .alert__close { color: ${cv("icon.contrast")}; }
-.alert--solid.alert--warning .alert__close:hover { background: rgba(0,0,0,0.12); color: ${cv("icon.contrast")}; }`;
+${roleCss}`;
 
 // ---- inline icons ----
 const icons = {
@@ -100,8 +93,8 @@ const icons = {
 const roleIcon = { warning: icons.warning, negative: icons.warning, positive: icons.positive, info: icons.info };
 
 // ---- markup ----
-function alertEl({ role, message, title, close, solid }) {
-  const cls = ["alert", `alert--${role}`, solid ? "alert--solid" : ""].filter(Boolean).join(" ");
+function alertEl({ role, message, title, close }) {
+  const cls = ["alert", `alert--${role}`].join(" ");
   return `<div class="${cls}" role="alert">
   <span class="alert__icon">${roleIcon[role]}</span>
   <div class="alert__body">
@@ -111,8 +104,8 @@ function alertEl({ role, message, title, close, solid }) {
   ${close ? `<button class="alert__close" aria-label="Dismiss">${icons.close}</button>` : ""}
 </div>`;
 }
-function alertCode({ role, message, title, close, solid }) {
-  const cls = ["alert", `alert--${role}`, solid ? "alert--solid" : ""].filter(Boolean).join(" ");
+function alertCode({ role, message, title, close }) {
+  const cls = ["alert", `alert--${role}`].join(" ");
   const ic = "<svg><!-- icon --></svg>";
   return `<div class="${cls}" role="alert">
   <span class="alert__icon">${ic}</span>
@@ -215,14 +208,14 @@ const html = `<!doctype html>
   </nav>
   <main>
     <h1>Alert</h1>
-    <p class="sub">tokens/components/alert.tokens.json · inline status banner for contextual messaging inside a flow — the betslip's 'cannot include suspended outcome', 'odds have changed', 'balance too low', plus a solid app-wide global bar. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
+    <p class="sub">tokens/components/alert.tokens.json · inline status banner for contextual messaging inside a flow — the betslip's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
 
     <div class="legend">
-      <div class="row"><b>Two styles</b><span><code class="tok">outline</code>: a 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white — every in-slip banner. <code class="tok">--solid</code>: a solid status fill with dark text — the full-bleed global bar (warning only this pass).</span></div>
+      <div class="row"><b>Style</b><span>A 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Sits inline in the flow (e.g. the betslip footer), not docked.</span></div>
       <div class="row"><b>Four roles</b><span>warning · negative · positive · info — mapped to the semantic status colours (warning/negative/positive) plus accent for info. The betslip uses <em>warning</em> for almost everything; Alert carries all four so it's reusable elsewhere.</span></div>
       <div class="row"><b>Anatomy</b><span>Status icon → body (optional bold title + message) → optional close ×. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
-      <div class="row"><b>Solid text</b><span>On the bright gold solid fill the text/icon go dark (text.contrast / icon.contrast). Solid negative/positive/info wait on a per-role 'text on a bright fill' token (deferred text.forLabelBg) — outline covers those roles meanwhile.</span></div>
       <div class="row"><b>Negative icon</b><span>Reuses the warning triangle for now (the UI icon set has no error-circle glyph yet); the red colour differentiates it. A dedicated glyph is a later swap.</span></div>
+      <div class="row"><b>vs. Toast</b><span>Alert is a persistent in-flow banner tied to state. The solid, full-bleed app-wide bar is a <a href="toast.html">Toast</a> (<code class="tok">--global</code>), not an Alert.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -242,12 +235,6 @@ const html = `<!doctype html>
     <div class="story-grid">
       ${story("Title + message", { role: "warning", title: "Odds have changed", message: "Review and approve the changes before placing this bet." })}
       ${story("Dismissible", { role: "info", message: "Log in to place your bet.", close: true })}
-    </div>
-
-    <h2 class="big-section">Solid — global bar</h2>
-    <p class="section-desc">The app-wide banner: a solid gold fill with a title, subtitle and close, docked full-bleed above the page content.</p>
-    <div class="story-grid" style="grid-template-columns:1fr;">
-      ${story("Global warning", { role: "warning", solid: true, title: "Global Warning", message: "Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.", close: true }, "The one solid variant this pass. Dark text/icon on the bright fill; the × goes dark too.")}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
