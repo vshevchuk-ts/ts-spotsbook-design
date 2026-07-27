@@ -469,7 +469,7 @@ const html = `<!doctype html>
     <h2 class="big-section">Betbuilder</h2>
     <p class="section-desc">One bet made of several same-event legs (a same-game multi). The header and footer are the bet-card's own; the legs live in an <strong>inset surface-2 card</strong> (one step darker than the surface-4 outer), each an outcome-over-market row — note the order is inverted vs. compact: <strong>outcome above, market below</strong> — with its own remove ×, split by hairline dividers. Footer: the combined <code class="tok">Betbuilder Odd</code> and the stake field (the <a href="input.html">Input</a>, shown empty here). Badges (BB / LIVE) come once Badge is reworked, then to every bet card.</p>
     <div class="story-grid" style="grid-template-columns:1fr; max-width:440px;">
-      ${storyCard("5-leg betbuilder", betbuilderCard(dBetbuilder), betbuilderCode, "Inset card surface.card (surface-2), 8px leg padding, 4px outcome↔market, 20px remove ×, 8px from the card to header/footer.")}
+      ${storyCard("5-leg betbuilder", betbuilderCard(dBetbuilder), betbuilderCode, "Inset card surface.card (surface-2), 8px leg padding (all edges), 4px outcome↔market, 20px remove ×, 8px from the card to header/footer.")}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
