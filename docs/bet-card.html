@@ -99,7 +99,8 @@
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 0 1 auto; min-width: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
 .betcard__event:hover { color: var(--tok-text-active); }
-.betcard__header .badge { flex-shrink: 0; }
+.betcard__badges { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.betcard__badges .badge { flex-shrink: 0; }
 .betcard__remove { flex-shrink: 0; margin-left: auto; width: 20px; height: 20px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
@@ -115,6 +116,7 @@
 .betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
 
 /* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
    compact, stepped down to 12px regular in the amount density where odds leads. */
@@ -255,7 +257,8 @@
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 0 1 auto; min-width: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
 .betcard__event:hover { color: var(--tok-text-active); }
-.betcard__header .badge { flex-shrink: 0; }
+.betcard__badges { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.betcard__badges .badge { flex-shrink: 0; }
 .betcard__remove { flex-shrink: 0; margin-left: auto; width: 20px; height: 20px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
@@ -271,6 +274,7 @@
 .betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
 
 /* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
    compact, stepped down to 12px regular in the amount density where odds leads. */
@@ -349,12 +353,12 @@
       </div>
       
       <div class="story">
-        <h3>With settlement-rules info</h3>
+        <h3>3 badges + settlement info</h3>
         <div class="story-preview"><div class="betcard betcard--compact">
   <div class="betcard__header">
     <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.2486 4.02988C9.45967 4.19715 7.71283 4.9684 6.3386 6.34063C4.96637 7.71286 4.19511 9.4587 4.02985 11.2516C5.99504 11.48 8.08443 12.4836 9.79922 14.1994C11.516 15.9162 12.5216 18.0066 12.748 19.9708C14.5429 19.8045 16.2858 19.0343 17.66 17.663C19.0322 16.2908 19.8015 14.543 19.9677 12.751C18.0066 12.5237 15.9142 11.519 14.1984 9.80326C12.4836 8.08747 11.4779 5.99607 11.2486 4.03088V4.02988Z" fill="currentColor"/><path d="M20 11.7586C19.9419 9.79041 19.1626 7.84124 17.6632 6.3398C16.1618 4.83636 14.2096 4.0601 12.2414 4C12.4628 5.71879 13.3752 7.56579 14.9057 9.09628C16.4352 10.6258 18.2802 11.5372 20 11.7586ZM4 12.2434C4.05809 14.2106 4.83736 16.1608 6.3388 17.6622C7.83924 19.1626 9.78941 19.9429 11.7576 20C11.5362 18.2832 10.6238 16.4382 9.09328 14.9077C7.56579 13.3782 5.71779 12.4668 4 12.2434Z" fill="currentColor"/></svg></span>
     <button class="betcard__event">Cocciaretto Elisabetta - Efstathiou Menelaos</button>
-    <span class="badge badge--sm badge--named-live">LIVE</span><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-live">LIVE</span><span class="badge badge--sm badge--named-betbuilder">BB</span><span class="badge badge--sm badge--named-freebet">FB</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
   </div>
   <div class="betcard__market">
     <span class="betcard__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span>
@@ -369,7 +373,7 @@
   &lt;div class="betcard__header"&gt;
     &lt;span class="betcard__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
     &lt;button class="betcard__event"&gt;Cocciaretto Elisabetta - Efstathiou Menelaos&lt;/button&gt;
-    &lt;span class="badge badge--sm badge--named-live"&gt;LIVE&lt;/span&gt;
+    &lt;div class="betcard__badges"&gt;&lt;span class="badge badge--sm badge--named-live"&gt;LIVE&lt;/span&gt;&lt;span class="badge badge--sm badge--named-betbuilder"&gt;BB&lt;/span&gt;&lt;span class="badge badge--sm badge--named-freebet"&gt;FB&lt;/span&gt;&lt;/div&gt;
     &lt;button class="betcard__remove" aria-label="Remove selection"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="betcard__market"&gt;
@@ -381,7 +385,7 @@
     &lt;span class="betcard__odds"&gt;2.83&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        <p class="story-note">The event name truncates when it overflows; the gold info icon flags special settlement rules.</p>
+        <p class="story-note">All three header badges (LIVE + BB + FB, 4px apart) and the 16px gold settlement-info icon at once. The event truncates before the badge cluster.</p>
       </div>
     </div>
 
@@ -447,7 +451,7 @@
   <div class="betcard__header">
     <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
     <button class="betcard__event">Fulham - Manchester City</button>
-    <span class="badge badge--sm badge--named-freebet">FB</span><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-freebet">FB</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
   </div>
   <div class="betcard__body">
     <div class="betcard__main">
@@ -471,7 +475,7 @@
   &lt;div class="betcard__header"&gt;
     &lt;span class="betcard__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
     &lt;button class="betcard__event"&gt;Fulham - Manchester City&lt;/button&gt;
-    &lt;span class="badge badge--sm badge--named-freebet"&gt;FB&lt;/span&gt;
+    &lt;div class="betcard__badges"&gt;&lt;span class="badge badge--sm badge--named-freebet"&gt;FB&lt;/span&gt;&lt;/div&gt;
     &lt;button class="betcard__remove" aria-label="Remove selection"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="betcard__body"&gt;
@@ -506,7 +510,7 @@
   <div class="betcard__header">
     <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
     <button class="betcard__event">Borussia Dortmund - AC Milan</button>
-    <span class="badge badge--sm badge--named-betbuilder">BB</span><span class="badge badge--sm badge--named-live">LIVE</span><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-betbuilder">BB</span><span class="badge badge--sm badge--named-live">LIVE</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
   </div>
   <div class="betcard__bb">
     <div class="betcard__bb-row">
@@ -559,8 +563,10 @@
   &lt;div class="betcard__header"&gt;
     &lt;span class="betcard__icon"&gt;&lt;svg&gt;&lt;!-- sport --&gt;&lt;/svg&gt;&lt;/span&gt;
     &lt;button class="betcard__event"&gt;Borussia Dortmund - AC Milan&lt;/button&gt;
-    &lt;span class="badge badge--sm badge--named-betbuilder"&gt;BB&lt;/span&gt;
-    &lt;span class="badge badge--sm badge--named-live"&gt;LIVE&lt;/span&gt;
+    &lt;div class="betcard__badges"&gt;
+      &lt;span class="badge badge--sm badge--named-betbuilder"&gt;BB&lt;/span&gt;
+      &lt;span class="badge badge--sm badge--named-live"&gt;LIVE&lt;/span&gt;
+    &lt;/div&gt;
     &lt;button class="betcard__remove" aria-label="Remove selection"&gt;&lt;svg&gt;&lt;!-- × --&gt;&lt;/svg&gt;&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="betcard__bb"&gt;

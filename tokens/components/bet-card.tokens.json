@@ -8,7 +8,8 @@
       "sectionGap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px — header ↔ body block." },
       "lineGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px — between market ↔ outcome ↔ odds lines." },
       "header": {
-        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the leading icon, event link and remove ×." },
+        "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the leading icon, event link, the badge group and remove ×." },
+        "badgeGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between the LIVE/BB/FB badges themselves (tighter than the 8px header gap) — they read as one cluster." },
         "icon": {
           "size": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px discipline (sport) glyph." },
           "color": { "$type": "color", "$value": "{icon.secondary}", "$description": "Muted grey — chrome icon, not content." }

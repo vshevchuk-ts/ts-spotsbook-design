@@ -89,6 +89,7 @@ const padding = px(resolve(bc.padding.$value));
 const sectionGap = px(resolve(bc.sectionGap.$value));
 const lineGap = px(resolve(bc.lineGap.$value));
 const headerGap = px(resolve(bc.header.gap.$value));
+const badgeGap = px(resolve(bc.header.badgeGap.$value));
 const iconSize = px(resolve(bc.header.icon.size.$value));
 const removeBox = px(resolve(bc.header.remove.box.$value));
 const removeIcon = px(resolve(bc.header.remove.iconSize.$value));
@@ -152,7 +153,8 @@ const css = `${rootVars}
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
 .betcard__event { flex: 0 1 auto; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
 .betcard__event:hover { color: ${cv("text.active")}; }
-.betcard__header .badge { flex-shrink: 0; }
+.betcard__badges { display: inline-flex; align-items: center; gap: ${badgeGap}; flex-shrink: 0; }
+.betcard__badges .badge { flex-shrink: 0; }
 .betcard__remove { flex-shrink: 0; margin-left: auto; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cvOf(bc.header.remove.color)}; cursor: pointer; }
 .betcard__remove:hover { background: ${cvOf(bc.header.remove.hoverFill)}; color: ${cvOf(bc.header.remove.hoverColor)}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
@@ -166,6 +168,7 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
 .betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
 .betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
 
 /* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
    compact, stepped down to 12px regular in the amount density where odds leads. */
@@ -214,7 +217,10 @@ const disc = (name) => fs.readFileSync(path.join(root, `assets/icons/sports/${na
 // header badges are the real Badge component (sm / named). Optional — pass none, one,
 // or several of live/betbuilder/freebet.
 const BADGE_LABEL = { live: "LIVE", betbuilder: "BB", freebet: "FB" };
-const headerBadges = (badges) => (badges || []).map((n) => `<span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("");
+const headerBadges = (badges) =>
+  badges && badges.length
+    ? `<div class="betcard__badges">${badges.map((n) => `<span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("")}</div>`
+    : "";
 function header(sport, event, badges) {
   return `<div class="betcard__header">
     <span class="betcard__icon">${disc(sport)}</span>
@@ -292,7 +298,9 @@ function betbuilderCard({ sport, event, badges, legs, odd, amount }) {
 // short, readable code sample (icon path dumps replaced with a comment)
 function sampleCode(kind, d) {
   const ic = "<svg><!-- icon --></svg>";
-  const badgeTags = (d.badges || []).map((n) => `\n    <span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("");
+  const badgeTags = (d.badges && d.badges.length)
+    ? `\n    <div class="betcard__badges">${d.badges.map((n) => `<span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("")}</div>`
+    : "";
   const hdr = `  <div class="betcard__header">
     <span class="betcard__icon">${ic}</span>
     <button class="betcard__event">${d.event}</button>${badgeTags}
@@ -342,7 +350,7 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 
 // sample data
 const dCompact = { sport: "football", event: "Fulham - Manchester City", market: "Handicap", info: false, outcome: "Manchester City -5.5", odds: "19.53" };
-const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", badges: ["live"], market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
+const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", badges: ["live", "betbuilder", "freebet"], market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
 const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
 const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", badges: ["freebet"], market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
 const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", badges: ["betbuilder", "live"], odd: "5.09", amount: "", legs: [
@@ -356,8 +364,10 @@ const betbuilderCode = `<div class="betcard betcard--betbuilder">
   <div class="betcard__header">
     <span class="betcard__icon"><svg><!-- sport --></svg></span>
     <button class="betcard__event">Borussia Dortmund - AC Milan</button>
-    <span class="badge badge--sm badge--named-betbuilder">BB</span>
-    <span class="badge badge--sm badge--named-live">LIVE</span>
+    <div class="betcard__badges">
+      <span class="badge badge--sm badge--named-betbuilder">BB</span>
+      <span class="badge badge--sm badge--named-live">LIVE</span>
+    </div>
     <button class="betcard__remove" aria-label="Remove selection"><svg><!-- × --></svg></button>
   </div>
   <div class="betcard__bb">
@@ -483,7 +493,7 @@ const html = `<!doctype html>
     <p class="section-desc">The dense variant: no per-selection stake (the stake is set once for the whole slip). Odds sits inline to the right of the outcome, baseline-aligned.</p>
     <div class="story-grid">
       ${storyCard("Plain market", compactCard(dCompact), sampleCode("compact", dCompact))}
-      ${storyCard("With settlement-rules info", compactCard(dCompactInfo), sampleCode("compact", dCompactInfo), "The event name truncates when it overflows; the gold info icon flags special settlement rules.")}
+      ${storyCard("3 badges + settlement info", compactCard(dCompactInfo), sampleCode("compact", dCompactInfo), "All three header badges (LIVE + BB + FB, 4px apart) and the 16px gold settlement-info icon at once. The event truncates before the badge cluster.")}
     </div>
 
     <h2 class="big-section">With amount — Single</h2>
