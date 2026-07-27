@@ -201,10 +201,10 @@
       <div class="row"><b>Surface</b><span>surface-6 (a sanctioned surface-6-as-background exception) lifted off the page by elevation.sm — a toast floats, so it carries a shadow, not a border. radius.md.</span></div>
       <div class="row"><b>Two axes</b><span><em>Content</em>: one line (heading only) or two lines (heading + secondary). Most messages fit one line — the second line is optional, not a default. <em>Trailing control</em>: none · close × · Undo action · auto-dismiss timer — and the timer combines with either button.</span></div>
       <div class="row"><b>Heading</b><span>text-style.heading-base — 14px semibold, the standard heading style. On a one-line toast it is the whole message; the 12px secondary line is regular body.</span></div>
-      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role only colours the leading icon and the timer tint — the glyph is passed per toast, so a success and a warning toast can be identical but for the icon.</span></div>
+      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role colours the leading icon and the timer tint; each status uses its own glyph — success → check, warning/negative → triangle. The glyph is still passed per toast so non-status contexts (Quick Bet) can supply their own.</span></div>
       <div class="row"><b>Undo action</b><span>The trailing button <em>is</em> <a href="button.html">Button</a> / primary / base (40px) — its size, label and colours resolve from button.tokens.json, so it's a real primary button, not a shrunk-down lookalike.</span></div>
       <div class="row"><b>Timer</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role over a faint lighten.2 track; animates to zero and respects prefers-reduced-motion. Combines with a close or an Undo.</span></div>
-      <div class="row"><b>Quick Bet toasts</b><span>Not a separate component — a plain toast with a close and a bolt / bolt-off icon. Shown below in success/warning/negative to make the point: only the icon changes.</span></div>
+      <div class="row"><b>Quick Bet toasts</b><span>Two dedicated toasts (activated / deactivated) — not the status roles but the mode's own bolt language: a filled gold bolt vs a grey crossed-out bolt. Built on the plain toast + close.</span></div>
       <div class="row"><b>Global bar</b><span><code class="tok">--global</code>: the solid, full-bleed app-wide notification (moved here from Alert — it is a docked toast, not an inline banner). Warning only this pass.</span></div>
     </div>
 
@@ -423,17 +423,17 @@
       </div>
     </div>
 
-    <h2 class="big-section">Quick Bet — one toast, three roles</h2>
-    <p class="section-desc">These are ordinary toasts (close + a bolt icon). Only the role — and therefore the icon colour and glyph — changes between them; everything else is identical.</p>
+    <h2 class="big-section">Roles</h2>
+    <p class="section-desc">Each status carries its own icon in the role colour: success → check (green), warning → triangle (gold), negative → triangle (red). (Negative reuses the warning triangle for now — the UI icon set has no error-circle glyph yet; the red colour differentiates it.)</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>success</h3>
         <div class="story-preview"><div class="toast toast--success" role="status">
-  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
-    <p class="toast__heading">Quick Bet placed — $10</p>
-    <p class="toast__secondary">View it in My Bets</p>
+    <p class="toast__heading">Bet placed</p>
+    <p class="toast__secondary">Added to My Bets</p>
   </div>
   
   <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
@@ -442,8 +442,8 @@
         <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
-    &lt;p class="toast__heading"&gt;Quick Bet placed — $10&lt;/p&gt;
-    &lt;p class="toast__secondary"&gt;View it in My Bets&lt;/p&gt;
+    &lt;p class="toast__heading"&gt;Bet placed&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Added to My Bets&lt;/p&gt;
   &lt;/div&gt;
   &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
@@ -452,6 +452,57 @@
       
       <div class="story">
         <h3>warning</h3>
+        <div class="story-preview"><div class="toast toast--warning" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Odds have changed</p>
+    <p class="toast__secondary">Review before placing</p>
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--warning" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Odds have changed&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Review before placing&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>negative</h3>
+        <div class="story-preview"><div class="toast toast--negative" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__heading">Bet not processed</p>
+    <p class="toast__secondary">Please try again</p>
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--negative" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__heading"&gt;Bet not processed&lt;/p&gt;
+    &lt;p class="toast__secondary"&gt;Please try again&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">Quick Bet</h2>
+    <p class="section-desc">Two dedicated toasts for the quick-bet mode, using the bolt glyph rather than a status icon: <em>activated</em> (filled gold bolt) and <em>deactivated</em> (grey crossed-out bolt). Otherwise plain toasts with a close.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Activated</h3>
         <div class="story-preview"><div class="toast toast--warning toast--oneline" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
   <div class="toast__body">
@@ -469,12 +520,12 @@
   &lt;/div&gt;
   &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-        
+        <p class="story-note">Filled gold bolt (quick-bet) on the warning role.</p>
       </div>
       
       <div class="story">
-        <h3>negative</h3>
-        <div class="story-preview"><div class="toast toast--negative toast--oneline" role="status">
+        <h3>Deactivated</h3>
+        <div class="story-preview"><div class="toast toast--neutral toast--oneline" role="status">
   <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.20593 5.21037L9.90955 6.91399L12.9321 2.70115C13.1154 2.44282 13.0904 2.08449 12.8654 1.85949C12.6154 1.60949 12.2238 1.60115 11.9654 1.84282L8.20593 5.21037ZM11.5904 8.5948L14.6945 11.6989L16.1154 10.4261C16.6488 9.94282 16.3488 9.05115 15.6321 8.98449L11.5904 8.5948ZM16.2082 15.5695L16.2045 15.5658L3.2408 2.60226L3.23707 2.59851C2.91134 2.27675 2.38646 2.27798 2.06226 2.60219C1.73682 2.92762 1.73682 3.45526 2.06226 3.7807L5.71932 7.43776L3.33206 9.57615C2.79873 10.0594 3.09873 10.9511 3.8154 11.0178L9.88455 11.6029L10.3033 12.0216L6.5154 17.3011C6.33206 17.5594 6.35706 17.9178 6.58206 18.1428C6.83206 18.3928 7.22373 18.4011 7.48206 18.1594L12.2079 13.9263L15.0259 16.7443C15.3514 17.0697 15.879 17.0697 16.2044 16.7443C16.5286 16.4201 16.5299 15.8952 16.2082 15.5695Z" fill="currentColor"/></svg></span>
   <div class="toast__body">
     <p class="toast__heading">Quick Bet mode deactivated</p>
@@ -484,14 +535,14 @@
   <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
   
 </div></div>
-        <pre class="code"><code>&lt;div class="toast toast--negative toast--oneline" role="status"&gt;
+        <pre class="code"><code>&lt;div class="toast toast--neutral toast--oneline" role="status"&gt;
   &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
   &lt;div class="toast__body"&gt;
     &lt;p class="toast__heading"&gt;Quick Bet mode deactivated&lt;/p&gt;
   &lt;/div&gt;
   &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-        
+        <p class="story-note">Grey crossed-out bolt (quick-bet-exit) on the neutral role.</p>
       </div>
     </div>
 

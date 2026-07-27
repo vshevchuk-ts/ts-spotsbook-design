@@ -264,10 +264,10 @@ const html = `<!doctype html>
       <div class="row"><b>Surface</b><span>surface-6 (a sanctioned surface-6-as-background exception) lifted off the page by elevation.sm — a toast floats, so it carries a shadow, not a border. radius.md.</span></div>
       <div class="row"><b>Two axes</b><span><em>Content</em>: one line (heading only) or two lines (heading + secondary). Most messages fit one line — the second line is optional, not a default. <em>Trailing control</em>: none · close × · Undo action · auto-dismiss timer — and the timer combines with either button.</span></div>
       <div class="row"><b>Heading</b><span>text-style.heading-base — 14px semibold, the standard heading style. On a one-line toast it is the whole message; the 12px secondary line is regular body.</span></div>
-      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role only colours the leading icon and the timer tint — the glyph is passed per toast, so a success and a warning toast can be identical but for the icon.</span></div>
+      <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role colours the leading icon and the timer tint; each status uses its own glyph — success → check, warning/negative → triangle. The glyph is still passed per toast so non-status contexts (Quick Bet) can supply their own.</span></div>
       <div class="row"><b>Undo action</b><span>The trailing button <em>is</em> <a href="button.html">Button</a> / primary / base (40px) — its size, label and colours resolve from button.tokens.json, so it's a real primary button, not a shrunk-down lookalike.</span></div>
       <div class="row"><b>Timer</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role over a faint lighten.2 track; animates to zero and respects prefers-reduced-motion. Combines with a close or an Undo.</span></div>
-      <div class="row"><b>Quick Bet toasts</b><span>Not a separate component — a plain toast with a close and a bolt / bolt-off icon. Shown below in success/warning/negative to make the point: only the icon changes.</span></div>
+      <div class="row"><b>Quick Bet toasts</b><span>Two dedicated toasts (activated / deactivated) — not the status roles but the mode's own bolt language: a filled gold bolt vs a grey crossed-out bolt. Built on the plain toast + close.</span></div>
       <div class="row"><b>Global bar</b><span><code class="tok">--global</code>: the solid, full-bleed app-wide notification (moved here from Alert — it is a docked toast, not an inline banner). Warning only this pass.</span></div>
     </div>
 
@@ -290,12 +290,19 @@ const html = `<!doctype html>
       ${story("Timer + Undo", { role: "success", icon: "check", heading: "Betslip cleared", secondary: "All bets have been removed", action: "Undo", progress: true }, "The timer runs while Undo is still available — it cancels the dismissal if tapped in time.")}
     </div>
 
-    <h2 class="big-section">Quick Bet — one toast, three roles</h2>
-    <p class="section-desc">These are ordinary toasts (close + a bolt icon). Only the role — and therefore the icon colour and glyph — changes between them; everything else is identical.</p>
+    <h2 class="big-section">Roles</h2>
+    <p class="section-desc">Each status carries its own icon in the role colour: success → check (green), warning → triangle (gold), negative → triangle (red). (Negative reuses the warning triangle for now — the UI icon set has no error-circle glyph yet; the red colour differentiates it.)</p>
     <div class="story-grid">
-      ${story("success", { role: "success", icon: "bolt", heading: "Quick Bet placed — $10", secondary: "View it in My Bets", close: true })}
-      ${story("warning", { role: "warning", icon: "bolt", heading: "Quick Bet mode is active with $10 bet", close: true })}
-      ${story("negative", { role: "negative", icon: "boltOff", heading: "Quick Bet mode deactivated", close: true })}
+      ${story("success", { role: "success", icon: "check", heading: "Bet placed", secondary: "Added to My Bets", close: true })}
+      ${story("warning", { role: "warning", icon: "warning", heading: "Odds have changed", secondary: "Review before placing", close: true })}
+      ${story("negative", { role: "negative", icon: "warning", heading: "Bet not processed", secondary: "Please try again", close: true })}
+    </div>
+
+    <h2 class="big-section">Quick Bet</h2>
+    <p class="section-desc">Two dedicated toasts for the quick-bet mode, using the bolt glyph rather than a status icon: <em>activated</em> (filled gold bolt) and <em>deactivated</em> (grey crossed-out bolt). Otherwise plain toasts with a close.</p>
+    <div class="story-grid">
+      ${story("Activated", { role: "warning", icon: "bolt", heading: "Quick Bet mode is active with $10 bet", close: true }, "Filled gold bolt (quick-bet) on the warning role.")}
+      ${story("Deactivated", { role: "neutral", icon: "boltOff", heading: "Quick Bet mode deactivated", close: true }, "Grey crossed-out bolt (quick-bet-exit) on the neutral role.")}
     </div>
 
     <h2 class="big-section">Global bar</h2>
