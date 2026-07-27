@@ -68,9 +68,9 @@ const roleCss = roles.map((r) => `.alert--${r} { background: ${cv(alert.role[r].
 
 const css = `${rootVars}
 
-.alert { display: flex; align-items: flex-start; gap: ${gap}; padding: ${padY} ${padX}; border: 1px solid transparent; border-radius: ${radius}; font-family: ${cv("family.sans")}; color: ${cv("text.default")}; }
+.alert { display: flex; align-items: center; gap: ${gap}; padding: ${padY} ${padX}; border: 1px solid transparent; border-radius: ${radius}; font-family: ${cv("family.sans")}; color: ${cv("text.default")}; }
 .alert * { box-sizing: border-box; }
-.alert__icon { flex-shrink: 0; width: ${iconSize}; height: ${iconSize}; margin-top: 1px; }
+.alert__icon { flex-shrink: 0; width: ${iconSize}; height: ${iconSize}; }
 .alert__icon svg { display: block; width: 100%; height: 100%; }
 .alert__body { flex: 1; min-width: 0; }
 .alert__message { margin: 0; color: inherit; ${messageCss} }
