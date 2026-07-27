@@ -68,8 +68,8 @@ const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 // ---- colours this page uses, emitted as :root --tok-* vars ----
 const colorPaths = [
-  "surface.raised", "surface.page",
-  "outline.strong", "outline.active",
+  "surface.raised", "surface.page", "surface.card",
+  "outline.strong", "outline.active", "outline.default",
   "text.default", "text.active", "text.secondary",
   "icon.secondary", "icon.warning",
   "fill.neutralHover",
@@ -98,6 +98,12 @@ const amtPadX = px(resolve(inLg.paddingX.$value));
 const amtLabelGap = px(resolve(inLg.labelGap.$value));
 const amtRadius = px(resolve(input.radius.$value));
 const amtPrefixGap = px(resolve(input.prefix.gap.$value));
+// betbuilder density
+const bb = bc.betbuilder;
+const bbRadius = px(resolve(bb.innerRadius.$value));
+const bbRowPadX = px(resolve(bb.rowPaddingX.$value));
+const bbRowPadY = px(resolve(bb.rowPaddingY.$value));
+const bbRowGap = px(resolve(bb.rowGap.$value));
 
 // typography → CSS. `text-style.*` refs can carry a textDecoration in
 // $extensions that resolveToken() drops, so read it straight off the node.
@@ -119,6 +125,7 @@ const outcomeSingleType = typoOf(bc.outcome.singleType);
 const oddsType = typoOf(bc.odds.type);
 const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
+const bbOddLabelType = typoOf(bb.oddLabel.type);
 
 // ---- the stylesheet — printed as code AND used to render the live previews ----
 const css = `${rootVars}
@@ -163,7 +170,21 @@ const css = `${rootVars}
 .betcard__amount-value { display: flex; align-items: baseline; gap: ${amtPrefixGap}; }
 .betcard__amount-cur { flex-shrink: 0; color: ${cv("text.secondary")}; ${amtValueType} }
 .betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${amtValueType} font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: ${cv("text.secondary")}; }`;
+.betcard__amount-input::placeholder { color: ${cv("text.secondary")}; }
+/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
+.betcard__amount--empty { justify-content: center; }
+.betcard__amount--empty .betcard__amount-input { width: 100%; }
+
+/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
+.betcard__bb { margin-top: ${sectionGap}; background: ${cv("surface.card")}; border-radius: ${bbRadius}; overflow: hidden; }
+.betcard__bb-row { display: flex; align-items: center; gap: ${headerGap}; padding: ${bbRowPadY} ${bbRowPadX}; }
+.betcard__bb-row + .betcard__bb-row { border-top: 1px solid ${cv("outline.default")}; }
+.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${bbRowGap}; }
+.betcard__bb-market { color: ${cv("text.secondary")}; ${marketType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
+.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.betcard__bb-odd-label { color: ${cv("text.secondary")}; ${bbOddLabelType} }
+.betcard__bb-odd-value { color: ${cv("text.default")}; ${oddsType} font-variant-numeric: tabular-nums; }`;
 
 // ---- inline icons (currentColor) ----
 const iClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace(/\n/g, "");
@@ -194,6 +215,22 @@ function compactCard({ sport, event, market, info, outcome, odds }) {
   </div>
 </div>`;
 }
+// the Bet-amount field (Input / lg + prefix). Empty state = Input's unpopulated look
+// (placeholder centred, no floating label / prefix); populated = label + $ + value.
+function amountField(amount) {
+  if (amount == null || amount === "") {
+    return `<label class="betcard__amount betcard__amount--empty">
+      <input class="betcard__amount-input" placeholder="Bet amount" inputmode="decimal" aria-label="Bet amount" />
+    </label>`;
+  }
+  return `<label class="betcard__amount">
+      <span class="betcard__amount-label">Bet amount</span>
+      <span class="betcard__amount-value">
+        <span class="betcard__amount-cur">$</span>
+        <input class="betcard__amount-input" value="${amount}" inputmode="decimal" aria-label="Bet amount" />
+      </span>
+    </label>`;
+}
 function amountCard({ sport, event, market, info, outcome, odds, amount }) {
   return `<div class="betcard betcard--amount">
   ${header(sport, event)}
@@ -203,13 +240,29 @@ function amountCard({ sport, event, market, info, outcome, odds, amount }) {
       <span class="betcard__outcome">${outcome}</span>
       <span class="betcard__odds">${odds}</span>
     </div>
-    <label class="betcard__amount">
-      <span class="betcard__amount-label">Bet amount</span>
-      <span class="betcard__amount-value">
-        <span class="betcard__amount-cur">$</span>
-        <input class="betcard__amount-input" value="${amount}" inputmode="decimal" aria-label="Bet amount" />
-      </span>
-    </label>
+    ${amountField(amount)}
+  </div>
+</div>`;
+}
+function betbuilderCard({ sport, event, legs, odd, amount }) {
+  const rows = legs.map((l) => `<div class="betcard__bb-row">
+      <div class="betcard__bb-main">
+        <span class="betcard__outcome">${l.outcome}</span>
+        <span class="betcard__bb-market">${l.market}</span>
+      </div>
+      <button class="betcard__remove" aria-label="Remove leg">${iClose}</button>
+    </div>`).join("\n    ");
+  return `<div class="betcard betcard--betbuilder">
+  ${header(sport, event)}
+  <div class="betcard__bb">
+    ${rows}
+  </div>
+  <div class="betcard__bb-foot">
+    <div class="betcard__bb-odd">
+      <span class="betcard__bb-odd-label">Betbuilder Odd</span>
+      <span class="betcard__bb-odd-value">${odd}</span>
+    </div>
+    ${amountField(amount)}
   </div>
 </div>`;
 }
@@ -268,6 +321,39 @@ const dCompact = { sport: "football", event: "Fulham - Manchester City", market:
 const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
 const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
 const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
+const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", odd: "5.09", amount: "", legs: [
+  { outcome: "Borussia Dortmund", market: "Match Winner" },
+  { outcome: "2-1", market: "Correct Score" },
+  { outcome: "Borussia Dortmund", market: "Match Winner" },
+  { outcome: "2-1", market: "Correct Score" },
+  { outcome: "Borussia Dortmund", market: "Match Winner" },
+] };
+const betbuilderCode = `<div class="betcard betcard--betbuilder">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg><!-- sport --></svg></span>
+    <button class="betcard__event">Borussia Dortmund - AC Milan</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg><!-- × --></svg></button>
+  </div>
+  <div class="betcard__bb">
+    <div class="betcard__bb-row">
+      <div class="betcard__bb-main">
+        <span class="betcard__outcome">Borussia Dortmund</span>
+        <span class="betcard__bb-market">Match Winner</span>
+      </div>
+      <button class="betcard__remove" aria-label="Remove leg"><svg><!-- × --></svg></button>
+    </div>
+    <!-- …one .betcard__bb-row per leg… -->
+  </div>
+  <div class="betcard__bb-foot">
+    <div class="betcard__bb-odd">
+      <span class="betcard__bb-odd-label">Betbuilder Odd</span>
+      <span class="betcard__bb-odd-value">5.09</span>
+    </div>
+    <label class="betcard__amount betcard__amount--empty">
+      <input class="betcard__amount-input" placeholder="Bet amount" />
+    </label>
+  </div>
+</div>`;
 
 const html = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -378,6 +464,12 @@ const html = `<!doctype html>
     <div class="story-grid">
       ${storyCard("Bet-amount field", amountCard(dAmount), sampleCode("amount", dAmount))}
       ${storyCard("Long market + info", amountCard(dAmountInfo), sampleCode("amount", dAmountInfo), "Outcome column flexes and truncates; the stake field keeps a fixed width so a column of cards lines up.")}
+    </div>
+
+    <h2 class="big-section">Betbuilder</h2>
+    <p class="section-desc">One bet made of several same-event legs (a same-game multi). The header and footer are the bet-card's own; the legs live in an <strong>inset surface-2 card</strong> (one step darker than the surface-4 outer), each an outcome-over-market row — note the order is inverted vs. compact: <strong>outcome above, market below</strong> — with its own remove ×, split by hairline dividers. Footer: the combined <code class="tok">Betbuilder Odd</code> and the stake field (the <a href="input.html">Input</a>, shown empty here). Badges (BB / LIVE) come once Badge is reworked, then to every bet card.</p>
+    <div class="story-grid" style="grid-template-columns:1fr; max-width:440px;">
+      ${storyCard("5-leg betbuilder", betbuilderCard(dBetbuilder), betbuilderCode, "Inset card surface.card (surface-2), 8px leg padding, 4px outcome↔market, 20px remove ×, 8px from the card to header/footer.")}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>

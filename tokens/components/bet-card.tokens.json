@@ -49,6 +49,19 @@
       "amount": {
         "$description": "The per-selection Bet-amount field (Single/`amount` density only) IS the Input component — the lg (48px) floating-label variant with a currency prefix. It is NOT restyled here: its height, radius, paddings, the 10px floating label, the 16px REGULAR value, the '$' prefix (input.prefix), the surface.page fill + outline.strong border and the outline.active focus border are all resolved from tokens/components/input.tokens.json at build time, so a bet-card stake field and a standalone Input stay identical (same regular 16px value — not a bespoke semibold). The only bet-card-specific bits are the fixed width and that the field is bottom-aligned to the outcome column, not stretched to the market+outcome+odds height.",
         "width": { "$type": "dimension", "$value": "{spacing.40}", "$description": "160px fixed — a column of Single cards lines up." }
+      },
+      "betbuilder": {
+        "$description": "Betbuilder density — one 'bet' that is itself a bundle of same-event legs (a same-game multi). The header (sport icon · event · ×) and the footer (Betbuilder Odd + stake field, the Input component) are the bet-card's own; the middle is an INSET darker card (surface.card = surface-2, one step below the surface-4 outer) listing each leg as an outcome-over-market row (outcome above, 4px, market below — the inverse of the compact density) with its own remove ×, split by hairline dividers. Outcome/market reuse the shared outcome/market roles; odds value + the stake field reuse odds/amount. Badges (BB/LIVE) and odds movement are OUT of this pass (badges are being reworked first, then added to every bet card).",
+        "innerBg": { "$type": "color", "$value": "{surface.card}", "$description": "surface-2 — the inset legs card, one step DARKER than the surface-4 outer, so the leg list reads as recessed into the bet." },
+        "innerRadius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — matches the outer card's corner." },
+        "rowPaddingX": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px — leg content sits 8px from the inset card's side edges (and its top/bottom edges via the first/last row's padding)." },
+        "rowPaddingY": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px vertical per leg row." },
+        "rowGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between a leg's outcome and its market line." },
+        "divider": { "$type": "color", "$value": "{outline.default}", "$description": "Hairline between leg rows — outline.default (surface-4) reads as a subtle lighter line on the surface-2 inset." },
+        "oddLabel": {
+          "type": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px regular — the 'Betbuilder Odd' caption." },
+          "color": { "$type": "color", "$value": "{text.secondary}" }
+        }
       }
     }
   }
