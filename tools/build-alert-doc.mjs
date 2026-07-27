@@ -60,7 +60,6 @@ const iconSize = px(resolve(alert.iconSize.$value));
 const closeBox = px(resolve(alert.close.box.$value));
 const closeIcon = px(resolve(alert.close.iconSize.$value));
 const closeRadius = px(resolve(alert.close.radius.$value));
-const titleCss = typoCss(alert.title);
 const messageCss = typoCss(alert.message);
 
 const roles = ["warning", "negative", "positive", "info"];
@@ -73,8 +72,7 @@ const css = `${rootVars}
 .alert * { box-sizing: border-box; }
 .alert__icon { flex-shrink: 0; width: ${iconSize}; height: ${iconSize}; margin-top: 1px; }
 .alert__icon svg { display: block; width: 100%; height: 100%; }
-.alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.alert__title { margin: 0; color: inherit; ${titleCss} }
+.alert__body { flex: 1; min-width: 0; }
 .alert__message { margin: 0; color: inherit; ${messageCss} }
 .alert__close { flex-shrink: 0; width: ${closeBox}; height: ${closeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${closeRadius}; color: ${cv("icon.secondary")}; cursor: pointer; }
 .alert__close:hover { background: ${cv("lighten.2")}; color: ${cv("text.default")}; }
@@ -93,25 +91,18 @@ const icons = {
 const roleIcon = { warning: icons.warning, negative: icons.warning, positive: icons.positive, info: icons.info };
 
 // ---- markup ----
-function alertEl({ role, message, title, close }) {
-  const cls = ["alert", `alert--${role}`].join(" ");
-  return `<div class="${cls}" role="alert">
+function alertEl({ role, message, close }) {
+  return `<div class="alert alert--${role}" role="alert">
   <span class="alert__icon">${roleIcon[role]}</span>
-  <div class="alert__body">
-    ${title ? `<p class="alert__title">${title}</p>` : ""}
-    <p class="alert__message">${message}</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">${message}</p></div>
   ${close ? `<button class="alert__close" aria-label="Dismiss">${icons.close}</button>` : ""}
 </div>`;
 }
-function alertCode({ role, message, title, close }) {
-  const cls = ["alert", `alert--${role}`].join(" ");
+function alertCode({ role, message, close }) {
   const ic = "<svg><!-- icon --></svg>";
-  return `<div class="${cls}" role="alert">
+  return `<div class="alert alert--${role}" role="alert">
   <span class="alert__icon">${ic}</span>
-  <div class="alert__body">
-${title ? `    <p class="alert__title">${title}</p>\n` : ""}    <p class="alert__message">${message}</p>
-  </div>${close ? `\n  <button class="alert__close" aria-label="Dismiss">${ic}</button>` : ""}
+  <div class="alert__body"><p class="alert__message">${message}</p></div>${close ? `\n  <button class="alert__close" aria-label="Dismiss">${ic}</button>` : ""}
 </div>`;
 }
 
@@ -213,7 +204,7 @@ const html = `<!doctype html>
     <div class="legend">
       <div class="row"><b>Style</b><span>A 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Sits inline in the flow (e.g. the betslip footer), not docked.</span></div>
       <div class="row"><b>Four roles</b><span>warning · negative · positive · info — mapped to the semantic status colours (warning/negative/positive) plus accent for info. The betslip uses <em>warning</em> for almost everything; Alert carries all four so it's reusable elsewhere.</span></div>
-      <div class="row"><b>Anatomy</b><span>Status icon → body (optional bold title + message) → optional close ×. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
+      <div class="row"><b>Anatomy</b><span>Status icon → a single message line → optional close ×. No title — an Alert is one line of text in a status colour. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
       <div class="row"><b>Negative icon</b><span>Reuses the warning triangle for now (the UI icon set has no error-circle glyph yet); the red colour differentiates it. A dedicated glyph is a later swap.</span></div>
       <div class="row"><b>vs. Toast</b><span>Alert is a persistent in-flow banner tied to state. The solid, full-bleed app-wide bar is a <a href="toast.html">Toast</a> (<code class="tok">--global</code>), not an Alert.</span></div>
     </div>
@@ -221,8 +212,8 @@ const html = `<!doctype html>
     <h2 class="big-section">CSS</h2>
     <pre class="code"><code>${esc(css)}</code></pre>
 
-    <h2 class="big-section">Roles — outline</h2>
-    <p class="section-desc">The in-flow style. Message text stays white on all four; only the tint, border and icon change with the role.</p>
+    <h2 class="big-section">Four roles</h2>
+    <p class="section-desc">Message text stays white on all four; only the tint, border and icon change with the role.</p>
     <div class="story-grid">
       ${story("warning", { role: "warning", message: "Your Betslip cannot include suspended or closed outcome." })}
       ${story("negative", { role: "negative", message: "Bet not processed. Please try again." })}
@@ -230,11 +221,11 @@ const html = `<!doctype html>
       ${story("info", { role: "info", message: "Potential max bet is $2,717 on this selection." })}
     </div>
 
-    <h2 class="big-section">With title · dismissible</h2>
-    <p class="section-desc">A title line above the message (bold), and an optional close × for banners the user can dismiss.</p>
+    <h2 class="big-section">Dismissible</h2>
+    <p class="section-desc">The same four roles with a close × for banners the user can dismiss. That's the only other axis — an Alert is either dismissible or not.</p>
     <div class="story-grid">
-      ${story("Title + message", { role: "warning", title: "Odds have changed", message: "Review and approve the changes before placing this bet." })}
-      ${story("Dismissible", { role: "info", message: "Log in to place your bet.", close: true })}
+      ${story("warning · close", { role: "warning", message: "Odds have changed — review before placing.", close: true })}
+      ${story("info · close", { role: "info", message: "Log in to place your bet.", close: true })}
     </div>
 
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>

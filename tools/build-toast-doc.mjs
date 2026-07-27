@@ -84,8 +84,7 @@ const css = `${rootVars}
 
 .toast { position: relative; display: flex; align-items: center; gap: ${gap}; min-width: 300px; max-width: 420px; padding: ${padY} ${padX}; background: ${cv("color.base.surface-6")}; border-radius: ${radius}; box-shadow: ${shadowCss}; overflow: hidden; font-family: ${cv("family.sans")}; }
 .toast * { box-sizing: border-box; }
-.toast__icon { flex-shrink: 0; align-self: flex-start; width: ${iconSize}; height: ${iconSize}; }
-.toast--oneline .toast__icon { align-self: center; }
+.toast__icon { flex-shrink: 0; align-self: center; width: ${iconSize}; height: ${iconSize}; }
 .toast__icon svg { display: block; width: 100%; height: 100%; }
 .toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .toast__heading { margin: 0; color: ${cv("text.default")}; ${headingCss} }

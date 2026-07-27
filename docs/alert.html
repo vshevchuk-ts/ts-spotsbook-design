@@ -93,8 +93,7 @@
 .alert * { box-sizing: border-box; }
 .alert__icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
 .alert__icon svg { display: block; width: 100%; height: 100%; }
-.alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.alert__title { margin: 0; color: inherit; font-weight: 800; font-size: 14px; line-height: 1.2; }
+.alert__body { flex: 1; min-width: 0; }
 .alert__message { margin: 0; color: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .alert__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .alert__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
@@ -172,7 +171,7 @@
     <div class="legend">
       <div class="row"><b>Style</b><span>A 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Sits inline in the flow (e.g. the betslip footer), not docked.</span></div>
       <div class="row"><b>Four roles</b><span>warning · negative · positive · info — mapped to the semantic status colours (warning/negative/positive) plus accent for info. The betslip uses <em>warning</em> for almost everything; Alert carries all four so it's reusable elsewhere.</span></div>
-      <div class="row"><b>Anatomy</b><span>Status icon → body (optional bold title + message) → optional close ×. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
+      <div class="row"><b>Anatomy</b><span>Status icon → a single message line → optional close ×. No title — an Alert is one line of text in a status colour. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
       <div class="row"><b>Negative icon</b><span>Reuses the warning triangle for now (the UI icon set has no error-circle glyph yet); the red colour differentiates it. A dedicated glyph is a later swap.</span></div>
       <div class="row"><b>vs. Toast</b><span>Alert is a persistent in-flow banner tied to state. The solid, full-bleed app-wide bar is a <a href="toast.html">Toast</a> (<code class="tok">--global</code>), not an Alert.</span></div>
     </div>
@@ -201,8 +200,7 @@
 .alert * { box-sizing: border-box; }
 .alert__icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
 .alert__icon svg { display: block; width: 100%; height: 100%; }
-.alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.alert__title { margin: 0; color: inherit; font-weight: 800; font-size: 14px; line-height: 1.2; }
+.alert__body { flex: 1; min-width: 0; }
 .alert__message { margin: 0; color: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
 .alert__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
 .alert__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
@@ -217,25 +215,20 @@
 .alert--info { background: var(--tok-bg-accent); border-color: var(--tok-outline-accent); }
 .alert--info .alert__icon { color: var(--tok-icon-accent); }</code></pre>
 
-    <h2 class="big-section">Roles — outline</h2>
-    <p class="section-desc">The in-flow style. Message text stays white on all four; only the tint, border and icon change with the role.</p>
+    <h2 class="big-section">Four roles</h2>
+    <p class="section-desc">Message text stays white on all four; only the tint, border and icon change with the role.</p>
     <div class="story-grid">
       
       <div class="story">
         <h3>warning</h3>
         <div class="story-preview"><div class="alert alert--warning" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    
-    <p class="alert__message">Your Betslip cannot include suspended or closed outcome.</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">Your Betslip cannot include suspended or closed outcome.</p></div>
   
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--warning" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__message"&gt;Your Betslip cannot include suspended or closed outcome.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Your Betslip cannot include suspended or closed outcome.&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
@@ -244,17 +237,12 @@
         <h3>negative</h3>
         <div class="story-preview"><div class="alert alert--negative" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    
-    <p class="alert__message">Bet not processed. Please try again.</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">Bet not processed. Please try again.</p></div>
   
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--negative" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__message"&gt;Bet not processed. Please try again.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Bet not processed. Please try again.&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
@@ -263,17 +251,12 @@
         <h3>positive</h3>
         <div class="story-preview"><div class="alert alert--positive" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    
-    <p class="alert__message">Odds accepted — your bet is ready to place.</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">Odds accepted — your bet is ready to place.</p></div>
   
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--positive" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__message"&gt;Odds accepted — your bet is ready to place.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Odds accepted — your bet is ready to place.&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
@@ -282,61 +265,46 @@
         <h3>info</h3>
         <div class="story-preview"><div class="alert alert--info" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    
-    <p class="alert__message">Potential max bet is $2,717 on this selection.</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">Potential max bet is $2,717 on this selection.</p></div>
   
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--info" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__message"&gt;Potential max bet is $2,717 on this selection.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Potential max bet is $2,717 on this selection.&lt;/p&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
     </div>
 
-    <h2 class="big-section">With title · dismissible</h2>
-    <p class="section-desc">A title line above the message (bold), and an optional close × for banners the user can dismiss.</p>
+    <h2 class="big-section">Dismissible</h2>
+    <p class="section-desc">The same four roles with a close × for banners the user can dismiss. That's the only other axis — an Alert is either dismissible or not.</p>
     <div class="story-grid">
       
       <div class="story">
-        <h3>Title + message</h3>
+        <h3>warning · close</h3>
         <div class="story-preview"><div class="alert alert--warning" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    <p class="alert__title">Odds have changed</p>
-    <p class="alert__message">Review and approve the changes before placing this bet.</p>
-  </div>
-  
+  <div class="alert__body"><p class="alert__message">Odds have changed — review before placing.</p></div>
+  <button class="alert__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--warning" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__title"&gt;Odds have changed&lt;/p&gt;
-    &lt;p class="alert__message"&gt;Review and approve the changes before placing this bet.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Odds have changed — review before placing.&lt;/p&gt;&lt;/div&gt;
+  &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
         
       </div>
       
       <div class="story">
-        <h3>Dismissible</h3>
+        <h3>info · close</h3>
         <div class="story-preview"><div class="alert alert--info" role="alert">
   <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span>
-  <div class="alert__body">
-    
-    <p class="alert__message">Log in to place your bet.</p>
-  </div>
+  <div class="alert__body"><p class="alert__message">Log in to place your bet.</p></div>
   <button class="alert__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
 </div></div>
         <pre class="code"><code>&lt;div class="alert alert--info" role="alert"&gt;
   &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
-  &lt;div class="alert__body"&gt;
-    &lt;p class="alert__message"&gt;Log in to place your bet.&lt;/p&gt;
-  &lt;/div&gt;
+  &lt;div class="alert__body"&gt;&lt;p class="alert__message"&gt;Log in to place your bet.&lt;/p&gt;&lt;/div&gt;
   &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
 &lt;/div&gt;</code></pre>
         

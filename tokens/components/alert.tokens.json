@@ -1,25 +1,14 @@
 {
   "component": {
     "alert": {
-      "$description": "Inline status banner — contextual messaging inside a flow (the betslip footer's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'). New to the system: nothing else does colored contextual messaging. One style: a 12% colored tint fill (bg.*) + a colored 1px border (outline.*) + a status icon, message in white. Four roles map to the semantic status colours (warning/negative/positive) plus accent for info. The betslip itself uses `warning` for nearly everything (even 'balance too low' shows the gold triangle in the reference), but Alert carries all four so it's reusable beyond the slip. The solid full-bleed app-wide bar lives in Toast (`toast --global`) — it is a docked notification, not an in-flow banner.",
+      "$description": "Inline status banner — contextual messaging inside a flow (the betslip footer's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'). New to the system: nothing else does colored contextual messaging. One style: a 12% colored tint fill (bg.*) + a colored 1px border (outline.*) + a status icon, a single message line in white — no title. Four roles map to the semantic status colours (warning/negative/positive) plus accent for info, each optionally with a close ×. The betslip itself uses `warning` for nearly everything (even 'balance too low' shows the gold triangle in the reference), but Alert carries all four so it's reusable beyond the slip. The solid full-bleed app-wide bar lives in Toast (`toast --global`) — it is a docked notification, not an in-flow banner.",
       "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — same corner as Card/Bet-card." },
       "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
       "paddingY": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px vertical." },
       "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the icon, body and close." },
       "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px status icon (ui/warning · check-circle · info-outline)." },
-      "message": { "$type": "typography", "$value": "{text-style.body-base}", "$description": "14px regular — the banner message." },
-      "title": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{family.sans}",
-          "fontWeight": "{weight.bold}",
-          "fontSize": "{size.base}",
-          "lineHeight": "{leading.tight}",
-          "letterSpacing": "{tracking.normal}"
-        },
-        "$description": "14px bold — optional title line (the global bar's heading, e.g. 'Global Warning'), above the message."
-      },
-      "text": { "$type": "color", "$value": "{text.default}", "$description": "Message/title colour on the outline styles — white on the dark tint." },
+      "message": { "$type": "typography", "$value": "{text-style.body-base}", "$description": "14px regular — the banner message. Alerts are a single message line (no title) — just a status colour, an icon and text." },
+      "text": { "$type": "color", "$value": "{text.default}", "$description": "Message colour — white on the dark tint." },
       "close": {
         "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
         "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
