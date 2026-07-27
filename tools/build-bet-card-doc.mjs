@@ -20,6 +20,7 @@ const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 const colorPrim = load("tokens/primitives/color.tokens.json").color;
 const dim = load("tokens/primitives/dimension.tokens.json").spacing;
 const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
+const elevationPrim = load("tokens/primitives/elevation.tokens.json").elevation;
 const typo = load("tokens/primitives/typography.tokens.json");
 const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
 const semantic = load("tokens/semantic/color.tokens.json");
@@ -30,10 +31,13 @@ const input = load("tokens/components/input.tokens.json").component.input;
 // Header LIVE/BB/FB pills ARE the Badge component (sm / named) — resolve its real
 // size + named colours, emit its real classes, never redraw.
 const badge = load("tokens/components/badge.tokens.json").component.badge;
+// The settlement-info / long-market / long-outcome reveals ARE the Tooltip component
+// (hover/focus, surface-6 bubble + caret, pure CSS) — resolve its real values.
+const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
 
 const registry = {
   color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
+  spacing: dim,  radius: radiusPrim,  elevation: elevationPrim,
   family: typo.family,
   weight: typo.weight,
   size: typo.size,
@@ -78,6 +82,8 @@ const colorPaths = [
   "fill.neutralHover",
   // Badge (sm / named live·betbuilder·freebet) header pills
   "bg.active", "bg.accent", "text.accent",
+  // Tooltip (info / market / outcome reveals)
+  "text.onFill",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -116,6 +122,14 @@ const badgeRadius = px(resolve(badge.radius.$value));
 const badgeSmH = px(resolve(badgeSm.height.$value));
 const badgeSmPadX = px(resolve(badgeSm.paddingX.$value));
 const HEADER_BADGES = ["live", "betbuilder", "freebet"];
+// Tooltip (surface-6 bubble + caret), resolved from tooltip.tokens.json
+const ttRadius = px(resolve(tooltip.radius.$value));
+const ttPadX = px(resolve(tooltip.paddingX.$value));
+const ttPadY = px(resolve(tooltip.paddingY.$value));
+const ttGap = px(resolve(tooltip.gap.$value));
+const ttArrow = px(resolve(tooltip.arrowSize.$value));
+const ttSh = resolveToken(tooltip.shadow);
+const ttShadow = `${px(ttSh.offsetX)} ${px(ttSh.offsetY)} ${px(ttSh.blur)} ${px(ttSh.spread)} ${ttSh.color}`;
 
 // typography → CSS. `text-style.*` refs can carry a textDecoration in
 // $extensions that resolveToken() drops, so read it straight off the node.
@@ -139,6 +153,7 @@ const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
 const bbOddLabelType = typoOf(bb.oddLabel.type);
 const badgeSmLabel = typoOf(badgeSm.label);
+const ttLabel = typoOf(tooltip.label);
 
 // ---- the stylesheet — printed as code AND used to render the live previews ----
 const css = `${rootVars}
@@ -166,13 +181,23 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
 
 /* market line (+ optional settlement-rules info icon) */
 .betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
-.betcard__market-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; }
+.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
 .betcard__info svg { display: block; width: 100%; height: 100%; }
+
+/* Tooltip (info settlement · long market · long outcome reveals) = the Tooltip component,
+   resolved from tooltip.tokens.json — surface-6 bubble + caret, shown on hover/focus (pure CSS). */
+.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
+.bc-tt--grow { flex: 1; }
+.bc-tt__trigger { min-width: 0; }
+.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + ${ttGap}); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: ${ttPadY} ${ttPadX}; background: ${cvOf(tooltip.bg)}; color: ${cvOf(tooltip.text)}; border-radius: ${ttRadius}; ${ttLabel} white-space: normal; text-align: center; box-shadow: ${ttShadow}; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
+.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
+.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: ${ttArrow}; height: ${ttArrow}; background: ${cvOf(tooltip.bg)}; transform: translate(-50%, -50%) rotate(45deg); }
+.bc-tt__link { color: inherit; text-decoration: underline; }
 
 /* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
    compact, stepped down to 12px regular in the amount density where odds leads. */
-.betcard__outcome { color: ${cv("text.default")}; ${outcomeType} }
+.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${cv("text.default")}; ${outcomeType} }
 .betcard--amount .betcard__outcome { ${outcomeSingleType} }
 .betcard__odds { color: ${cv("text.default")}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; }
 
@@ -228,10 +253,18 @@ function header(sport, event, badges) {
     ${headerBadges(badges)}<button class="betcard__remove" aria-label="Remove selection">${iClose}</button>
   </div>`;
 }
+// Tooltip helpers — hover/focus reveal, the real Tooltip component's surface-6 bubble.
+const settlementTip = `Special settlement rules for event. More information at &ldquo;<span class="bc-tt__link">Terms and Conditions</span>&rdquo; in the discipline description.`;
+const ttBubble = (html) => `<span class="bc-tt__bubble" role="tooltip">${html}<span class="bc-tt__arrow"></span></span>`;
+// settlement-info icon → button + tooltip
+const infoTip = () => `<span class="bc-tt betcard__info-tt"><button class="betcard__info" aria-label="Settlement rules">${iInfo}</button>${ttBubble(settlementTip)}</span>`;
+// a truncating text (market / outcome) → tooltip revealing the full string. grow = flex:1 (row contexts).
+const textTip = (cls, text, grow) => `<span class="bc-tt${grow ? " bc-tt--grow" : ""}"><span class="${cls} bc-tt__trigger" tabindex="0">${text}</span>${ttBubble(text)}</span>`;
+
 function marketLine(market, info) {
   return `<div class="betcard__market">
-    ${info ? `<span class="betcard__info">${iInfo}</span>` : ""}
-    <span class="betcard__market-name">${market}</span>
+    ${info ? infoTip() : ""}
+    ${textTip("betcard__market-name", market, true)}
   </div>`;
 }
 function compactCard({ sport, event, badges, market, info, outcome, odds }) {
@@ -239,7 +272,7 @@ function compactCard({ sport, event, badges, market, info, outcome, odds }) {
   ${header(sport, event, badges)}
   ${marketLine(market, info)}
   <div class="betcard__line">
-    <span class="betcard__outcome">${outcome}</span>
+    ${textTip("betcard__outcome", outcome, true)}
     <span class="betcard__odds">${odds}</span>
   </div>
 </div>`;
@@ -266,7 +299,7 @@ function amountCard({ sport, event, badges, market, info, outcome, odds, amount 
   <div class="betcard__body">
     <div class="betcard__main">
       ${marketLine(market, info)}
-      <span class="betcard__outcome">${outcome}</span>
+      ${textTip("betcard__outcome", outcome, false)}
       <span class="betcard__odds">${odds}</span>
     </div>
     ${amountField(amount)}
@@ -306,15 +339,20 @@ function sampleCode(kind, d) {
     <button class="betcard__event">${d.event}</button>${badgeTags}
     <button class="betcard__remove" aria-label="Remove selection">${ic}</button>
   </div>`;
-  const mkt = `<div class="betcard__market">${d.info ? `\n      <span class="betcard__info">${ic}</span>` : ""}
-      <span class="betcard__market-name">${d.market}</span>
+  // market / outcome are wrapped in the Tooltip reveal (.bc-tt) so the truncated text
+  // shows in full on hover/focus; the info icon carries the settlement tooltip.
+  const codeTip = (trigger, full) => `<span class="bc-tt bc-tt--grow">${trigger}<span class="bc-tt__bubble" role="tooltip">${full}<span class="bc-tt__arrow"></span></span></span>`;
+  const infoCode = d.info ? `\n      <span class="bc-tt"><button class="betcard__info">${ic}</button><span class="bc-tt__bubble" role="tooltip">Special settlement rules…<span class="bc-tt__arrow"></span></span></span>` : "";
+  const mkt = `<div class="betcard__market">${infoCode}
+      ${codeTip(`<span class="betcard__market-name">${d.market}</span>`, d.market)}
     </div>`;
+  const outcomeCode = codeTip(`<span class="betcard__outcome">${d.outcome}</span>`, d.outcome);
   if (kind === "compact") {
     return `<div class="betcard betcard--compact">
 ${hdr}
   ${mkt}
   <div class="betcard__line">
-    <span class="betcard__outcome">${d.outcome}</span>
+    ${outcomeCode}
     <span class="betcard__odds">${d.odds}</span>
   </div>
 </div>`;
@@ -324,7 +362,7 @@ ${hdr}
   <div class="betcard__body">
     <div class="betcard__main">
       ${mkt}
-      <span class="betcard__outcome">${d.outcome}</span>
+      ${outcomeCode}
       <span class="betcard__odds">${d.odds}</span>
     </div>
     <label class="betcard__amount">
@@ -353,6 +391,7 @@ const dCompact = { sport: "football", event: "Fulham - Manchester City", market:
 const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", badges: ["live", "betbuilder", "freebet"], market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
 const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
 const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", badges: ["freebet"], market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
+const dTrunc = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that I tried to make as long as I can make it", info: true, outcome: "Manchester City -5.5 Super puper outcome also very long", odds: "19.53" };
 const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", badges: ["betbuilder", "live"], odd: "5.09", amount: "", legs: [
   { outcome: "Borussia Dortmund", market: "Match Winner" },
   { outcome: "2-1", market: "Correct Score" },
@@ -481,7 +520,7 @@ const html = `<!doctype html>
       <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding (20px sport icon / × flush 8px from the edges) · 8px header↔body, 4px between lines. Market 12px. Odds 14px semibold (heading-base) in both densities, tabular-nums. Outcome is density-specific: 14px semibold in Combo/System (it leads), 12px regular white in Single (the odds leads there). Settlement info icon 16px, 8px gap to the market name.</span></div>
       <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button — the Button ghost treatment: icon.secondary → text.default, transparent → fill.neutralHover on hover, flush 8px from the card edge.</span></div>
       <div class="row"><b>Header badges</b><span>Optional LIVE / BB / FB pills after the event — the <a href="badge.html">Badge</a> component at <code class="tok">sm</code> (16px), <code class="tok">named</code> variants (live/betbuilder = active tint, freebet = accent tint), resolved from badge.tokens.json (real <code class="tok">.badge</code> classes, not redrawn). Any combination, or none. The event shrinks/truncates before them; the × is pushed to the far right.</span></div>
-      <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules (optional per card); tapping it opens the rich tooltip. Plain markets omit it.</span></div>
+      <div class="row"><b>Tooltips</b><span>All the <a href="tooltip.html">Tooltip</a> component (surface-6 bubble + caret, hover/focus, from tooltip.tokens.json). The gold info icon (icon.warning, optional per card) reveals the settlement-rules note; a long market name and a long outcome truncate to an ellipsis and reveal in full on hover/focus/tap.</span></div>
       <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant.</span></div>
     </div>
 
@@ -493,7 +532,13 @@ const html = `<!doctype html>
     <p class="section-desc">The dense variant: no per-selection stake (the stake is set once for the whole slip). Odds sits inline to the right of the outcome, baseline-aligned.</p>
     <div class="story-grid">
       ${storyCard("Plain market", compactCard(dCompact), sampleCode("compact", dCompact))}
-      ${storyCard("3 badges + settlement info", compactCard(dCompactInfo), sampleCode("compact", dCompactInfo), "All three header badges (LIVE + BB + FB, 4px apart) and the 16px gold settlement-info icon at once. The event truncates before the badge cluster.")}
+      ${storyCard("3 badges + settlement info", compactCard(dCompactInfo), sampleCode("compact", dCompactInfo), "All three header badges (LIVE + BB + FB, 4px apart) and the 16px gold settlement-info icon at once — hover the gold icon for the settlement-rules tooltip. The event truncates before the badge cluster.")}
+    </div>
+
+    <h2 class="big-section">Tooltips — settlement rules · truncated text</h2>
+    <p class="section-desc">Three reveals, all the <a href="tooltip.html">Tooltip</a> component (surface-6 bubble + caret, hover/focus, resolved from tooltip.tokens.json): the gold <strong>settlement-info</strong> icon shows the special-rules note; a <strong>long market name</strong> and a <strong>long outcome</strong> both truncate to an ellipsis and reveal in full on hover or focus (tap on mobile). Hover the icon, the market line, or the outcome below.</p>
+    <div class="story-grid">
+      ${storyCard("Long market + outcome + info", compactCard(dTrunc), sampleCode("compact", dTrunc), "Market and outcome truncate; hover/focus each to reveal the full string. The gold info icon carries the settlement-rules text.")}
     </div>
 
     <h2 class="big-section">With amount — Single</h2>
