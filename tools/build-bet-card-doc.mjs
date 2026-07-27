@@ -27,6 +27,9 @@ const bc = load("tokens/components/bet-card.tokens.json").component.betCard;
 // The Single stake field IS the Input component (lg + currency prefix) — resolve its
 // real values here, never restyle, so a bet-card stake field == a standalone Input.
 const input = load("tokens/components/input.tokens.json").component.input;
+// Header LIVE/BB/FB pills ARE the Badge component (sm / named) — resolve its real
+// size + named colours, emit its real classes, never redraw.
+const badge = load("tokens/components/badge.tokens.json").component.badge;
 
 const registry = {
   color: colorPrim,
@@ -73,6 +76,8 @@ const colorPaths = [
   "text.default", "text.active", "text.secondary",
   "icon.secondary", "icon.warning",
   "fill.neutralHover",
+  // Badge (sm / named live·betbuilder·freebet) header pills
+  "bg.active", "bg.accent", "text.accent",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -104,6 +109,12 @@ const bbRadius = px(resolve(bb.innerRadius.$value));
 const bbRowPadX = px(resolve(bb.rowPaddingX.$value));
 const bbRowPadY = px(resolve(bb.rowPaddingY.$value));
 const bbRowGap = px(resolve(bb.rowGap.$value));
+// Badge (sm size + named colours), resolved from badge.tokens.json
+const badgeSm = badge.size.sm;
+const badgeRadius = px(resolve(badge.radius.$value));
+const badgeSmH = px(resolve(badgeSm.height.$value));
+const badgeSmPadX = px(resolve(badgeSm.paddingX.$value));
+const HEADER_BADGES = ["live", "betbuilder", "freebet"];
 
 // typography → CSS. `text-style.*` refs can carry a textDecoration in
 // $extensions that resolveToken() drops, so read it straight off the node.
@@ -126,6 +137,7 @@ const oddsType = typoOf(bc.odds.type);
 const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
 const bbOddLabelType = typoOf(bb.oddLabel.type);
+const badgeSmLabel = typoOf(badgeSm.label);
 
 // ---- the stylesheet — printed as code AND used to render the live previews ----
 const css = `${rootVars}
@@ -133,15 +145,22 @@ const css = `${rootVars}
 .betcard { box-sizing: border-box; background: ${cv("surface.raised")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
 .betcard * { box-sizing: border-box; }
 
-/* header: leading discipline icon · event link · remove × */
+/* header: leading discipline icon · event link · optional LIVE/BB/FB badges · remove ×.
+   Event truncates and shrinks; badges sit right after it; × is pushed to the far right. */
 .betcard__header { display: flex; align-items: center; gap: ${headerGap}; }
 .betcard__icon { width: ${iconSize}; height: ${iconSize}; flex-shrink: 0; color: ${cv("icon.secondary")}; }
 .betcard__icon svg { display: block; width: 100%; height: 100%; }
-.betcard__event { flex: 1; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.betcard__event { flex: 0 1 auto; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
 .betcard__event:hover { color: ${cv("text.active")}; }
-.betcard__remove { flex-shrink: 0; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cvOf(bc.header.remove.color)}; cursor: pointer; }
+.betcard__header .badge { flex-shrink: 0; }
+.betcard__remove { flex-shrink: 0; margin-left: auto; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cvOf(bc.header.remove.color)}; cursor: pointer; }
 .betcard__remove:hover { background: ${cvOf(bc.header.remove.hoverFill)}; color: ${cvOf(bc.header.remove.hoverColor)}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
+
+/* header LIVE/BB/FB pills = the Badge component (sm / named), resolved from badge.tokens.json — real .badge classes, not a redraw */
+.badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: ${badgeRadius}; font-family: ${cv("family.sans")}; white-space: nowrap; }
+.badge--sm { height: ${badgeSmH}; padding: 0 ${badgeSmPadX}; ${badgeSmLabel} }
+${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[n].bg)}; color: ${cvOf(badge.named[n].text)}; }`).join("\n")}
 
 /* market line (+ optional settlement-rules info icon) */
 .betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
@@ -192,11 +211,15 @@ const iInfo = fs.readFileSync(path.join(root, "assets/icons/ui/info-outline.svg"
 const disc = (name) => fs.readFileSync(path.join(root, `assets/icons/sports/${name}.svg`), "utf8").replace(/\n/g, "");
 
 // ---- markup builders ----
-function header(sport, event) {
+// header badges are the real Badge component (sm / named). Optional — pass none, one,
+// or several of live/betbuilder/freebet.
+const BADGE_LABEL = { live: "LIVE", betbuilder: "BB", freebet: "FB" };
+const headerBadges = (badges) => (badges || []).map((n) => `<span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("");
+function header(sport, event, badges) {
   return `<div class="betcard__header">
     <span class="betcard__icon">${disc(sport)}</span>
     <button class="betcard__event">${event}</button>
-    <button class="betcard__remove" aria-label="Remove selection">${iClose}</button>
+    ${headerBadges(badges)}<button class="betcard__remove" aria-label="Remove selection">${iClose}</button>
   </div>`;
 }
 function marketLine(market, info) {
@@ -205,9 +228,9 @@ function marketLine(market, info) {
     <span class="betcard__market-name">${market}</span>
   </div>`;
 }
-function compactCard({ sport, event, market, info, outcome, odds }) {
+function compactCard({ sport, event, badges, market, info, outcome, odds }) {
   return `<div class="betcard betcard--compact">
-  ${header(sport, event)}
+  ${header(sport, event, badges)}
   ${marketLine(market, info)}
   <div class="betcard__line">
     <span class="betcard__outcome">${outcome}</span>
@@ -231,9 +254,9 @@ function amountField(amount) {
       </span>
     </label>`;
 }
-function amountCard({ sport, event, market, info, outcome, odds, amount }) {
+function amountCard({ sport, event, badges, market, info, outcome, odds, amount }) {
   return `<div class="betcard betcard--amount">
-  ${header(sport, event)}
+  ${header(sport, event, badges)}
   <div class="betcard__body">
     <div class="betcard__main">
       ${marketLine(market, info)}
@@ -244,7 +267,7 @@ function amountCard({ sport, event, market, info, outcome, odds, amount }) {
   </div>
 </div>`;
 }
-function betbuilderCard({ sport, event, legs, odd, amount }) {
+function betbuilderCard({ sport, event, badges, legs, odd, amount }) {
   const rows = legs.map((l) => `<div class="betcard__bb-row">
       <div class="betcard__bb-main">
         <span class="betcard__outcome">${l.outcome}</span>
@@ -253,7 +276,7 @@ function betbuilderCard({ sport, event, legs, odd, amount }) {
       <button class="betcard__remove" aria-label="Remove leg">${iClose}</button>
     </div>`).join("\n    ");
   return `<div class="betcard betcard--betbuilder">
-  ${header(sport, event)}
+  ${header(sport, event, badges)}
   <div class="betcard__bb">
     ${rows}
   </div>
@@ -269,9 +292,10 @@ function betbuilderCard({ sport, event, legs, odd, amount }) {
 // short, readable code sample (icon path dumps replaced with a comment)
 function sampleCode(kind, d) {
   const ic = "<svg><!-- icon --></svg>";
+  const badgeTags = (d.badges || []).map((n) => `\n    <span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("");
   const hdr = `  <div class="betcard__header">
     <span class="betcard__icon">${ic}</span>
-    <button class="betcard__event">${d.event}</button>
+    <button class="betcard__event">${d.event}</button>${badgeTags}
     <button class="betcard__remove" aria-label="Remove selection">${ic}</button>
   </div>`;
   const mkt = `<div class="betcard__market">${d.info ? `\n      <span class="betcard__info">${ic}</span>` : ""}
@@ -318,10 +342,10 @@ function storyCard(title, liveHtml, codeHtml, note = "") {
 
 // sample data
 const dCompact = { sport: "football", event: "Fulham - Manchester City", market: "Handicap", info: false, outcome: "Manchester City -5.5", odds: "19.53" };
-const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
+const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstathiou Menelaos", badges: ["live"], market: "Winner. Set 3. Game 2", info: true, outcome: "Efstathiou Menelaos", odds: "2.83" };
 const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
-const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
-const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", odd: "5.09", amount: "", legs: [
+const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", badges: ["freebet"], market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
+const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", badges: ["betbuilder", "live"], odd: "5.09", amount: "", legs: [
   { outcome: "Borussia Dortmund", market: "Match Winner" },
   { outcome: "2-1", market: "Correct Score" },
   { outcome: "Borussia Dortmund", market: "Match Winner" },
@@ -332,6 +356,8 @@ const betbuilderCode = `<div class="betcard betcard--betbuilder">
   <div class="betcard__header">
     <span class="betcard__icon"><svg><!-- sport --></svg></span>
     <button class="betcard__event">Borussia Dortmund - AC Milan</button>
+    <span class="badge badge--sm badge--named-betbuilder">BB</span>
+    <span class="badge badge--sm badge--named-live">LIVE</span>
     <button class="betcard__remove" aria-label="Remove selection"><svg><!-- × --></svg></button>
   </div>
   <div class="betcard__bb">
@@ -444,8 +470,9 @@ const html = `<!doctype html>
       <div class="row"><b>Densities</b><span><code class="tok">--compact</code> (Combo / System): odds sits inline to the right of the outcome, no stake field. <code class="tok">--amount</code> (Single): a Bet-amount field to the right of the outcome column. Header/market/outcome roles are byte-for-byte the same across both.</span></div>
       <div class="row"><b>Sizing</b><span>radius.md (12px) · 8px padding (20px sport icon / × flush 8px from the edges) · 8px header↔body, 4px between lines. Market 12px. Odds 14px semibold (heading-base) in both densities, tabular-nums. Outcome is density-specific: 14px semibold in Combo/System (it leads), 12px regular white in Single (the odds leads there). Settlement info icon 16px, 8px gap to the market name.</span></div>
       <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button — the Button ghost treatment: icon.secondary → text.default, transparent → fill.neutralHover on hover, flush 8px from the card edge.</span></div>
-      <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules; tapping it opens the rich tooltip. Plain markets omit it.</span></div>
-      <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. LIVE / FB / BB badges → Badge variants. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant. This pass ships the static anatomy the rest hangs off.</span></div>
+      <div class="row"><b>Header badges</b><span>Optional LIVE / BB / FB pills after the event — the <a href="badge.html">Badge</a> component at <code class="tok">sm</code> (16px), <code class="tok">named</code> variants (live/betbuilder = active tint, freebet = accent tint), resolved from badge.tokens.json (real <code class="tok">.badge</code> classes, not redrawn). Any combination, or none. The event shrinks/truncates before them; the × is pushed to the far right.</span></div>
+      <div class="row"><b>Settlement info</b><span>The gold info icon (icon.warning) appears only on markets with special settlement rules (optional per card); tapping it opens the rich tooltip. Plain markets omit it.</span></div>
+      <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
