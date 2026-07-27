@@ -1,0 +1,65 @@
+{
+  "component": {
+    "alert": {
+      "$description": "Inline status banner — contextual messaging inside a flow (the betslip footer's 'cannot include suspended outcome', 'odds have changed', 'balance too low', 'log in to place your bet'), plus a solid full-bleed global bar. New to the system: nothing else does colored contextual messaging. Two styles: `outline` (a 12% colored tint fill + a colored 1px border + a status icon, message in white) used for every in-slip banner; `solid` (a solid status fill with dark text) used for the app-wide global bar with a title + subtitle. Four roles map to the semantic status colours (warning/negative/positive) plus accent for info. The betslip itself uses `warning` for nearly everything (even 'balance too low' shows the gold triangle in the reference), but Alert carries all four so it's reusable beyond the slip.",
+      "radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "12px — same corner as Card/Bet-card." },
+      "paddingX": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px horizontal." },
+      "paddingY": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px vertical." },
+      "gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "8px between the icon, body and close." },
+      "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px status icon (ui/warning · check-circle · info-outline)." },
+      "message": { "$type": "typography", "$value": "{text-style.body-base}", "$description": "14px regular — the banner message." },
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{family.sans}",
+          "fontWeight": "{weight.bold}",
+          "fontSize": "{size.base}",
+          "lineHeight": "{leading.tight}",
+          "letterSpacing": "{tracking.normal}"
+        },
+        "$description": "14px bold — optional title line (the global bar's heading, e.g. 'Global Warning'), above the message."
+      },
+      "text": { "$type": "color", "$value": "{text.default}", "$description": "Message/title colour on the outline styles — white on the dark tint." },
+      "close": {
+        "box": { "$type": "dimension", "$value": "{spacing.6}", "$description": "24px hit target." },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.5}", "$description": "20px × glyph (ui/close)." },
+        "radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "6px hover square." },
+        "color": { "$type": "color", "$value": "{icon.secondary}" },
+        "hoverFill": { "$type": "color", "$value": "{lighten.2}" },
+        "hoverColor": { "$type": "color", "$value": "{text.default}" }
+      },
+      "role": {
+        "$description": "Outline-style colours per status: a 12% colored tint fill (bg.*), a colored border (outline.*), a colored status icon (icon.*). Message text stays text.default (white) on all four.",
+        "warning": {
+          "bg": { "$type": "color", "$value": "{bg.warning}" },
+          "border": { "$type": "color", "$value": "{outline.warning}" },
+          "icon": { "$type": "color", "$value": "{icon.warning}" }
+        },
+        "negative": {
+          "bg": { "$type": "color", "$value": "{bg.negative}" },
+          "border": { "$type": "color", "$value": "{outline.negative}" },
+          "icon": { "$type": "color", "$value": "{icon.negative}" }
+        },
+        "positive": {
+          "bg": { "$type": "color", "$value": "{bg.positive}" },
+          "border": { "$type": "color", "$value": "{outline.positive}" },
+          "icon": { "$type": "color", "$value": "{icon.positive}" }
+        },
+        "info": {
+          "bg": { "$type": "color", "$value": "{bg.accent}" },
+          "border": { "$type": "color", "$value": "{outline.accent}" },
+          "icon": { "$type": "color", "$value": "{icon.accent}" }
+        }
+      },
+      "solid": {
+        "$description": "Solid-fill style — the app-wide global bar. Only `warning` is defined this pass: it's the one solid banner in the reference (bright gold fill, dark text/icon). Solid negative/positive/info need per-role 'text on a bright fill' colours (the deferred text.forLabelBg) to pick dark vs white legibly, so they wait — outline covers those roles meanwhile.",
+        "warning": {
+          "fill": { "$type": "color", "$value": "{fill.warning}" },
+          "text": { "$type": "color", "$value": "{text.contrast}", "$description": "Dark text on the bright gold fill (surface-0)." },
+          "icon": { "$type": "color", "$value": "{icon.contrast}" },
+          "close": { "$type": "color", "$value": "{icon.contrast}" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Toast</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --code-bg: #1e1e22; --code-text: #e4e3df;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      --code-bg: #0d0d0f; --code-text: #d7d6d2;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    --code-bg: #0d0d0f; --code-text: #d7d6d2;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 4rem 4rem 6rem; max-width: 1120px; }
+
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 72ch; line-height: 1.6; }
+  h2.big-section { font-size: 24px; font-weight: 700; margin: 5.5rem 0 1.5rem; letter-spacing: -0.01em; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+  h2.big-section:first-of-type { margin-top: 3rem; padding-top: 0; border-top: none; }
+  .section-desc { font-size: 13.5px; color: var(--text-secondary); margin: -0.5rem 0 1.5rem; max-width: 70ch; line-height: 1.6; }
+
+  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 14px 18px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; line-height: 1.6; }
+  .legend .row { display: flex; gap: 14px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .row b { width: 150px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  pre.code { background: var(--code-bg); color: var(--code-text); border-radius: 10px; padding: 16px 18px; margin: 0; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+  pre.code code { font-family: inherit; }
+
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; }
+  .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
+  .story-preview { min-height: 64px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+  .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
+
+  :root {
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-positive: #00A828;
+  --tok-icon-warning: #FFC12E;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-positive: #00A828;
+  --tok-fill-warning: #FFC12E;
+  --tok-fill-neutral: #3E4351;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.toast { position: relative; display: flex; align-items: flex-start; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; padding-bottom: calc(12px + 3px); background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 12px; overflow: hidden; font-family: var(--tok-family-sans); }
+.toast * { box-sizing: border-box; }
+.toast__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.toast__icon svg { display: block; width: 100%; height: 100%; }
+.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
+.toast__title { margin: 0; color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
+.toast__subtitle { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.toast__action { flex-shrink: 0; align-self: center; height: 36px; padding: 0 12px; border: none; border-radius: 6px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 12px; line-height: 1.4; cursor: pointer; font-family: inherit; }
+.toast__action:hover { background: var(--tok-fill-active-hover); }
+.toast__close { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+.toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.toast__close svg { display: block; width: 20px; height: 20px; }
+.toast__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--tok-lighten-2); }
+.toast__progress-fill { position: absolute; left: 0; top: 0; bottom: 0; }
+
+.toast--success .toast__icon { color: var(--tok-icon-positive); }
+.toast--success .toast__progress-fill { background: var(--tok-fill-positive); }
+.toast--warning .toast__icon { color: var(--tok-icon-warning); }
+.toast--warning .toast__progress-fill { background: var(--tok-fill-warning); }
+.toast--neutral .toast__icon { color: var(--tok-icon-secondary); }
+.toast--neutral .toast__progress-fill { background: var(--tok-fill-neutral); }
+
+/* auto-dismiss animation — a real toast shrinks the fill to 0 over its lifetime */
+@keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
+@media (prefers-reduced-motion: no-preference) {
+  .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
+}
+
+/* stacked toasts */
+.toast-stack { display: flex; flex-direction: column; gap: 10px; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab active" href="index.html">DS</a>
+    <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+  </div>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
+    <a class="navlink" href="index.html">Overview</a>
+    <p class="nav-category">Tokens</p>
+    <a class="navlink" href="colors.html">Colors</a>
+    <a class="navlink" href="semantic-colors.html">Semantic colors</a>
+    <a class="navlink" href="typography.html">Typography</a>
+    <a class="navlink" href="layout.html">Layout</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
+    <p class="nav-category">Components</p>
+    <a class="navlink" href="button.html">Button</a>
+    <a class="navlink" href="counter.html">Counter</a>
+    <a class="navlink" href="input.html">Input</a>
+    <a class="navlink" href="select.html">Select</a>
+    <a class="navlink" href="search.html">Search</a>
+    <a class="navlink" href="pagination.html">Pagination</a>
+    <a class="navlink" href="separator.html">Separator</a>
+    <a class="navlink" href="tabs.html">Tabs</a>
+    <a class="navlink" href="checkbox.html">Checkbox</a>
+    <a class="navlink" href="radio.html">Radio</a>
+    <a class="navlink" href="box.html">Box</a>
+    <a class="navlink" href="card.html">Card</a>
+    <a class="navlink" href="switch.html">Switch</a>
+    <a class="navlink" href="grid.html">Grid</a>
+    <a class="navlink" href="tooltip.html">Tooltip</a>
+    <a class="navlink" href="popover.html">Popover</a>
+    <a class="navlink" href="drawer.html">Drawer</a>
+    <a class="navlink" href="modal.html">Modal</a>
+    <a class="navlink" href="menu.html">Menu</a>
+    <a class="navlink" href="listbox.html">Listbox</a>
+    <a class="navlink" href="badge.html">Badge</a>
+    <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Feedback</p>
+    <a class="navlink" href="alert.html">Alert</a>
+    <a class="navlink active" href="toast.html">Toast</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
+  </nav>
+  <main>
+    <h1>Toast</h1>
+    <p class="sub">tokens/components/toast.tokens.json · transient top-docked confirmation — 'Betslip loaded', 'Betslip cleared' (with Undo), 'Quick Bet mode active', 'Share link copied'. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
+
+    <div class="legend">
+      <div class="row"><b>Surface</b><span>surface.raised — a step above a card, so the toast reads as floating over whatever it covers. Hairline outline.default, radius.md.</span></div>
+      <div class="row"><b>Roles</b><span>success (green check) · warning (gold bolt — quick-bet) · neutral (grey). The role sets the leading icon colour and the progress-bar tint; the glyph itself is passed per toast (check-circle / quick-bet / quick-bet-exit).</span></div>
+      <div class="row"><b>Anatomy</b><span>Status icon → body (bold title + optional subtitle) → optional Undo action and/or close ×. 24px icon, 10px gap, 12px padding.</span></div>
+      <div class="row"><b>Action</b><span>The trailing button (Undo) reuses Button's active fill (fill.active + text.forActiveBg) at a compact 36px height.</span></div>
+      <div class="row"><b>Progress</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role's fill, over a faint lighten.2 track. Animates the width to 0 over the toast's lifetime; respects prefers-reduced-motion.</span></div>
+      <div class="row"><b>vs. Alert</b><span><a href="alert.html">Alert</a> is a persistent in-flow banner tied to state; Toast is a brief, self-dismissing confirmation that stacks.</span></div>
+    </div>
+
+    <h2 class="big-section">CSS</h2>
+    <pre class="code"><code>:root {
+  --tok-surface-raised: #282E3E;
+  --tok-outline-default: #282E3E;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-positive: #00A828;
+  --tok-icon-warning: #FFC12E;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-positive: #00A828;
+  --tok-fill-warning: #FFC12E;
+  --tok-fill-neutral: #3E4351;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.toast { position: relative; display: flex; align-items: flex-start; gap: 10px; min-width: 300px; max-width: 420px; padding: 12px 12px; padding-bottom: calc(12px + 3px); background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); border-radius: 12px; overflow: hidden; font-family: var(--tok-family-sans); }
+.toast * { box-sizing: border-box; }
+.toast__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.toast__icon svg { display: block; width: 100%; height: 100%; }
+.toast__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 1px; }
+.toast__title { margin: 0; color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; }
+.toast__subtitle { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.toast__action { flex-shrink: 0; align-self: center; height: 36px; padding: 0 12px; border: none; border-radius: 6px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-weight: 500; font-size: 12px; line-height: 1.4; cursor: pointer; font-family: inherit; }
+.toast__action:hover { background: var(--tok-fill-active-hover); }
+.toast__close { flex-shrink: 0; align-self: flex-start; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+.toast__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.toast__close svg { display: block; width: 20px; height: 20px; }
+.toast__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--tok-lighten-2); }
+.toast__progress-fill { position: absolute; left: 0; top: 0; bottom: 0; }
+
+.toast--success .toast__icon { color: var(--tok-icon-positive); }
+.toast--success .toast__progress-fill { background: var(--tok-fill-positive); }
+.toast--warning .toast__icon { color: var(--tok-icon-warning); }
+.toast--warning .toast__progress-fill { background: var(--tok-fill-warning); }
+.toast--neutral .toast__icon { color: var(--tok-icon-secondary); }
+.toast--neutral .toast__progress-fill { background: var(--tok-fill-neutral); }
+
+/* auto-dismiss animation — a real toast shrinks the fill to 0 over its lifetime */
+@keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
+@media (prefers-reduced-motion: no-preference) {
+  .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
+}
+
+/* stacked toasts */
+.toast-stack { display: flex; flex-direction: column; gap: 10px; }</code></pre>
+
+    <h2 class="big-section">Roles</h2>
+    <p class="section-desc">Success and neutral confirmations, plus the quick-bet warning toast (gold bolt, dismissible).</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Success</h3>
+        <div class="story-preview"><div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Betslip loaded</p>
+    <p class="toast__subtitle">Your bets have been added to the betslip</p>
+  </div>
+  
+  
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__title"&gt;Betslip loaded&lt;/p&gt;
+    &lt;p class="toast__subtitle"&gt;Your bets have been added to the betslip&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Warning — dismissible</h3>
+        <div class="story-preview"><div class="toast toast--warning" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Quick Bet mode is active with $10 bet</p>
+    
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--warning" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__title"&gt;Quick Bet mode is active with $10 bet&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        <p class="story-note">The quick-bet activation toast — gold bolt, no subtitle, closable.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Neutral — dismissible</h3>
+        <div class="story-preview"><div class="toast toast--neutral" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.20593 5.21037L9.90955 6.91399L12.9321 2.70115C13.1154 2.44282 13.0904 2.08449 12.8654 1.85949C12.6154 1.60949 12.2238 1.60115 11.9654 1.84282L8.20593 5.21037ZM11.5904 8.5948L14.6945 11.6989L16.1154 10.4261C16.6488 9.94282 16.3488 9.05115 15.6321 8.98449L11.5904 8.5948ZM16.2082 15.5695L16.2045 15.5658L3.2408 2.60226L3.23707 2.59851C2.91134 2.27675 2.38646 2.27798 2.06226 2.60219C1.73682 2.92762 1.73682 3.45526 2.06226 3.7807L5.71932 7.43776L3.33206 9.57615C2.79873 10.0594 3.09873 10.9511 3.8154 11.0178L9.88455 11.6029L10.3033 12.0216L6.5154 17.3011C6.33206 17.5594 6.35706 17.9178 6.58206 18.1428C6.83206 18.3928 7.22373 18.4011 7.48206 18.1594L12.2079 13.9263L15.0259 16.7443C15.3514 17.0697 15.879 17.0697 16.2044 16.7443C16.5286 16.4201 16.5299 15.8952 16.2082 15.5695Z" fill="currentColor"/></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Quick Bet mode deactivated</p>
+    
+  </div>
+  
+  <button class="toast__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--neutral" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__title"&gt;Quick Bet mode deactivated&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        <p class="story-note">Quick-bet off — the bolt-off glyph on the neutral grey role.</p>
+      </div>
+    </div>
+
+    <h2 class="big-section">With action · with timer</h2>
+    <p class="section-desc">An undoable action toast with the auto-dismiss progress meter running.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Undo + progress</h3>
+        <div class="story-preview"><div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Betslip cleared</p>
+    <p class="toast__subtitle">All bets have been removed</p>
+  </div>
+  <button class="toast__action">Undo</button>
+  
+  <div class="toast__progress"><div class="toast__progress-fill" style="width:62%"></div></div>
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__title"&gt;Betslip cleared&lt;/p&gt;
+    &lt;p class="toast__subtitle"&gt;All bets have been removed&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="toast__action"&gt;Undo&lt;/button&gt;
+  &lt;div class="toast__progress"&gt;&lt;div class="toast__progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <p class="story-note">The progress meter is tinted to the role (green) and shrinks to zero; Undo cancels before it elapses.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Odds settings updated</h3>
+        <div class="story-preview"><div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Odds settings updated</p>
+    <p class="toast__subtitle">Your odds preference has been saved</p>
+  </div>
+  
+  
+  <div class="toast__progress"><div class="toast__progress-fill" style="width:62%"></div></div>
+</div></div>
+        <pre class="code"><code>&lt;div class="toast toast--success" role="status"&gt;
+  &lt;span class="toast__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="toast__body"&gt;
+    &lt;p class="toast__title"&gt;Odds settings updated&lt;/p&gt;
+    &lt;p class="toast__subtitle"&gt;Your odds preference has been saved&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="toast__progress"&gt;&lt;div class="toast__progress-fill"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">Stacked</h2>
+    <p class="section-desc">Multiple toasts stack vertically with a consistent gap — e.g. copying a share link then a code fires two.</p>
+    <div class="story-grid" style="grid-template-columns:1fr; max-width:460px;">
+      
+      <div class="story">
+        <h3>Two toasts</h3>
+        <div class="story-preview"><div class="toast-stack">
+  <div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Share link copied</p>
+    <p class="toast__subtitle">Link copied to clipboard</p>
+  </div>
+  
+  
+  
+</div>
+  <div class="toast toast--success" role="status">
+  <span class="toast__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="toast__body">
+    <p class="toast__title">Share code copied</p>
+    <p class="toast__subtitle">Code copied to clipboard</p>
+  </div>
+  
+  
+  
+</div>
+</div></div>
+        <pre class="code"><code>&lt;div class="toast-stack"&gt;
+  &lt;div class="toast toast--success" role="status"&gt;…&lt;/div&gt;
+  &lt;div class="toast toast--success" role="status"&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
+  </main>
+</div>
+</body>
+</html>

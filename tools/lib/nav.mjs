@@ -39,6 +39,8 @@ export const NAV_ITEMS = {
   listbox: { label: "Listbox", href: "listbox.html" },
   badge: { label: "Badge", href: "badge.html" },
   chip: { label: "Chip", href: "chip.html" },
+  alert: { label: "Alert", href: "alert.html" },
+  toast: { label: "Toast", href: "toast.html" },
   "bet-card": { label: "Bet selection card", href: "bet-card.html" },
 };
 
@@ -126,6 +128,9 @@ export function renderNav(activeKey) {
     ${link("listbox")}
     ${link("badge")}
     ${link("chip")}
+    <p class="nav-category">Feedback</p>
+    ${link("alert")}
+    ${link("toast")}
     <p class="nav-category">Betslip</p>
     ${link("bet-card")}`;
 }

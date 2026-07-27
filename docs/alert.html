@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Alert</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --code-bg: #1e1e22; --code-text: #e4e3df;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      --code-bg: #0d0d0f; --code-text: #d7d6d2;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    --code-bg: #0d0d0f; --code-text: #d7d6d2;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 4rem 4rem 6rem; max-width: 1120px; }
+
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 72ch; line-height: 1.6; }
+  h2.big-section { font-size: 24px; font-weight: 700; margin: 5.5rem 0 1.5rem; letter-spacing: -0.01em; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+  h2.big-section:first-of-type { margin-top: 3rem; padding-top: 0; border-top: none; }
+  .section-desc { font-size: 13.5px; color: var(--text-secondary); margin: -0.5rem 0 1.5rem; max-width: 70ch; line-height: 1.6; }
+
+  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 14px 18px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; line-height: 1.6; }
+  .legend .row { display: flex; gap: 14px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .row b { width: 150px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  pre.code { background: var(--code-bg); color: var(--code-text); border-radius: 10px; padding: 16px 18px; margin: 0; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+  pre.code code { font-family: inherit; }
+
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; }
+  .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
+  .story-preview { min-height: 56px; display: flex; align-items: center; justify-content: stretch; padding: 12px 0; }
+  .story-preview .alert { width: 100%; }
+  .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
+
+  :root {
+  --tok-text-default: #FFFFFF;
+  --tok-text-contrast: #11141C;
+  --tok-bg-warning: rgba(255, 193, 46, 0.12);
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-bg-accent: rgba(49, 168, 255, 0.12);
+  --tok-outline-warning: #FFC12E;
+  --tok-outline-negative: #F90643;
+  --tok-outline-positive: #00A828;
+  --tok-outline-accent: #31A8FF;
+  --tok-icon-warning: #FFC12E;
+  --tok-icon-negative: #F90643;
+  --tok-icon-positive: #00A828;
+  --tok-icon-accent: #31A8FF;
+  --tok-icon-contrast: #11141C;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-warning: #FFC12E;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.alert { display: flex; align-items: flex-start; gap: 8px; padding: 12px 12px; border: 1px solid transparent; border-radius: 12px; font-family: var(--tok-family-sans); color: var(--tok-text-default); }
+.alert * { box-sizing: border-box; }
+.alert__icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
+.alert__icon svg { display: block; width: 100%; height: 100%; }
+.alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.alert__title { margin: 0; color: inherit; font-weight: 800; font-size: 14px; line-height: 1.2; }
+.alert__message { margin: 0; color: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
+.alert__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+.alert__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.alert__close svg { display: block; width: 20px; height: 20px; }
+
+.alert--warning { background: var(--tok-bg-warning); border-color: var(--tok-outline-warning); }
+.alert--warning .alert__icon { color: var(--tok-icon-warning); }
+.alert--negative { background: var(--tok-bg-negative); border-color: var(--tok-outline-negative); }
+.alert--negative .alert__icon { color: var(--tok-icon-negative); }
+.alert--positive { background: var(--tok-bg-positive); border-color: var(--tok-outline-positive); }
+.alert--positive .alert__icon { color: var(--tok-icon-positive); }
+.alert--info { background: var(--tok-bg-accent); border-color: var(--tok-outline-accent); }
+.alert--info .alert__icon { color: var(--tok-icon-accent); }
+
+/* solid style — the app-wide global bar (warning only this pass) */
+.alert--solid { border-color: transparent; }
+.alert--solid.alert--warning { background: var(--tok-fill-warning); color: var(--tok-text-contrast); }
+.alert--solid.alert--warning .alert__icon { color: var(--tok-icon-contrast); }
+.alert--solid.alert--warning .alert__close { color: var(--tok-icon-contrast); }
+.alert--solid.alert--warning .alert__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab active" href="index.html">DS</a>
+    <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+  </div>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
+    <a class="navlink" href="index.html">Overview</a>
+    <p class="nav-category">Tokens</p>
+    <a class="navlink" href="colors.html">Colors</a>
+    <a class="navlink" href="semantic-colors.html">Semantic colors</a>
+    <a class="navlink" href="typography.html">Typography</a>
+    <a class="navlink" href="layout.html">Layout</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
+    <p class="nav-category">Components</p>
+    <a class="navlink" href="button.html">Button</a>
+    <a class="navlink" href="counter.html">Counter</a>
+    <a class="navlink" href="input.html">Input</a>
+    <a class="navlink" href="select.html">Select</a>
+    <a class="navlink" href="search.html">Search</a>
+    <a class="navlink" href="pagination.html">Pagination</a>
+    <a class="navlink" href="separator.html">Separator</a>
+    <a class="navlink" href="tabs.html">Tabs</a>
+    <a class="navlink" href="checkbox.html">Checkbox</a>
+    <a class="navlink" href="radio.html">Radio</a>
+    <a class="navlink" href="box.html">Box</a>
+    <a class="navlink" href="card.html">Card</a>
+    <a class="navlink" href="switch.html">Switch</a>
+    <a class="navlink" href="grid.html">Grid</a>
+    <a class="navlink" href="tooltip.html">Tooltip</a>
+    <a class="navlink" href="popover.html">Popover</a>
+    <a class="navlink" href="drawer.html">Drawer</a>
+    <a class="navlink" href="modal.html">Modal</a>
+    <a class="navlink" href="menu.html">Menu</a>
+    <a class="navlink" href="listbox.html">Listbox</a>
+    <a class="navlink" href="badge.html">Badge</a>
+    <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Feedback</p>
+    <a class="navlink active" href="alert.html">Alert</a>
+    <a class="navlink" href="toast.html">Toast</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
+  </nav>
+  <main>
+    <h1>Alert</h1>
+    <p class="sub">tokens/components/alert.tokens.json · inline status banner for contextual messaging inside a flow — the betslip's 'cannot include suspended outcome', 'odds have changed', 'balance too low', plus a solid app-wide global bar. New component. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
+
+    <div class="legend">
+      <div class="row"><b>Two styles</b><span><code class="tok">outline</code>: a 12% colored tint (bg.*) + a colored 1px border (outline.*) + a status icon, message in white — every in-slip banner. <code class="tok">--solid</code>: a solid status fill with dark text — the full-bleed global bar (warning only this pass).</span></div>
+      <div class="row"><b>Four roles</b><span>warning · negative · positive · info — mapped to the semantic status colours (warning/negative/positive) plus accent for info. The betslip uses <em>warning</em> for almost everything; Alert carries all four so it's reusable elsewhere.</span></div>
+      <div class="row"><b>Anatomy</b><span>Status icon → body (optional bold title + message) → optional close ×. radius.md, 12px padding, 8px gap, 20px icon.</span></div>
+      <div class="row"><b>Solid text</b><span>On the bright gold solid fill the text/icon go dark (text.contrast / icon.contrast). Solid negative/positive/info wait on a per-role 'text on a bright fill' token (deferred text.forLabelBg) — outline covers those roles meanwhile.</span></div>
+      <div class="row"><b>Negative icon</b><span>Reuses the warning triangle for now (the UI icon set has no error-circle glyph yet); the red colour differentiates it. A dedicated glyph is a later swap.</span></div>
+    </div>
+
+    <h2 class="big-section">CSS</h2>
+    <pre class="code"><code>:root {
+  --tok-text-default: #FFFFFF;
+  --tok-text-contrast: #11141C;
+  --tok-bg-warning: rgba(255, 193, 46, 0.12);
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-bg-accent: rgba(49, 168, 255, 0.12);
+  --tok-outline-warning: #FFC12E;
+  --tok-outline-negative: #F90643;
+  --tok-outline-positive: #00A828;
+  --tok-outline-accent: #31A8FF;
+  --tok-icon-warning: #FFC12E;
+  --tok-icon-negative: #F90643;
+  --tok-icon-positive: #00A828;
+  --tok-icon-accent: #31A8FF;
+  --tok-icon-contrast: #11141C;
+  --tok-icon-secondary: #8E929F;
+  --tok-fill-warning: #FFC12E;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.alert { display: flex; align-items: flex-start; gap: 8px; padding: 12px 12px; border: 1px solid transparent; border-radius: 12px; font-family: var(--tok-family-sans); color: var(--tok-text-default); }
+.alert * { box-sizing: border-box; }
+.alert__icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
+.alert__icon svg { display: block; width: 100%; height: 100%; }
+.alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.alert__title { margin: 0; color: inherit; font-weight: 800; font-size: 14px; line-height: 1.2; }
+.alert__message { margin: 0; color: inherit; font-weight: 400; font-size: 14px; line-height: 1.4; }
+.alert__close { flex-shrink: 0; width: 24px; height: 24px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+.alert__close:hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.alert__close svg { display: block; width: 20px; height: 20px; }
+
+.alert--warning { background: var(--tok-bg-warning); border-color: var(--tok-outline-warning); }
+.alert--warning .alert__icon { color: var(--tok-icon-warning); }
+.alert--negative { background: var(--tok-bg-negative); border-color: var(--tok-outline-negative); }
+.alert--negative .alert__icon { color: var(--tok-icon-negative); }
+.alert--positive { background: var(--tok-bg-positive); border-color: var(--tok-outline-positive); }
+.alert--positive .alert__icon { color: var(--tok-icon-positive); }
+.alert--info { background: var(--tok-bg-accent); border-color: var(--tok-outline-accent); }
+.alert--info .alert__icon { color: var(--tok-icon-accent); }
+
+/* solid style — the app-wide global bar (warning only this pass) */
+.alert--solid { border-color: transparent; }
+.alert--solid.alert--warning { background: var(--tok-fill-warning); color: var(--tok-text-contrast); }
+.alert--solid.alert--warning .alert__icon { color: var(--tok-icon-contrast); }
+.alert--solid.alert--warning .alert__close { color: var(--tok-icon-contrast); }
+.alert--solid.alert--warning .alert__close:hover { background: rgba(0,0,0,0.12); color: var(--tok-icon-contrast); }</code></pre>
+
+    <h2 class="big-section">Roles — outline</h2>
+    <p class="section-desc">The in-flow style. Message text stays white on all four; only the tint, border and icon change with the role.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>warning</h3>
+        <div class="story-preview"><div class="alert alert--warning" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    
+    <p class="alert__message">Your Betslip cannot include suspended or closed outcome.</p>
+  </div>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--warning" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__message"&gt;Your Betslip cannot include suspended or closed outcome.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>negative</h3>
+        <div class="story-preview"><div class="alert alert--negative" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    
+    <p class="alert__message">Bet not processed. Please try again.</p>
+  </div>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--negative" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__message"&gt;Bet not processed. Please try again.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>positive</h3>
+        <div class="story-preview"><div class="alert alert--positive" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 1.66667C5.40001 1.66667 1.66667 5.40001 1.66667 10C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 10C18.3333 5.40001 14.6 1.66667 10 1.66667ZM8.33334 14.1667L4.16667 10L5.34167 8.82501L8.33334 11.8083L14.6583 5.48334L15.8333 6.66667L8.33334 14.1667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    
+    <p class="alert__message">Odds accepted — your bet is ready to place.</p>
+  </div>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--positive" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__message"&gt;Odds accepted — your bet is ready to place.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>info</h3>
+        <div class="story-preview"><div class="alert alert--info" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    
+    <p class="alert__message">Potential max bet is $2,717 on this selection.</p>
+  </div>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--info" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__message"&gt;Potential max bet is $2,717 on this selection.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">With title · dismissible</h2>
+    <p class="section-desc">A title line above the message (bold), and an optional close × for banners the user can dismiss.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Title + message</h3>
+        <div class="story-preview"><div class="alert alert--warning" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    <p class="alert__title">Odds have changed</p>
+    <p class="alert__message">Review and approve the changes before placing this bet.</p>
+  </div>
+  
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--warning" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__title"&gt;Odds have changed&lt;/p&gt;
+    &lt;p class="alert__message"&gt;Review and approve the changes before placing this bet.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Dismissible</h3>
+        <div class="story-preview"><div class="alert alert--info" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    
+    <p class="alert__message">Log in to place your bet.</p>
+  </div>
+  <button class="alert__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--info" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__message"&gt;Log in to place your bet.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">Solid — global bar</h2>
+    <p class="section-desc">The app-wide banner: a solid gold fill with a title, subtitle and close, docked full-bleed above the page content.</p>
+    <div class="story-grid" style="grid-template-columns:1fr;">
+      
+      <div class="story">
+        <h3>Global warning</h3>
+        <div class="story-preview"><div class="alert alert--warning alert--solid" role="alert">
+  <span class="alert__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M0.833328 17.5H19.1667L10 1.66667L0.833328 17.5ZM10.8333 15H9.16666V13.3333H10.8333V15ZM10.8333 11.6667H9.16666V8.33334H10.8333V11.6667Z" fill="currentColor"/></g></svg></span>
+  <div class="alert__body">
+    <p class="alert__title">Global Warning</p>
+    <p class="alert__message">Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.</p>
+  </div>
+  <button class="alert__close" aria-label="Dismiss"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+</div></div>
+        <pre class="code"><code>&lt;div class="alert alert--warning alert--solid" role="alert"&gt;
+  &lt;span class="alert__icon"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;p class="alert__title"&gt;Global Warning&lt;/p&gt;
+    &lt;p class="alert__message"&gt;Scheduled maintenance tonight 02:00–03:00 UTC — betting may be briefly unavailable.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="alert__close" aria-label="Dismiss"&gt;&lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        <p class="story-note">The one solid variant this pass. Dark text/icon on the bright fill; the × goes dark too.</p>
+      </div>
+    </div>
+
+    <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
+  </main>
+</div>
+</body>
+</html>
