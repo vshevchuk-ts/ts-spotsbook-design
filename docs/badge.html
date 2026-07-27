@@ -90,9 +90,9 @@
   --tok-bg-accent: rgba(49, 168, 255, 0.12);
   --tok-text-accent: #31A8FF;
   --tok-fill-accent: #31A8FF;
+  --tok-text-contrast: #11141C;
   --tok-label-score: #3E4351;
   --tok-bet-status-win: #00A828;
-  --tok-text-contrast: #11141C;
   --tok-bet-status-loose: #F90643;
   --tok-bet-status-cashout: #FFC12E;
   --tok-bet-status-half-win: #00BAAF;
@@ -117,7 +117,7 @@
 .badge--role-warning.badge--tint { background: var(--tok-bg-warning); color: var(--tok-text-warning); }
 .badge--role-warning.badge--solid { background: var(--tok-fill-warning); color: var(--tok-text-for-active-bg); }
 .badge--role-accent.badge--tint { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
-.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-on-fill); }
+.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-contrast); }
 
 .badge--named-live { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-betbuilder { background: var(--tok-bg-active); color: var(--tok-text-active); }
@@ -222,9 +222,9 @@
   --tok-bg-accent: rgba(49, 168, 255, 0.12);
   --tok-text-accent: #31A8FF;
   --tok-fill-accent: #31A8FF;
+  --tok-text-contrast: #11141C;
   --tok-label-score: #3E4351;
   --tok-bet-status-win: #00A828;
-  --tok-text-contrast: #11141C;
   --tok-bet-status-loose: #F90643;
   --tok-bet-status-cashout: #FFC12E;
   --tok-bet-status-half-win: #00BAAF;
@@ -249,7 +249,7 @@
 .badge--role-warning.badge--tint { background: var(--tok-bg-warning); color: var(--tok-text-warning); }
 .badge--role-warning.badge--solid { background: var(--tok-fill-warning); color: var(--tok-text-for-active-bg); }
 .badge--role-accent.badge--tint { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
-.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-on-fill); }
+.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-contrast); }
 
 .badge--named-live { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-betbuilder { background: var(--tok-bg-active); color: var(--tok-text-active); }
@@ -432,16 +432,29 @@
     </div>
 
     <h2 class="big-section">In context</h2>
-    <p class="section-desc">A live event row — a solid active "Live" pill, the fixture, and a warning "Cash out" tint.</p>
-    <div class="usage-preview"><div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <span class="badge badge--base badge--solid badge--role-active">Live</span>
-      <span style="color:var(--tok-text-default); font-family:var(--tok-family-sans); font-size:13px;">Manchester City vs Fulham</span>
-      <span class="badge badge--base badge--tint badge--role-warning">Cash out</span>
+    <p class="section-desc">The named badges in real rows: a bet-card header (LIVE + BB beside the event), and a settled My-Bets row (event + a WIN status badge).</p>
+    <div class="usage-preview"><div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span class="badge badge--base badge--named-live">LIVE</span>
+        <span class="badge badge--base badge--named-betbuilder">BB</span>
+        <span style="color:var(--tok-text-default); font-family:var(--tok-family-sans); font-size:14px; font-weight:600;">Borussia Dortmund - AC Milan</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span style="color:var(--tok-text-default); font-family:var(--tok-family-sans); font-size:14px; font-weight:600;">Manchester City vs Fulham</span>
+        <span class="badge badge--base badge--status-win">WIN</span>
+      </div>
     </div></div>
-    <pre class="code"><code>&lt;div class="event-row"&gt;
-  &lt;span class="badge badge--base badge--solid badge--role-active"&gt;Live&lt;/span&gt;
+    <pre class="code"><code>&lt;!-- bet-card header: live in-play, betbuilder --&gt;
+&lt;div class="event-row"&gt;
+  &lt;span class="badge badge--base badge--named-live"&gt;LIVE&lt;/span&gt;
+  &lt;span class="badge badge--base badge--named-betbuilder"&gt;BB&lt;/span&gt;
+  &lt;span class="subject"&gt;Borussia Dortmund - AC Milan&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- My Bets row: settled --&gt;
+&lt;div class="event-row"&gt;
   &lt;span class="subject"&gt;Manchester City vs Fulham&lt;/span&gt;
-  &lt;span class="badge badge--base badge--tint badge--role-warning"&gt;Cash out&lt;/span&gt;
+  &lt;span class="badge badge--base badge--status-win"&gt;WIN&lt;/span&gt;
 &lt;/div&gt;</code></pre>
   </main>
 </div>

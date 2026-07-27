@@ -188,15 +188,29 @@ function colorStories() {
   }).join("\n");
 }
 
-const usageDemo = `<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      ${markup("base", "role", "active", "solid", "Live")}
-      <span style="color:${cv("text.default")}; font-family:${cv("family.sans")}; font-size:13px;">Manchester City vs Fulham</span>
-      ${markup("base", "role", "warning", "tint", "Cash out")}
+const subj = (t) => `<span style="color:${cv("text.default")}; font-family:${cv("family.sans")}; font-size:14px; font-weight:600;">${t}</span>`;
+const usageDemo = `<div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        ${markupOne("base", "named", "live", "LIVE")}
+        ${markupOne("base", "named", "betbuilder", "BB")}
+        ${subj("Borussia Dortmund - AC Milan")}
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        ${subj("Manchester City vs Fulham")}
+        ${markupOne("base", "status", "win", "WIN")}
+      </div>
     </div>`;
-const usageCode = `<div class="event-row">
-  <span class="badge badge--base badge--solid badge--role-active">Live</span>
+const usageCode = `<!-- bet-card header: live in-play, betbuilder -->
+<div class="event-row">
+  <span class="badge badge--base badge--named-live">LIVE</span>
+  <span class="badge badge--base badge--named-betbuilder">BB</span>
+  <span class="subject">Borussia Dortmund - AC Milan</span>
+</div>
+
+<!-- My Bets row: settled -->
+<div class="event-row">
   <span class="subject">Manchester City vs Fulham</span>
-  <span class="badge badge--base badge--tint badge--role-warning">Cash out</span>
+  <span class="badge badge--base badge--status-win">WIN</span>
 </div>`;
 
 // ---- Named product labels (live / betbuilder / freebet / score) ----
@@ -348,7 +362,7 @@ const html = `<!doctype html>
     </div>
 
     <h2 class="big-section">In context</h2>
-    <p class="section-desc">A live event row — a solid active "Live" pill, the fixture, and a warning "Cash out" tint.</p>
+    <p class="section-desc">The named badges in real rows: a bet-card header (LIVE + BB beside the event), and a settled My-Bets row (event + a WIN status badge).</p>
     <div class="usage-preview">${usageDemo}</div>
     <pre class="code"><code>${esc(usageCode)}</code></pre>
   </main>

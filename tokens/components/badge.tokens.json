@@ -31,7 +31,7 @@
         }
       },
       "role": {
-        "$description": "5 semantic states. 'neutral' uses the raised surface (no coloured wash) with secondary/default text. Solid text is dark (text.forActiveBg) on the bright fills (active/warning) and white (text.onFill) on the darker fills (positive/negative) — the per-theme label-text problem a future text.forLabelBg will formalise.",
+        "$description": "6 semantic states. 'neutral' uses the raised surface (no coloured wash) with secondary/default text. Solid text is dark on the BRIGHT fills — active/warning (text.forActiveBg) and accent (text.contrast; white on the #31A8FF accent only scores 2.6:1, dark scores 7.2:1) — and white (text.onFill) on the darker fills (positive/negative). This per-fill choice is the text.forLabelBg problem a future token will formalise; verify any new solid role's text contrast (≥4.5:1) before white-by-default.",
         "neutral": {
           "tint": { "bg": { "$type": "color", "$value": "{surface.raised}" }, "text": { "$type": "color", "$value": "{text.secondary}" } },
           "solid": { "bg": { "$type": "color", "$value": "{surface.raised}" }, "text": { "$type": "color", "$value": "{text.default}" } }
@@ -54,7 +54,7 @@
         },
         "accent": {
           "tint": { "bg": { "$type": "color", "$value": "{bg.accent}" }, "text": { "$type": "color", "$value": "{text.accent}" } },
-          "solid": { "bg": { "$type": "color", "$value": "{fill.accent}" }, "text": { "$type": "color", "$value": "{text.onFill}" } }
+          "solid": { "bg": { "$type": "color", "$value": "{fill.accent}" }, "text": { "$type": "color", "$value": "{text.contrast}" } }
         }
       },
       "named": {
