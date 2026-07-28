@@ -34,6 +34,9 @@ const badge = load("tokens/components/badge.tokens.json").component.badge;
 // The settlement-info / long-market / long-outcome reveals ARE the Tooltip component
 // (hover/focus, surface-6 bubble + caret, pure CSS) — resolve its real values.
 const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
+// The odds value IS the Odds component (static value + live up/down movement) —
+// resolve its real styling/animation, never restyle.
+const oddsComp = load("tokens/components/odds.tokens.json").component.odds;
 
 const registry = {
   color: colorPrim,
@@ -84,6 +87,8 @@ const colorPaths = [
   "bg.active", "bg.accent", "text.accent",
   // Tooltip (info / market / outcome reveals)
   "text.onFill",
+  // Odds component (static + up/down movement)
+  "text.positive", "text.negative",
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -148,7 +153,11 @@ const eventType = typoOf(bc.header.event.type);
 const marketType = typoOf(bc.market.type);
 const outcomeType = typoOf(bc.outcome.type);
 const outcomeSingleType = typoOf(bc.outcome.singleType);
-const oddsType = typoOf(bc.odds.type);
+// Odds component styling (resolved from odds.tokens.json — the card's odds IS this component)
+const oddsType = typoOf(oddsComp.type);
+const oddsGap = px(resolve(oddsComp.gap.$value));
+const oddsDur = px(resolveToken(oddsComp.movement.duration));
+const oddsLoopMs = resolveToken(oddsComp.movement.duration).value + 2000;
 const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
 const bbOddLabelType = typoOf(bb.oddLabel.type);
@@ -199,7 +208,21 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
    compact, stepped down to 12px regular in the amount density where odds leads. */
 .betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${cv("text.default")}; ${outcomeType} }
 .betcard--amount .betcard__outcome { ${outcomeSingleType} }
-.betcard__odds { color: ${cv("text.default")}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* odds = the Odds component (static value + live up/down movement), resolved from odds.tokens.json — real .odds classes, not a redraw */
+.odds { display: inline-flex; align-items: baseline; gap: ${oddsGap}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(oddsComp.color.default)}; }
+.odds__value { color: inherit; }
+.odds__prev { color: ${cvOf(oddsComp.prev.color)}; text-decoration: line-through; }
+.odds--up .odds__value { color: ${cvOf(oddsComp.color.up)}; }
+.odds--down .odds__value { color: ${cvOf(oddsComp.color.down)}; }
+@keyframes odds-up { 0%, 60% { color: ${cvOf(oddsComp.color.up)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
+@keyframes odds-down { 0%, 60% { color: ${cvOf(oddsComp.color.down)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up ${oddsDur} ease forwards; }
+  .odds--down .odds__value { animation: odds-down ${oddsDur} ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out ${oddsDur} ease forwards; }
+}
 
 /* --- compact density (Combo / System): odds inline, no stake field --- */
 .betcard--compact .betcard__market { margin-top: ${sectionGap}; }
@@ -230,8 +253,7 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
 .betcard__bb-market { color: ${cv("text.secondary")}; ${marketType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
 .betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.betcard__bb-odd-label { color: ${cv("text.secondary")}; ${bbOddLabelType} }
-.betcard__bb-odd-value { color: ${cv("text.default")}; ${oddsType} font-variant-numeric: tabular-nums; }`;
+.betcard__bb-odd-label { color: ${cv("text.secondary")}; ${bbOddLabelType} }`;
 
 // ---- inline icons (currentColor) ----
 const iClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace(/\n/g, "");
@@ -267,13 +289,19 @@ function marketLine(market, info) {
     ${textTip("betcard__market-name", market, true)}
   </div>`;
 }
-function compactCard({ sport, event, badges, market, info, outcome, odds }) {
+// the odds value = the Odds component. Static, or live (dir up/down + previous price).
+function oddsEl(value, dir, prev) {
+  return dir
+    ? `<span class="odds odds--${dir}" data-dir="${dir}"><span class="odds__value">${value}</span><span class="odds__prev">${prev}</span></span>`
+    : `<span class="odds"><span class="odds__value">${value}</span></span>`;
+}
+function compactCard({ sport, event, badges, market, info, outcome, odds, oddsDir, oddsPrev }) {
   return `<div class="betcard betcard--compact">
   ${header(sport, event, badges)}
   ${marketLine(market, info)}
   <div class="betcard__line">
     ${textTip("betcard__outcome", outcome, true)}
-    <span class="betcard__odds">${odds}</span>
+    ${oddsEl(odds, oddsDir, oddsPrev)}
   </div>
 </div>`;
 }
@@ -293,14 +321,14 @@ function amountField(amount) {
       </span>
     </label>`;
 }
-function amountCard({ sport, event, badges, market, info, outcome, odds, amount }) {
+function amountCard({ sport, event, badges, market, info, outcome, odds, oddsDir, oddsPrev, amount }) {
   return `<div class="betcard betcard--amount">
   ${header(sport, event, badges)}
   <div class="betcard__body">
     <div class="betcard__main">
       ${marketLine(market, info)}
       ${textTip("betcard__outcome", outcome, false)}
-      <span class="betcard__odds">${odds}</span>
+      ${oddsEl(odds, oddsDir, oddsPrev)}
     </div>
     ${amountField(amount)}
   </div>
@@ -322,7 +350,7 @@ function betbuilderCard({ sport, event, badges, legs, odd, amount }) {
   <div class="betcard__bb-foot">
     <div class="betcard__bb-odd">
       <span class="betcard__bb-odd-label">Betbuilder Odd</span>
-      <span class="betcard__bb-odd-value">${odd}</span>
+      ${oddsEl(odd)}
     </div>
     ${amountField(amount)}
   </div>
@@ -347,13 +375,16 @@ function sampleCode(kind, d) {
       ${codeTip(`<span class="betcard__market-name">${d.market}</span>`, d.market)}
     </div>`;
   const outcomeCode = codeTip(`<span class="betcard__outcome">${d.outcome}</span>`, d.outcome);
+  const oddsCode = d.oddsDir
+    ? `<span class="odds odds--${d.oddsDir}"><span class="odds__value">${d.odds}</span><span class="odds__prev">${d.oddsPrev}</span></span>`
+    : `<span class="odds"><span class="odds__value">${d.odds}</span></span>`;
   if (kind === "compact") {
     return `<div class="betcard betcard--compact">
 ${hdr}
   ${mkt}
   <div class="betcard__line">
     ${outcomeCode}
-    <span class="betcard__odds">${d.odds}</span>
+    ${oddsCode}
   </div>
 </div>`;
   }
@@ -363,7 +394,7 @@ ${hdr}
     <div class="betcard__main">
       ${mkt}
       ${outcomeCode}
-      <span class="betcard__odds">${d.odds}</span>
+      ${oddsCode}
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
@@ -392,6 +423,7 @@ const dCompactInfo = { sport: "tennis", event: "Cocciaretto Elisabetta - Efstath
 const dAmount = { sport: "cs2", event: "CYBERSHOKE Esports - Inner Circle", market: "Match winner", info: false, outcome: "CYBERSHOKE Esports", odds: "1.84", amount: "100" };
 const dAmountInfo = { sport: "football", event: "Fulham - Manchester City", badges: ["freebet"], market: "Handicap market name that is very long", info: true, outcome: "Manchester City -5.5", odds: "19.53", amount: "100" };
 const dTrunc = { sport: "football", event: "Fulham - Manchester City", market: "Handicap market name that I tried to make as long as I can make it", info: true, outcome: "Manchester City -5.5 Super puper outcome also very long", odds: "19.53" };
+const dLive = { sport: "football", event: "Arsenal - Chelsea", badges: ["live"], market: "Match Result — 1X2", info: false, outcome: "Arsenal to win", odds: "2.10", oddsDir: "up", oddsPrev: "1.95" };
 const dBetbuilder = { sport: "football", event: "Borussia Dortmund - AC Milan", badges: ["betbuilder", "live"], odd: "5.09", amount: "", legs: [
   { outcome: "Borussia Dortmund", market: "Match Winner" },
   { outcome: "2-1", market: "Correct Score" },
@@ -422,7 +454,7 @@ const betbuilderCode = `<div class="betcard betcard--betbuilder">
   <div class="betcard__bb-foot">
     <div class="betcard__bb-odd">
       <span class="betcard__bb-odd-label">Betbuilder Odd</span>
-      <span class="betcard__bb-odd-value">5.09</span>
+      <span class="odds"><span class="odds__value">5.09</span></span>
     </div>
     <label class="betcard__amount betcard__amount--empty">
       <input class="betcard__amount-input" placeholder="Bet amount" />
@@ -521,7 +553,8 @@ const html = `<!doctype html>
       <div class="row"><b>Event & remove</b><span>The event is an underlined link (text.secondary, link-sm) — tapping opens the event; it truncates with ellipsis, and brightens to the active colour on hover. Remove × is a 20px ghost icon button — the Button ghost treatment: icon.secondary → text.default, transparent → fill.neutralHover on hover, flush 8px from the card edge.</span></div>
       <div class="row"><b>Header badges</b><span>Optional LIVE / BB / FB pills after the event — the <a href="badge.html">Badge</a> component at <code class="tok">sm</code> (16px), <code class="tok">named</code> variants (live/betbuilder = active tint, freebet = accent tint), resolved from badge.tokens.json (real <code class="tok">.badge</code> classes, not redrawn). Any combination, or none. The event shrinks/truncates before them; the × is pushed to the far right.</span></div>
       <div class="row"><b>Tooltips</b><span>All the <a href="tooltip.html">Tooltip</a> component (surface-6 bubble + caret, hover/focus, from tooltip.tokens.json). The gold info icon (icon.warning, optional per card) reveals the settlement-rules note; a long market name and a long outcome truncate to an ellipsis and reveal in full on hover/focus/tap.</span></div>
-      <div class="row"><b>Out of this pass</b><span>Odds <em>movement</em> (up/down/changed, struck-through old value) → the separate Odds component. Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant.</span></div>
+      <div class="row"><b>Odds</b><span>The odds value <em>is</em> the <a href="odds.html">Odds</a> component — static, or live: it flashes text.positive/negative on a price change and shows the struck-through previous price, then eases back (see the "Live odds" card). Resolved from odds.tokens.json, real <code class="tok">.odds</code> classes.</span></div>
+      <div class="row"><b>Out of this pass</b><span>Suspended (lock) and per-card error strip → card states. The Bet-amount field's ticket-notch silhouette → Input's bet-amount variant.</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>
@@ -533,6 +566,7 @@ const html = `<!doctype html>
     <div class="story-grid">
       ${storyCard("Plain market", compactCard(dCompact), sampleCode("compact", dCompact))}
       ${storyCard("3 badges + settlement info", compactCard(dCompactInfo), sampleCode("compact", dCompactInfo), "All three header badges (LIVE + BB + FB, 4px apart) and the 16px gold settlement-info icon at once — hover the gold icon for the settlement-rules tooltip. The event truncates before the badge cluster.")}
+      ${storyCard("Live odds (movement)", compactCard(dLive), sampleCode("compact", dLive), "The odds here is the Odds component with a live up-movement — it flashes green and shows the struck-through previous price, then eases back. The demo replays on a loop.")}
     </div>
 
     <h2 class="big-section">Tooltips — settlement rules · truncated text</h2>
@@ -557,6 +591,19 @@ const html = `<!doctype html>
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
   </main>
 </div>
+<script>
+  // DOCS ONLY: replay the Odds up/down flash on a loop so the movement is visible.
+  // In production the app adds .odds--up/.odds--down once per price change.
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
+      var cls = 'odds--' + el.dataset.dir;
+      function play() { el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth; el.classList.add(cls); }
+      play();
+      if (!reduce) setInterval(play, ${oddsLoopMs});
+    });
+  })();
+</script>
 </body>
 </html>
 `;

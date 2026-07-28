@@ -1,0 +1,20 @@
+{
+  "component": {
+    "odds": {
+      "$description": "The odds/coefficient value and its live-movement behaviour. Static = text.default, tabular-nums, any string (decimal 2.83 or fractional 199/200 — not a parser). When a new price arrives the app toggles the up/down modifier: the value flashes text.positive (up) or text.negative (down) and, while the change is fresh, the previous price shows struck-through beside it; over `movement.duration` the highlight eases back to text.default and the old value fades out (a single self-reverting CSS animation — the component owns the colours, the strike and the timing, the app owns only the trigger, and drops the previous-value node once the animation ends). prefers-reduced-motion: no flash — the changed value simply holds its up/down colour with the previous value shown, so the change is still legible without motion. Size is contextual (set where the odds is used — 14px on a bet card, larger in the summary); this component fixes only the numeric styling + movement, defaulting to heading-base.",
+      "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold default — matches the bet card's odds. tabular-nums is applied in CSS. Override font-size in context for a larger summary value." },
+      "gap": { "$type": "dimension", "$value": "{spacing.1_5}", "$description": "6px between the new value and the struck-through previous one." },
+      "color": {
+        "default": { "$type": "color", "$value": "{text.default}", "$description": "Resting colour — no recent movement." },
+        "up": { "$type": "color", "$value": "{text.positive}", "$description": "Drifted up — the positive/green highlight the value flashes to." },
+        "down": { "$type": "color", "$value": "{text.negative}", "$description": "Drifted down — the negative/red highlight." }
+      },
+      "prev": {
+        "color": { "$type": "color", "$value": "{text.secondary}", "$description": "The struck-through previous price — muted grey, line-through, shown beside the new value until the movement animation ends." }
+      },
+      "movement": {
+        "duration": { "$type": "dimension", "$value": { "value": 3000, "unit": "ms" }, "$description": "How long the up/down highlight holds before easing back to text.default and fading the previous value out. A token — set to the product's live-feed cadence (the reference reads ~3–5s)." }
+      }
+    }
+  }
+}

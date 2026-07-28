@@ -44,8 +44,7 @@
         "color": { "$type": "color", "$value": "{text.default}" }
       },
       "odds": {
-        "type": { "$type": "typography", "$value": "{text-style.heading-base}", "$description": "14px semibold (heading-base), tabular-nums — the odds value, in both densities. This first pass is the static value only; movement (up/down/changed, struck-through old value) becomes the separate Odds component and recolours to text.positive/text.negative there." },
-        "color": { "$type": "color", "$value": "{text.default}" }
+        "$description": "The odds value IS the Odds component (tokens/components/odds.tokens.json) — static value + live up/down movement, resolved and emitted as real .odds classes, NOT restyled here. Used on the compact/amount line (right of the outcome) and as the betbuilder combined odd. Its typography (heading-base, 14px semibold, tabular-nums) and movement colours come from odds.tokens.json."
       },
       "amount": {
         "$description": "The per-selection Bet-amount field (Single/`amount` density only) IS the Input component — the lg (48px) floating-label variant with a currency prefix. It is NOT restyled here: its height, radius, paddings, the 10px floating label, the 16px REGULAR value, the '$' prefix (input.prefix), the surface.page fill + outline.strong border and the outline.active focus border are all resolved from tokens/components/input.tokens.json at build time, so a bet-card stake field and a standalone Input stay identical (same regular 16px value — not a bespoke semibold). The only bet-card-specific bits are the fixed width and that the field is bottom-aligned to the outcome column, not stretched to the market+outcome+odds height.",

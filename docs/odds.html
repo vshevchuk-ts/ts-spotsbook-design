@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Odds</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --code-bg: #1e1e22; --code-text: #e4e3df;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      --code-bg: #0d0d0f; --code-text: #d7d6d2;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    --code-bg: #0d0d0f; --code-text: #d7d6d2;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 4rem 4rem 6rem; max-width: 1120px; }
+
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 72ch; line-height: 1.6; }
+  h2.big-section { font-size: 24px; font-weight: 700; margin: 5.5rem 0 1.5rem; letter-spacing: -0.01em; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+  h2.big-section:first-of-type { margin-top: 3rem; padding-top: 0; border-top: none; }
+  .section-desc { font-size: 13.5px; color: var(--text-secondary); margin: -0.5rem 0 1.5rem; max-width: 70ch; line-height: 1.6; }
+
+  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 14px 18px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; line-height: 1.6; }
+  .legend .row { display: flex; gap: 14px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .row b { width: 150px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  pre.code { background: var(--code-bg); color: var(--code-text); border-radius: 10px; padding: 16px 18px; margin: 0; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+  pre.code code { font-family: inherit; }
+
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
+  .story-preview { min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 12px 0; font-size: 18px; }
+  .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  .ctx { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 14px 18px; margin-bottom: 1rem; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; max-width: 340px; }
+  .ctx .name { font-size: 14px; font-weight: 600; }
+
+  :root {
+  --tok-text-default: #FFFFFF;
+  --tok-text-positive: #00A828;
+  --tok-text-negative: #F90643;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+.odds__value { color: inherit; }
+.odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
+.odds--up .odds__value { color: var(--tok-text-positive); }
+.odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
+@keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
+  .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab active" href="index.html">DS</a>
+    <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+  </div>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
+    <a class="navlink" href="index.html">Overview</a>
+    <p class="nav-category">Tokens</p>
+    <a class="navlink" href="colors.html">Colors</a>
+    <a class="navlink" href="semantic-colors.html">Semantic colors</a>
+    <a class="navlink" href="typography.html">Typography</a>
+    <a class="navlink" href="layout.html">Layout</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
+    <p class="nav-category">Components</p>
+    <a class="navlink" href="button.html">Button</a>
+    <a class="navlink" href="counter.html">Counter</a>
+    <a class="navlink" href="input.html">Input</a>
+    <a class="navlink" href="select.html">Select</a>
+    <a class="navlink" href="search.html">Search</a>
+    <a class="navlink" href="pagination.html">Pagination</a>
+    <a class="navlink" href="separator.html">Separator</a>
+    <a class="navlink" href="tabs.html">Tabs</a>
+    <a class="navlink" href="checkbox.html">Checkbox</a>
+    <a class="navlink" href="radio.html">Radio</a>
+    <a class="navlink" href="box.html">Box</a>
+    <a class="navlink" href="card.html">Card</a>
+    <a class="navlink" href="switch.html">Switch</a>
+    <a class="navlink" href="grid.html">Grid</a>
+    <a class="navlink" href="tooltip.html">Tooltip</a>
+    <a class="navlink" href="popover.html">Popover</a>
+    <a class="navlink" href="drawer.html">Drawer</a>
+    <a class="navlink" href="modal.html">Modal</a>
+    <a class="navlink" href="menu.html">Menu</a>
+    <a class="navlink" href="listbox.html">Listbox</a>
+    <a class="navlink" href="badge.html">Badge</a>
+    <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Feedback</p>
+    <a class="navlink" href="alert.html">Alert</a>
+    <a class="navlink" href="toast.html">Toast</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
+    <a class="navlink active" href="odds.html">Odds</a>
+  </nav>
+  <main>
+    <h1>Odds</h1>
+    <p class="sub">tokens/components/odds.tokens.json · the coefficient value and its live movement. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex. The previews below loop the up/down flash so you can see it; in the product the app adds the modifier once per price change.</p>
+
+    <div class="legend">
+      <div class="row"><b>Static</b><span>text.default, <code class="tok">tabular-nums</code>, any string — decimal (2.83) or fractional (199/200). Not a parser.</span></div>
+      <div class="row"><b>Movement</b><span>On a new price the app toggles <code class="tok">.odds--up</code> / <code class="tok">.odds--down</code>: the value flashes text.positive / text.negative, the previous price shows struck-through (text.secondary) beside it, then one CSS animation eases the colour back to text.default and fades the old value out over <code class="tok">movement.duration</code> (3000ms).</span></div>
+      <div class="row"><b>Trigger vs. component</b><span>The component owns the colours, the strike and the timing; the app owns only the trigger (add the class on each tick, drop the previous-value node on <code class="tok">animationend</code>). The looping in these demos is docs-only script, not part of the component.</span></div>
+      <div class="row"><b>Reduced motion</b><span>prefers-reduced-motion: no flash — the changed value simply holds its up/down colour with the previous value shown, so the movement is still legible without animation.</span></div>
+      <div class="row"><b>Size</b><span>Contextual — 14px (heading-base) here and on a bet card; override font-size for a larger summary value. The component fixes only the numeric styling + movement.</span></div>
+    </div>
+
+    <h2 class="big-section">CSS</h2>
+    <pre class="code"><code>:root {
+  --tok-text-default: #FFFFFF;
+  --tok-text-positive: #00A828;
+  --tok-text-negative: #F90643;
+  --tok-text-secondary: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+.odds__value { color: inherit; }
+.odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
+.odds--up .odds__value { color: var(--tok-text-positive); }
+.odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
+@keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
+  .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
+}</code></pre>
+
+    <h2 class="big-section">Static</h2>
+    <p class="section-desc">Resting value — decimal and fractional, both tabular-nums.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Decimal</h3>
+        <div class="story-preview"><span class="odds"><span class="odds__value">2.83</span></span></div>
+        <pre class="code"><code>&lt;span class="odds"&gt;&lt;span class="odds__value"&gt;2.83&lt;/span&gt;&lt;/span&gt;</code></pre>
+        
+      </div>
+      
+      <div class="story">
+        <h3>Fractional</h3>
+        <div class="story-preview"><span class="odds"><span class="odds__value">199/200</span></span></div>
+        <pre class="code"><code>&lt;span class="odds"&gt;&lt;span class="odds__value"&gt;199/200&lt;/span&gt;&lt;/span&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">Movement</h2>
+    <p class="section-desc">Up (green) and down (red), each with the struck-through previous price. The demos replay every 5s; watch the highlight ease back to the resting colour and the old value fade.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Up — decimal</h3>
+        <div class="story-preview"><span class="odds" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span></div>
+        <pre class="code"><code>&lt;span class="odds odds--up"&gt;
+  &lt;span class="odds__value"&gt;2.10&lt;/span&gt;
+  &lt;span class="odds__prev"&gt;1.95&lt;/span&gt;
+&lt;/span&gt;</code></pre>
+        <p class="story-note">New price higher; flashes text.positive, old value struck-through, eases back to default.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Down — decimal</h3>
+        <div class="story-preview"><span class="odds" data-dir="down"><span class="odds__value">1.72</span><span class="odds__prev">1.90</span></span></div>
+        <pre class="code"><code>&lt;span class="odds odds--down"&gt;
+  &lt;span class="odds__value"&gt;1.72&lt;/span&gt;
+  &lt;span class="odds__prev"&gt;1.90&lt;/span&gt;
+&lt;/span&gt;</code></pre>
+        <p class="story-note">New price lower; flashes text.negative.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Up — fractional</h3>
+        <div class="story-preview"><span class="odds" data-dir="up"><span class="odds__value">199/200</span><span class="odds__prev">188/199</span></span></div>
+        <pre class="code"><code>&lt;span class="odds odds--up"&gt;
+  &lt;span class="odds__value"&gt;199/200&lt;/span&gt;
+  &lt;span class="odds__prev"&gt;188/199&lt;/span&gt;
+&lt;/span&gt;</code></pre>
+        
+      </div>
+    </div>
+
+    <h2 class="big-section">In context</h2>
+    <p class="section-desc">On a bet-card line — outcome on the left, the live odds on the right.</p>
+    <div class="ctx"><span class="name">Manchester City -5.5</span><span class="odds" data-dir="up"><span class="odds__value">19.53</span><span class="odds__prev">18.90</span></span></div>
+    <pre class="code"><code>&lt;div class="line"&gt;
+  &lt;span class="name"&gt;Manchester City -5.5&lt;/span&gt;
+  &lt;span class="odds odds--up"&gt;&lt;span class="odds__value"&gt;19.53&lt;/span&gt;&lt;span class="odds__prev"&gt;18.90&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+  </main>
+</div>
+<script>
+  // DOCS ONLY: replay the up/down flash on a loop so the movement is visible.
+  // In production the app adds .odds--up/.odds--down once per price change.
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
+      var cls = 'odds--' + el.dataset.dir;
+      function play() { el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth; el.classList.add(cls); }
+      play();
+      if (!reduce) setInterval(play, 5000);
+    });
+  })();
+</script>
+</body>
+</html>
