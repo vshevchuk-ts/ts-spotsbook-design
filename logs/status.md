@@ -2,6 +2,8 @@
 
 Maintained snapshot (not append-only). Update when inventory or conventions change.
 
+> **▶ ACTIVE HANDOFF (start here):** the next task is the **shared component-CSS library refactor** — extract Input/Button/Odds/Badge/Tooltip/Select into `tools/lib/components/*.mjs`, then migrate bet-card/summary. Full brief, architecture, step-by-step plan and verification in **`logs/handoff-shared-components.md`**. Read that before starting.
+
 ## What this is
 
 A design system for the **Turbo Sportsbook** product, started as a detached duplicate of an internal system. Git remote removed (not pushed anywhere yet). DTCG tokens (`tokens/`) → generated static docs (`docs/`), Vercel from repo root. Chat is Ukrainian; every `docs/*.html` artifact is English, `<html lang="en">`.
