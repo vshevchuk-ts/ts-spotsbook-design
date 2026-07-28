@@ -47,11 +47,7 @@
   .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 70ch; line-height: 1.6; }
 
   .stage { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
-  .phone { width: 390px; height: 780px; flex-shrink: 0; border-radius: 44px; padding: 12px; background: #050506; box-shadow: 0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--border); }
-  .phone__screen { position: relative; width: 100%; height: 100%; border-radius: 33px; overflow: hidden; background: #000; }
-  .phone__notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 26px; border-radius: 14px; background: #050506; z-index: 5; }
-  .phone__inner { position: absolute; inset: 0; padding-top: 44px; display: flex; }
-
+  .open-cta { display: inline-flex; }
   .notes { max-width: 360px; }
   .notes h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
   .notes ul { margin: 0 0 1.75rem; padding-left: 18px; }
@@ -64,19 +60,18 @@
   --tok-surface-card: #1C202B;
   --tok-surface-raised: #282E3E;
   --tok-outline-default: #282E3E;
-  --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
-  --tok-text-for-active-bg: #11141C;
-  --tok-fill-active: #FB8C33;
-  --tok-fill-neutral-hover: #555A66;
-  --tok-icon-secondary: #8E929F;
-  --tok-icon-active: #FB8C33;
   --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
   --tok-text-active: #FB8C33;
+  --tok-icon-secondary: #8E929F;
   --tok-icon-warning: #FFC12E;
+  --tok-fill-neutral-hover: #555A66;
   --tok-text-on-fill: #FFFFFF;
   --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-fill-active: #FB8C33;
+  --tok-text-for-active-bg: #11141C;
   --tok-bg-positive: rgba(0, 168, 40, 0.12);
   --tok-text-positive: #00A828;
   --tok-fill-positive: #00A828;
@@ -114,8 +109,80 @@
   --tok-color-white: #FFFFFF;
   --tok-lighten-2: rgba(255, 255, 255, 0.12);
   --tok-darken-2: rgba(17, 20, 28, 0.12);
+  --tok-icon-active: #FB8C33;
+  --tok-fill-contrast: #FFFFFF;
+  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
   --tok-family-sans: 'Rubik', sans-serif;
 }
+
+dialog.drawer { position: fixed; margin: 0; padding: 0; border: none; box-sizing: border-box; background: var(--tok-surface-card); box-shadow: 0px 4px 16px 0px rgba(17, 20, 28, 0.44); }
+dialog.drawer::backdrop { background: var(--tok-surface-overlay); opacity: 0; transition: opacity 250ms ease allow-discrete; }
+dialog.drawer[open]::backdrop { opacity: 1; }
+@starting-style { dialog.drawer[open]::backdrop { opacity: 0; } }
+
+dialog.drawer--right { top: 0; right: 0; left: auto; height: 100dvh; width: 320px; max-width: 90vw; border-radius: 0px; transform: translateX(100%); transition: transform 250ms ease, overlay 250ms allow-discrete, display 250ms allow-discrete; }
+dialog.drawer--right[open] { transform: translateX(0); }
+@starting-style { dialog.drawer--right[open] { transform: translateX(100%); } }
+
+dialog.drawer--bottom { bottom: 0; left: 0; right: 0; top: auto; width: 100%; max-height: 80dvh; border-radius: 0px; transform: translateY(100%); transition: transform 250ms ease, overlay 250ms allow-discrete, display 250ms allow-discrete; }
+dialog.drawer--bottom[open] { transform: translateY(0); }
+@starting-style { dialog.drawer--bottom[open] { transform: translateY(100%); } }
+
+.drawer__content { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; font-family: var(--tok-family-sans); }
+.drawer__header { flex-shrink: 0; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 40px; background: var(--tok-surface-raised); }
+.drawer__title { margin: 0; color: var(--tok-text-default); text-align: center; font-weight: 500; font-size: 14px; line-height: 1.4; }
+.drawer__hcounter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--tok-lighten-2); color: var(--tok-text-default); font-weight: 700; font-size: 12px; }
+.drawer__body { flex: 1; box-sizing: border-box; overflow: auto; padding: 24px; }
+.drawer__body-text { margin: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
+.drawer__footer { flex-shrink: 0; box-sizing: border-box; display: flex; gap: 12px; justify-content: flex-end; padding: 24px; border-top: 1px solid var(--tok-outline-default); }
+
+.drawer__close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; padding: 0; cursor: pointer; color: var(--tok-icon-secondary); }
+.drawer__close:hover { background: var(--tok-fill-neutral-hover); }
+.drawer__close:active { background: var(--tok-fill-neutral-pressed); }
+.drawer__close:focus-visible { outline: 4px solid var(--tok-outline-accent); outline-offset: 2px; }
+.drawer__close-icon { width: 20px; height: 20px; display: block; }
+
+.tab { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; background: transparent; cursor: pointer; white-space: nowrap; color: var(--tok-text-secondary); font-family: var(--tok-family-sans); font-weight: 400; font-size: 14px; line-height: 1.2; }
+.tab__icon { flex-shrink: 0; color: var(--tok-icon-default); }
+
+.tab--sm { height: 32px; padding: 0 8px; }
+.tab--sm .tab__icon { width: 16px; height: 16px; }
+.tab--base { height: 40px; padding: 0 12px; }
+.tab--base .tab__icon { width: 20px; height: 20px; }
+
+.tabs--segmented { display: inline-flex; align-items: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 12px; padding: 4px; max-width: 100%; overflow-x: auto; }
+.tabs--segmented .tab { border-radius: 8px; }
+.tabs--segmented .tab:not(.tab--active):not(.tab--disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.tabs--segmented .tab--active { background: var(--tok-bg-active); border: 1px solid var(--tok-outline-active); color: var(--tok-text-default); font-weight: 500; }
+.tabs--segmented .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
+.tabs--segmented .tab--disabled .tab__icon, .tabs--underline .tab--disabled .tab__icon { color: var(--tok-icon-disabled); }
+
+.tabs--underline { display: inline-flex; align-items: stretch; gap: 24px; border-bottom: 1px solid var(--tok-outline-default); max-width: 100%; overflow-x: auto; }
+.tabs--underline .tab { position: relative; z-index: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+/* hover pill: a 12% lighten rounded rectangle inset 4px top/bottom (::before, behind the label) so it floats clear of the baseline instead of running down to it */
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; bottom: 4px; background: var(--tok-lighten-2); border-radius: 8px; z-index: -1; }
+.tabs--underline .tab:not(.tab--active):not(.tab--disabled):hover { color: var(--tok-text-default); }
+.tabs--underline .tab--active { color: var(--tok-text-default); font-weight: 500; border-bottom-color: var(--tok-outline-active); }
+.tabs--underline .tab--disabled { color: var(--tok-text-disabled); cursor: not-allowed; }
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--tok-family-sans);
+  font-weight: 700;
+  border-radius: 999px;
+}
+.counter--sm { height: 16px; min-width: 16px; padding: 0 4px; font-size: 10px; line-height: 1; }
+.counter--base { height: 20px; min-width: 20px; padding: 0 6px; font-size: 12px; line-height: 1; }
+.counter--lg { height: 24px; min-width: 24px; padding: 0 6px; font-size: 14px; line-height: 1; }
+
+.counter--onPrimary.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-for-active-bg); }
+.counter--onPrimary.counter--active { background: var(--tok-fill-contrast); color: var(--tok-text-for-active-bg); }
+
+.counter--onNeutral.counter--inactive { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.counter--onNeutral.counter--active { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
 
 .betcard { box-sizing: border-box; background: var(--tok-surface-raised); border-radius: 12px; padding: 8px; font-family: var(--tok-family-sans); }
 .betcard * { box-sizing: border-box; }
@@ -386,6 +453,52 @@
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
 .btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.select {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: pointer;
+}
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); transition: transform 0.12s ease; }
+.select__placeholder { color: var(--tok-text-secondary); }
+.select__value { color: var(--tok-text-default); }
+.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
+.select__label { color: var(--tok-text-secondary); }
+
+.select--sm { height: 32px; padding: 0 8px; gap: 8px; }
+.select--sm .select__chevron { width: 16px; height: 16px; }
+.select--sm .select__placeholder, .select--sm .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+
+.select--base { height: 40px; padding: 0 12px; gap: 8px; }
+.select--base .select__chevron { width: 20px; height: 20px; }
+.select--base .select__placeholder, .select--base .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--base .select__stack { gap: 0px; }
+.select--base .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+.select--lg { height: 48px; padding: 0 16px; gap: 8px; }
+.select--lg .select__chevron { width: 24px; height: 24px; }
+.select--lg .select__placeholder, .select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--lg .select__stack { gap: 4px; }
+.select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: var(--tok-outline-active); }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.select--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
+.select--disabled .select__chevron { color: var(--tok-icon-disabled); }
+.select--error { border-color: var(--tok-outline-negative); }
+.select-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
+
 /* footer container — blocks (stake / select / hint / rows) stacked */
 .sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
 
@@ -406,30 +519,29 @@
 .sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
 
 /* ===== screen scaffolding (layout only — arrangement of the real components) ===== */
-.bs { font-family: var(--tok-family-sans); background: var(--tok-surface-page); color: var(--tok-text-default); width: 100%; display: flex; flex-direction: column; height: 100%; }
+/* the betslip drawer body sits on the page surface so the raised cards pop */
+.bs-drawer .drawer__body { background: var(--tok-surface-page); display: flex; flex-direction: column; gap: 12px; padding: 12px 16px; }
+/* real Counter sits in the drawer title instead of the drawer's built-in pill */
+.bs-title { display: inline-flex; align-items: center; gap: 8px; }
+/* Clear all lives on the left of the header (the drawer header is centre-aligned) */
+.bs-clear { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); }
+.bs-clear.btn--ghost { padding: 0 8px; }
 
-/* header */
-.bs__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; }
-.bs__title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; }
-.bs__head .btn--ghost { padding: 0 8px; }
+/* bet-type tabs — the real underline Tabs, stretched full width */
+.bs-tabs { display: flex; }
+.bs-tabs .tab { flex: 1; }
 
-/* bet-type tabs (screen chrome — underline strip; not yet a DS component) */
-.bs__tabs { display: flex; gap: 4px; padding: 0 16px; border-bottom: 1px solid var(--tok-outline-default); }
-.bs__tab { position: relative; flex: 1; text-align: center; padding: 10px 4px 12px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--tok-text-secondary); }
-.bs__tab .n { color: var(--tok-text-secondary); font-weight: 700; }
-.bs__tab.is-active { color: var(--tok-text-default); }
-.bs__tab.is-active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--tok-outline-active); }
+/* card panels (only the active tab's panel is shown) */
+.bs-panel { display: flex; flex-direction: column; gap: 10px; }
+.bs-panel[hidden] { display: none; }
 
-/* scrolling selection list — a column of real Bet cards */
-.bs__list { flex: 1; overflow-y: auto; padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 10px; }
-.bs__list .betcard { background: var(--tok-surface-card); }
-
-/* sticky footer — stake row (real Input + quick-bet) + real Summary rows + Place bet */
-.bs__foot { border-top: 1px solid var(--tok-outline-default); background: var(--tok-surface-card); padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
-.bs__stake { display: flex; align-items: center; gap: 8px; }
-.bs__stake .input { flex: 1; }
-.bs__foot .summary { gap: 6px; }
-.bs__place { width: 100%; }
+/* footer — the drawer footer, re-flowed to a stacked betslip footer */
+.bs-foot { flex-direction: column; align-items: stretch; gap: 12px; }
+.bs-foot-panel { display: flex; flex-direction: column; gap: 12px; }
+.bs-foot-panel[hidden] { display: none; }
+.bs-foot .input { flex: 1; }
+.bs-foot .summary { gap: 6px; }
+.bs-place { width: 100%; }
 </style>
 </head>
 <body>
@@ -452,28 +564,107 @@
   </nav>
   <main>
     <h1>Mobile betslip</h1>
-    <p class="sub">A multi (combo) betslip for the mobile app, assembled <b>strictly from the real design-system components</b> — not a redrawn lookalike. Each selection is the real <a href="bet-card.html">Bet card</a>; the footer totals are the real <a href="summary.html">Summary</a> rows; the stake field is the real <a href="input.html">Input</a> with the real Max <a href="button.html">Button</a>; the odds are the real <a href="odds.html">Odds</a>; the LIVE and count pills are the real <a href="badge.html">Badge</a>. The screen adds only layout scaffolding — that arrangement is the prototype's job.</p>
+    <p class="sub">The betslip as a real bottom <a href="drawer.html">Drawer</a>, assembled <b>strictly from the real design-system components</b>. It opens on load; close it (× / Escape / tap outside) and reopen with the button. Switch the <a href="tabs.html">Tabs</a> (Single / Multi / System) to see the different card sets and footers.</p>
 
     <div class="stage">
-      <div class="phone">
-        <div class="phone__screen">
-          <div class="phone__notch"></div>
-          <div class="phone__inner">
-            
-      <div class="bs">
-        <div class="bs__head">
-          <div class="bs__title">Betslip <span class="badge badge--sm badge--role-active badge--solid">3</span></div>
-          <button class="btn btn--ghost btn--sm"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM7.05 9.9L8.225 8.725L10 10.4917L11.7667 8.725L12.9417 9.9L11.175 11.6667L12.9417 13.4333L11.7667 14.6083L10 12.8417L8.23333 14.6083L7.05833 13.4333L8.825 11.6667L7.05 9.9ZM12.9167 3.33333L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333H12.9167Z" fill="currentColor"/></g></svg> Clear all</button>
+      <button class="btn btn--primary btn--base open-cta" data-drawer-open="betslip-drawer">Open betslip</button>
+
+      <div class="notes">
+        <h2>Which component is which</h2>
+        <ul>
+          <li><b>Container</b> — real Drawer (<code class="tok">drawer--bottom</code>, native <code class="tok">&lt;dialog&gt;</code> + backdrop + slide-in).</li>
+          <li><b>Count "3"</b> — real Counter (<code class="tok">onNeutral / active</code>) — a rounded pill, not an oval.</li>
+          <li><b>Single / Multi / System</b> — real underline Tabs, clickable; each swaps the card set + footer.</li>
+          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (the first flashes + counts up).</li>
+          <li><b>Stake</b> — real Input <code class="tok">lg / --action</code> with the real Max Button inside.</li>
+          <li><b>System Combination</b> — real Select <code class="tok">lg</code>.</li>
+          <li><b>Total odds / stake / win</b> — Summary rows (total odds = Odds movement).</li>
+          <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>; Clear all — Button <code class="tok">ghost / sm</code>.</li>
+        </ul>
+        <h2>Scaffolding (not components)</h2>
+        <ul>
+          <li>Which panel/footer shows per tab, and the editable stake <code class="tok">&lt;input&gt;</code>.</li>
+        </ul>
+        <h2>Open</h2>
+        <ul>
+          <li>Suspended / error selection states; freebet toggle & bonus rows.</li>
+        </ul>
+      </div>
+    </div>
+
+    <dialog class="drawer drawer--bottom bs-drawer" id="betslip-drawer" aria-label="Betslip">
+      <div class="drawer__content">
+        <div class="drawer__header">
+          <button class="btn btn--ghost btn--sm bs-clear"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM7.05 9.9L8.225 8.725L10 10.4917L11.7667 8.725L12.9417 9.9L11.175 11.6667L12.9417 13.4333L11.7667 14.6083L10 12.8417L8.23333 14.6083L7.05833 13.4333L8.825 11.6667L7.05 9.9ZM12.9167 3.33333L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333H12.9167Z" fill="currentColor"/></g></svg> Clear all</button>
+          <p class="drawer__title bs-title">Betslip <span class="counter counter--base counter--onNeutral counter--active">3</span></p>
+          <form method="dialog"><button class="drawer__close" aria-label="Close"><svg class="drawer__close-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button></form>
         </div>
 
-        <div class="bs__tabs">
-          <button class="bs__tab">Single</button>
-          <button class="bs__tab is-active">Multi <span class="n">×3</span></button>
-          <button class="bs__tab">System</button>
-        </div>
+        <div class="drawer__body">
+          <div class="tabs tabs--underline tabs--base bs-tabs" role="tablist">
+            <button class="tab tab--base" data-tab="single">Single</button>
+            <button class="tab tab--base tab--active" data-tab="multi">Multi ×3</button>
+            <button class="tab tab--base" data-tab="system">System</button>
+          </div>
 
-        <div class="bs__list">
-          <div class="betcard betcard--compact">
+          <div class="bs-panel" data-panel="single" hidden>
+            <div class="betcard betcard--amount">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Arsenal — Chelsea</button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-live">LIVE</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__body">
+    <div class="betcard__main">
+      <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
+      <span class="betcard__outcome">Arsenal to win</span>
+      <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+    </div>
+    <label class="betcard__amount">
+      <span class="betcard__amount-label">Bet amount</span>
+      <span class="betcard__amount-value"><span class="betcard__amount-cur">$</span><input class="betcard__amount-input" value="20" inputmode="decimal" aria-label="Bet amount" /></span>
+    </label>
+  </div>
+</div>
+<div class="betcard betcard--amount">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Real Madrid — Sevilla</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__body">
+    <div class="betcard__main">
+      <div class="betcard__market"><span class="betcard__market-name">Total Goals</span></div>
+      <span class="betcard__outcome">Over 2.5 goals</span>
+      <span class="odds"><span class="odds__value">1.72</span></span>
+    </div>
+    <label class="betcard__amount">
+      <span class="betcard__amount-label">Bet amount</span>
+      <span class="betcard__amount-value"><span class="betcard__amount-cur">$</span><input class="betcard__amount-input" value="20" inputmode="decimal" aria-label="Bet amount" /></span>
+    </label>
+  </div>
+</div>
+<div class="betcard betcard--amount">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.2486 4.02988C9.45967 4.19715 7.71283 4.9684 6.3386 6.34063C4.96637 7.71286 4.19511 9.4587 4.02985 11.2516C5.99504 11.48 8.08443 12.4836 9.79922 14.1994C11.516 15.9162 12.5216 18.0066 12.748 19.9708C14.5429 19.8045 16.2858 19.0343 17.66 17.663C19.0322 16.2908 19.8015 14.543 19.9677 12.751C18.0066 12.5237 15.9142 11.519 14.1984 9.80326C12.4836 8.08747 11.4779 5.99607 11.2486 4.03088V4.02988Z" fill="currentColor"/><path d="M20 11.7586C19.9419 9.79041 19.1626 7.84124 17.6632 6.3398C16.1618 4.83636 14.2096 4.0601 12.2414 4C12.4628 5.71879 13.3752 7.56579 14.9057 9.09628C16.4352 10.6258 18.2802 11.5372 20 11.7586ZM4 12.2434C4.05809 14.2106 4.83736 16.1608 6.3388 17.6622C7.83924 19.1626 9.78941 19.9429 11.7576 20C11.5362 18.2832 10.6238 16.4382 9.09328 14.9077C7.56579 13.3782 5.71779 12.4668 4 12.2434Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Alcaraz — Sinner</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__body">
+    <div class="betcard__main">
+      <div class="betcard__market"><span class="betcard__market-name">Match Winner</span></div>
+      <span class="betcard__outcome">C. Alcaraz</span>
+      <span class="odds"><span class="odds__value">2.33</span></span>
+    </div>
+    <label class="betcard__amount">
+      <span class="betcard__amount-label">Bet amount</span>
+      <span class="betcard__amount-value"><span class="betcard__amount-cur">$</span><input class="betcard__amount-input" value="20" inputmode="decimal" aria-label="Bet amount" /></span>
+    </label>
+  </div>
+</div>
+          </div>
+          <div class="bs-panel" data-panel="multi">
+            <div class="betcard betcard--compact">
   <div class="betcard__header">
     <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
     <button class="betcard__event">Arsenal — Chelsea</button>
@@ -509,51 +700,76 @@
     <span class="odds"><span class="odds__value">2.33</span></span>
   </div>
 </div>
+          </div>
+          <div class="bs-panel" data-panel="system" hidden>
+            <div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Arsenal — Chelsea</button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-live">LIVE</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">Arsenal to win</span>
+    <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+  </div>
+</div>
+<div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Real Madrid — Sevilla</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Total Goals</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">Over 2.5 goals</span>
+    <span class="odds"><span class="odds__value">1.72</span></span>
+  </div>
+</div>
+<div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.2486 4.02988C9.45967 4.19715 7.71283 4.9684 6.3386 6.34063C4.96637 7.71286 4.19511 9.4587 4.02985 11.2516C5.99504 11.48 8.08443 12.4836 9.79922 14.1994C11.516 15.9162 12.5216 18.0066 12.748 19.9708C14.5429 19.8045 16.2858 19.0343 17.66 17.663C19.0322 16.2908 19.8015 14.543 19.9677 12.751C18.0066 12.5237 15.9142 11.519 14.1984 9.80326C12.4836 8.08747 11.4779 5.99607 11.2486 4.03088V4.02988Z" fill="currentColor"/><path d="M20 11.7586C19.9419 9.79041 19.1626 7.84124 17.6632 6.3398C16.1618 4.83636 14.2096 4.0601 12.2414 4C12.4628 5.71879 13.3752 7.56579 14.9057 9.09628C16.4352 10.6258 18.2802 11.5372 20 11.7586ZM4 12.2434C4.05809 14.2106 4.83736 16.1608 6.3388 17.6622C7.83924 19.1626 9.78941 19.9429 11.7576 20C11.5362 18.2832 10.6238 16.4382 9.09328 14.9077C7.56579 13.3782 5.71779 12.4668 4 12.2434Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Alcaraz — Sinner</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Match Winner</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">C. Alcaraz</span>
+    <span class="odds"><span class="odds__value">2.33</span></span>
+  </div>
+</div>
+          </div>
         </div>
 
-        <div class="bs__foot">
-          <div class="bs__stake">
-            <div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Stake</span><span class="input__value"><span class="input__prefix">$</span>20.00</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div>
-            <button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Quick bet"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></button>
-          </div>
-
-          <div class="summary">
-            <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value"><span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">8.42</span><span class="odds__prev">7.90</span></span></span></div>
-            <div class="summary__row"><span class="summary__label">Total stake</span><span class="summary__value">$20.00</span></div>
-            <div class="summary__row summary__row--win"><span class="summary__label">Potential win</span><span class="summary__value">$168.40</span></div>
-          </div>
-
-          <button class="btn btn--primary btn--tworow bs__place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $168.40</span></button>
+        <div class="drawer__footer bs-foot">
+          <div class="bs-foot-panel" data-foot="single" hidden>
+        <div class="summary">
+          <div class="summary__row"><span class="summary__label">Total stake</span><span class="summary__value">$60.00</span></div>
+          <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$402.00</span></div>
+        </div>
+        <button class="btn btn--primary btn--tworow bs-place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $402.00</span></button>
+      </div>
+          <div class="bs-foot-panel" data-foot="multi">
+        <div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Stake</span><span class="input__value"><span class="input__prefix">$</span>20.00</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div>
+        <div class="summary">
+          <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value"><span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">8.42</span><span class="odds__prev">7.90</span></span></span></div>
+          <div class="summary__row"><span class="summary__label">Total stake</span><span class="summary__value">$20.00</span></div>
+          <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$168.40</span></div>
+        </div>
+        <button class="btn btn--primary btn--tworow bs-place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $168.40</span></button>
+      </div>
+          <div class="bs-foot-panel" data-foot="system" hidden>
+        <div class="select select--lg"><div class="select__stack"><span class="select__label">System Combination</span><span class="select__value">3/4</span></div><svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/></g></svg></div>
+        <div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Stake</span><span class="input__value"><span class="input__prefix">$</span>20.00</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div>
+        <div class="summary">
+          <div class="summary__row"><span class="summary__label">Total odds<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value">7.02–10.00</span></div>
+          <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$70.20–100.00</span></div>
+        </div>
+        <button class="btn btn--primary btn--tworow bs-place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $100.00</span></button>
+      </div>
         </div>
       </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="notes">
-        <h2>Which component is which</h2>
-        <ul>
-          <li><b>Count pill "3"</b> — Badge <code class="tok">role-active / solid</code>.</li>
-          <li><b>Clear all</b> — Button <code class="tok">ghost / sm</code> (icon + label).</li>
-          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (sport icon · event · LIVE Badge · remove × · market · outcome + Odds). The first has a live up-movement (flashes green, struck-through prev, count-up).</li>
-          <li><b>Stake field</b> — Input <code class="tok">lg / --action</code> with the real Max Button (twoRow / secondary) inside.</li>
-          <li><b>Quick-bet bolt</b> — Button <code class="tok">round / filled-neutral</code>.</li>
-          <li><b>Total odds / stake / win</b> — Summary rows; total odds is the Odds component (movement), win row in <code class="tok">text.positive</code>.</li>
-          <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>, full-width.</li>
-        </ul>
-        <h2>Screen chrome (not components)</h2>
-        <ul>
-          <li><b>Bet-type tabs</b> — a thin underline strip; Tabs isn't extracted as a component yet.</li>
-          <li><b>Phone frame + header/list/footer layout</b> — prototype scaffolding.</li>
-        </ul>
-        <h2>Open</h2>
-        <ul>
-          <li>Single-mode per-selection stake (Bet card <code class="tok">--amount</code>).</li>
-          <li>Suspended / error selection states.</li>
-          <li>Freebet toggle & bonus rows.</li>
-        </ul>
-      </div>
-    </div>
+    </dialog>
   </main>
 </div>
 <script>
@@ -590,6 +806,27 @@
       if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);
     });
   })();
+</script>
+<script>
+  // Drawer open / light-dismiss (real Drawer component behaviour)
+  document.querySelectorAll('[data-drawer-open]').forEach((btn) => {
+    btn.addEventListener('click', () => { document.getElementById(btn.dataset.drawerOpen).showModal(); });
+  });
+  document.querySelectorAll('dialog.drawer').forEach((dlg) => {
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  });
+  // open on load so the prototype is visible immediately
+  var _bs = document.getElementById('betslip-drawer');
+  if (_bs && _bs.showModal) _bs.showModal();
+  // bet-type tabs → swap the visible card panel + footer
+  document.querySelectorAll('.bs-tabs .tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var key = t.getAttribute('data-tab');
+      document.querySelectorAll('.bs-tabs .tab').forEach(function (x) { x.classList.toggle('tab--active', x === t); });
+      document.querySelectorAll('[data-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-panel') !== key; });
+      document.querySelectorAll('[data-foot]').forEach(function (f) { f.hidden = f.getAttribute('data-foot') !== key; });
+    });
+  });
 </script>
 </body>
 </html>

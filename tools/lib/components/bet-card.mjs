@@ -145,21 +145,53 @@ export function css(ctx) {
 // odds is pre-rendered (the real Odds component markup) by the caller. ----
 const BADGE_LABEL = { live: "LIVE", betbuilder: "BB", freebet: "FB" };
 
-export function compactCard({ event, badges = [], market, outcome, oddsHtml, icons }) {
+function header(event, badges, icons) {
   const badgeTags = badges.length
     ? `<div class="betcard__badges">${badges.map((n) => `<span class="badge badge--sm badge--named-${n}">${BADGE_LABEL[n]}</span>`).join("")}</div>`
     : "";
-  const header = `<div class="betcard__header">
+  return `<div class="betcard__header">
     <span class="betcard__icon">${icons.sport}</span>
     <button class="betcard__event">${event}</button>
     ${badgeTags}<button class="betcard__remove" aria-label="Remove selection">${icons.close}</button>
   </div>`;
+}
+
+// the editable Bet-amount field (laid out to Input's lg spec)
+function amountField(amount) {
+  if (amount == null || amount === "") {
+    return `<label class="betcard__amount betcard__amount--empty">
+      <input class="betcard__amount-input" placeholder="Bet amount" inputmode="decimal" aria-label="Bet amount" />
+    </label>`;
+  }
+  return `<label class="betcard__amount">
+      <span class="betcard__amount-label">Bet amount</span>
+      <span class="betcard__amount-value"><span class="betcard__amount-cur">$</span><input class="betcard__amount-input" value="${amount}" inputmode="decimal" aria-label="Bet amount" /></span>
+    </label>`;
+}
+
+// compact density (Combo / System): odds inline, no stake field
+export function compactCard({ event, badges = [], market, outcome, oddsHtml, icons }) {
   return `<div class="betcard betcard--compact">
-  ${header}
+  ${header(event, badges, icons)}
   <div class="betcard__market"><span class="betcard__market-name">${market}</span></div>
   <div class="betcard__line">
     <span class="betcard__outcome">${outcome}</span>
     ${oddsHtml}
+  </div>
+</div>`;
+}
+
+// amount density (Single): outcome column + a per-selection Bet-amount field
+export function amountCard({ event, badges = [], market, outcome, oddsHtml, amount, icons }) {
+  return `<div class="betcard betcard--amount">
+  ${header(event, badges, icons)}
+  <div class="betcard__body">
+    <div class="betcard__main">
+      <div class="betcard__market"><span class="betcard__market-name">${market}</span></div>
+      <span class="betcard__outcome">${outcome}</span>
+      ${oddsHtml}
+    </div>
+    ${amountField(amount)}
   </div>
 </div>`;
 }

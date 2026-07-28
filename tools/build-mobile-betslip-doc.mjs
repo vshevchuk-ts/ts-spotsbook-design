@@ -1,15 +1,15 @@
 // Regenerates docs/mobile-betslip.html — the first page of the "Designs" section
 // (product prototypes for real app tasks, as opposed to the DS component docs).
 //
-// This is a SCREEN prototype assembled STRICTLY from the real design-system
-// components (tools/lib/components/*): each selection is a real Bet card, the
-// footer totals are the real Summary rows, the stake field is the real Input
-// (--action, with the real Max Button), the odds are the real Odds component, the
-// LIVE pill is the real Badge, Place bet / Clear all / quick-bet are real Buttons.
-// The screen adds ONLY layout scaffolding (the phone frame + header/tabs/list/
-// footer arrangement) — that arrangement is the prototype's job, not a component.
-// Every colour still resolves to a --tok-* var; layout dims are literal px.
-// Run: node tools/build-mobile-betslip-doc.mjs
+// The betslip is a real bottom Drawer (native <dialog>) assembled STRICTLY from
+// the design-system components: header count = real Counter, bet-type switcher =
+// real underline Tabs (clickable — swaps the card set + footer per tab), each
+// selection = real Bet card, footer totals = real Summary rows, stake = real
+// Input(--action)+Max Button, System-combination = real Select, odds = real Odds,
+// LIVE = real Badge, Place bet = real Button. The only bespoke bits are the
+// screen's layout scaffolding (which panel shows which cards) and the editable
+// stake <input>. Colours resolve to --tok-* vars; the drawer opens on load and
+// via the trigger button. Run: node tools/build-mobile-betslip-doc.mjs
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,21 +21,18 @@ import * as Odds from "./lib/components/odds.mjs";
 import * as Input from "./lib/components/input.mjs";
 import * as Button from "./lib/components/button.mjs";
 import * as Summary from "./lib/components/summary.mjs";
+import * as Counter from "./lib/components/counter.mjs";
+import * as Tabs from "./lib/components/tabs.mjs";
+import * as Drawer from "./lib/components/drawer.mjs";
+import * as Select from "./lib/components/select.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 
-const ctx = createCtx(["bet-card", "input", "badge", "tooltip", "odds", "button", "summary"]);
+const ctx = createCtx(["bet-card", "input", "badge", "tooltip", "odds", "button", "summary", "counter", "tabs", "drawer", "select"]);
 const { resolve, px, cv, renderRootVars } = ctx;
 
-// ---- colours: union of every embedded component's colorPaths + the screen's own
-// chrome roles (header / tabs / list / footer scaffolding). ----
-const screenOwnPaths = [
-  "surface.page", "surface.card", "surface.raised",
-  "outline.default", "outline.active",
-  "text.default", "text.secondary", "text.forActiveBg",
-  "fill.active", "fill.neutralHover",
-  "icon.secondary", "icon.active",
-];
+// ---- colours: union of every embedded component's colorPaths + screen chrome ----
+const screenOwnPaths = ["surface.page", "surface.card", "surface.raised", "outline.default", "text.default", "text.secondary"];
 const colorPaths = [...new Set([
   ...screenOwnPaths,
   ...BetCard.colorPaths,
@@ -44,6 +41,10 @@ const colorPaths = [...new Set([
   ...Input.colorPaths,
   ...Button.colorPaths(ctx),
   ...Summary.colorPaths,
+  ...Counter.colorPaths(ctx),
+  ...Tabs.colorPaths,
+  ...Drawer.colorPaths,
+  ...Select.colorPaths,
 ])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -51,22 +52,27 @@ const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), [
 
 const oddsLoopMs = Odds.durationMs(ctx) + 2000;
 
-// ---- inline icons (stripped to currentColor) ----
+// ---- icons ----
 const icon = (name) => fs.readFileSync(path.join(root, `assets/icons/ui/${name}.svg`), "utf8").replace(/\n/g, "");
 const disc = (name) => fs.readFileSync(path.join(root, `assets/icons/sports/${name}.svg`), "utf8").replace(/\n/g, "");
 const iClose = icon("close");
+const iCloseDrawer = icon("close").replace("<svg ", '<svg class="drawer__close-icon" ');
 const iDeleteAll = icon("delete-all").replace("<svg ", '<svg class="btn__icon" ');
-const iQuickBet = icon("quick-bet").replace("<svg ", '<svg class="btn__icon" ');
 const iInfo = icon("info-outline");
+const iChevron = icon("arrow-down").replace("<svg ", '<svg class="select__chevron" ');
 
-// ---- the screen stylesheet: rootVars + real component CSS + layout scaffolding ----
+// ---- stylesheet: rootVars + real component CSS + a little screen scaffolding ----
 const componentCss = [
-  BetCard.css(ctx),   // .betcard (compact selection cards)
-  Badge.css(ctx),     // .badge (LIVE pill + the count pill)
-  Odds.css(ctx),      // .odds (per-selection + total odds)
-  Input.css(ctx),     // .input (stake field, --action + Max)
-  Button.css(ctx),    // .btn (Place bet twoRow-primary, Clear-all ghost, quick-bet round, Max twoRow-secondary)
-  Summary.css(ctx),   // .summary rows (footer totals)
+  Drawer.css(ctx),    // the bottom sheet container
+  Tabs.css(ctx),      // .tabs--underline (bet-type switcher)
+  Counter.css(ctx),   // header count pill
+  BetCard.css(ctx),   // selection cards (compact + amount)
+  Badge.css(ctx),     // LIVE pill
+  Odds.css(ctx),      // per-selection + total odds
+  Input.css(ctx),     // stake field (--action + Max)
+  Button.css(ctx),    // Place bet / Clear all / Max
+  Select.css(ctx),    // System-Combination
+  Summary.css(ctx),   // footer totals rows
 ].join("\n\n");
 
 const css = `${rootVars}
@@ -74,30 +80,29 @@ const css = `${rootVars}
 ${componentCss}
 
 /* ===== screen scaffolding (layout only — arrangement of the real components) ===== */
-.bs { font-family: ${cv("family.sans")}; background: ${cv("surface.page")}; color: ${cv("text.default")}; width: 100%; display: flex; flex-direction: column; height: 100%; }
+/* the betslip drawer body sits on the page surface so the raised cards pop */
+.bs-drawer .drawer__body { background: ${cv("surface.page")}; display: flex; flex-direction: column; gap: 12px; padding: 12px 16px; }
+/* real Counter sits in the drawer title instead of the drawer's built-in pill */
+.bs-title { display: inline-flex; align-items: center; gap: 8px; }
+/* Clear all lives on the left of the header (the drawer header is centre-aligned) */
+.bs-clear { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); }
+.bs-clear.btn--ghost { padding: 0 8px; }
 
-/* header */
-.bs__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; }
-.bs__title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; }
-.bs__head .btn--ghost { padding: 0 8px; }
+/* bet-type tabs — the real underline Tabs, stretched full width */
+.bs-tabs { display: flex; }
+.bs-tabs .tab { flex: 1; }
 
-/* bet-type tabs (screen chrome — underline strip; not yet a DS component) */
-.bs__tabs { display: flex; gap: 4px; padding: 0 16px; border-bottom: 1px solid ${cv("outline.default")}; }
-.bs__tab { position: relative; flex: 1; text-align: center; padding: 10px 4px 12px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: ${cv("text.secondary")}; }
-.bs__tab .n { color: ${cv("text.secondary")}; font-weight: 700; }
-.bs__tab.is-active { color: ${cv("text.default")}; }
-.bs__tab.is-active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; border-radius: 2px; background: ${cv("outline.active")}; }
+/* card panels (only the active tab's panel is shown) */
+.bs-panel { display: flex; flex-direction: column; gap: 10px; }
+.bs-panel[hidden] { display: none; }
 
-/* scrolling selection list — a column of real Bet cards */
-.bs__list { flex: 1; overflow-y: auto; padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 10px; }
-.bs__list .betcard { background: ${cv("surface.card")}; }
-
-/* sticky footer — stake row (real Input + quick-bet) + real Summary rows + Place bet */
-.bs__foot { border-top: 1px solid ${cv("outline.default")}; background: ${cv("surface.card")}; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
-.bs__stake { display: flex; align-items: center; gap: 8px; }
-.bs__stake .input { flex: 1; }
-.bs__foot .summary { gap: 6px; }
-.bs__place { width: 100%; }`;
+/* footer — the drawer footer, re-flowed to a stacked betslip footer */
+.bs-foot { flex-direction: column; align-items: stretch; gap: 12px; }
+.bs-foot-panel { display: flex; flex-direction: column; gap: 12px; }
+.bs-foot-panel[hidden] { display: none; }
+.bs-foot .input { flex: 1; }
+.bs-foot .summary { gap: 6px; }
+.bs-place { width: 100%; }`;
 
 // ---- markup, composed from the real component modules ----
 const oddsEl = (v, dir, prev) =>
@@ -110,60 +115,80 @@ const picks = [
   { sport: "football", event: "Real Madrid — Sevilla", badges: [], market: "Total Goals", outcome: "Over 2.5 goals", odds: "1.72" },
   { sport: "tennis", event: "Alcaraz — Sinner", badges: [], market: "Match Winner", outcome: "C. Alcaraz", odds: "2.33" },
 ];
+const icons = (p) => ({ sport: disc(p.sport), close: iClose });
 
-const pickCard = (p) =>
-  BetCard.compactCard({
-    event: p.event,
-    badges: p.badges,
-    market: p.market,
-    outcome: p.outcome,
-    oddsHtml: oddsEl(p.odds, p.dir, p.prev),
-    icons: { sport: disc(p.sport), close: iClose },
-  });
+// Multi / System list = compact cards; Single list = amount cards (per-selection stake)
+const compactList = picks.map((p) => BetCard.compactCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds, p.dir, p.prev), icons: icons(p) })).join("\n");
+const amountList = picks.map((p) => BetCard.amountCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds, p.dir, p.prev), amount: "20", icons: icons(p) })).join("\n");
 
-// header count = the real Badge (active solid pill)
-const countBadge = `<span class="badge badge--sm badge--role-active badge--solid">${picks.length}</span>`;
-// Clear all = the real Button (ghost, sm)
-const clearBtn = `<button class="btn btn--ghost btn--sm">${iDeleteAll} Clear all</button>`;
-// stake field = the real Input (lg / --action) with the real Max Button inside
+// footer pieces (real components)
 const stakeField = Input.actionMarkup("lg", { label: "Stake", value: "20.00", prefix: "$", max: { top: "Max", bottom: "$1,000.50" } });
-// quick-bet = the real Button (round / filled-neutral)
-const quickBet = `<button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Quick bet">${iQuickBet}</button>`;
-// Place bet = the real Button (twoRow / primary), full width
-const placeBtn = `<button class="btn btn--primary btn--tworow bs__place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $168.40</span></button>`;
+const systemSelect = Select.floatedMarkup("lg", iChevron, { label: "System Combination", value: "3/4" });
+const placeBtn = (win) => `<button class="btn btn--primary btn--tworow bs-place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win ${win}</span></button>`;
 
-const betslip = `
-      <div class="bs">
-        <div class="bs__head">
-          <div class="bs__title">Betslip ${countBadge}</div>
-          ${clearBtn}
+const footMulti = `<div class="bs-foot-panel" data-foot="multi">
+        ${stakeField}
+        <div class="summary">
+          ${Summary.row("Total odds", Summary.oddsMove("8.42", "7.90"))}
+          ${Summary.row("Total stake", "$20.00")}
+          ${Summary.row("Possible win", "$168.40", { win: true }, iInfo)}
         </div>
-
-        <div class="bs__tabs">
-          <button class="bs__tab">Single</button>
-          <button class="bs__tab is-active">Multi <span class="n">×3</span></button>
-          <button class="bs__tab">System</button>
-        </div>
-
-        <div class="bs__list">
-          ${picks.map(pickCard).join("\n")}
-        </div>
-
-        <div class="bs__foot">
-          <div class="bs__stake">
-            ${stakeField}
-            ${quickBet}
-          </div>
-
-          <div class="summary">
-            ${Summary.row("Total odds", Summary.oddsMove("8.42", "7.90"))}
-            ${Summary.row("Total stake", "$20.00")}
-            ${Summary.row("Potential win", "$168.40", { win: true }, iInfo)}
-          </div>
-
-          ${placeBtn}
-        </div>
+        ${placeBtn("$168.40")}
       </div>`;
+const footSingle = `<div class="bs-foot-panel" data-foot="single" hidden>
+        <div class="summary">
+          ${Summary.row("Total stake", "$60.00")}
+          ${Summary.row("Possible win", "$402.00", { win: true })}
+        </div>
+        ${placeBtn("$402.00")}
+      </div>`;
+const footSystem = `<div class="bs-foot-panel" data-foot="system" hidden>
+        ${systemSelect}
+        ${stakeField}
+        <div class="summary">
+          ${Summary.row("Total odds", "7.02–10.00", { info: true }, iInfo)}
+          ${Summary.row("Possible win", "$70.20–100.00", { win: true })}
+        </div>
+        ${placeBtn("$100.00")}
+      </div>`;
+
+// header: Clear-all (Button ghost) · centred title + real Counter · close ×
+const countPill = Counter.markup("base", "onNeutral", "active", String(picks.length));
+const clearBtn = `<button class="btn btn--ghost btn--sm bs-clear">${iDeleteAll} Clear all</button>`;
+
+const drawer = `<dialog class="drawer drawer--bottom bs-drawer" id="betslip-drawer" aria-label="Betslip">
+      <div class="drawer__content">
+        <div class="drawer__header">
+          ${clearBtn}
+          <p class="drawer__title bs-title">Betslip ${countPill}</p>
+          <form method="dialog"><button class="drawer__close" aria-label="Close">${iCloseDrawer}</button></form>
+        </div>
+
+        <div class="drawer__body">
+          <div class="tabs tabs--underline tabs--base bs-tabs" role="tablist">
+            <button class="tab tab--base" data-tab="single">Single</button>
+            <button class="tab tab--base tab--active" data-tab="multi">Multi ×3</button>
+            <button class="tab tab--base" data-tab="system">System</button>
+          </div>
+
+          <div class="bs-panel" data-panel="single" hidden>
+            ${amountList}
+          </div>
+          <div class="bs-panel" data-panel="multi">
+            ${compactList}
+          </div>
+          <div class="bs-panel" data-panel="system" hidden>
+            ${compactList}
+          </div>
+        </div>
+
+        <div class="drawer__footer bs-foot">
+          ${footSingle}
+          ${footMulti}
+          ${footSystem}
+        </div>
+      </div>
+    </dialog>`;
 
 const html = `<!doctype html>
 <html lang="en" data-theme="dark">
@@ -214,11 +239,7 @@ const html = `<!doctype html>
   .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 70ch; line-height: 1.6; }
 
   .stage { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
-  .phone { width: 390px; height: 780px; flex-shrink: 0; border-radius: 44px; padding: 12px; background: #050506; box-shadow: 0 30px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--border); }
-  .phone__screen { position: relative; width: 100%; height: 100%; border-radius: 33px; overflow: hidden; background: #000; }
-  .phone__notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 26px; border-radius: 14px; background: #050506; z-index: 5; }
-  .phone__inner { position: absolute; inset: 0; padding-top: 44px; display: flex; }
-
+  .open-cta { display: inline-flex; }
   .notes { max-width: 360px; }
   .notes h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
   .notes ul { margin: 0 0 1.75rem; padding-left: 18px; }
@@ -236,46 +257,55 @@ const html = `<!doctype html>
   </nav>
   <main>
     <h1>Mobile betslip</h1>
-    <p class="sub">A multi (combo) betslip for the mobile app, assembled <b>strictly from the real design-system components</b> — not a redrawn lookalike. Each selection is the real <a href="bet-card.html">Bet card</a>; the footer totals are the real <a href="summary.html">Summary</a> rows; the stake field is the real <a href="input.html">Input</a> with the real Max <a href="button.html">Button</a>; the odds are the real <a href="odds.html">Odds</a>; the LIVE and count pills are the real <a href="badge.html">Badge</a>. The screen adds only layout scaffolding — that arrangement is the prototype's job.</p>
+    <p class="sub">The betslip as a real bottom <a href="drawer.html">Drawer</a>, assembled <b>strictly from the real design-system components</b>. It opens on load; close it (× / Escape / tap outside) and reopen with the button. Switch the <a href="tabs.html">Tabs</a> (Single / Multi / System) to see the different card sets and footers.</p>
 
     <div class="stage">
-      <div class="phone">
-        <div class="phone__screen">
-          <div class="phone__notch"></div>
-          <div class="phone__inner">
-            ${betslip}
-          </div>
-        </div>
-      </div>
+      <button class="btn btn--primary btn--base open-cta" data-drawer-open="betslip-drawer">Open betslip</button>
 
       <div class="notes">
         <h2>Which component is which</h2>
         <ul>
-          <li><b>Count pill "3"</b> — Badge <code class="tok">role-active / solid</code>.</li>
-          <li><b>Clear all</b> — Button <code class="tok">ghost / sm</code> (icon + label).</li>
-          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (sport icon · event · LIVE Badge · remove × · market · outcome + Odds). The first has a live up-movement (flashes green, struck-through prev, count-up).</li>
-          <li><b>Stake field</b> — Input <code class="tok">lg / --action</code> with the real Max Button (twoRow / secondary) inside.</li>
-          <li><b>Quick-bet bolt</b> — Button <code class="tok">round / filled-neutral</code>.</li>
-          <li><b>Total odds / stake / win</b> — Summary rows; total odds is the Odds component (movement), win row in <code class="tok">text.positive</code>.</li>
-          <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>, full-width.</li>
+          <li><b>Container</b> — real Drawer (<code class="tok">drawer--bottom</code>, native <code class="tok">&lt;dialog&gt;</code> + backdrop + slide-in).</li>
+          <li><b>Count "3"</b> — real Counter (<code class="tok">onNeutral / active</code>) — a rounded pill, not an oval.</li>
+          <li><b>Single / Multi / System</b> — real underline Tabs, clickable; each swaps the card set + footer.</li>
+          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (the first flashes + counts up).</li>
+          <li><b>Stake</b> — real Input <code class="tok">lg / --action</code> with the real Max Button inside.</li>
+          <li><b>System Combination</b> — real Select <code class="tok">lg</code>.</li>
+          <li><b>Total odds / stake / win</b> — Summary rows (total odds = Odds movement).</li>
+          <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>; Clear all — Button <code class="tok">ghost / sm</code>.</li>
         </ul>
-        <h2>Screen chrome (not components)</h2>
+        <h2>Scaffolding (not components)</h2>
         <ul>
-          <li><b>Bet-type tabs</b> — a thin underline strip; Tabs isn't extracted as a component yet.</li>
-          <li><b>Phone frame + header/list/footer layout</b> — prototype scaffolding.</li>
+          <li>Which panel/footer shows per tab, and the editable stake <code class="tok">&lt;input&gt;</code>.</li>
         </ul>
         <h2>Open</h2>
         <ul>
-          <li>Single-mode per-selection stake (Bet card <code class="tok">--amount</code>).</li>
-          <li>Suspended / error selection states.</li>
-          <li>Freebet toggle & bonus rows.</li>
+          <li>Suspended / error selection states; freebet toggle & bonus rows.</li>
         </ul>
       </div>
     </div>
+
+    ${drawer}
   </main>
 </div>
 <script>
 ${Odds.script(ctx, { loopMs: oddsLoopMs })}
+</script>
+<script>
+  // Drawer open / light-dismiss (real Drawer component behaviour)
+  ${Drawer.script}
+  // open on load so the prototype is visible immediately
+  var _bs = document.getElementById('betslip-drawer');
+  if (_bs && _bs.showModal) _bs.showModal();
+  // bet-type tabs → swap the visible card panel + footer
+  document.querySelectorAll('.bs-tabs .tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var key = t.getAttribute('data-tab');
+      document.querySelectorAll('.bs-tabs .tab').forEach(function (x) { x.classList.toggle('tab--active', x === t); });
+      document.querySelectorAll('[data-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-panel') !== key; });
+      document.querySelectorAll('[data-foot]').forEach(function (f) { f.hidden = f.getAttribute('data-foot') !== key; });
+    });
+  });
 </script>
 </body>
 </html>
