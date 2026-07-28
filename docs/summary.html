@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Turbo Sportsbook — Summary</title>
+<link rel="stylesheet" href="../assets/fonts/rubik/rubik.css" />
+<style>
+  :root {
+    --bg-page: #f7f7f5; --bg-card: #ffffff; --bg-card-hover: #fbfbfa;
+    --border: #e4e3df; --border-strong: #d2d1cb;
+    --text-primary: #0e0e10; --text-secondary: #63625c; --text-muted: #918f87;
+    --accent: #0468c4; --accent-bg: #eff6ff;
+    --code-bg: #1e1e22; --code-text: #e4e3df;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+      --border: #313035; --border-strong: #403f45;
+      --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+      --accent: #5aa4ec; --accent-bg: #16283b;
+      --code-bg: #0d0d0f; --code-text: #d7d6d2;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #17171a; --bg-card: #1e1e22; --bg-card-hover: #232327;
+    --border: #313035; --border-strong: #403f45;
+    --text-primary: #f2f1ee; --text-secondary: #a7a5a0; --text-muted: #706e68;
+    --accent: #5aa4ec; --accent-bg: #16283b;
+    --code-bg: #0d0d0f; --code-text: #d7d6d2;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-primary); font-family: var(--sans); }
+  .shell { display: flex; min-height: 100vh; }
+  nav.side { width: 220px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .brand { font-size: 14px; font-weight: 600; margin: 0 0 2px 8px; }
+  .brand-sub { font-size: 11.5px; color: var(--text-muted); margin: 0 0 1.5rem 8px; }
+  .navlink { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 8px; border-radius: 7px; font-size: 13px; text-decoration: none; color: var(--text-primary); margin-bottom: 1px; }
+  .navlink:hover { background: var(--bg-card-hover); }
+  .navlink.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .nav-category { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 16px 8px 6px; }
+  main { flex: 1; padding: 4rem 4rem 6rem; max-width: 1120px; }
+
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .sub { font-size: 14px; color: var(--text-secondary); margin: 0 0 2.5rem; max-width: 72ch; line-height: 1.6; }
+  h2.big-section { font-size: 24px; font-weight: 700; margin: 5.5rem 0 1.5rem; letter-spacing: -0.01em; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+  h2.big-section:first-of-type { margin-top: 3rem; padding-top: 0; border-top: none; }
+  .section-desc { font-size: 13.5px; color: var(--text-secondary); margin: -0.5rem 0 1.5rem; max-width: 70ch; line-height: 1.6; }
+
+  .legend { font-size: 12.5px; color: var(--text-secondary); padding: 14px 18px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; line-height: 1.6; }
+  .legend .row { display: flex; gap: 14px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .row b { width: 150px; flex-shrink: 0; color: var(--text-primary); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+  code.tok { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  pre.code { background: var(--code-bg); color: var(--code-text); border-radius: 10px; padding: 16px 18px; margin: 0; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+  pre.code code { font-family: inherit; }
+
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .story { border: 0.5px solid var(--border); border-radius: 14px; background: var(--bg-card); padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .story h3 { font-size: 14px; font-weight: 600; margin: 0; font-family: var(--mono); }
+  .story-preview { padding: 8px 0; }
+  .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  :root {
+  --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-positive: #00A828;
+  --tok-text-negative: #F90643;
+  --tok-text-active: #FB8C33;
+  --tok-icon-active: #FB8C33;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-default: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+/* footer container — blocks (stake / select / hint / rows) stacked */
+.sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
+
+/* summary rows (label + value) */
+.summary { display: flex; flex-direction: column; gap: 6px; }
+.summary__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.summary__label { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
+.summary__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-secondary); }
+.summary__info svg { display: block; width: 100%; height: 100%; }
+.summary__value { color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.summary__row--win .summary__value { color: var(--tok-text-positive); }
+.summary__row--turbo .summary__value { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-active); }
+.summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
+.summary__rocket svg { display: block; width: 100%; height: 100%; }
+
+/* stake field = Input / lg (surface.page well) + a trailing Max chip */
+.sum-stake { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; }
+.sum-stake:focus-within { border-color: var(--tok-outline-active); }
+.sum-stake__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.sum-stake__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.sum-stake__value { display: flex; align-items: baseline; gap: 4px; }
+.sum-stake__cur { color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
+.sum-stake__input::placeholder { color: var(--tok-text-secondary); }
+.sum-stake--empty .sum-stake__input { width: 100%; }
+.sum-max { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0 12px; height: 36px; border: none; border-radius: 999px; background: var(--tok-surface-raised); cursor: pointer; font-family: inherit; }
+.sum-max__t { color: var(--tok-text-secondary); font-size: 11px; line-height: 1; }
+.sum-max__v { color: var(--tok-text-default); font-size: 12px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* System Combination = Select / lg (floating label + value + chevron) */
+.sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
+.sum-select__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.sum-select__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.sum-select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.sum-select__chevron { flex-shrink: 0; width: 24px; height: 24px; color: var(--tok-icon-default); }
+.sum-select__chevron svg { display: block; width: 100%; height: 100%; }
+
+/* hint line with an inline link */
+.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
+.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
+
+/* Odds (total-odds movement), resolved from odds.tokens.json */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+.odds__value { color: inherit; }
+.odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+.odds--prev-left .odds__prev { order: -1; }
+.odds--up .odds__value { color: var(--tok-text-positive); }
+.odds--down .odds__value { color: var(--tok-text-negative); }
+@keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
+  .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <style>
+    .ds-tabs { display: flex; gap: 4px; padding: 3px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 9px; margin: 0 0 1.5rem; }
+    .ds-tab { flex: 1; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; color: var(--text-secondary); }
+    .ds-tab:hover { color: var(--text-primary); }
+    .ds-tab.active { background: var(--accent-bg); color: var(--accent); }
+  </style>
+    <div class="ds-tabs">
+    <a class="ds-tab active" href="index.html">DS</a>
+    <a class="ds-tab" href="mobile-betslip.html">Designs</a>
+  </div>
+    <p class="brand">Turbo Sportsbook</p>
+    <p class="brand-sub">Turbo Sportsbook design system</p>
+    <a class="navlink" href="index.html">Overview</a>
+    <p class="nav-category">Tokens</p>
+    <a class="navlink" href="colors.html">Colors</a>
+    <a class="navlink" href="semantic-colors.html">Semantic colors</a>
+    <a class="navlink" href="typography.html">Typography</a>
+    <a class="navlink" href="layout.html">Layout</a>
+    <p class="nav-category">Assets</p>
+    <a class="navlink" href="icons.html">UI icons</a>
+    <a class="navlink" href="disciplines.html">Discipline icons</a>
+    <a class="navlink" href="teams.html">Teams</a>
+    <a class="navlink" href="championships.html">Championships</a>
+    <p class="nav-category">Components</p>
+    <a class="navlink" href="button.html">Button</a>
+    <a class="navlink" href="counter.html">Counter</a>
+    <a class="navlink" href="input.html">Input</a>
+    <a class="navlink" href="select.html">Select</a>
+    <a class="navlink" href="search.html">Search</a>
+    <a class="navlink" href="pagination.html">Pagination</a>
+    <a class="navlink" href="separator.html">Separator</a>
+    <a class="navlink" href="tabs.html">Tabs</a>
+    <a class="navlink" href="checkbox.html">Checkbox</a>
+    <a class="navlink" href="radio.html">Radio</a>
+    <a class="navlink" href="box.html">Box</a>
+    <a class="navlink" href="card.html">Card</a>
+    <a class="navlink" href="switch.html">Switch</a>
+    <a class="navlink" href="grid.html">Grid</a>
+    <a class="navlink" href="tooltip.html">Tooltip</a>
+    <a class="navlink" href="popover.html">Popover</a>
+    <a class="navlink" href="drawer.html">Drawer</a>
+    <a class="navlink" href="modal.html">Modal</a>
+    <a class="navlink" href="menu.html">Menu</a>
+    <a class="navlink" href="listbox.html">Listbox</a>
+    <a class="navlink" href="badge.html">Badge</a>
+    <a class="navlink" href="chip.html">Chip</a>
+    <p class="nav-category">Feedback</p>
+    <a class="navlink" href="alert.html">Alert</a>
+    <a class="navlink" href="toast.html">Toast</a>
+    <p class="nav-category">Betslip</p>
+    <a class="navlink" href="bet-card.html">Bet selection card</a>
+    <a class="navlink" href="odds.html">Odds</a>
+    <a class="navlink active" href="summary.html">Summary</a>
+  </nav>
+  <main>
+    <h1>Summary</h1>
+    <p class="sub">tokens/components/summary.tokens.json · the betslip footer totals — a key-value row list, and the three footer layouts (Single / Combo / System) composed from it plus the real Input, Select and Odds components. Generated — colours are <code class="tok">--tok-*</code> custom properties, never literal hex.</p>
+
+    <div class="legend">
+      <div class="row"><b>Row</b><span>The reusable part — <code class="tok">.summary__row</code>: label (text.secondary) left, value (bold, tabular-nums) right. <code class="tok">--win</code> = positive/green value; <code class="tok">--turbo</code> = active/orange value with the rocket; an optional info icon on the label opens a <a href="tooltip.html">Tooltip</a>.</span></div>
+      <div class="row"><b>Values</b><span>Plain ($500.00), a range (7.02-10.00), or the <a href="odds.html">Odds</a> component (total-odds movement — struck-through old + new, prev-left).</span></div>
+      <div class="row"><b>Composed, not restyled</b><span>The stake field is <a href="input.html">Input</a> (lg) + a Max chip; the System-Combination is <a href="select.html">Select</a> (lg); total-odds is <a href="odds.html">Odds</a>. Summary owns only the rows; everything else is its own component.</span></div>
+      <div class="row"><b>Three footers</b><span>Single (stake-for-all + total/​win) · Combo (stake + max-bet hint + turbo row + total-odds movement + win) · System (System-Combination select + stake + range total-odds/win). The Place-bet button and footer icon buttons are separate.</span></div>
+    </div>
+
+    <h2 class="big-section">CSS</h2>
+    <pre class="code"><code>:root {
+  --tok-surface-page: #11141C;
+  --tok-surface-raised: #282E3E;
+  --tok-outline-strong: #3E4351;
+  --tok-outline-active: #FB8C33;
+  --tok-text-default: #FFFFFF;
+  --tok-text-secondary: #8E929F;
+  --tok-text-positive: #00A828;
+  --tok-text-negative: #F90643;
+  --tok-text-active: #FB8C33;
+  --tok-icon-active: #FB8C33;
+  --tok-icon-secondary: #8E929F;
+  --tok-icon-default: #8E929F;
+  --tok-family-sans: 'Rubik', sans-serif;
+}
+
+/* footer container — blocks (stake / select / hint / rows) stacked */
+.sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
+
+/* summary rows (label + value) */
+.summary { display: flex; flex-direction: column; gap: 6px; }
+.summary__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.summary__label { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
+.summary__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-secondary); }
+.summary__info svg { display: block; width: 100%; height: 100%; }
+.summary__value { color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.summary__row--win .summary__value { color: var(--tok-text-positive); }
+.summary__row--turbo .summary__value { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-active); }
+.summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
+.summary__rocket svg { display: block; width: 100%; height: 100%; }
+
+/* stake field = Input / lg (surface.page well) + a trailing Max chip */
+.sum-stake { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; }
+.sum-stake:focus-within { border-color: var(--tok-outline-active); }
+.sum-stake__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.sum-stake__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.sum-stake__value { display: flex; align-items: baseline; gap: 4px; }
+.sum-stake__cur { color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
+.sum-stake__input::placeholder { color: var(--tok-text-secondary); }
+.sum-stake--empty .sum-stake__input { width: 100%; }
+.sum-max { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0 12px; height: 36px; border: none; border-radius: 999px; background: var(--tok-surface-raised); cursor: pointer; font-family: inherit; }
+.sum-max__t { color: var(--tok-text-secondary); font-size: 11px; line-height: 1; }
+.sum-max__v { color: var(--tok-text-default); font-size: 12px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* System Combination = Select / lg (floating label + value + chevron) */
+.sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
+.sum-select__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.sum-select__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.sum-select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.sum-select__chevron { flex-shrink: 0; width: 24px; height: 24px; color: var(--tok-icon-default); }
+.sum-select__chevron svg { display: block; width: 100%; height: 100%; }
+
+/* hint line with an inline link */
+.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
+.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
+
+/* Odds (total-odds movement), resolved from odds.tokens.json */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+.odds__value { color: inherit; }
+.odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+.odds--prev-left .odds__prev { order: -1; }
+.odds--up .odds__value { color: var(--tok-text-positive); }
+.odds--down .odds__value { color: var(--tok-text-negative); }
+@keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
+  .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
+}</code></pre>
+
+    <h2 class="big-section">Rows</h2>
+    <p class="section-desc">The building block — default, info (tooltip trigger), turbo (rocket + ×N), win (green).</p>
+    <div class="story">
+      <div class="story-preview"><div class="summary" style="max-width:360px;">
+      <div class="summary__row"><span class="summary__label">Total bet amount</span><span class="summary__value">$500.00</span></div>
+      <div class="summary__row"><span class="summary__label">Total odds<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value">7.02-10.00</span></div>
+      <div class="summary__row summary__row--turbo"><span class="summary__label">Turbo combo<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value"><span class="summary__rocket"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.47279 4.89126C5.77279 6.79959 4.60612 9.54126 4.49779 9.79959L2.61445 8.99126C2.07279 8.75793 1.93945 8.04959 2.35612 7.63293L4.86445 5.12459C5.25612 4.73293 5.82279 4.55793 6.37279 4.66626L7.47279 4.89126ZM8.71445 13.3579C8.96445 13.6079 9.33112 13.6746 9.64779 13.5246C10.6145 13.0746 12.6895 12.0163 14.0311 10.6746C17.8561 6.84959 17.8895 3.73293 17.6645 2.39959C17.6061 2.06626 17.3395 1.79959 17.0061 1.74126C15.6728 1.51626 12.5561 1.54959 8.73112 5.37459C7.38945 6.71626 6.33945 8.79126 5.88112 9.75793C5.73112 10.0746 5.80612 10.4496 6.04779 10.6913L8.71445 13.3579ZM14.5228 11.9413C12.6145 13.6413 9.87279 14.8079 9.61445 14.9163L10.4228 16.7996C10.6561 17.3413 11.3645 17.4746 11.7811 17.0579L14.2895 14.5496C14.6811 14.1579 14.8561 13.5913 14.7478 13.0413L14.5228 11.9413ZM7.26445 14.1079C7.43112 14.9913 7.13945 15.8079 6.58112 16.3663C5.93945 17.0079 3.94779 17.4829 2.65612 17.7329C2.08112 17.8413 1.57279 17.3329 1.68112 16.7579C1.93112 15.4663 2.39779 13.4746 3.04779 12.8329C3.60612 12.2746 4.42279 11.9829 5.30612 12.1496C6.28112 12.3329 7.08112 13.1329 7.26445 14.1079ZM10.6478 7.09959C10.6478 6.18293 11.3978 5.43293 12.3145 5.43293C13.2311 5.43293 13.9811 6.18293 13.9811 7.09959C13.9811 8.01626 13.2311 8.76626 12.3145 8.76626C11.3978 8.76626 10.6478 8.01626 10.6478 7.09959Z" fill="currentColor"/></svg></span>×1.08</span></div>
+      <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$1,060.00</span></div>
+    </div></div>
+    </div>
+
+    <h2 class="big-section">Footers</h2>
+    <p class="section-desc">The three betslip footers, composed. Total-odds movement replays on a loop (Odds component); in the product the app triggers it per price change.</p>
+    <div class="story-grid">
+      
+      <div class="story">
+        <h3>Single</h3>
+        <div class="story-preview"><div class="sum-foot">
+    <label class="sum-stake sum-stake--empty">
+      <span class="sum-stake__field"><input class="sum-stake__input" placeholder="Set amount for all bets" aria-label="Set amount for all bets" /></span>
+      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+    </label>
+    <div class="summary">
+      <div class="summary__row"><span class="summary__label">Total bet amount</span><span class="summary__value">$500.00</span></div>
+      <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$1,060.00</span></div>
+    </div>
+  </div></div>
+        <p class="story-note">Stake once for all bets (Input, empty + Max chip), then Total bet amount and Possible win.</p>
+      </div>
+      
+      <div class="story">
+        <h3>Combo</h3>
+        <div class="story-preview"><div class="sum-foot">
+    <label class="sum-stake">
+      <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
+      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+    </label>
+    <p class="sum-hint">Potential max bet $2,717, <a href="#">Deposit Now</a> to bet higher</p>
+    <div class="summary">
+      <div class="summary__row summary__row--turbo"><span class="summary__label">Turbo combo<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value"><span class="summary__rocket"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.47279 4.89126C5.77279 6.79959 4.60612 9.54126 4.49779 9.79959L2.61445 8.99126C2.07279 8.75793 1.93945 8.04959 2.35612 7.63293L4.86445 5.12459C5.25612 4.73293 5.82279 4.55793 6.37279 4.66626L7.47279 4.89126ZM8.71445 13.3579C8.96445 13.6079 9.33112 13.6746 9.64779 13.5246C10.6145 13.0746 12.6895 12.0163 14.0311 10.6746C17.8561 6.84959 17.8895 3.73293 17.6645 2.39959C17.6061 2.06626 17.3395 1.79959 17.0061 1.74126C15.6728 1.51626 12.5561 1.54959 8.73112 5.37459C7.38945 6.71626 6.33945 8.79126 5.88112 9.75793C5.73112 10.0746 5.80612 10.4496 6.04779 10.6913L8.71445 13.3579ZM14.5228 11.9413C12.6145 13.6413 9.87279 14.8079 9.61445 14.9163L10.4228 16.7996C10.6561 17.3413 11.3645 17.4746 11.7811 17.0579L14.2895 14.5496C14.6811 14.1579 14.8561 13.5913 14.7478 13.0413L14.5228 11.9413ZM7.26445 14.1079C7.43112 14.9913 7.13945 15.8079 6.58112 16.3663C5.93945 17.0079 3.94779 17.4829 2.65612 17.7329C2.08112 17.8413 1.57279 17.3329 1.68112 16.7579C1.93112 15.4663 2.39779 13.4746 3.04779 12.8329C3.60612 12.2746 4.42279 11.9829 5.30612 12.1496C6.28112 12.3329 7.08112 13.1329 7.26445 14.1079ZM10.6478 7.09959C10.6478 6.18293 11.3978 5.43293 12.3145 5.43293C13.2311 5.43293 13.9811 6.18293 13.9811 7.09959C13.9811 8.01626 13.2311 8.76626 12.3145 8.76626C11.3978 8.76626 10.6478 8.01626 10.6478 7.09959Z" fill="currentColor"/></svg></span>×1.08</span></div>
+      <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value"><span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">270.5</span><span class="odds__prev">180.60</span></span></span></div>
+      <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$1,060.00</span></div>
+    </div>
+  </div></div>
+        <p class="story-note">Stake + a max-bet hint (Deposit Now link), the turbo-combo multiplier row, total-odds with the boost movement, and Possible win.</p>
+      </div>
+      
+      <div class="story">
+        <h3>System</h3>
+        <div class="story-preview"><div class="sum-foot">
+    <div class="sum-select" role="button" tabindex="0">
+      <span class="sum-select__field"><span class="sum-select__label">System Combination</span><span class="sum-select__value">3/4</span></span>
+      <span class="sum-select__chevron"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/></g></svg></span>
+    </div>
+    <label class="sum-stake">
+      <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
+      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+    </label>
+    <div class="summary">
+      <div class="summary__row"><span class="summary__label">Total odds<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value">7.02-10.00</span></div>
+      <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$70.20-100.00</span></div>
+    </div>
+  </div></div>
+        <p class="story-note">A System-Combination Select, the stake, then total-odds and possible-win as ranges — the info icon opens a tooltip explaining why they are ranges.</p>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  // total-odds movement (Odds component) — loop the flash + count-up for the demo.
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function countUp(el, from, to, ms) {
+      var f = parseFloat(from), t = parseFloat(to);
+      var dp = ((String(to).split('.')[1]) || '').length;
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
+      var start = performance.now();
+      (function step(now) {
+        var p = Math.min(1, (now - start) / ms);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = (f + (t - f) * e).toFixed(dp);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
+      })(performance.now());
+    }
+    function oddsPlay(el) {
+      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
+      if (!val) return;
+      var to = val.getAttribute('data-to') || val.textContent;
+      val.setAttribute('data-to', to);
+      var dir = el.getAttribute('data-dir');
+      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
+      if (dir) el.classList.add('odds--' + dir);
+      if (!reduce && prev) countUp(val, prev.textContent, to, 600);
+    }
+    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
+      oddsPlay(el);
+      if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);
+    });
+  })();
+</script>
+</body>
+</html>

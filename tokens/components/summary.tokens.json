@@ -1,0 +1,42 @@
+{
+  "component": {
+    "summary": {
+      "$description": "The betslip footer's totals — a key-value list (label left, value right) that sits above the Place-bet button. Three layouts share the same rows: Single (total stake · possible win), Combo (a turbo-combo multiplier row + total-odds with live movement + possible win, plus a max-bet hint), System (a System-Combination select, then total-odds / possible-win as ranges). The reusable part Summary owns is the ROW: `.summary__row` (label + value), with `--win` (positive/green value), `--turbo` (active/orange value with the rocket glyph), and an optional info icon on the label (opens a Tooltip). Values are plain text, a range, or the Odds component (total-odds movement, prev-left). Everything else in a footer — the stake field (Input + a Max chip), the System-Combination Select, the Odds, the hint text — is composed from its own component; Summary does not restyle them.",
+      "gap": { "$type": "dimension", "$value": "{spacing.1_5}", "$description": "6px between summary rows." },
+      "blockGap": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px between the footer's blocks (stake field / hint / row list)." },
+      "rowGap": { "$type": "dimension", "$value": "{spacing.3}", "$description": "12px min gap between a row's label and value." },
+      "label": { "$type": "typography", "$value": "{text-style.body-base}", "$description": "14px regular — the row label (Total bet amount, Possible win…)." },
+      "labelColor": { "$type": "color", "$value": "{text.secondary}" },
+      "labelGap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between the label text and its optional info icon." },
+      "value": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{family.sans}",
+          "fontWeight": "{weight.bold}",
+          "fontSize": "{size.base}",
+          "lineHeight": "{leading.tight}",
+          "letterSpacing": "{tracking.normal}"
+        },
+        "$description": "14px bold, tabular-nums — the totals value. Bold (weight.bold) so the money reads as the emphasised figure of the row."
+      },
+      "valueColor": { "$type": "color", "$value": "{text.default}", "$description": "Default value colour (total stake, total odds)." },
+      "win": {
+        "valueColor": { "$type": "color", "$value": "{text.positive}", "$description": "Possible-win value — positive/green." }
+      },
+      "turbo": {
+        "valueColor": { "$type": "color", "$value": "{text.active}", "$description": "Turbo-combo multiplier (×N) — the active/orange accent." },
+        "iconColor": { "$type": "color", "$value": "{icon.active}", "$description": "The rocket (ui/turbo-combo) glyph, active/orange." },
+        "iconSize": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px rocket, matching the info icon." },
+        "gap": { "$type": "dimension", "$value": "{spacing.1}", "$description": "4px between the rocket and the ×N." }
+      },
+      "info": {
+        "size": { "$type": "dimension", "$value": "{spacing.4}", "$description": "16px info icon (ui/info-outline) on a row label — opens the Tooltip (e.g. why total odds is a range)." },
+        "color": { "$type": "color", "$value": "{icon.secondary}", "$description": "Muted grey — chrome, not a warning (unlike the bet card's gold settlement info)." }
+      },
+      "hint": {
+        "type": { "$type": "typography", "$value": "{text-style.body-sm}", "$description": "12px — the 'Potential max bet $2717, Deposit Now to bet higher' line (with an inline link)." },
+        "color": { "$type": "color", "$value": "{text.secondary}" }
+      }
+    }
+  }
+}

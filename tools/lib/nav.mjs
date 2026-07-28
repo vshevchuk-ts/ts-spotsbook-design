@@ -43,6 +43,7 @@ export const NAV_ITEMS = {
   toast: { label: "Toast", href: "toast.html" },
   "bet-card": { label: "Bet selection card", href: "bet-card.html" },
   odds: { label: "Odds", href: "odds.html" },
+  summary: { label: "Summary", href: "summary.html" },
 };
 
 // Designs section — product prototypes for real app tasks (not design-system docs).
@@ -134,5 +135,6 @@ export function renderNav(activeKey) {
     ${link("toast")}
     <p class="nav-category">Betslip</p>
     ${link("bet-card")}
-    ${link("odds")}`;
+    ${link("odds")}
+    ${link("summary")}`;
 }
