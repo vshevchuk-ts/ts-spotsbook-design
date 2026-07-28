@@ -111,6 +111,7 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
+/* the Bet card's own CSS (header / market / bc-tt / outcome / densities / stake field) */
 .betcard { box-sizing: border-box; background: var(--tok-surface-raised); border-radius: 12px; padding: 8px; font-family: var(--tok-family-sans); }
 .betcard * { box-sizing: border-box; }
 
@@ -127,8 +128,60 @@
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
-/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
-   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
+/* market line (+ optional settlement-rules info icon) */
+.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
+
+/* Tooltip reveal (info settlement · long market · long outcome) — bespoke .bc-tt:
+   wraps arbitrary WRAPPING card content, so it is NOT the nowrap DS Tooltip, but it
+   resolves Tooltip's real token values (surface-6 bubble + caret + shadow). */
+.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
+.bc-tt--grow { flex: 1; }
+.bc-tt__trigger { min-width: 0; }
+.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: 4px 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); border-radius: 8px; font-weight: 400; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
+.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
+.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: translate(-50%, -50%) rotate(45deg); }
+.bc-tt__link { color: inherit; text-decoration: underline; }
+
+/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
+   compact, stepped down to 12px regular in the amount density where odds leads. */
+.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* --- compact density (Combo / System): odds inline, no stake field --- */
+.betcard--compact .betcard__market { margin-top: 8px; }
+.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
+
+/* --- amount density (Single): outcome column + Bet-amount field --- */
+.betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
+.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+/* Bet-amount field — an editable <input> laid out to Input's lg spec (surface.page
+   fill, outline.strong border, 10px floating label over a 16px value, '$' prefix).
+   Values from input.tokens.json; only width + bottom-alignment are card layout. */
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 160px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; padding: 0 16px; }
+.betcard__amount:focus-within { border-color: var(--tok-outline-active); }
+.betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.betcard__amount-value { display: flex; align-items: baseline; gap: 4px; }
+.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
+/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
+.betcard__amount--empty { justify-content: center; }
+.betcard__amount--empty .betcard__amount-input { width: 100%; }
+
+/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
+.betcard__bb { margin-top: 8px; background: var(--tok-surface-card); border-radius: 12px; overflow: hidden; }
+.betcard__bb-row { display: flex; align-items: center; gap: 8px; padding: 8px 8px; }
+.betcard__bb-row + .betcard__bb-row { border-top: 1px solid var(--tok-outline-default); }
+.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.betcard__bb-market { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.betcard__bb-odd-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* header LIVE/BB/FB pills = the real Badge component (full .badge CSS) */
 .badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: 999px; font-family: var(--tok-family-sans); white-space: nowrap; }
 .badge--sm { height: 16px; padding: 0 4px; font-weight: 500; font-size: 10px; line-height: 1; }
 .badge--base { height: 20px; padding: 0 6px; font-weight: 500; font-size: 12px; line-height: 1; }
@@ -158,29 +211,7 @@
 .badge--status-refund { background: var(--tok-bet-status-refund); color: var(--tok-text-on-fill); }
 .badge--status-pending { background: var(--tok-bet-status-pending); color: var(--tok-text-on-fill); }
 
-/* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
-.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
-.betcard__info svg { display: block; width: 100%; height: 100%; }
-
-/* Tooltip (info settlement · long market · long outcome reveals) = the Tooltip component,
-   resolved from tooltip.tokens.json — surface-6 bubble + caret, shown on hover/focus (pure CSS). */
-.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
-.bc-tt--grow { flex: 1; }
-.bc-tt__trigger { min-width: 0; }
-.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: 4px 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); border-radius: 8px; font-weight: 400; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
-.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
-.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: translate(-50%, -50%) rotate(45deg); }
-.bc-tt__link { color: inherit; text-decoration: underline; }
-
-/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
-   compact, stepped down to 12px regular in the amount density where odds leads. */
-.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
-.betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
-
-/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
-   (true composition), not a hand-tailored subset. */
+/* odds = the real Odds component (full .odds CSS) */
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
@@ -202,37 +233,6 @@
   .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
   .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
 }
-
-/* --- compact density (Combo / System): odds inline, no stake field --- */
-.betcard--compact .betcard__market { margin-top: 8px; }
-.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
-
-/* --- amount density (Single): outcome column + Bet-amount field --- */
-.betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
-.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-/* Bet-amount field = Input / lg + prefix — surface.page fill, outline.strong border,
-   10px floating label over a 16px REGULAR value, '$' prefix (input.prefix). All from
-   input.tokens.json; only width + bottom-alignment are bet-card layout. */
-.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 160px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; padding: 0 16px; }
-.betcard__amount:focus-within { border-color: var(--tok-outline-active); }
-.betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.betcard__amount-value { display: flex; align-items: baseline; gap: 4px; }
-.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
-/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
-.betcard__amount--empty { justify-content: center; }
-.betcard__amount--empty .betcard__amount-input { width: 100%; }
-
-/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
-.betcard__bb { margin-top: 8px; background: var(--tok-surface-card); border-radius: 12px; overflow: hidden; }
-.betcard__bb-row { display: flex; align-items: center; gap: 8px; padding: 8px 8px; }
-.betcard__bb-row + .betcard__bb-row { border-top: 1px solid var(--tok-outline-default); }
-.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.betcard__bb-market { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
-.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.betcard__bb-odd-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -350,6 +350,7 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
+/* the Bet card's own CSS (header / market / bc-tt / outcome / densities / stake field) */
 .betcard { box-sizing: border-box; background: var(--tok-surface-raised); border-radius: 12px; padding: 8px; font-family: var(--tok-family-sans); }
 .betcard * { box-sizing: border-box; }
 
@@ -366,8 +367,60 @@
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
-/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
-   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
+/* market line (+ optional settlement-rules info icon) */
+.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
+
+/* Tooltip reveal (info settlement · long market · long outcome) — bespoke .bc-tt:
+   wraps arbitrary WRAPPING card content, so it is NOT the nowrap DS Tooltip, but it
+   resolves Tooltip's real token values (surface-6 bubble + caret + shadow). */
+.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
+.bc-tt--grow { flex: 1; }
+.bc-tt__trigger { min-width: 0; }
+.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: 4px 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); border-radius: 8px; font-weight: 400; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
+.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
+.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: translate(-50%, -50%) rotate(45deg); }
+.bc-tt__link { color: inherit; text-decoration: underline; }
+
+/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
+   compact, stepped down to 12px regular in the amount density where odds leads. */
+.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* --- compact density (Combo / System): odds inline, no stake field --- */
+.betcard--compact .betcard__market { margin-top: 8px; }
+.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
+
+/* --- amount density (Single): outcome column + Bet-amount field --- */
+.betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
+.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+/* Bet-amount field — an editable &lt;input&gt; laid out to Input's lg spec (surface.page
+   fill, outline.strong border, 10px floating label over a 16px value, '$' prefix).
+   Values from input.tokens.json; only width + bottom-alignment are card layout. */
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 160px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; padding: 0 16px; }
+.betcard__amount:focus-within { border-color: var(--tok-outline-active); }
+.betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.betcard__amount-value { display: flex; align-items: baseline; gap: 4px; }
+.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
+/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
+.betcard__amount--empty { justify-content: center; }
+.betcard__amount--empty .betcard__amount-input { width: 100%; }
+
+/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
+.betcard__bb { margin-top: 8px; background: var(--tok-surface-card); border-radius: 12px; overflow: hidden; }
+.betcard__bb-row { display: flex; align-items: center; gap: 8px; padding: 8px 8px; }
+.betcard__bb-row + .betcard__bb-row { border-top: 1px solid var(--tok-outline-default); }
+.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.betcard__bb-market { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.betcard__bb-odd-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* header LIVE/BB/FB pills = the real Badge component (full .badge CSS) */
 .badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: 999px; font-family: var(--tok-family-sans); white-space: nowrap; }
 .badge--sm { height: 16px; padding: 0 4px; font-weight: 500; font-size: 10px; line-height: 1; }
 .badge--base { height: 20px; padding: 0 6px; font-weight: 500; font-size: 12px; line-height: 1; }
@@ -397,29 +450,7 @@
 .badge--status-refund { background: var(--tok-bet-status-refund); color: var(--tok-text-on-fill); }
 .badge--status-pending { background: var(--tok-bet-status-pending); color: var(--tok-text-on-fill); }
 
-/* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
-.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
-.betcard__info svg { display: block; width: 100%; height: 100%; }
-
-/* Tooltip (info settlement · long market · long outcome reveals) = the Tooltip component,
-   resolved from tooltip.tokens.json — surface-6 bubble + caret, shown on hover/focus (pure CSS). */
-.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
-.bc-tt--grow { flex: 1; }
-.bc-tt__trigger { min-width: 0; }
-.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: 4px 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); border-radius: 8px; font-weight: 400; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
-.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
-.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: translate(-50%, -50%) rotate(45deg); }
-.bc-tt__link { color: inherit; text-decoration: underline; }
-
-/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
-   compact, stepped down to 12px regular in the amount density where odds leads. */
-.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
-.betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
-
-/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
-   (true composition), not a hand-tailored subset. */
+/* odds = the real Odds component (full .odds CSS) */
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
@@ -440,38 +471,7 @@
   .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
   .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
   .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
-}
-
-/* --- compact density (Combo / System): odds inline, no stake field --- */
-.betcard--compact .betcard__market { margin-top: 8px; }
-.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
-
-/* --- amount density (Single): outcome column + Bet-amount field --- */
-.betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
-.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-/* Bet-amount field = Input / lg + prefix — surface.page fill, outline.strong border,
-   10px floating label over a 16px REGULAR value, '$' prefix (input.prefix). All from
-   input.tokens.json; only width + bottom-alignment are bet-card layout. */
-.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 160px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; padding: 0 16px; }
-.betcard__amount:focus-within { border-color: var(--tok-outline-active); }
-.betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.betcard__amount-value { display: flex; align-items: baseline; gap: 4px; }
-.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
-/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
-.betcard__amount--empty { justify-content: center; }
-.betcard__amount--empty .betcard__amount-input { width: 100%; }
-
-/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
-.betcard__bb { margin-top: 8px; background: var(--tok-surface-card); border-radius: 12px; overflow: hidden; }
-.betcard__bb-row { display: flex; align-items: center; gap: 8px; padding: 8px 8px; }
-.betcard__bb-row + .betcard__bb-row { border-top: 1px solid var(--tok-outline-default); }
-.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.betcard__bb-market { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
-.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.betcard__bb-odd-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }</code></pre>
+}</code></pre>
 
     <h2 class="big-section">Compact — Combo / System</h2>
     <p class="section-desc">The dense variant: no per-selection stake (the stake is set once for the whole slip). Odds sits inline to the right of the outcome, baseline-aligned.</p>

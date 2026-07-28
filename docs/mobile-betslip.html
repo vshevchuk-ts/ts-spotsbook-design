@@ -52,7 +52,7 @@
   .phone__notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 26px; border-radius: 14px; background: #050506; z-index: 5; }
   .phone__inner { position: absolute; inset: 0; padding-top: 44px; display: flex; }
 
-  .notes { max-width: 340px; }
+  .notes { max-width: 360px; }
   .notes h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
   .notes ul { margin: 0 0 1.75rem; padding-left: 18px; }
   .notes li { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 6px; }
@@ -63,98 +63,373 @@
   --tok-surface-page: #11141C;
   --tok-surface-card: #1C202B;
   --tok-surface-raised: #282E3E;
-  --tok-surface-overlay: rgba(17, 20, 28, 0.5);
-  --tok-fill-active: #FB8C33;
-  --tok-fill-active-hover: #DD7B2D;
-  --tok-fill-neutral: #3E4351;
-  --tok-fill-neutral-hover: #555A66;
-  --tok-bg-active: rgba(251, 140, 51, 0.12);
-  --tok-bg-accent: rgba(49, 168, 255, 0.12);
-  --tok-bg-positive: rgba(0, 168, 40, 0.12);
   --tok-outline-default: #282E3E;
-  --tok-outline-strong: #3E4351;
   --tok-outline-active: #FB8C33;
   --tok-text-default: #FFFFFF;
   --tok-text-secondary: #8E929F;
-  --tok-text-active: #FB8C33;
-  --tok-text-positive: #00A828;
   --tok-text-for-active-bg: #11141C;
-  --tok-text-accent: #31A8FF;
-  --tok-icon-default: #8E929F;
-  --tok-icon-active: #FB8C33;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-neutral-hover: #555A66;
   --tok-icon-secondary: #8E929F;
-  --tok-label-live: rgba(49, 168, 255, 0.12);
+  --tok-icon-active: #FB8C33;
+  --tok-outline-strong: #3E4351;
+  --tok-text-active: #FB8C33;
+  --tok-icon-warning: #FFC12E;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-text-positive: #00A828;
+  --tok-fill-positive: #00A828;
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
+  --tok-text-negative: #F90643;
+  --tok-fill-negative: #F90643;
+  --tok-bg-warning: rgba(255, 193, 46, 0.12);
+  --tok-text-warning: #FFC12E;
+  --tok-fill-warning: #FFC12E;
+  --tok-bg-accent: rgba(49, 168, 255, 0.12);
+  --tok-text-accent: #31A8FF;
+  --tok-fill-accent: #31A8FF;
+  --tok-text-contrast: #11141C;
+  --tok-label-score: #3E4351;
+  --tok-bet-status-win: #00A828;
+  --tok-bet-status-loose: #F90643;
+  --tok-bet-status-cashout: #FFC12E;
+  --tok-bet-status-half-win: #00BAAF;
+  --tok-bet-status-half-loose: #FF601B;
+  --tok-bet-status-refund: #AB35FF;
+  --tok-bet-status-pending: #A1A1A1;
+  --tok-surface-disabled: #1C202B;
+  --tok-outline-negative: #F90643;
+  --tok-text-disabled: #8E929F;
+  --tok-fill-neutral: #3E4351;
+  --tok-outline-accent: #31A8FF;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
+  --tok-icon-on-fill: #FFFFFF;
+  --tok-icon-for-active-bg: #11141C;
+  --tok-fill-neutral-pressed: #6C707B;
+  --tok-icon-default: #8E929F;
+  --tok-fill-disabled: #282E3E;
+  --tok-icon-disabled: #8E929F;
+  --tok-color-white: #FFFFFF;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-darken-2: rgba(17, 20, 28, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
-.bs {
-  font-family: var(--tok-family-sans);
-  background: var(--tok-surface-page);
-  color: var(--tok-text-default);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.betcard { box-sizing: border-box; background: var(--tok-surface-raised); border-radius: 12px; padding: 8px; font-family: var(--tok-family-sans); }
+.betcard * { box-sizing: border-box; }
+
+/* header: leading discipline icon · event link · optional LIVE/BB/FB badges · remove ×.
+   Event truncates and shrinks; badges sit right after it; × is pushed to the far right. */
+.betcard__header { display: flex; align-items: center; gap: 8px; }
+.betcard__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--tok-icon-secondary); }
+.betcard__icon svg { display: block; width: 100%; height: 100%; }
+.betcard__event { flex: 0 1 auto; min-width: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.betcard__event:hover { color: var(--tok-text-active); }
+.betcard__badges { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.betcard__badges .badge { flex-shrink: 0; }
+.betcard__remove { flex-shrink: 0; margin-left: auto; width: 20px; height: 20px; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: 6px; color: var(--tok-icon-secondary); cursor: pointer; }
+.betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.betcard__remove svg { width: 20px; height: 20px; }
+
+/* market line (+ optional settlement-rules info icon) */
+.betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-warning); background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
+.betcard__info svg { display: block; width: 100%; height: 100%; }
+
+/* Tooltip reveal (info settlement · long market · long outcome) — bespoke .bc-tt:
+   wraps arbitrary WRAPPING card content, so it is NOT the nowrap DS Tooltip, but it
+   resolves Tooltip's real token values (surface-6 bubble + caret + shadow). */
+.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
+.bc-tt--grow { flex: 1; }
+.bc-tt__trigger { min-width: 0; }
+.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: 4px 8px; background: var(--tok-outline-strong); color: var(--tok-text-on-fill); border-radius: 8px; font-weight: 400; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; box-shadow: 0px 2px 8px 0px rgba(17, 20, 28, 0.32); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
+.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
+.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: 8px; height: 8px; background: var(--tok-outline-strong); transform: translate(-50%, -50%) rotate(45deg); }
+.bc-tt__link { color: inherit; text-decoration: underline; }
+
+/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
+   compact, stepped down to 12px regular in the amount density where odds leads. */
+.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
+.betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+/* --- compact density (Combo / System): odds inline, no stake field --- */
+.betcard--compact .betcard__market { margin-top: 8px; }
+.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 4px; }
+
+/* --- amount density (Single): outcome column + Bet-amount field --- */
+.betcard--amount .betcard__body { display: flex; gap: 12px; margin-top: 8px; }
+.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+/* Bet-amount field — an editable <input> laid out to Input's lg spec (surface.page
+   fill, outline.strong border, 10px floating label over a 16px value, '$' prefix).
+   Values from input.tokens.json; only width + bottom-alignment are card layout. */
+.betcard__amount { flex-shrink: 0; align-self: flex-end; width: 160px; height: 48px; display: flex; flex-direction: column; justify-content: center; gap: 4px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; padding: 0 16px; }
+.betcard__amount:focus-within { border-color: var(--tok-outline-active); }
+.betcard__amount-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
+.betcard__amount-value { display: flex; align-items: baseline; gap: 4px; }
+.betcard__amount-cur { flex-shrink: 0; color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
+.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
+.betcard__amount-input::placeholder { color: var(--tok-text-secondary); }
+/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
+.betcard__amount--empty { justify-content: center; }
+.betcard__amount--empty .betcard__amount-input { width: 100%; }
+
+/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
+.betcard__bb { margin-top: 8px; background: var(--tok-surface-card); border-radius: 12px; overflow: hidden; }
+.betcard__bb-row { display: flex; align-items: center; gap: 8px; padding: 8px 8px; }
+.betcard__bb-row + .betcard__bb-row { border-top: 1px solid var(--tok-outline-default); }
+.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.betcard__bb-market { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.betcard__bb-odd-label { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
+
+.badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: 999px; font-family: var(--tok-family-sans); white-space: nowrap; }
+.badge--sm { height: 16px; padding: 0 4px; font-weight: 500; font-size: 10px; line-height: 1; }
+.badge--base { height: 20px; padding: 0 6px; font-weight: 500; font-size: 12px; line-height: 1; }
+.badge--lg { height: 24px; padding: 0 6px; font-weight: 500; font-size: 14px; line-height: 1; }
+.badge--role-neutral.badge--tint { background: var(--tok-surface-raised); color: var(--tok-text-secondary); }
+.badge--role-neutral.badge--solid { background: var(--tok-surface-raised); color: var(--tok-text-default); }
+.badge--role-active.badge--tint { background: var(--tok-bg-active); color: var(--tok-text-active); }
+.badge--role-active.badge--solid { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.badge--role-positive.badge--tint { background: var(--tok-bg-positive); color: var(--tok-text-positive); }
+.badge--role-positive.badge--solid { background: var(--tok-fill-positive); color: var(--tok-text-on-fill); }
+.badge--role-negative.badge--tint { background: var(--tok-bg-negative); color: var(--tok-text-negative); }
+.badge--role-negative.badge--solid { background: var(--tok-fill-negative); color: var(--tok-text-on-fill); }
+.badge--role-warning.badge--tint { background: var(--tok-bg-warning); color: var(--tok-text-warning); }
+.badge--role-warning.badge--solid { background: var(--tok-fill-warning); color: var(--tok-text-for-active-bg); }
+.badge--role-accent.badge--tint { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-contrast); }
+
+.badge--named-live { background: var(--tok-bg-active); color: var(--tok-text-active); }
+.badge--named-betbuilder { background: var(--tok-bg-active); color: var(--tok-text-active); }
+.badge--named-freebet { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--named-score { background: var(--tok-label-score); color: var(--tok-text-default); }
+.badge--status-win { background: var(--tok-bet-status-win); color: var(--tok-text-contrast); }
+.badge--status-loose { background: var(--tok-bet-status-loose); color: var(--tok-text-on-fill); }
+.badge--status-cashout { background: var(--tok-bet-status-cashout); color: var(--tok-text-contrast); }
+.badge--status-halfWin { background: var(--tok-bet-status-half-win); color: var(--tok-text-on-fill); }
+.badge--status-halfLoose { background: var(--tok-bet-status-half-loose); color: var(--tok-text-on-fill); }
+.badge--status-refund { background: var(--tok-bet-status-refund); color: var(--tok-text-on-fill); }
+.badge--status-pending { background: var(--tok-bet-status-pending); color: var(--tok-text-on-fill); }
+
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+.odds__value { color: inherit; }
+.odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
+.odds--prev-left .odds__prev { order: -1; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
+.odds--up .odds__value { color: var(--tok-text-positive); }
+.odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
+@keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
+@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .odds--up .odds__value { animation: odds-up 3000ms ease forwards; }
+  .odds--down .odds__value { animation: odds-down 3000ms ease forwards; }
+  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out 3000ms ease forwards; }
 }
+
+.input {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: text;
+}
+.input__placeholder { color: var(--tok-text-secondary); }
+.input__value { color: var(--tok-text-default); }
+.input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
+.input__stack { display: flex; flex-direction: column; justify-content: center; }
+.input__label { color: var(--tok-text-secondary); }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
+.input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action > .btn { flex-shrink: 0; }
+
+.input--sm { height: 32px; padding: 0 8px; }
+.input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+
+.input--base { height: 40px; padding: 0 12px; }
+.input--base .input__placeholder, .input--base .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--base .input__stack { gap: 0px; }
+.input--base .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+.input--lg { height: 48px; padding: 0 16px; }
+.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--lg .input__stack { gap: 4px; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
+.input--active { border-color: var(--tok-outline-active); }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+.input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
+.input--error { border-color: var(--tok-outline-negative); }
+.input-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--tok-family-sans);
+}
+.btn__icon { flex-shrink: 0; }
+
+.btn--sm {
+  height: 32px;
+  padding: 0 8px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.btn--sm.btn--icon-only { width: 32px; padding: 0; }
+.btn--sm .btn__icon { width: 16px; height: 16px; }
+
+.btn--base {
+  height: 40px;
+  padding: 0 12px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.btn--base.btn--icon-only { width: 40px; padding: 0; }
+.btn--base .btn__icon { width: 20px; height: 20px; }
+
+.btn--lg {
+  height: 48px;
+  padding: 0 16px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.btn--lg.btn--icon-only { width: 48px; padding: 0; }
+.btn--lg .btn__icon { width: 24px; height: 24px; }
+
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.btn--primary .btn__icon { color: var(--tok-icon-for-active-bg); }
+.btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
+.btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
+.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+.btn--secondary .btn__icon { color: var(--tok-icon-default); }
+.btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--secondary:not(:disabled):hover .btn__icon, .btn--secondary:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--ghost { background: transparent; color: var(--tok-text-default); }
+.btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
+.btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--ghost:not(:disabled):hover .btn__icon, .btn--ghost:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow.btn--primary { height: 48px; }
+.btn--tworow.btn--secondary { height: 40px; }
+.btn--tworow.btn--primary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 40px; height: 40px; }
+.btn--round-base .btn__icon { width: 24px; height: 24px; }
+.btn--round-xs { width: 24px; height: 24px; }
+.btn--round-xs .btn__icon { width: 16px; height: 16px; }
+.btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
+.btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); color: var(--tok-text-default); }
+.btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
+.btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
+.btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
+.btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
+.btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* footer container — blocks (stake / select / hint / rows) stacked */
+.sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
+
+/* summary rows (label + value) */
+.summary { display: flex; flex-direction: column; gap: 6px; }
+.summary__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.summary__label { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-secondary); font-weight: 400; font-size: 14px; line-height: 1.4; }
+.summary__info { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-secondary); }
+.summary__info svg { display: block; width: 100%; height: 100%; }
+.summary__value { color: var(--tok-text-default); font-weight: 800; font-size: 14px; line-height: 1.2; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.summary__row--win .summary__value { color: var(--tok-text-positive); }
+.summary__row--turbo .summary__value { display: inline-flex; align-items: center; gap: 4px; color: var(--tok-text-active); }
+.summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
+.summary__rocket svg { display: block; width: 100%; height: 100%; }
+
+/* hint line with an inline link */
+.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
+.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
+
+/* ===== screen scaffolding (layout only — arrangement of the real components) ===== */
+.bs { font-family: var(--tok-family-sans); background: var(--tok-surface-page); color: var(--tok-text-default); width: 100%; display: flex; flex-direction: column; height: 100%; }
 
 /* header */
 .bs__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; }
 .bs__title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; }
-.bs__count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); font-size: 12px; font-weight: 700; }
-.bs__clear { display: inline-flex; align-items: center; gap: 5px; border: none; background: none; cursor: pointer; color: var(--tok-icon-secondary); font-family: inherit; font-size: 12px; padding: 6px 8px; border-radius: 8px; }
-.bs__clear:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.bs__clear svg { width: 16px; height: 16px; }
+.bs__head .btn--ghost { padding: 0 8px; }
 
-/* bet-type tabs (underline) */
+/* bet-type tabs (screen chrome — underline strip; not yet a DS component) */
 .bs__tabs { display: flex; gap: 4px; padding: 0 16px; border-bottom: 1px solid var(--tok-outline-default); }
 .bs__tab { position: relative; flex: 1; text-align: center; padding: 10px 4px 12px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--tok-text-secondary); }
 .bs__tab .n { color: var(--tok-text-secondary); font-weight: 700; }
 .bs__tab.is-active { color: var(--tok-text-default); }
 .bs__tab.is-active::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--tok-outline-active); }
 
-/* scrolling selection list */
+/* scrolling selection list — a column of real Bet cards */
 .bs__list { flex: 1; overflow-y: auto; padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 10px; }
+.bs__list .betcard { background: var(--tok-surface-card); }
 
-.pick { background: var(--tok-surface-card); border: 0.5px solid var(--tok-outline-default); border-radius: 14px; padding: 12px 14px; }
-.pick__top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.pick__live { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px 2px 5px; border-radius: 6px; background: var(--tok-bg-accent); color: var(--tok-text-accent); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
-.pick__live svg { width: 12px; height: 12px; }
-.pick__league { font-size: 11.5px; color: var(--tok-text-secondary); }
-.pick__x { margin-left: auto; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 7px; border: none; background: none; cursor: pointer; color: var(--tok-icon-secondary); }
-.pick__x:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
-.pick__x svg { width: 18px; height: 18px; }
-.pick__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.pick__sel { font-size: 14.5px; font-weight: 600; }
-.pick__market { font-size: 12px; color: var(--tok-text-secondary); margin-top: 2px; }
-.pick__match { font-size: 12px; color: var(--tok-text-secondary); margin-top: 6px; }
-.pick__odds { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pick__odds.up { color: var(--tok-text-positive); }
-
-/* footer summary — sticky combo block */
+/* sticky footer — stake row (real Input + quick-bet) + real Summary rows + Place bet */
 .bs__foot { border-top: 1px solid var(--tok-outline-default); background: var(--tok-surface-card); padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
-.stake { display: flex; align-items: center; gap: 10px; }
-.stake__field { flex: 1; display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border-radius: 12px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); }
-.stake__field:focus-within { border-color: var(--tok-outline-active); }
-.stake__cur { color: var(--tok-text-secondary); font-size: 15px; }
-.stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-family: inherit; font-size: 16px; font-weight: 600; }
-.chips { display: flex; gap: 6px; }
-.chip { flex-shrink: 0; padding: 0 12px; height: 44px; border-radius: 12px; background: var(--tok-surface-raised); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
-.chip:hover { border-color: var(--tok-outline-strong); }
-.chip--bolt { display: inline-flex; align-items: center; justify-content: center; padding: 0; width: 44px; color: var(--tok-icon-active); }
-.chip--bolt svg { width: 18px; height: 18px; }
-
-.summ { display: flex; flex-direction: column; gap: 6px; }
-.summ__row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-.summ__row .k { color: var(--tok-text-secondary); display: inline-flex; align-items: center; gap: 4px; }
-.summ__row .k svg { width: 14px; height: 14px; color: var(--tok-icon-secondary); }
-.summ__row .v { font-weight: 600; font-variant-numeric: tabular-nums; }
-.summ__row.win .k { color: var(--tok-text-default); font-weight: 600; font-size: 14px; }
-.summ__row.win .v { color: var(--tok-text-positive); font-weight: 700; font-size: 18px; }
-
-.place { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; width: 100%; height: 54px; border: none; border-radius: 14px; cursor: pointer; font-family: inherit; background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
-.place:hover { background: var(--tok-fill-active-hover); }
-.place__t { font-size: 15px; font-weight: 700; }
-.place__s { font-size: 12px; font-weight: 500; opacity: 0.85; }
+.bs__stake { display: flex; align-items: center; gap: 8px; }
+.bs__stake .input { flex: 1; }
+.bs__foot .summary { gap: 6px; }
+.bs__place { width: 100%; }
 </style>
 </head>
 <body>
@@ -177,7 +452,7 @@
   </nav>
   <main>
     <h1>Mobile betslip</h1>
-    <p class="sub">A multi (combo) betslip for the mobile app — built from the Turbo Sportsbook tokens. Every colour on the screen resolves from <code class="tok">tokens/semantic/color.tokens.json</code> into a <code class="tok">--tok-*</code> variable; nothing is a literal hex. This is a screen prototype for the betslip task, not a component contract — iterate on it here before it goes into the app.</p>
+    <p class="sub">A multi (combo) betslip for the mobile app, assembled <b>strictly from the real design-system components</b> — not a redrawn lookalike. Each selection is the real <a href="bet-card.html">Bet card</a>; the footer totals are the real <a href="summary.html">Summary</a> rows; the stake field is the real <a href="input.html">Input</a> with the real Max <a href="button.html">Button</a>; the odds are the real <a href="odds.html">Odds</a>; the LIVE and count pills are the real <a href="badge.html">Badge</a>. The screen adds only layout scaffolding — that arrangement is the prototype's job.</p>
 
     <div class="stage">
       <div class="phone">
@@ -187,8 +462,8 @@
             
       <div class="bs">
         <div class="bs__head">
-          <div class="bs__title">Betslip <span class="bs__count">3</span></div>
-          <button class="bs__clear"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM7.05 9.9L8.225 8.725L10 10.4917L11.7667 8.725L12.9417 9.9L11.175 11.6667L12.9417 13.4333L11.7667 14.6083L10 12.8417L8.23333 14.6083L7.05833 13.4333L8.825 11.6667L7.05 9.9ZM12.9167 3.33333L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333H12.9167Z" fill="currentColor"/></g></svg> Clear all</button>
+          <div class="bs__title">Betslip <span class="badge badge--sm badge--role-active badge--solid">3</span></div>
+          <button class="btn btn--ghost btn--sm"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5 15.8333C5 16.75 5.75 17.5 6.66667 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333H5V15.8333ZM7.05 9.9L8.225 8.725L10 10.4917L11.7667 8.725L12.9417 9.9L11.175 11.6667L12.9417 13.4333L11.7667 14.6083L10 12.8417L8.23333 14.6083L7.05833 13.4333L8.825 11.6667L7.05 9.9ZM12.9167 3.33333L12.0833 2.5H7.91667L7.08333 3.33333H4.16667V5H15.8333V3.33333H12.9167Z" fill="currentColor"/></g></svg> Clear all</button>
         </div>
 
         <div class="bs__tabs">
@@ -198,76 +473,57 @@
         </div>
 
         <div class="bs__list">
-          
-        <div class="pick">
-          <div class="pick__top">
-            <span class="pick__live"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 2.5H4.16667C3.2475 2.5 2.5 3.2475 2.5 4.16667V15.8333C2.5 16.7525 3.2475 17.5 4.16667 17.5H15.8333C16.7525 17.5 17.5 16.7525 17.5 15.8333V4.16667C17.5 3.2475 16.7525 2.5 15.8333 2.5ZM12.9592 10.6442L8.60917 13.13C8.115 13.4125 7.5 13.055 7.5 12.4858V7.51417C7.5 6.94417 8.115 6.5875 8.61 6.87L12.96 9.35583C13.4583 9.64083 13.4583 10.3592 12.9592 10.6442Z" fill="currentColor"/></svg> Live</span>
-            <span class="pick__league">Premier League</span>
-            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
-          </div>
-          <div class="pick__row">
-            <div>
-              <div class="pick__sel">Arsenal to win</div>
-              <div class="pick__market">Match Result — 1X2</div>
-            </div>
-            <div class="pick__odds up">2.10</div>
-          </div>
-          <div class="pick__match">Arsenal — Chelsea</div>
-        </div>
-
-        <div class="pick">
-          <div class="pick__top">
-            
-            <span class="pick__league">La Liga</span>
-            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
-          </div>
-          <div class="pick__row">
-            <div>
-              <div class="pick__sel">Over 2.5 goals</div>
-              <div class="pick__market">Total Goals</div>
-            </div>
-            <div class="pick__odds">1.72</div>
-          </div>
-          <div class="pick__match">Real Madrid — Sevilla</div>
-        </div>
-
-        <div class="pick">
-          <div class="pick__top">
-            
-            <span class="pick__league">NBA</span>
-            <button class="pick__x" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
-          </div>
-          <div class="pick__row">
-            <div>
-              <div class="pick__sel">L. Dončić 30+ points</div>
-              <div class="pick__market">Player Props</div>
-            </div>
-            <div class="pick__odds">2.33</div>
-          </div>
-          <div class="pick__match">Mavericks — Nuggets</div>
-        </div>
+          <div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Arsenal — Chelsea</button>
+    <div class="betcard__badges"><span class="badge badge--sm badge--named-live">LIVE</span></div><button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">Arsenal to win</span>
+    <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+  </div>
+</div>
+<div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.6531 9.0069L10.7661 6.6399C10.7581 6.6179 10.7521 6.5949 10.7461 6.5709H7.44611L5.84611 9.1279C5.82911 9.1579 5.80911 9.1859 5.78511 9.2109L5.76111 9.2339L6.84111 12.4739C6.88711 12.4679 6.93411 12.4669 6.98111 12.4719L10.0411 12.7779C10.0631 12.7809 10.0861 12.7859 10.1081 12.7929L11.8171 9.2419C11.7451 9.1769 11.6901 9.0959 11.6541 9.0069H11.6531Z" fill="currentColor"/><path d="M7.53482 6.00002H10.8748C10.9318 5.93202 11.0018 5.87502 11.0818 5.83502L13.4288 4.66202V4.13202C12.9568 4.04502 12.4788 4.00002 11.9998 4.00002C10.3378 3.99602 8.71682 4.51502 7.36682 5.48402L7.52682 5.96602C7.53082 5.97702 7.53082 5.98902 7.53482 6.00002Z" fill="currentColor"/><path d="M5.34403 8.8451C5.34903 8.8381 5.35403 8.8321 5.36103 8.8261L6.98103 6.2331L6.98603 6.2261C6.99703 6.2091 7.00003 6.1861 6.99303 6.1671L6.88803 5.8531C6.85803 5.8791 6.82503 5.9031 6.79403 5.9301C6.74203 5.9741 6.69103 6.0201 6.64003 6.0661C6.54803 6.1491 6.45803 6.2341 6.37003 6.3211C6.32303 6.3681 6.27603 6.4131 6.23003 6.4611C6.13403 6.5611 6.04003 6.6651 5.94903 6.7711C5.91903 6.8061 5.88603 6.8401 5.85603 6.8761C5.73703 7.0181 5.62403 7.1641 5.51603 7.3131C5.49003 7.3481 5.46803 7.3831 5.44303 7.4191C5.36103 7.5361 5.28203 7.6551 5.20603 7.7761L5.10803 7.9411C5.04503 8.0481 4.98503 8.1551 4.92803 8.2651L4.83503 8.4451C4.77803 8.5591 4.72503 8.6751 4.67503 8.7921C4.65003 8.8471 4.62503 8.9011 4.60303 8.9561L4.58203 9.0121L5.30703 8.8671C5.32203 8.8651 5.33503 8.8571 5.34403 8.8451ZM12.137 16.0001H15.817L17.397 13.1481L15.691 9.7361H15.68C15.66 9.7361 15.64 9.7361 15.621 9.7341L12.356 9.4371L10.566 13.1541L12.097 15.9091C12.113 15.9391 12.127 15.9691 12.137 16.0001ZM16.56 5.8551C16.574 5.8621 16.587 5.8721 16.601 5.8801L16.986 5.7511C16.108 5.0461 15.09 4.5371 14 4.2571V4.5871C14.03 4.5971 14.06 4.6071 14.09 4.6201L16.56 5.8551ZM11.3 6.4401L12.188 8.8061C12.198 8.8331 12.223 8.8521 12.251 8.8541L15.673 9.1651C15.711 9.1691 15.745 9.1441 15.753 9.1071L16.343 6.4491C16.351 6.4151 16.335 6.3811 16.303 6.3661L13.836 5.1301C13.814 5.1201 13.79 5.1201 13.769 5.1301L11.339 6.3461C11.304 6.3631 11.289 6.4031 11.302 6.4381L11.3 6.4401Z" fill="currentColor"/><path d="M17.9651 13.37C17.9401 13.372 17.9181 13.387 17.9061 13.41L17.8931 13.432L16.2831 16.335C16.2731 16.353 16.2731 16.374 16.2781 16.393L16.2871 16.421L16.8421 18.362L16.8921 18.325L17.0231 18.22C17.0831 18.172 17.1411 18.124 17.1991 18.075L17.3241 17.965C17.3811 17.914 17.4371 17.863 17.4921 17.811L17.6121 17.696C17.6661 17.642 17.7191 17.588 17.7721 17.532L17.8841 17.413C17.9361 17.357 17.9871 17.299 18.0371 17.241L18.1421 17.119C18.1921 17.059 18.2411 16.998 18.2891 16.936L18.3851 16.813C18.4341 16.749 18.4801 16.683 18.5271 16.617L18.6131 16.496C18.6611 16.424 18.7081 16.351 18.7531 16.279C18.7771 16.242 18.8021 16.206 18.8241 16.169C18.8801 16.078 18.9331 15.985 18.9851 15.892L19.0201 15.832C19.0821 15.718 19.1411 15.602 19.1981 15.486C19.2141 15.452 19.2281 15.418 19.2451 15.384C19.2841 15.301 19.3231 15.217 19.3591 15.132C19.3791 15.086 19.3971 15.038 19.4161 14.992C19.4461 14.918 19.4751 14.845 19.5021 14.772C19.5221 14.719 19.5391 14.666 19.5571 14.614C19.5821 14.544 19.6061 14.474 19.6281 14.402C19.6461 14.348 19.6611 14.292 19.6781 14.237C19.6981 14.167 19.7181 14.097 19.7361 14.027L19.7781 13.856L19.8261 13.646L19.8601 13.471L19.8781 13.367H17.9931L17.9651 13.37Z" fill="currentColor"/><path d="M6.273 13.0433C6.283 12.9603 6.308 12.8793 6.348 12.8063L5.234 9.46433L4.362 9.63833C4.122 10.4033 4 11.2003 4 12.0003C3.999 13.2703 4.301 14.5223 4.883 15.6513C4.943 15.7713 5.004 15.8833 5.072 15.9953L5.097 16.0353L5.977 15.7033L6.273 13.0433ZM17.906 6.61033C17.796 6.48533 17.688 6.37333 17.572 6.26433C17.544 6.23733 17.514 6.21333 17.486 6.18633L16.913 6.37833C16.919 6.44333 16.915 6.50833 16.901 6.57333L16.311 9.23133C16.291 9.31833 16.252 9.40133 16.198 9.47133L17.867 12.8093C17.877 12.8083 17.887 12.8033 17.899 12.8023C17.925 12.7973 17.951 12.7953 17.977 12.7953H19.926C19.936 12.7953 19.945 12.7983 19.955 12.7983C19.984 12.5333 19.999 12.2673 20 12.0003C20.003 10.0043 19.256 8.08033 17.906 6.61033ZM15.735 16.5713H12.075C12.035 16.6373 11.982 16.6943 11.92 16.7413L9.523 18.5383C9.493 18.5603 9.462 18.5793 9.429 18.5963V19.5723C9.512 19.6013 9.594 19.6313 9.677 19.6543C11.933 20.3423 14.378 19.9943 16.353 18.7043C16.342 18.6803 16.333 18.6553 16.325 18.6313L15.735 16.5713ZM11.598 16.1873L10.04 13.3843C10.028 13.3633 10.006 13.3493 9.981 13.3463L6.921 13.0403H6.914C6.876 13.0403 6.844 13.0693 6.84 13.1063L6.54 15.8073C6.537 15.8313 6.546 15.8553 6.565 15.8723L9.085 18.0773C9.112 18.1003 9.151 18.1023 9.179 18.0813L11.576 16.2833C11.606 16.2613 11.615 16.2203 11.596 16.1873H11.598Z" fill="currentColor"/><path d="M6.19007 16.3021C6.17307 16.2861 6.15807 16.2691 6.14407 16.2511L5.41107 16.5271C6.26907 17.7751 7.46407 18.7541 8.85707 19.3491V18.6011C8.80407 18.5761 8.75507 18.5451 8.71007 18.5071L6.19007 16.3021Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Real Madrid — Sevilla</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Total Goals</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">Over 2.5 goals</span>
+    <span class="odds"><span class="odds__value">1.72</span></span>
+  </div>
+</div>
+<div class="betcard betcard--compact">
+  <div class="betcard__header">
+    <span class="betcard__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.2486 4.02988C9.45967 4.19715 7.71283 4.9684 6.3386 6.34063C4.96637 7.71286 4.19511 9.4587 4.02985 11.2516C5.99504 11.48 8.08443 12.4836 9.79922 14.1994C11.516 15.9162 12.5216 18.0066 12.748 19.9708C14.5429 19.8045 16.2858 19.0343 17.66 17.663C19.0322 16.2908 19.8015 14.543 19.9677 12.751C18.0066 12.5237 15.9142 11.519 14.1984 9.80326C12.4836 8.08747 11.4779 5.99607 11.2486 4.03088V4.02988Z" fill="currentColor"/><path d="M20 11.7586C19.9419 9.79041 19.1626 7.84124 17.6632 6.3398C16.1618 4.83636 14.2096 4.0601 12.2414 4C12.4628 5.71879 13.3752 7.56579 14.9057 9.09628C16.4352 10.6258 18.2802 11.5372 20 11.7586ZM4 12.2434C4.05809 14.2106 4.83736 16.1608 6.3388 17.6622C7.83924 19.1626 9.78941 19.9429 11.7576 20C11.5362 18.2832 10.6238 16.4382 9.09328 14.9077C7.56579 13.3782 5.71779 12.4668 4 12.2434Z" fill="currentColor"/></svg></span>
+    <button class="betcard__event">Alcaraz — Sinner</button>
+    <button class="betcard__remove" aria-label="Remove selection"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.8333 5.34166L14.6583 4.16666L10 8.82499L5.34167 4.16666L4.16667 5.34166L8.825 9.99999L4.16667 14.6583L5.34167 15.8333L10 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="currentColor"/></g></svg></button>
+  </div>
+  <div class="betcard__market"><span class="betcard__market-name">Match Winner</span></div>
+  <div class="betcard__line">
+    <span class="betcard__outcome">C. Alcaraz</span>
+    <span class="odds"><span class="odds__value">2.33</span></span>
+  </div>
+</div>
         </div>
 
         <div class="bs__foot">
-          <div class="stake">
-            <div class="stake__field">
-              <span class="stake__cur">$</span>
-              <input class="stake__input" value="20.00" inputmode="decimal" aria-label="Stake" />
-            </div>
-            <button class="chip">Max</button>
-            <button class="chip chip--bolt" aria-label="Quick bet"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></button>
+          <div class="bs__stake">
+            <div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Stake</span><span class="input__value"><span class="input__prefix">$</span>20.00</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div>
+            <button class="btn btn--round btn--round-base btn--filled-neutral" aria-label="Quick bet"><svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.2417 1.84167L3.60833 9.57501C3.075 10.0583 3.375 10.95 4.09166 11.0167L10.8333 11.6667L6.79166 17.3C6.60833 17.5583 6.63333 17.9167 6.85833 18.1417C7.10833 18.3917 7.5 18.4 7.75833 18.1583L16.3917 10.425C16.925 9.94167 16.625 9.05001 15.9083 8.98334L9.16667 8.33334L13.2083 2.70001C13.3917 2.44167 13.3667 2.08334 13.1417 1.85834C12.8917 1.60834 12.5 1.60001 12.2417 1.84167Z" fill="currentColor"/></g></svg></button>
           </div>
 
-          <div class="summ">
-            <div class="summ__row"><span class="k">Total odds</span><span class="v">8.42</span></div>
-            <div class="summ__row"><span class="k">Total stake</span><span class="v">$20.00</span></div>
-            <div class="summ__row win"><span class="k">Potential win <span aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="v">$168.40</span></div>
+          <div class="summary">
+            <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value"><span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">8.42</span><span class="odds__prev">7.90</span></span></span></div>
+            <div class="summary__row"><span class="summary__label">Total stake</span><span class="summary__value">$20.00</span></div>
+            <div class="summary__row summary__row--win"><span class="summary__label">Potential win</span><span class="summary__value">$168.40</span></div>
           </div>
 
-          <button class="place">
-            <span class="place__t">Place bet</span>
-            <span class="place__s">Win $168.40</span>
-          </button>
+          <button class="btn btn--primary btn--tworow bs__place"><span class="btn__top">Place bet</span><span class="btn__bottom">Win $168.40</span></button>
         </div>
       </div>
           </div>
@@ -275,22 +531,65 @@
       </div>
 
       <div class="notes">
-        <h2>What's on the screen</h2>
+        <h2>Which component is which</h2>
         <ul>
-          <li><b>Header</b> — title + live selection count (<code class="tok">fill.active</code> pill), Clear all.</li>
-          <li><b>Bet-type tabs</b> — Single / Multi / System, underline style with <code class="tok">outline.active</code>.</li>
-          <li><b>Selection cards</b> — <code class="tok">surface.card</code> on <code class="tok">surface.page</code>; live tag uses the accent tint (<code class="tok">bg.accent</code> / <code class="tok">text.accent</code>); odds that drifted up show in <code class="tok">text.positive</code>.</li>
-          <li><b>Footer</b> — sticky combo block: stake field + quick chips (Max, quick-bet bolt), total odds / stake, potential win in <code class="tok">text.positive</code>, and the Place bet two-row primary button.</li>
+          <li><b>Count pill "3"</b> — Badge <code class="tok">role-active / solid</code>.</li>
+          <li><b>Clear all</b> — Button <code class="tok">ghost / sm</code> (icon + label).</li>
+          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (sport icon · event · LIVE Badge · remove × · market · outcome + Odds). The first has a live up-movement (flashes green, struck-through prev, count-up).</li>
+          <li><b>Stake field</b> — Input <code class="tok">lg / --action</code> with the real Max Button (twoRow / secondary) inside.</li>
+          <li><b>Quick-bet bolt</b> — Button <code class="tok">round / filled-neutral</code>.</li>
+          <li><b>Total odds / stake / win</b> — Summary rows; total odds is the Odds component (movement), win row in <code class="tok">text.positive</code>.</li>
+          <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>, full-width.</li>
         </ul>
-        <h2>Open questions</h2>
+        <h2>Screen chrome (not components)</h2>
         <ul>
-          <li>Per-selection stake in Single mode — separate layout, not built yet.</li>
-          <li>Errors / suspended markets (<code class="tok">outline.negative</code>, lock icon) — to add.</li>
-          <li>Freebet toggle & bonus rows in the summary.</li>
+          <li><b>Bet-type tabs</b> — a thin underline strip; Tabs isn't extracted as a component yet.</li>
+          <li><b>Phone frame + header/list/footer layout</b> — prototype scaffolding.</li>
+        </ul>
+        <h2>Open</h2>
+        <ul>
+          <li>Single-mode per-selection stake (Bet card <code class="tok">--amount</code>).</li>
+          <li>Suspended / error selection states.</li>
+          <li>Freebet toggle & bonus rows.</li>
         </ul>
       </div>
     </div>
   </main>
 </div>
+<script>
+  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
+  // shipped with the component — no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it so the movement is visible.
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function countUp(el, from, to, ms) {
+      var f = parseFloat(from), t = parseFloat(to);
+      var dp = ((String(to).split('.')[1]) || '').length;
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
+      var start = performance.now();
+      (function step(now) {
+        var p = Math.min(1, (now - start) / ms);
+        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        el.textContent = (f + (t - f) * e).toFixed(dp);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
+      })(performance.now());
+    }
+    function oddsPlay(el) {
+      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
+      if (!val) return;
+      var to = val.getAttribute('data-to') || val.textContent;
+      val.setAttribute('data-to', to);
+      var dir = el.getAttribute('data-dir');
+      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
+      if (dir) el.classList.add('odds--' + dir);
+      if (!reduce && prev) countUp(val, prev.textContent, to, 600);
+    }
+    window.oddsPlay = oddsPlay;
+    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
+      oddsPlay(el);
+      if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);
+    });
+  })();
+</script>
 </body>
 </html>

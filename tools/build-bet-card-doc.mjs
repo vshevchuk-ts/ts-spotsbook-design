@@ -15,6 +15,7 @@ import { renderNav } from "./lib/nav.mjs";
 import { createCtx } from "./lib/resolve.mjs";
 import * as Badge from "./lib/components/badge.mjs";
 import * as Odds from "./lib/components/odds.mjs";
+import * as BetCard from "./lib/components/bet-card.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 
@@ -118,84 +119,19 @@ const amtValueType = typoOf(inLg.value);
 const bbOddLabelType = typoOf(bb.oddLabel.type);
 const ttLabel = typoOf(tooltip.label);
 
-// ---- the stylesheet — printed as code AND used to render the live previews ----
+// ---- the stylesheet — printed as code AND used to render the live previews.
+// Card-own CSS from ./lib/components/bet-card.mjs, then the real Badge and Odds
+// component CSS (true composition). ----
 const css = `${rootVars}
 
-.betcard { box-sizing: border-box; background: ${cv("surface.raised")}; border-radius: ${radius}; padding: ${padding}; font-family: ${cv("family.sans")}; }
-.betcard * { box-sizing: border-box; }
+/* the Bet card's own CSS (header / market / bc-tt / outcome / densities / stake field) */
+${BetCard.css(ctx)}
 
-/* header: leading discipline icon · event link · optional LIVE/BB/FB badges · remove ×.
-   Event truncates and shrinks; badges sit right after it; × is pushed to the far right. */
-.betcard__header { display: flex; align-items: center; gap: ${headerGap}; }
-.betcard__icon { width: ${iconSize}; height: ${iconSize}; flex-shrink: 0; color: ${cv("icon.secondary")}; }
-.betcard__icon svg { display: block; width: 100%; height: 100%; }
-.betcard__event { flex: 0 1 auto; min-width: 0; color: ${cv("text.secondary")}; ${eventType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
-.betcard__event:hover { color: ${cv("text.active")}; }
-.betcard__badges { display: inline-flex; align-items: center; gap: ${badgeGap}; flex-shrink: 0; }
-.betcard__badges .badge { flex-shrink: 0; }
-.betcard__remove { flex-shrink: 0; margin-left: auto; width: ${removeBox}; height: ${removeBox}; display: inline-grid; place-items: center; padding: 0; border: none; background: none; border-radius: ${removeRadius}; color: ${cvOf(bc.header.remove.color)}; cursor: pointer; }
-.betcard__remove:hover { background: ${cvOf(bc.header.remove.hoverFill)}; color: ${cvOf(bc.header.remove.hoverColor)}; }
-.betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
-
-/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
-   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
+/* header LIVE/BB/FB pills = the real Badge component (full .badge CSS) */
 ${Badge.css(ctx)}
 
-/* market line (+ optional settlement-rules info icon) */
-.betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
-.betcard__market-name { display: block; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__info { flex-shrink: 0; width: ${infoSize}; height: ${infoSize}; color: ${cv("icon.warning")}; background: none; border: none; padding: 0; display: inline-flex; cursor: pointer; }
-.betcard__info svg { display: block; width: 100%; height: 100%; }
-
-/* Tooltip (info settlement · long market · long outcome reveals) = the Tooltip component,
-   resolved from tooltip.tokens.json — surface-6 bubble + caret, shown on hover/focus (pure CSS). */
-.bc-tt { position: relative; display: flex; align-items: center; min-width: 0; max-width: 100%; }
-.bc-tt--grow { flex: 1; }
-.bc-tt__trigger { min-width: 0; }
-.bc-tt__bubble { position: absolute; left: 50%; bottom: calc(100% + ${ttGap}); transform: translateX(-50%); z-index: 30; width: max-content; max-width: 240px; padding: ${ttPadY} ${ttPadX}; background: ${cvOf(tooltip.bg)}; color: ${cvOf(tooltip.text)}; border-radius: ${ttRadius}; ${ttLabel} white-space: normal; text-align: center; box-shadow: ${ttShadow}; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.12s ease; }
-.bc-tt:hover .bc-tt__bubble, .bc-tt:focus-within .bc-tt__bubble { opacity: 1; visibility: visible; }
-.bc-tt__arrow { position: absolute; top: 100%; left: 50%; width: ${ttArrow}; height: ${ttArrow}; background: ${cvOf(tooltip.bg)}; transform: translate(-50%, -50%) rotate(45deg); }
-.bc-tt__link { color: inherit; text-decoration: underline; }
-
-/* outcome + odds. Outcome weight is density-specific: emphasised (semibold) in
-   compact, stepped down to 12px regular in the amount density where odds leads. */
-.betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${cv("text.default")}; ${outcomeType} }
-.betcard--amount .betcard__outcome { ${outcomeSingleType} }
-
-/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
-   (true composition), not a hand-tailored subset. */
-${Odds.css(ctx)}
-
-/* --- compact density (Combo / System): odds inline, no stake field --- */
-.betcard--compact .betcard__market { margin-top: ${sectionGap}; }
-.betcard--compact .betcard__line { display: flex; align-items: baseline; justify-content: space-between; gap: ${px(resolve("spacing.3"))}; margin-top: ${lineGap}; }
-
-/* --- amount density (Single): outcome column + Bet-amount field --- */
-.betcard--amount .betcard__body { display: flex; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
-.betcard--amount .betcard__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${lineGap}; }
-/* Bet-amount field = Input / lg + prefix — surface.page fill, outline.strong border,
-   10px floating label over a 16px REGULAR value, '$' prefix (input.prefix). All from
-   input.tokens.json; only width + bottom-alignment are bet-card layout. */
-.betcard__amount { flex-shrink: 0; align-self: flex-end; width: ${amtWidth}; height: ${amtHeight}; display: flex; flex-direction: column; justify-content: center; gap: ${amtLabelGap}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${amtRadius}; padding: 0 ${amtPadX}; }
-.betcard__amount:focus-within { border-color: ${cv("outline.active")}; }
-.betcard__amount-label { color: ${cv("text.secondary")}; ${amtLabelType} }
-.betcard__amount-value { display: flex; align-items: baseline; gap: ${amtPrefixGap}; }
-.betcard__amount-cur { flex-shrink: 0; color: ${cv("text.secondary")}; ${amtValueType} }
-.betcard__amount-input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${amtValueType} font-variant-numeric: tabular-nums; font-family: inherit; }
-.betcard__amount-input::placeholder { color: ${cv("text.secondary")}; }
-/* empty state — Input's unpopulated look: no floating label / prefix, the placeholder centred */
-.betcard__amount--empty { justify-content: center; }
-.betcard__amount--empty .betcard__amount-input { width: 100%; }
-
-/* --- betbuilder density: header + inset legs card + footer (odd + stake field) --- */
-.betcard__bb { margin-top: ${sectionGap}; background: ${cv("surface.card")}; border-radius: ${bbRadius}; overflow: hidden; }
-.betcard__bb-row { display: flex; align-items: center; gap: ${headerGap}; padding: ${bbRowPadY} ${bbRowPadX}; }
-.betcard__bb-row + .betcard__bb-row { border-top: 1px solid ${cv("outline.default")}; }
-.betcard__bb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: ${bbRowGap}; }
-.betcard__bb-market { color: ${cv("text.secondary")}; ${marketType} white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.betcard__bb-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: ${px(resolve("spacing.3"))}; margin-top: ${sectionGap}; }
-.betcard__bb-odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.betcard__bb-odd-label { color: ${cv("text.secondary")}; ${bbOddLabelType} }`;
+/* odds = the real Odds component (full .odds CSS) */
+${Odds.css(ctx)}`;
 
 // ---- inline icons (currentColor) ----
 const iClose = fs.readFileSync(path.join(root, "assets/icons/ui/close.svg"), "utf8").replace(/\n/g, "");

@@ -104,6 +104,7 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
+/* Summary's own rows + footer container + hint (./lib/components/summary.mjs) */
 /* footer container — blocks (stake / select / hint / rows) stacked */
 .sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
 
@@ -119,9 +120,11 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = the real Input component (--action variant: field + trailing Max
-   button). The full .input CSS from ./lib/components/input.mjs — byte-identical to
-   the Input page, not a hand-tailored subset (true composition). */
+/* hint line with an inline link */
+.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
+.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
+
+/* stake field = the real Input component (--action variant: field + trailing Max button) */
 .input {
   display: inline-flex;
   align-items: center;
@@ -172,8 +175,7 @@
 .input-field { display: inline-flex; flex-direction: column; gap: 4px; }
 .input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
-/* the Max button IS the real Button component (twoRow / secondary) — the full .btn
-   CSS from ./lib/components/button.mjs. */
+/* the Max button IS the real Button component (twoRow / secondary) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -273,8 +275,7 @@
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
 .btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* System Combination = the real Select component (lg) — the full .select CSS from
-   ./lib/components/select.mjs. */
+/* System Combination = the real Select component (lg) */
 .select {
   display: inline-flex;
   align-items: center;
@@ -321,11 +322,7 @@
 .select-field { display: inline-flex; flex-direction: column; gap: 4px; }
 .select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
-/* hint line with an inline link */
-.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
-.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
-
-/* Odds (total-odds movement) — the full .odds CSS from ./lib/components/odds.mjs. */
+/* Odds (total-odds movement) */
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
@@ -455,6 +452,7 @@
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
+/* Summary's own rows + footer container + hint (./lib/components/summary.mjs) */
 /* footer container — blocks (stake / select / hint / rows) stacked */
 .sum-foot { display: flex; flex-direction: column; gap: 12px; font-family: var(--tok-family-sans); max-width: 360px; }
 
@@ -470,9 +468,11 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = the real Input component (--action variant: field + trailing Max
-   button). The full .input CSS from ./lib/components/input.mjs — byte-identical to
-   the Input page, not a hand-tailored subset (true composition). */
+/* hint line with an inline link */
+.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
+.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
+
+/* stake field = the real Input component (--action variant: field + trailing Max button) */
 .input {
   display: inline-flex;
   align-items: center;
@@ -523,8 +523,7 @@
 .input-field { display: inline-flex; flex-direction: column; gap: 4px; }
 .input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
-/* the Max button IS the real Button component (twoRow / secondary) — the full .btn
-   CSS from ./lib/components/button.mjs. */
+/* the Max button IS the real Button component (twoRow / secondary) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -624,8 +623,7 @@
 .btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
 .btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* System Combination = the real Select component (lg) — the full .select CSS from
-   ./lib/components/select.mjs. */
+/* System Combination = the real Select component (lg) */
 .select {
   display: inline-flex;
   align-items: center;
@@ -672,11 +670,7 @@
 .select-field { display: inline-flex; flex-direction: column; gap: 4px; }
 .select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
-/* hint line with an inline link */
-.sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
-.sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
-
-/* Odds (total-odds movement) — the full .odds CSS from ./lib/components/odds.mjs. */
+/* Odds (total-odds movement) */
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
