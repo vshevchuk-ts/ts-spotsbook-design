@@ -157,6 +157,7 @@ const outcomeSingleType = typoOf(bc.outcome.singleType);
 const oddsType = typoOf(oddsComp.type);
 const oddsGap = px(resolve(oddsComp.gap.$value));
 const oddsDur = px(resolveToken(oddsComp.movement.duration));
+const oddsCountMs = resolveToken(oddsComp.movement.countDuration).value;
 const oddsLoopMs = resolveToken(oddsComp.movement.duration).value + 2000;
 const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
@@ -213,6 +214,7 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
 .odds { display: inline-flex; align-items: baseline; gap: ${oddsGap}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(oddsComp.color.default)}; }
 .odds__value { color: inherit; }
 .odds__prev { color: ${cvOf(oddsComp.prev.color)}; text-decoration: line-through; }
+.odds--prev-left .odds__prev { order: -1; }
 .odds--up .odds__value { color: ${cvOf(oddsComp.color.up)}; }
 .odds--down .odds__value { color: ${cvOf(oddsComp.color.down)}; }
 @keyframes odds-up { 0%, 60% { color: ${cvOf(oddsComp.color.up)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
@@ -290,10 +292,11 @@ function marketLine(market, info) {
   </div>`;
 }
 // the odds value = the Odds component. Static, or live (dir up/down + previous price).
-function oddsEl(value, dir, prev) {
-  return dir
-    ? `<span class="odds odds--${dir}" data-dir="${dir}"><span class="odds__value">${value}</span><span class="odds__prev">${prev}</span></span>`
-    : `<span class="odds"><span class="odds__value">${value}</span></span>`;
+// prevLeft puts the struck-through previous value to the LEFT (odds pinned to a right edge).
+function oddsEl(value, dir, prev, prevLeft) {
+  if (!dir) return `<span class="odds"><span class="odds__value">${value}</span></span>`;
+  const cls = ["odds", `odds--${dir}`, prevLeft ? "odds--prev-left" : ""].filter(Boolean).join(" ");
+  return `<span class="${cls}" data-dir="${dir}"><span class="odds__value">${value}</span><span class="odds__prev">${prev}</span></span>`;
 }
 function compactCard({ sport, event, badges, market, info, outcome, odds, oddsDir, oddsPrev }) {
   return `<div class="betcard betcard--compact">
@@ -301,7 +304,7 @@ function compactCard({ sport, event, badges, market, info, outcome, odds, oddsDi
   ${marketLine(market, info)}
   <div class="betcard__line">
     ${textTip("betcard__outcome", outcome, true)}
-    ${oddsEl(odds, oddsDir, oddsPrev)}
+    ${oddsEl(odds, oddsDir, oddsPrev, true)}
   </div>
 </div>`;
 }
@@ -376,7 +379,7 @@ function sampleCode(kind, d) {
     </div>`;
   const outcomeCode = codeTip(`<span class="betcard__outcome">${d.outcome}</span>`, d.outcome);
   const oddsCode = d.oddsDir
-    ? `<span class="odds odds--${d.oddsDir}"><span class="odds__value">${d.odds}</span><span class="odds__prev">${d.oddsPrev}</span></span>`
+    ? `<span class="odds odds--${d.oddsDir}${kind === "compact" ? " odds--prev-left" : ""}"><span class="odds__value">${d.odds}</span><span class="odds__prev">${d.oddsPrev}</span></span>`
     : `<span class="odds"><span class="odds__value">${d.odds}</span></span>`;
   if (kind === "compact") {
     return `<div class="betcard betcard--compact">
@@ -592,15 +595,36 @@ const html = `<!doctype html>
   </main>
 </div>
 <script>
-  // DOCS ONLY: replay the Odds up/down flash on a loop so the movement is visible.
-  // In production the app adds .odds--up/.odds--down once per price change.
+  // Odds movement = the Odds component's behaviour: colour flash (CSS) + a number
+  // count-up (this rAF tween, no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it. (Same script as the Odds page.)
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function countUp(el, from, to, ms) {
+      var f = parseFloat(from), t = parseFloat(to);
+      var dp = ((String(to).split('.')[1]) || '').length;
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
+      var start = performance.now();
+      (function step(now) {
+        var p = Math.min(1, (now - start) / ms);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = (f + (t - f) * e).toFixed(dp);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
+      })(performance.now());
+    }
+    function oddsPlay(el) {
+      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
+      if (!val) return;
+      var to = val.getAttribute('data-to') || val.textContent;
+      val.setAttribute('data-to', to);
+      var dir = el.getAttribute('data-dir');
+      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
+      if (dir) el.classList.add('odds--' + dir);
+      if (!reduce && prev) countUp(val, prev.textContent, to, ${oddsCountMs});
+    }
     document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      var cls = 'odds--' + el.dataset.dir;
-      function play() { el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth; el.classList.add(cls); }
-      play();
-      if (!reduce) setInterval(play, ${oddsLoopMs});
+      oddsPlay(el);
+      if (!reduce) setInterval(function () { oddsPlay(el); }, ${oddsLoopMs});
     });
   })();
 </script>

@@ -140,6 +140,7 @@
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+.odds--prev-left .odds__prev { order: -1; }
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
@@ -326,6 +327,7 @@
 .odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+.odds--prev-left .odds__prev { order: -1; }
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
@@ -456,7 +458,7 @@
   </div>
   <div class="betcard__line">
     <span class="bc-tt bc-tt--grow"><span class="betcard__outcome bc-tt__trigger" tabindex="0">Arsenal to win</span><span class="bc-tt__bubble" role="tooltip">Arsenal to win<span class="bc-tt__arrow"></span></span></span>
-    <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+    <span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
   </div>
 </div></div>
         <pre class="code"><code>&lt;div class="betcard betcard--compact"&gt;
@@ -471,7 +473,7 @@
     &lt;/div&gt;
   &lt;div class="betcard__line"&gt;
     &lt;span class="bc-tt bc-tt--grow"&gt;&lt;span class="betcard__outcome"&gt;Arsenal to win&lt;/span&gt;&lt;span class="bc-tt__bubble" role="tooltip"&gt;Arsenal to win&lt;span class="bc-tt__arrow"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
-    &lt;span class="odds odds--up"&gt;&lt;span class="odds__value"&gt;2.10&lt;/span&gt;&lt;span class="odds__prev"&gt;1.95&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="odds odds--up odds--prev-left"&gt;&lt;span class="odds__value"&gt;2.10&lt;/span&gt;&lt;span class="odds__prev"&gt;1.95&lt;/span&gt;&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
         <p class="story-note">The odds here is the Odds component with a live up-movement — it flashes green and shows the struck-through previous price, then eases back. The demo replays on a loop.</p>
@@ -726,15 +728,36 @@
   </main>
 </div>
 <script>
-  // DOCS ONLY: replay the Odds up/down flash on a loop so the movement is visible.
-  // In production the app adds .odds--up/.odds--down once per price change.
+  // Odds movement = the Odds component's behaviour: colour flash (CSS) + a number
+  // count-up (this rAF tween, no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it. (Same script as the Odds page.)
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function countUp(el, from, to, ms) {
+      var f = parseFloat(from), t = parseFloat(to);
+      var dp = ((String(to).split('.')[1]) || '').length;
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
+      var start = performance.now();
+      (function step(now) {
+        var p = Math.min(1, (now - start) / ms);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = (f + (t - f) * e).toFixed(dp);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
+      })(performance.now());
+    }
+    function oddsPlay(el) {
+      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
+      if (!val) return;
+      var to = val.getAttribute('data-to') || val.textContent;
+      val.setAttribute('data-to', to);
+      var dir = el.getAttribute('data-dir');
+      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
+      if (dir) el.classList.add('odds--' + dir);
+      if (!reduce && prev) countUp(val, prev.textContent, to, 600);
+    }
     document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      var cls = 'odds--' + el.dataset.dir;
-      function play() { el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth; el.classList.add(cls); }
-      play();
-      if (!reduce) setInterval(play, 5000);
+      oddsPlay(el);
+      if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);
     });
   })();
 </script>

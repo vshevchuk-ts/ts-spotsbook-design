@@ -53,6 +53,7 @@ function typoCss(node) { const t = resolveToken(node); return `font-weight: ${t.
 const oddsType = typoCss(odds.type);
 const gap = px(resolve(odds.gap.$value));
 const dur = px(resolveToken(odds.movement.duration)); // e.g. "3000ms"
+const countMs = resolveToken(odds.movement.countDuration).value; // number-roll window
 const loopMs = resolveToken(odds.movement.duration).value + 2000; // demo replay cadence
 
 const css = `${rootVars}
@@ -60,6 +61,10 @@ const css = `${rootVars}
 .odds { display: inline-flex; align-items: baseline; gap: ${gap}; font-family: ${cv("family.sans")}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(odds.color.default)}; }
 .odds__value { color: inherit; }
 .odds__prev { color: ${cvOf(odds.prev.color)}; text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
+.odds--prev-left .odds__prev { order: -1; }
 
 /* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
 .odds--up .odds__value { color: ${cvOf(odds.color.up)}; }
@@ -179,7 +184,9 @@ const html = `<!doctype html>
     <div class="legend">
       <div class="row"><b>Static</b><span>text.default, <code class="tok">tabular-nums</code>, any string — decimal (2.83) or fractional (199/200). Not a parser.</span></div>
       <div class="row"><b>Movement</b><span>On a new price the app toggles <code class="tok">.odds--up</code> / <code class="tok">.odds--down</code>: the value flashes text.positive / text.negative, the previous price shows struck-through (text.secondary) beside it, then one CSS animation eases the colour back to text.default and fades the old value out over <code class="tok">movement.duration</code> (${dur}).</span></div>
-      <div class="row"><b>Trigger vs. component</b><span>The component owns the colours, the strike and the timing; the app owns only the trigger (add the class on each tick, drop the previous-value node on <code class="tok">animationend</code>). The looping in these demos is docs-only script, not part of the component.</span></div>
+      <div class="row"><b>Count-up</b><span>Alongside the flash the value <em>rolls</em> from the previous price to the new one — a small requestAnimationFrame tween (~15 lines, no library) shipped with the component, over <code class="tok">movement.countDuration</code> (${countMs}ms). Decimal odds only; fractional (199/200) just flash. tabular-nums keeps the width steady as digits change.</span></div>
+      <div class="row"><b>Placement</b><span>The struck-through previous value sits to the <em>right</em> of the new value by default; <code class="tok">--prev-left</code> flips it to the left — used where the odds is pinned to a right edge (the bet-card compact line, betbuilder) so the new value stays at the edge.</span></div>
+      <div class="row"><b>Trigger vs. component</b><span>The component owns the colours, the strike, the timing and the count tween; the app owns only the trigger (<code class="tok">oddsPlay(el)</code> on each tick, drop the previous-value node on <code class="tok">animationend</code>). The looping in these demos is docs-only.</span></div>
       <div class="row"><b>Reduced motion</b><span>prefers-reduced-motion: no flash — the changed value simply holds its up/down colour with the previous value shown, so the movement is still legible without animation.</span></div>
       <div class="row"><b>Size</b><span>Contextual — 14px (heading-base) here and on a bet card; override font-size for a larger summary value. The component fixes only the numeric styling + movement.</span></div>
     </div>
@@ -199,7 +206,14 @@ const html = `<!doctype html>
     <div class="story-grid">
       ${storyCard("Up — decimal", oMove("up", "2.10", "1.95"), codeMove("up", "2.10", "1.95"), "New price higher; flashes text.positive, old value struck-through, eases back to default.")}
       ${storyCard("Down — decimal", oMove("down", "1.72", "1.90"), codeMove("down", "1.72", "1.90"), "New price lower; flashes text.negative.")}
-      ${storyCard("Up — fractional", oMove("up", "199/200", "188/199"), codeMove("up", "199/200", "188/199"))}
+      ${storyCard("Up — fractional", oMove("up", "199/200", "188/199"), codeMove("up", "199/200", "188/199"), "Fractional odds can't be tweened — they flash but don't roll.")}
+    </div>
+
+    <h2 class="big-section">Previous-value placement</h2>
+    <p class="section-desc">Where the struck-through old price sits relative to the new one. Default = right; <code class="tok">--prev-left</code> = left (for a right-pinned odds so the new value keeps the edge).</p>
+    <div class="story-grid">
+      ${storyCard("prev right (default)", oMove("up", "2.10", "1.95"), codeMove("up", "2.10", "1.95"))}
+      ${storyCard("prev left (--prev-left)", `<span class="odds odds--prev-left" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>`, `<span class="odds odds--up odds--prev-left">\n  <span class="odds__value">2.10</span>\n  <span class="odds__prev">1.95</span>\n</span>`, "New value stays right, old value extends to the left.")}
     </div>
 
     <h2 class="big-section">In context</h2>
@@ -212,15 +226,37 @@ const html = `<!doctype html>
   </main>
 </div>
 <script>
-  // DOCS ONLY: replay the up/down flash on a loop so the movement is visible.
-  // In production the app adds .odds--up/.odds--down once per price change.
+  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
+  // shipped with the component — no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it so the movement is visible.
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function countUp(el, from, to, ms) {
+      var f = parseFloat(from), t = parseFloat(to);
+      var dp = ((String(to).split('.')[1]) || '').length;
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
+      var start = performance.now();
+      (function step(now) {
+        var p = Math.min(1, (now - start) / ms);
+        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        el.textContent = (f + (t - f) * e).toFixed(dp);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
+      })(performance.now());
+    }
+    function oddsPlay(el) {
+      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
+      if (!val) return;
+      var to = val.getAttribute('data-to') || val.textContent;
+      val.setAttribute('data-to', to);
+      var dir = el.getAttribute('data-dir');
+      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
+      if (dir) el.classList.add('odds--' + dir);
+      if (!reduce && prev) countUp(val, prev.textContent, to, ${countMs});
+    }
+    window.oddsPlay = oddsPlay;
     document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      var cls = 'odds--' + el.dataset.dir;
-      function play() { el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth; el.classList.add(cls); }
-      play();
-      if (!reduce) setInterval(play, ${loopMs});
+      oddsPlay(el);
+      if (!reduce) setInterval(function () { oddsPlay(el); }, ${loopMs});
     });
   })();
 </script>
