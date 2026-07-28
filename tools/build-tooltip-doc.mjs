@@ -11,97 +11,28 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Tooltip from "./lib/components/tooltip.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const elevationPrim = load("tokens/primitives/elevation.tokens.json").elevation;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
-const button = load("tokens/components/button.tokens.json").component.button;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
-  elevation: elevationPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["tooltip", "button"]);
+const { resolve, resolveToken, get, px, cv, renderRootVars } = ctx;
+const button = ctx.tokens.button;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
 // The demo triggers are real Button-component buttons (secondary / base), so this
 // page reuses the button component's own tokens — never retyping a color role by
-// hand — for both the shown-off trigger and the tooltip bubble itself.
-const colorPaths = ["outline.strong", "text.onFill", "fill.neutral", "text.default", "fill.neutralHover", "fill.neutralPressed"];
+// hand — for both the shown-off trigger and the tooltip bubble itself. The four
+// extra roles beyond Tooltip's own two drive the demo button trigger below.
+const colorPaths = [...Tooltip.colorPaths, "fill.neutral", "text.default", "fill.neutralHover", "fill.neutralPressed"];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
-const radius = px(resolve(tooltip.radius.$value));
-const paddingX = px(resolve(tooltip.paddingX.$value));
-const paddingY = px(resolve(tooltip.paddingY.$value));
-const gap = px(resolve(tooltip.gap.$value));
-const arrowSize = resolve(tooltip.arrowSize.$value);
-const arrowNeg = `-${arrowSize.value / 2}${arrowSize.unit}`;
-const showDelay = tooltip.showDelay.$value; // literal {value,unit} — no dim.* step exists for durations, same "literal, not a token" precedent as Separator's 1px thickness
-const labelType = resolveToken(tooltip.label);
-const shadow = resolveToken(tooltip.shadow);
-const shadowCss = `${px(shadow.offsetX)} ${px(shadow.offsetY)} ${px(shadow.blur)} ${px(shadow.spread)} ${shadow.color}`;
-
-function typoCss(t) {
-  return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
-}
-
 const css = `${rootVars}
 
-.tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip { position: absolute; z-index: 1; box-sizing: border-box; padding: ${paddingY} ${paddingX}; border-radius: ${radius}; background: ${cv("outline.strong")}; color: ${cv("text.onFill")}; box-shadow: ${shadowCss}; white-space: nowrap; font-family: ${cv("family.sans")}; ${typoCss(labelType)}
-  opacity: 0; pointer-events: none; transition: opacity 0.1s ease; }
-.tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip { opacity: 1; transition-delay: ${showDelay.value}${showDelay.unit}; }
-.tooltip::after { content: ""; position: absolute; width: ${px(arrowSize)}; height: ${px(arrowSize)}; background: ${cv("outline.strong")}; transform: rotate(45deg); }
-
-.tooltip--top { bottom: calc(100% + ${gap}); left: 50%; transform: translateX(-50%); }
-.tooltip--top::after { bottom: ${arrowNeg}; left: 50%; margin-left: ${arrowNeg}; }
-.tooltip--bottom { top: calc(100% + ${gap}); left: 50%; transform: translateX(-50%); }
-.tooltip--bottom::after { top: ${arrowNeg}; left: 50%; margin-left: ${arrowNeg}; }
-.tooltip--left { right: calc(100% + ${gap}); top: 50%; transform: translateY(-50%); }
-.tooltip--left::after { right: ${arrowNeg}; top: 50%; margin-top: ${arrowNeg}; }
-.tooltip--right { left: calc(100% + ${gap}); top: 50%; transform: translateY(-50%); }
-.tooltip--right::after { left: ${arrowNeg}; top: 50%; margin-top: ${arrowNeg}; }`;
+${Tooltip.css(ctx)}`;
 
 // ---- the demo trigger IS the Button component (secondary / base), resolved from
 // button.tokens.json so the trigger on this page matches the real Button page ----

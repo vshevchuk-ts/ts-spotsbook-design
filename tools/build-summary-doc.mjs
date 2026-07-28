@@ -8,60 +8,39 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Input from "./lib/components/input.mjs";
+import * as Select from "./lib/components/select.mjs";
+import * as Button from "./lib/components/button.mjs";
+import * as Odds from "./lib/components/odds.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const summary = load("tokens/components/summary.tokens.json").component.summary;
-const input = load("tokens/components/input.tokens.json").component.input;      // stake field
-const select = load("tokens/components/select.tokens.json").component.select;   // system combination
-const oddsComp = load("tokens/components/odds.tokens.json").component.odds;      // total odds movement
-const button = load("tokens/components/button.tokens.json").component.button;    // Max = Button twoRow-secondary
-
-const registry = {
-  color: colorPrim, spacing: dim, radius: radiusPrim,
-  family: typo.family, weight: typo.weight, size: typo.size,
-  leading: typo.leading, tracking: typo.tracking,
-  "text-style": textStyle, ...semantic,
-};
-function get(ref) { const parts = ref.replace(/[{}]/g, "").split("."); let node = registry; for (const p of parts) node = node[p]; return node; }
-function resolveValue(v) { if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v)); return v; }
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) { const out = {}; for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub); return out; }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["summary", "input", "select", "odds", "button"]);
+const { resolve, resolveToken, get, px, cv, cvOf, typoOf, renderRootVars } = ctx;
+const summary = ctx.tokens.summary;
+const oddsComp = ctx.tokens.odds;
+const button = ctx.tokens.button;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
-const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
-function typoOf(node) {
-  const t = resolveToken(node);
-  let css = `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
-  const ref = node.$value;
-  if (typeof ref === "string" && ref.startsWith("{")) {
-    const ext = get(ref).$extensions?.["turbo.sportsbook/text"];
-    if (ext?.textDecoration) css += ` text-decoration: ${ext.textDecoration};`;
-  }
-  return css;
-}
 
-const colorPaths = [
+// True composition: the stake field, System-Combination select, Max button and
+// total-odds are the REAL components (their full CSS from ./lib/components/*),
+// not a hand-tailored subset — so every var they reference must be declared.
+// colorPaths = Summary's own roles ∪ each embedded component's colorPaths.
+const summaryOwnPaths = [
   "surface.page", "surface.raised",
   "outline.strong", "outline.active",
   "text.default", "text.secondary", "text.positive", "text.negative", "text.active",
   "icon.active", "icon.secondary", "icon.default",
   "fill.neutral", // Button secondary fill (Max)
 ];
+const colorPaths = [...new Set([
+  ...summaryOwnPaths,
+  ...Input.colorPaths,
+  ...Select.colorPaths,
+  ...Button.colorPaths(ctx),
+  ...Odds.colorPaths,
+])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -78,43 +57,9 @@ const sTurboIcon = px(resolve(summary.turbo.iconSize.$value));
 const sTurboGap = px(resolve(summary.turbo.gap.$value));
 const sHint = typoOf(summary.hint.type);
 
-// ---- stake field = Input / lg + a Max chip ----
-const inLg = input.size.lg;
-const inH = px(resolve(inLg.height.$value));
-const inPadX = px(resolve(inLg.paddingX.$value));
-const inLabelGap = px(resolve(inLg.labelGap.$value));
-const inRadius = px(resolve(input.radius.$value));
-const inLabel = typoOf(inLg.label);
-const inValue = typoOf(inLg.value);
-const inPrefixGap = px(resolve(input.prefix.gap.$value));
-
-// ---- System Combination = Select / lg ----
-const selLg = select.size.lg;
-const selH = px(resolve(selLg.height.$value));
-const selPadX = px(resolve(selLg.paddingX.$value));
-const selLabelGap = px(resolve(selLg.labelGap.$value));
-const selRadius = px(resolve(select.radius.$value));
-const selIcon = px(resolve(selLg.iconSize.$value));
-const selLabel = typoOf(selLg.label);
-const selValue = typoOf(selLg.value);
-
-// ---- Max = Button / twoRow / secondary (resolved from button.tokens.json) ----
-const btnSecFill = cvOf(button.secondary.state.default.fill);
-const btnSecLabel = cvOf(button.secondary.state.default.label);
-const trGap = px(resolve(button.twoRow.gap.$value));
-const trPadX = px(resolve(button.twoRow.paddingX.$value));
-const trRadius = px(resolve(button.twoRow.radius.$value));
-const trSecH = px(resolve(button.twoRow.secondary.height.$value));
-const trTop = typoOf(button.twoRow.secondary.topLabel);
-const trBottom = typoOf(button.twoRow.secondary.bottomLabel);
-const trBottomColor = cvOf(button.twoRow.secondary.bottomLabelColor);
-
-// ---- Odds (total odds movement) ----
-const oddsType = typoOf(oddsComp.type);
-const oddsGap = px(resolve(oddsComp.gap.$value));
-const oddsDur = px(resolveToken(oddsComp.movement.duration));
-const oddsCountMs = resolveToken(oddsComp.movement.countDuration).value;
-const oddsLoopMs = resolveToken(oddsComp.movement.duration).value + 2000;
+// ---- Odds (total odds movement) — the embedded Odds component owns its CSS/script;
+// this page only needs the demo loop cadence for the replay interval. ----
+const oddsLoopMs = Odds.durationMs(ctx) + 2000;
 
 const css = `${rootVars}
 
@@ -133,63 +78,25 @@ const css = `${rootVars}
 .summary__rocket { flex-shrink: 0; width: ${sTurboIcon}; height: ${sTurboIcon}; color: ${cvOf(summary.turbo.iconColor)}; }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = the real Input component, the --action variant (field + a trailing Max
-   button), resolved from input.tokens.json — the exact .input classes the Input page
-   renders, not a re-draw. */
-.input { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${inRadius}; font-family: ${cv("family.sans")}; cursor: text; }
-.input__placeholder { color: ${cv("text.secondary")}; }
-.input__value { color: ${cv("text.default")}; }
-.input__prefix { color: ${cv("text.secondary")}; margin-right: ${inPrefixGap}; }
-.input__stack { display: flex; flex-direction: column; justify-content: center; }
-.input__label { color: ${cv("text.secondary")}; }
-.input--lg { height: ${inH}; padding: 0 ${inPadX}; }
-.input--lg .input__placeholder, .input--lg .input__value { ${inValue} }
-.input--lg .input__stack { gap: ${inLabelGap}; }
-.input--lg .input__label { ${inLabel} }
-.input.input--action { justify-content: space-between; padding-right: ${inPrefixGap}; gap: ${inPrefixGap}; }
-.input--action .input__stack { flex: 1; min-width: 0; }
-.input--action > .btn { flex-shrink: 0; }
+/* stake field = the real Input component (--action variant: field + trailing Max
+   button). The full .input CSS from ./lib/components/input.mjs — byte-identical to
+   the Input page, not a hand-tailored subset (true composition). */
+${Input.css(ctx)}
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
-.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: ${cv("family.sans")}; }
-.btn--secondary { background: ${btnSecFill}; color: ${btnSecLabel}; }
-.btn--tworow { flex-direction: column; gap: ${trGap}; padding: 0 ${trPadX}; border-radius: ${trRadius}; line-height: 1.2; }
-.btn--tworow.btn--secondary { height: ${trSecH}; }
-.btn--tworow.btn--secondary .btn__top { ${trTop} }
-.btn--tworow.btn--secondary .btn__bottom { ${trBottom} color: ${trBottomColor}; }
+/* the Max button IS the real Button component (twoRow / secondary) — the full .btn
+   CSS from ./lib/components/button.mjs. */
+${Button.css(ctx)}
 
-/* System Combination = the real Select component (lg, floating label), resolved from
-   select.tokens.json — the exact .select classes the Select page renders. */
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${selRadius}; font-family: ${cv("family.sans")}; cursor: pointer; }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: ${cvOf(select.state.default.chevron)}; }
-.select__value { color: ${cv("text.default")}; }
-.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
-.select__label { color: ${cv("text.secondary")}; }
-.select--lg { height: ${selH}; padding: 0 ${selPadX}; gap: ${px(resolve(selLg.gap.$value))}; }
-.select--lg .select__chevron { width: ${selIcon}; height: ${selIcon}; }
-.select--lg .select__value { ${selValue} }
-.select--lg .select__stack { gap: ${selLabelGap}; }
-.select--lg .select__label { ${selLabel} }
+/* System Combination = the real Select component (lg) — the full .select CSS from
+   ./lib/components/select.mjs. */
+${Select.css(ctx)}
 
 /* hint line with an inline link */
 .sum-hint { color: ${cvOf(summary.hint.color)}; ${sHint} margin: 0; }
 .sum-hint a { color: ${cv("text.active")}; text-decoration: underline; }
 
-/* Odds (total-odds movement), resolved from odds.tokens.json */
-.odds { display: inline-flex; align-items: baseline; gap: ${oddsGap}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(oddsComp.color.default)}; }
-.odds__value { color: inherit; }
-.odds__prev { color: ${cvOf(oddsComp.prev.color)}; text-decoration: line-through; }
-.odds--prev-left .odds__prev { order: -1; }
-.odds--up .odds__value { color: ${cvOf(oddsComp.color.up)}; }
-.odds--down .odds__value { color: ${cvOf(oddsComp.color.down)}; }
-@keyframes odds-up { 0%, 60% { color: ${cvOf(oddsComp.color.up)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
-@keyframes odds-down { 0%, 60% { color: ${cvOf(oddsComp.color.down)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
-@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
-@media (prefers-reduced-motion: no-preference) {
-  .odds--up .odds__value { animation: odds-up ${oddsDur} ease forwards; }
-  .odds--down .odds__value { animation: odds-down ${oddsDur} ease forwards; }
-  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out ${oddsDur} ease forwards; }
-}`;
+/* Odds (total-odds movement) — the full .odds CSS from ./lib/components/odds.mjs. */
+${Odds.css(ctx)}`;
 
 // ---- icons ----
 const iRocket = fs.readFileSync(path.join(root, "assets/icons/ui/turbo-combo.svg"), "utf8").replace(/\n/g, "");
@@ -369,36 +276,7 @@ const html = `<!doctype html>
   </main>
 </div>
 <script>
-  // total-odds movement (Odds component) — loop the flash + count-up for the demo.
-  (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function countUp(el, from, to, ms) {
-      var f = parseFloat(from), t = parseFloat(to);
-      var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
-      var start = performance.now();
-      (function step(now) {
-        var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3);
-        el.textContent = (f + (t - f) * e).toFixed(dp);
-        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
-      })(performance.now());
-    }
-    function oddsPlay(el) {
-      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
-      if (!val) return;
-      var to = val.getAttribute('data-to') || val.textContent;
-      val.setAttribute('data-to', to);
-      var dir = el.getAttribute('data-dir');
-      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
-      if (dir) el.classList.add('odds--' + dir);
-      if (!reduce && prev) countUp(val, prev.textContent, to, ${oddsCountMs});
-    }
-    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      oddsPlay(el);
-      if (!reduce) setInterval(function () { oddsPlay(el); }, ${oddsLoopMs});
-    });
-  })();
+${Odds.script(ctx, { loopMs: oddsLoopMs })}
 </script>
 </body>
 </html>

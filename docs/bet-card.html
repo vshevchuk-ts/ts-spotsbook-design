@@ -83,12 +83,31 @@
   --tok-icon-secondary: #8E929F;
   --tok-icon-warning: #FFC12E;
   --tok-fill-neutral-hover: #555A66;
+  --tok-text-on-fill: #FFFFFF;
   --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-fill-active: #FB8C33;
+  --tok-text-for-active-bg: #11141C;
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-text-positive: #00A828;
+  --tok-fill-positive: #00A828;
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
+  --tok-text-negative: #F90643;
+  --tok-fill-negative: #F90643;
+  --tok-bg-warning: rgba(255, 193, 46, 0.12);
+  --tok-text-warning: #FFC12E;
+  --tok-fill-warning: #FFC12E;
   --tok-bg-accent: rgba(49, 168, 255, 0.12);
   --tok-text-accent: #31A8FF;
-  --tok-text-on-fill: #FFFFFF;
-  --tok-text-positive: #00A828;
-  --tok-text-negative: #F90643;
+  --tok-fill-accent: #31A8FF;
+  --tok-text-contrast: #11141C;
+  --tok-label-score: #3E4351;
+  --tok-bet-status-win: #00A828;
+  --tok-bet-status-loose: #F90643;
+  --tok-bet-status-cashout: #FFC12E;
+  --tok-bet-status-half-win: #00BAAF;
+  --tok-bet-status-half-loose: #FF601B;
+  --tok-bet-status-refund: #AB35FF;
+  --tok-bet-status-pending: #A1A1A1;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -108,12 +127,36 @@
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
-/* header LIVE/BB/FB pills = the Badge component (sm / named), resolved from badge.tokens.json — real .badge classes, not a redraw */
+/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
+   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
 .badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: 999px; font-family: var(--tok-family-sans); white-space: nowrap; }
 .badge--sm { height: 16px; padding: 0 4px; font-weight: 500; font-size: 10px; line-height: 1; }
+.badge--base { height: 20px; padding: 0 6px; font-weight: 500; font-size: 12px; line-height: 1; }
+.badge--lg { height: 24px; padding: 0 6px; font-weight: 500; font-size: 14px; line-height: 1; }
+.badge--role-neutral.badge--tint { background: var(--tok-surface-raised); color: var(--tok-text-secondary); }
+.badge--role-neutral.badge--solid { background: var(--tok-surface-raised); color: var(--tok-text-default); }
+.badge--role-active.badge--tint { background: var(--tok-bg-active); color: var(--tok-text-active); }
+.badge--role-active.badge--solid { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.badge--role-positive.badge--tint { background: var(--tok-bg-positive); color: var(--tok-text-positive); }
+.badge--role-positive.badge--solid { background: var(--tok-fill-positive); color: var(--tok-text-on-fill); }
+.badge--role-negative.badge--tint { background: var(--tok-bg-negative); color: var(--tok-text-negative); }
+.badge--role-negative.badge--solid { background: var(--tok-fill-negative); color: var(--tok-text-on-fill); }
+.badge--role-warning.badge--tint { background: var(--tok-bg-warning); color: var(--tok-text-warning); }
+.badge--role-warning.badge--solid { background: var(--tok-fill-warning); color: var(--tok-text-for-active-bg); }
+.badge--role-accent.badge--tint { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-contrast); }
+
 .badge--named-live { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-betbuilder { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-freebet { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--named-score { background: var(--tok-label-score); color: var(--tok-text-default); }
+.badge--status-win { background: var(--tok-bet-status-win); color: var(--tok-text-contrast); }
+.badge--status-loose { background: var(--tok-bet-status-loose); color: var(--tok-text-on-fill); }
+.badge--status-cashout { background: var(--tok-bet-status-cashout); color: var(--tok-text-contrast); }
+.badge--status-halfWin { background: var(--tok-bet-status-half-win); color: var(--tok-text-on-fill); }
+.badge--status-halfLoose { background: var(--tok-bet-status-half-loose); color: var(--tok-text-on-fill); }
+.badge--status-refund { background: var(--tok-bet-status-refund); color: var(--tok-text-on-fill); }
+.badge--status-pending { background: var(--tok-bet-status-pending); color: var(--tok-text-on-fill); }
 
 /* market line (+ optional settlement-rules info icon) */
 .betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
@@ -136,13 +179,21 @@
 .betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
 
-/* odds = the Odds component (static value + live up/down movement), resolved from odds.tokens.json — real .odds classes, not a redraw */
-.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
+   (true composition), not a hand-tailored subset. */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
 .odds--prev-left .odds__prev { order: -1; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
@@ -271,12 +322,31 @@
   --tok-icon-secondary: #8E929F;
   --tok-icon-warning: #FFC12E;
   --tok-fill-neutral-hover: #555A66;
+  --tok-text-on-fill: #FFFFFF;
   --tok-bg-active: rgba(251, 140, 51, 0.12);
+  --tok-fill-active: #FB8C33;
+  --tok-text-for-active-bg: #11141C;
+  --tok-bg-positive: rgba(0, 168, 40, 0.12);
+  --tok-text-positive: #00A828;
+  --tok-fill-positive: #00A828;
+  --tok-bg-negative: rgba(249, 6, 67, 0.12);
+  --tok-text-negative: #F90643;
+  --tok-fill-negative: #F90643;
+  --tok-bg-warning: rgba(255, 193, 46, 0.12);
+  --tok-text-warning: #FFC12E;
+  --tok-fill-warning: #FFC12E;
   --tok-bg-accent: rgba(49, 168, 255, 0.12);
   --tok-text-accent: #31A8FF;
-  --tok-text-on-fill: #FFFFFF;
-  --tok-text-positive: #00A828;
-  --tok-text-negative: #F90643;
+  --tok-fill-accent: #31A8FF;
+  --tok-text-contrast: #11141C;
+  --tok-label-score: #3E4351;
+  --tok-bet-status-win: #00A828;
+  --tok-bet-status-loose: #F90643;
+  --tok-bet-status-cashout: #FFC12E;
+  --tok-bet-status-half-win: #00BAAF;
+  --tok-bet-status-half-loose: #FF601B;
+  --tok-bet-status-refund: #AB35FF;
+  --tok-bet-status-pending: #A1A1A1;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -296,12 +366,36 @@
 .betcard__remove:hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
 .betcard__remove svg { width: 20px; height: 20px; }
 
-/* header LIVE/BB/FB pills = the Badge component (sm / named), resolved from badge.tokens.json — real .badge classes, not a redraw */
+/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
+   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
 .badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: 999px; font-family: var(--tok-family-sans); white-space: nowrap; }
 .badge--sm { height: 16px; padding: 0 4px; font-weight: 500; font-size: 10px; line-height: 1; }
+.badge--base { height: 20px; padding: 0 6px; font-weight: 500; font-size: 12px; line-height: 1; }
+.badge--lg { height: 24px; padding: 0 6px; font-weight: 500; font-size: 14px; line-height: 1; }
+.badge--role-neutral.badge--tint { background: var(--tok-surface-raised); color: var(--tok-text-secondary); }
+.badge--role-neutral.badge--solid { background: var(--tok-surface-raised); color: var(--tok-text-default); }
+.badge--role-active.badge--tint { background: var(--tok-bg-active); color: var(--tok-text-active); }
+.badge--role-active.badge--solid { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.badge--role-positive.badge--tint { background: var(--tok-bg-positive); color: var(--tok-text-positive); }
+.badge--role-positive.badge--solid { background: var(--tok-fill-positive); color: var(--tok-text-on-fill); }
+.badge--role-negative.badge--tint { background: var(--tok-bg-negative); color: var(--tok-text-negative); }
+.badge--role-negative.badge--solid { background: var(--tok-fill-negative); color: var(--tok-text-on-fill); }
+.badge--role-warning.badge--tint { background: var(--tok-bg-warning); color: var(--tok-text-warning); }
+.badge--role-warning.badge--solid { background: var(--tok-fill-warning); color: var(--tok-text-for-active-bg); }
+.badge--role-accent.badge--tint { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--role-accent.badge--solid { background: var(--tok-fill-accent); color: var(--tok-text-contrast); }
+
 .badge--named-live { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-betbuilder { background: var(--tok-bg-active); color: var(--tok-text-active); }
 .badge--named-freebet { background: var(--tok-bg-accent); color: var(--tok-text-accent); }
+.badge--named-score { background: var(--tok-label-score); color: var(--tok-text-default); }
+.badge--status-win { background: var(--tok-bet-status-win); color: var(--tok-text-contrast); }
+.badge--status-loose { background: var(--tok-bet-status-loose); color: var(--tok-text-on-fill); }
+.badge--status-cashout { background: var(--tok-bet-status-cashout); color: var(--tok-text-contrast); }
+.badge--status-halfWin { background: var(--tok-bet-status-half-win); color: var(--tok-text-on-fill); }
+.badge--status-halfLoose { background: var(--tok-bet-status-half-loose); color: var(--tok-text-on-fill); }
+.badge--status-refund { background: var(--tok-bet-status-refund); color: var(--tok-text-on-fill); }
+.badge--status-pending { background: var(--tok-bet-status-pending); color: var(--tok-text-on-fill); }
 
 /* market line (+ optional settlement-rules info icon) */
 .betcard__market { display: flex; align-items: center; gap: 8px; color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; }
@@ -324,13 +418,21 @@
 .betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tok-text-default); font-weight: 500; font-size: 14px; line-height: 1.4; }
 .betcard--amount .betcard__outcome { font-weight: 400; font-size: 12px; line-height: 1.4; }
 
-/* odds = the Odds component (static value + live up/down movement), resolved from odds.tokens.json — real .odds classes, not a redraw */
-.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
+   (true composition), not a hand-tailored subset. */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
 .odds--prev-left .odds__prev { order: -1; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
@@ -729,19 +831,19 @@
   </main>
 </div>
 <script>
-  // Odds movement = the Odds component's behaviour: colour flash (CSS) + a number
-  // count-up (this rAF tween, no library). In production the app calls oddsPlay(el)
-  // once per price change; here the demo loops it. (Same script as the Odds page.)
+  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
+  // shipped with the component — no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it so the movement is visible.
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function countUp(el, from, to, ms) {
       var f = parseFloat(from), t = parseFloat(to);
       var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
       var start = performance.now();
       (function step(now) {
         var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3);
+        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
         el.textContent = (f + (t - f) * e).toFixed(dp);
         if (p < 1) requestAnimationFrame(step); else el.textContent = to;
       })(performance.now());
@@ -756,6 +858,7 @@
       if (dir) el.classList.add('odds--' + dir);
       if (!reduce && prev) countUp(val, prev.textContent, to, 600);
     }
+    window.oddsPlay = oddsPlay;
     document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
       oddsPlay(el);
       if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);

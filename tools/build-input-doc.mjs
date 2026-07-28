@@ -11,95 +11,27 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Input from "./lib/components/input.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const input = load("tokens/components/input.tokens.json").component.input;
-const button = load("tokens/components/button.tokens.json").component.button;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["input", "button"]);
+const { resolve, px, cv, renderRootVars } = ctx;
+const button = ctx.tokens.button;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 // ---- color tokens this page uses, as CSS custom properties ----
-const colorPaths = [
-  "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.active", "text.negative", "fill.neutral", "outline.accent",
-];
+const colorPaths = Input.colorPaths;
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
-
-const fieldRadius = px(resolve(input.radius.$value));
-const sizes = ["sm", "base", "lg"].map((key) => {
-  const s = input.size[key];
-  const base = {
-    key,
-    height: resolve(s.height.$value),
-    paddingX: resolve(s.paddingX.$value),
-    value: resolveToken(s.value),
-  };
-  if (key !== "sm") {
-    base.label = resolveToken(s.label);
-    base.labelGap = resolve(s.labelGap.$value);
-  }
-  return base;
-});
-const errorTextSize = px(resolve("{size.sm}"));
-const errorGap = px(resolve("{spacing.1}"));
-// keyboard-focus ring (:focus-visible), same additive treatment as Button.
-// var(--bg-card) is the docs surface the field sits on — the ring's inner gap
-// must match whatever surface the field is placed on, inherently contextual.
-const ringWidth = px(resolve(input.state.focused.ringWidth.$value));
-const ringOffset = px(resolve(input.state.focused.ringOffset.$value));
-const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.accent")};`;
-
-// leading affix ($) on the value line
-const prefixGap = px(resolve(input.prefix.gap.$value));
 
 // ---- reused Button component: the secondary two-row button, for the trailing
 // "Max / $1,000.50" action. Resolved from button.tokens.json (never retyped), the
-// same twoRow/secondary tokens the Button page renders. refP: "{x.y}" -> "x.y". ----
+// same twoRow/secondary tokens the Button page renders. refP: "{x.y}" -> "x.y".
+// (Kept as this page's demo-chrome subset so the standalone Input page stays
+// byte-identical; the real full Button lives in ./lib/components/button.mjs.) ----
 const refP = (v) => v.replace(/[{}]/g, "");
 const tr = button.twoRow;
 const trTop = resolve(tr.secondary.topLabel.$value);
@@ -111,87 +43,20 @@ const buttonCss = `.btn { display: inline-flex; align-items: center; justify-con
   .btn--tworow.btn--secondary .btn__top { font-weight: ${trTop.fontWeight}; font-size: ${px(trTop.fontSize)}; }
   .btn--tworow.btn--secondary .btn__bottom { font-weight: ${trBottom.fontWeight}; font-size: ${px(trBottom.fontSize)}; color: ${cv(refP(tr.secondary.bottomLabelColor.$value))}; }`;
 
-function typoCss(t) {
-  return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
-}
-
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----
 const css = `${rootVars}
 
-.input {
-  display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
-  background: ${cv("surface.page")};
-  border: 1px solid ${cv("outline.strong")};
-  border-radius: ${fieldRadius};
-  font-family: ${cv("family.sans")};
-  cursor: text;
-}
-.input__placeholder { color: ${cv("text.secondary")}; }
-.input__value { color: ${cv("text.default")}; }
-.input__prefix { color: ${cv("text.secondary")}; margin-right: ${prefixGap}; }
-.input__stack { display: flex; flex-direction: column; justify-content: center; }
-.input__label { color: ${cv("text.secondary")}; }
-/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
-   .input.input--action (two classes) outweighs the .input--lg size shorthand so
-   the tight right inset actually applies — the button sits 4px from the edge, matching
-   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
-.input.input--action { justify-content: space-between; padding-right: ${prefixGap}; gap: ${prefixGap}; }
-.input--action .input__stack { flex: 1; min-width: 0; }
-.input--action > .btn { flex-shrink: 0; }
+${Input.css(ctx)}`;
 
-${sizes
-  .map((s) => {
-    const lines = [
-      `.input--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; }`,
-      `.input--${s.key} .input__placeholder, .input--${s.key} .input__value { ${typoCss(s.value)} }`,
-    ];
-    if (s.label) {
-      lines.push(`.input--${s.key} .input__stack { gap: ${px(s.labelGap)}; }`);
-      lines.push(`.input--${s.key} .input__label { ${typoCss(s.label)} }`);
-    }
-    return lines.join("\n");
-  })
-  .join("\n\n")}
+// ---- markup builders (the real .input classes, from input.mjs) ----
+const restingMarkup = (size, opts = {}) => Input.restingMarkup(size, opts);
+const filledMarkup = (size, opts = {}) => Input.filledMarkup(size, opts);
+const floatedMarkup = (size, opts = {}) => Input.floatedMarkup(size, opts);
+const errorMarkup = (size, opts = {}) => Input.errorMarkup(size, opts);
+const actionMarkup = (size) => Input.actionMarkup(size, { label: "Bet amount", value: "10", prefix: "$" });
 
-/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
-.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
-/* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
-.input--active { border-color: ${cv("outline.active")}; }
-/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
-.input--focused { border-color: ${cv("outline.active")}; ${ringShadow} }
-.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: ${cv("text.active")}; animation: input-caret 1.05s step-end infinite; }
-@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
-.input--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
-.input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: ${cv("text.disabled")}; }
-.input--error { border-color: ${cv("outline.negative")}; }
-.input-field { display: inline-flex; flex-direction: column; gap: ${errorGap}; }
-.input__error { color: ${cv("text.negative")}; font-family: ${cv("family.sans")}; font-size: ${errorTextSize}; line-height: 1.4; }`;
-
-// ---- markup builders ----
-function restingMarkup(size, { placeholder = "Enter", live = true } = {}) {
-  return `<div class="input input--${size}"><span class="input__placeholder">${placeholder}</span></div>`;
-}
-// single-line filled field (sm — no floating label, value shown directly)
-function filledMarkup(size, { value = "Entered value", live = true } = {}) {
-  return `<div class="input input--${size}"><span class="input__value">${value}</span></div>`;
-}
-function floatedMarkup(size, { label = "Enter", value = "Entered value", prefix = "", caret = false, cls = "", live = true } = {}) {
-  const car = caret ? `<span class="input__caret"></span>` : "";
-  const pre = prefix ? `<span class="input__prefix">${prefix}</span>` : "";
-  return `<div class="input input--${size}${cls}"><div class="input__stack"><span class="input__label">${label}</span><span class="input__value">${pre}${value}${car}</span></div></div>`;
-}
-// error state wraps the field with a helper line below it
-function errorMarkup(size, { label = "Enter", value = "Entered value", message = "Error text", live = true } = {}) {
-  const field = floatedMarkup(size, { label, value, live }).replace('class="input input--' + size + '"', 'class="input input--' + size + ' input--error"');
-  return `<div class="input-field">${field}<span class="input__error">${message}</span></div>`;
-}
-// trailing action: field (currency prefix) + the secondary two-row Button pinned right
-function actionMarkup(size, { live = true } = {}) {
-  const btn = `<button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>`;
-  return `<div class="input input--${size} input--action"><div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div>${btn}</div>`;
-}
+// size key + height, for the "Sizes" story titles
+const sizes = ["sm", "base", "lg"].map((key) => ({ key, height: resolve(ctx.tokens.input.size[key].height.$value) }));
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `

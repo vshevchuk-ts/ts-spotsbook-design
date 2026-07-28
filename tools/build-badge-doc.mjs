@@ -14,124 +14,32 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Badge from "./lib/components/badge.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const badge = load("tokens/components/badge.tokens.json").component.badge;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["badge"]);
+const { resolve, cv, px, renderRootVars } = ctx;
+const badge = ctx.tokens.badge;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 
-const ROLES = ["neutral", "active", "positive", "negative", "warning", "accent"];
-const COLORS = []; // decorative hue axis removed — sportsbook labels carry meaning (role-driven)
-const FILLS = ["tint", "solid"];
-const SIZES = ["sm", "base", "lg"];
-const NAMED = ["live", "betbuilder", "freebet", "score"]; // named product labels
-const STATUS = ["win", "loose", "cashout", "halfWin", "halfLoose", "refund", "pending"]; // My Bets, always solid
+const { ROLES, COLORS, FILLS, SIZES, NAMED, STATUS } = Badge;
+// size key + height, for the "Sizes" story titles
+const sizeDefs = SIZES.map((key) => ({ key, height: resolve(badge.size[key].height.$value) }));
 
-// ---- resolve every role/color x tint/solid pair straight from the component
-// token file's own $value refs (never retype a color-role name by hand) ----
-function resolvePair(node) {
-  return { bg: resolveValue(node.bg.$value), text: resolveValue(node.text.$value) };
-}
-const roleColors = {};
-for (const r of ROLES) {
-  roleColors[r] = {};
-  for (const f of FILLS) roleColors[r][f] = resolvePair(badge.role[r][f]);
-}
-const colorColors = {};
-for (const c of COLORS) {
-  colorColors[c] = {};
-  for (const f of FILLS) colorColors[c][f] = resolvePair(badge.color[c][f]);
-}
-
-// ---- CSS var registration: one var per unique resolved token path, so
-// role=blue-tint and color=blue-tint (true aliases of each other) share the
-// exact same --tok-* variable instead of emitting two identically-valued vars ----
-const colorVarPaths = new Set();
-function pathsOf(node) {
-  colorVarPaths.add(node.bg.$value.replace(/[{}]/g, ""));
-  colorVarPaths.add(node.text.$value.replace(/[{}]/g, ""));
-}
-for (const r of ROLES) for (const f of FILLS) pathsOf(badge.role[r][f]);
-for (const c of COLORS) for (const f of FILLS) pathsOf(badge.color[c][f]);
-for (const n of NAMED) pathsOf(badge.named[n]);
-for (const s of STATUS) pathsOf(badge.betStatus[s]);
-const uniqPaths = [...colorVarPaths];
+// ---- CSS var registration: one var per unique resolved token path (deduped) ----
+const uniqPaths = Badge.colorPaths(ctx);
 const colorValue = Object.fromEntries(uniqPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...uniqPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
-const sizeDefs = SIZES.map((key) => {
-  const s = badge.size[key];
-  return { key, height: resolve(s.height.$value), paddingX: resolve(s.paddingX.$value), label: resolveToken(s.label) };
-});
-const radius = px(resolve(badge.radius.$value));
-
-function typoCss(t) {
-  return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
-}
-// Real var-path lookup (not resolved-hex) for CSS generation, per size/role/color.
-const refPath = (ref) => ref.replace(/[{}]/g, "");
-
 const css = `${rootVars}
 
-.badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: ${radius}; font-family: ${cv("family.sans")}; white-space: nowrap; }
-${sizeDefs.map((s) => `.badge--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; ${typoCss(s.label)} }`).join("\n")}
-${ROLES.map((r) => FILLS.map((f) => `.badge--role-${r}.badge--${f} { background: ${cv(refPath(badge.role[r][f].bg.$value))}; color: ${cv(refPath(badge.role[r][f].text.$value))}; }`).join("\n")).join("\n")}
-${COLORS.map((c) => FILLS.map((f) => `.badge--color-${c}.badge--${f} { background: ${cv(refPath(badge.color[c][f].bg.$value))}; color: ${cv(refPath(badge.color[c][f].text.$value))}; }`).join("\n")).join("\n")}
-${NAMED.map((n) => `.badge--named-${n} { background: ${cv(refPath(badge.named[n].bg.$value))}; color: ${cv(refPath(badge.named[n].text.$value))}; }`).join("\n")}
-${STATUS.map((s) => `.badge--status-${s} { background: ${cv(refPath(badge.betStatus[s].bg.$value))}; color: ${cv(refPath(badge.betStatus[s].text.$value))}; }`).join("\n")}`;
+${Badge.css(ctx)}`;
 
-function markup(sizeKey, kind, name, fill, label) {
-  const flavor = kind === "role" ? `role-${name}` : `color-${name}`;
-  return `<span class="badge badge--${sizeKey} badge--${fill} badge--${flavor}">${label}</span>`;
-}
-// single-style badges (no tint/solid axis): named product labels + My Bets statuses
-function markupOne(sizeKey, prefix, name, label) {
-  return `<span class="badge badge--${sizeKey} badge--${prefix}-${name}">${label}</span>`;
-}
+const markup = Badge.markup;
+const markupOne = Badge.markupOne;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `

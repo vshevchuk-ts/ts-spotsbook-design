@@ -8,125 +8,36 @@
 // identically and emits ONE shared `.btn--sm/base/lg` rule set, not two.
 // The generated <style> block IS the code shown in the "CSS" section below —
 // one source, so the live preview and the printed snippet can't drift apart.
+// The real .btn CSS/sizes/variants live in tools/lib/components/button.mjs —
+// this page only adds its own Counter demo (interleaved between the core
+// variants and the sportsbook variants, same order as before the refactor).
 // Run: node tools/build-button-doc.mjs
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Button from "./lib/components/button.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const button = load("tokens/components/button.tokens.json").component.button;
-const counter = load("tokens/components/counter.tokens.json").component.counter;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["button", "counter"]);
+const { resolve, resolveToken, get, px, cv, renderRootVars } = ctx;
+const button = ctx.tokens.button;
+const counter = ctx.tokens.counter;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 // ---- color tokens this page uses, as CSS custom properties ----
 // (`cv` = "css var" — returns var(--x); shares the exact same name-mangling
 // as the :root block below, via cssVarName, so they can't drift apart.)
-// walk a token subtree, collecting every semantic color ref ($type:"color" →
-// "{group.key}") so the sportsbook variants' :root vars stay derived from the
-// tokens, not hand-listed here — add a role in the JSON and it registers itself.
-function collectColorRefs(node, out = new Set()) {
-  if (!node || typeof node !== "object") return out;
-  if (node.$type === "color" && typeof node.$value === "string" && node.$value.startsWith("{")) {
-    out.add(node.$value.replace(/[{}]/g, ""));
-  }
-  for (const [k, v] of Object.entries(node)) {
-    if (k.startsWith("$")) continue;
-    if (v && typeof v === "object") collectColorRefs(v, out);
-  }
-  return out;
-}
-const sportsbookColorRefs = collectColorRefs(button.twoRow, collectColorRefs(button.roundIcon, collectColorRefs(button.betslip)));
-const colorPaths = [...new Set([
-  "fill.active", "fill.activeHover", "fill.activePressed", "text.onFill", "icon.onFill", "text.forActiveBg", "icon.forActiveBg",
-  "fill.neutral", "fill.neutralHover", "fill.neutralPressed", "text.default", "icon.default",
-  "text.secondary", "icon.secondary",
-  "fill.disabled", "text.disabled", "icon.disabled",
-  "outline.accent", "color.white", "text.active",
-  ...sportsbookColorRefs,
-])];
+const colorPaths = Button.colorPaths(ctx);
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans"); // e.g. "Rubik"
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
-// ---- resolve shared size grid (asserted identical across variants) ----
-function resolveSize(variantToken) {
-  return ["sm", "base", "lg"].map((key) => {
-    const s = variantToken.size[key];
-    return {
-      key,
-      height: resolve(s.height.$value),
-      paddingX: resolve(s.paddingX.$value),
-      gap: resolve(s.gap.$value),
-      iconSize: resolve(s.iconSize.$value),
-      label: resolveToken(get(s.label.$value)),
-    };
-  });
-}
-const primarySizes = resolveSize(button.primary);
-const secondarySizes = resolveSize(button.secondary);
-const ghostSizes = resolveSize(button.ghost);
-primarySizes.forEach((p, i) => {
-  for (const [label, sizes_] of [["secondary", secondarySizes], ["ghost", ghostSizes]]) {
-    const s = sizes_[i];
-    const same = JSON.stringify(p) === JSON.stringify(s);
-    if (!same) throw new Error(`button.primary.size.${p.key} and button.${label}.size.${s.key} were expected to be identical but diverged — update the shared .btn--${p.key} CSS generation to handle them separately.`);
-  }
-});
-const sizes = primarySizes; // identical across all three variants, asserted above — one shared size grid
-const btnRadius = px(resolve(button.primary.radius.$value));
-
-const focusWidth = resolve(button.primary.state.focused.ringWidth.$value);
-const focusOffset = resolve(button.primary.state.focused.ringOffset.$value);
-// var(--bg-card) here is this docs page's own card background, not a design
-// token — the ring's inner box-shadow has to match whatever surface the button
-// actually sits on, which is inherently contextual. Called out explicitly in
-// the printed comment below so nobody copies --bg-card expecting it to exist.
-const ringShadow = `box-shadow: 0 0 0 ${px(focusOffset)} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${px(focusOffset)} + ${px(focusWidth)}) ${cv("outline.accent")};`;
+// ---- shared size grid (asserted identical across variants, in button.mjs) ----
+const sizes = Button.sizes(ctx);
+const ringShadow = Button.ringShadow(ctx);
 
 // ---- resolve counter (needed for the icon+text+counter variant) ----
 const counterRadius = px(resolve(counter.radius.$value));
@@ -150,102 +61,20 @@ const iconArrow = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-right.s
 const iconChevronLeft = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-left.svg"), "utf8").replace("<svg ", '<svg class="btn__icon" ');
 const iconSwap = '<svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>';
 
-// ---- variant color mapping ----
-// fill: null means "no fill token — literal transparent", used by ghost (no
-// background at rest, and disabled shouldn't suddenly gain one it never had).
-const variants = {
-  primary: { label: "Primary", fill: "fill.active", fillHover: "fill.activeHover", fillActive: "fill.activePressed", text: "text.forActiveBg", icon: "icon.forActiveBg" },
-  secondary: { label: "Secondary", fill: "fill.neutral", fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.default", iconHover: "text.default" },
-  ghost: { label: "Ghost", fill: null, fillHover: "fill.neutralHover", fillActive: "fill.neutralPressed", text: "text.default", icon: "icon.secondary", iconHover: "text.default" },
-};
+// ---- variant color mapping (from button.mjs, the single source Button.css() itself builds from) ----
+const variants = Button.variants;
 
-function variantCss(key) {
-  const v = variants[key];
-  const restBg = v.fill ? cv(v.fill) : "transparent";
-  const disabledBg = v.fill ? cv("fill.disabled") : "transparent";
-  return `.btn--${key} { background: ${restBg}; color: ${cv(v.text)}; }
-.btn--${key} .btn__icon { color: ${cv(v.icon)}; }
-.btn--${key}:not(:disabled):hover { background: ${cv(v.fillHover)}; }
-${v.iconHover ? `.btn--${key}:not(:disabled):hover .btn__icon, .btn--${key}:not(:disabled):active .btn__icon { color: ${cv(v.iconHover)}; }\n` : ""}.btn--${key}:not(:disabled):active { background: ${cv(v.fillActive)}; }
-.btn--${key}:not(:disabled):focus-visible { outline: none; ${ringShadow} }
-.btn--${key}:disabled { opacity: 0.5; cursor: not-allowed; }`;
-}
-
-// ---- sportsbook variants, resolved from tokens (no hardcoded color roles) ----
-// refP: "{surface.card}" -> "surface.card"; cvT: token node -> var(--tok-...);
-// dimT: dimension node -> "40px"; typoCss: typography node -> {weight, size}.
+// ---- sportsbook token values this page still needs directly (for the "States
+// — new variants" preview section's inline demo styles) — the actual sbCss
+// CSS TEXT now comes from Button.sbCss(ctx), not re-derived here. ----
 const refP = (node) => node.$value.replace(/[{}]/g, "");
 const cvT = (node) => cv(refP(node));
-const dimT = (node) => px(resolve(node.$value));
-const typoCss = (node) => { const t = resolve(node.$value); return { weight: t.fontWeight, size: px(t.fontSize) }; };
-const tr = button.twoRow, ri = button.roundIcon, bs = button.betslip;
-const trP = { top: typoCss(tr.primary.topLabel), bottom: typoCss(tr.primary.bottomLabel) };
-const trS = { top: typoCss(tr.secondary.topLabel), bottom: typoCss(tr.secondary.bottomLabel) };
-const bsLabel = typoCss(bs.label);
-const sbCss = `/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
-/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
-.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: ${dimT(tr.gap)}; padding: 0 ${dimT(tr.paddingX)}; border-radius: ${dimT(tr.radius)}; line-height: 1.2; }
-.btn--tworow.btn--primary { height: ${dimT(tr.primary.height)}; }
-.btn--tworow.btn--secondary { height: ${dimT(tr.secondary.height)}; }
-.btn--tworow.btn--primary .btn__top { font-weight: ${trP.top.weight}; font-size: ${trP.top.size}; }
-.btn--tworow.btn--primary .btn__bottom { font-weight: ${trP.bottom.weight}; font-size: ${trP.bottom.size}; }
-.btn--tworow.btn--secondary .btn__top { font-weight: ${trS.top.weight}; font-size: ${trS.top.size}; }
-.btn--tworow.btn--secondary .btn__bottom { font-weight: ${trS.bottom.weight}; font-size: ${trS.bottom.size}; color: ${cvT(tr.secondary.bottomLabelColor)}; }
-
-/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
-.btn--round { border-radius: ${dimT(ri.radius)}; padding: 0; gap: 0; }
-.btn--round-base { width: ${dimT(ri.size.base.box)}; height: ${dimT(ri.size.base.box)}; }
-.btn--round-base .btn__icon { width: ${dimT(ri.size.base.iconSize)}; height: ${dimT(ri.size.base.iconSize)}; }
-.btn--round-xs { width: ${dimT(ri.size.xs.box)}; height: ${dimT(ri.size.xs.box)}; }
-.btn--round-xs .btn__icon { width: ${dimT(ri.size.xs.iconSize)}; height: ${dimT(ri.size.xs.iconSize)}; }
-.btn--outline { background: transparent; border: 1px solid ${cvT(ri.outline.state.default.border)}; color: ${cvT(ri.outline.state.default.icon)}; }
-.btn--outline:not(:disabled):hover { background: ${cvT(ri.outline.state.hover.fill)}; color: ${cvT(ri.outline.state.hover.icon)}; }
-.btn--outline:not(:disabled):active { background: ${cvT(ri.outline.state.pressed.fill)}; color: ${cvT(ri.outline.state.pressed.icon)}; }
-.btn--filled-neutral { background: ${cvT(ri.filledNeutral.state.default.fill)}; color: ${cvT(ri.filledNeutral.state.default.icon)}; }
-.btn--filled-neutral:not(:disabled):hover { background: ${cvT(ri.filledNeutral.state.hover.fill)}; color: ${cvT(ri.filledNeutral.state.hover.icon)}; }
-.btn--filled-neutral:not(:disabled):active { background: ${cvT(ri.filledNeutral.state.pressed.fill)}; color: ${cvT(ri.filledNeutral.state.pressed.icon)}; }
-
-/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
-.btn--betslip { box-sizing: border-box; border-radius: ${dimT(bs.radius)}; background: ${cvT(bs.state.default.fill)}; border: 1px solid ${cvT(bs.state.default.border)}; color: ${cvT(bs.state.default.label)}; gap: ${dimT(bs.gap)}; height: ${dimT(bs.height)}; padding: 0 ${dimT(bs.paddingX)}; font-weight: ${bsLabel.weight}; font-size: ${bsLabel.size}; }
-.btn--betslip:not(:disabled):hover { background: ${cvT(bs.state.hover.fill)}; }
-.btn--betslip:not(:disabled):active { background: ${cvT(bs.state.pressed.fill)}; }
-.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }`;
+const ri = button.roundIcon, bs = button.betslip;
 
 // ---- the actual stylesheet — printed as code AND used to render the live preview ----
 const css = `${rootVars}
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  font-family: ${cv("family.sans")};
-}
-.btn__icon { flex-shrink: 0; }
-
-${sizes
-  .map(
-    (s) => `.btn--${s.key} {
-  height: ${px(s.height)};
-  padding: 0 ${px(s.paddingX)};
-  gap: ${px(s.gap)};
-  border-radius: ${btnRadius};
-  font-weight: ${s.label.fontWeight};
-  font-size: ${px(s.label.fontSize)};
-  line-height: ${s.label.lineHeight};
-}
-.btn--${s.key}.btn--icon-only { width: ${px(s.height)}; padding: 0; }
-.btn--${s.key} .btn__icon { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`
-  )
-  .join("\n\n")}
-
-${variantCss("primary")}
-
-${variantCss("secondary")}
-
-${variantCss("ghost")}
+${Button.coreCss(ctx)}
 
 .counter {
   display: inline-flex;
@@ -265,7 +94,7 @@ ${Object.entries(counterSurfaces)
   .map(([key, s]) => `.counter--${key}.counter--inactive { background: ${cv(s.inactiveBg)}; color: ${cv(s.inactiveLabel)}; }`)
   .join("\n")}
 
-${sbCss}`;
+${Button.sbCss(ctx)}`;
 
 // ---- markup builders: `live` uses real inline SVGs (for the rendered preview), `code` uses a short placeholder comment (for the printed snippet — a full path data dump isn't useful as a code sample) ----
 function content(variant, kind, live) {
@@ -466,7 +295,7 @@ const html = `<!doctype html>
       <div class="row"><b>Icon-only</b><span>Square (width = height), no paddingX/gap — the icon centers directly in the box.</span></div>
       <div class="row"><b>Radius</b><span>radius.default (8px) at every size — constant, doesn't scale with height, so the corner reads the same across sm/base/lg.</span></div>
       <div class="row"><b>Primary vs Secondary vs Ghost</b><span>Same size/state/content-variant grid, three color roles: primary → fill.primary (brand blue, highest emphasis). secondary → fill.neutral (gray fill — fill.neutral's own token description calls it out as the intended secondary-button fill). ghost → no fill or border at rest, the quietest tier — reuses the same transparent→fill.neutralHover→fill.neutralActive progression already established by pagination's page-item and tabs' segmented style.</span></div>
-      <div class="row"><b>States</b><span>default → variant's fill (or transparent, for ghost) · hover → fillHover · pressed → fillActive · focused → additive ${px(focusWidth)} ring (border.focus) with ${px(focusOffset)} offset, composes on top of any of the three · disabled → fill.disabled + text.disabled + icon.disabled (ghost stays transparent, no fill to lose).</span></div>
+      <div class="row"><b>States</b><span>default → variant's fill (or transparent, for ghost) · hover → fillHover · pressed → fillActive · focused → additive ${px(ctx.resolve(button.primary.state.focused.ringWidth.$value))} ring (border.focus) with ${px(ctx.resolve(button.primary.state.focused.ringOffset.$value))} offset, composes on top of any of the three · disabled → fill.disabled + text.disabled + icon.disabled (ghost stays transparent, no fill to lose).</span></div>
     </div>
 
     <h2 class="big-section">CSS</h2>

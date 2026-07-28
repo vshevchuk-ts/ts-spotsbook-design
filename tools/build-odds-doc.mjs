@@ -11,74 +11,28 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Odds from "./lib/components/odds.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const odds = load("tokens/components/odds.tokens.json").component.odds;
-
-const registry = {
-  color: colorPrim, spacing: dim, radius: radiusPrim,
-  family: typo.family, weight: typo.weight, size: typo.size,
-  leading: typo.leading, tracking: typo.tracking,
-  "text-style": textStyle, ...semantic,
-};
-function get(ref) { const parts = ref.replace(/[{}]/g, "").split("."); let node = registry; for (const p of parts) node = node[p]; return node; }
-function resolveValue(v) { if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v)); return v; }
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) { const out = {}; for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub); return out; }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["odds"]);
+const { resolve, resolveToken, px, renderRootVars } = ctx;
+const odds = ctx.tokens.odds;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
-const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
-const colorPaths = ["text.default", "text.positive", "text.negative", "text.secondary"];
+const colorPaths = Odds.colorPaths;
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
-function typoCss(node) { const t = resolveToken(node); return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`; }
-const oddsType = typoCss(odds.type);
-const gap = px(resolve(odds.gap.$value));
-const dur = px(resolveToken(odds.movement.duration)); // e.g. "3000ms"
-const countMs = resolveToken(odds.movement.countDuration).value; // number-roll window
-const loopMs = resolveToken(odds.movement.duration).value + 2000; // demo replay cadence
+const dur = px(resolveToken(odds.movement.duration)); // e.g. "3000ms" — legend prose
+const countMs = Odds.countMs(ctx); // number-roll window — legend prose
+const loopMs = Odds.durationMs(ctx) + 2000; // demo replay cadence — section prose
 
 const css = `${rootVars}
 
-.odds { display: inline-flex; align-items: baseline; gap: ${gap}; font-family: ${cv("family.sans")}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(odds.color.default)}; }
-.odds__value { color: inherit; }
-.odds__prev { color: ${cvOf(odds.prev.color)}; text-decoration: line-through; }
-/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
-   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
-   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
-.odds--prev-left .odds__prev { order: -1; }
-
-/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
-.odds--up .odds__value { color: ${cvOf(odds.color.up)}; }
-.odds--down .odds__value { color: ${cvOf(odds.color.down)}; }
-
-/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
-@keyframes odds-up { 0%, 60% { color: ${cvOf(odds.color.up)}; } 100% { color: ${cvOf(odds.color.default)}; } }
-@keyframes odds-down { 0%, 60% { color: ${cvOf(odds.color.down)}; } 100% { color: ${cvOf(odds.color.default)}; } }
-@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
-@media (prefers-reduced-motion: no-preference) {
-  .odds--up .odds__value { animation: odds-up ${dur} ease forwards; }
-  .odds--down .odds__value { animation: odds-down ${dur} ease forwards; }
-  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out ${dur} ease forwards; }
-}`;
+${Odds.css(ctx)}`;
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
@@ -226,39 +180,7 @@ const html = `<!doctype html>
   </main>
 </div>
 <script>
-  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
-  // shipped with the component — no library). In production the app calls oddsPlay(el)
-  // once per price change; here the demo loops it so the movement is visible.
-  (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function countUp(el, from, to, ms) {
-      var f = parseFloat(from), t = parseFloat(to);
-      var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
-      var start = performance.now();
-      (function step(now) {
-        var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
-        el.textContent = (f + (t - f) * e).toFixed(dp);
-        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
-      })(performance.now());
-    }
-    function oddsPlay(el) {
-      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
-      if (!val) return;
-      var to = val.getAttribute('data-to') || val.textContent;
-      val.setAttribute('data-to', to);
-      var dir = el.getAttribute('data-dir');
-      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
-      if (dir) el.classList.add('odds--' + dir);
-      if (!reduce && prev) countUp(val, prev.textContent, to, ${countMs});
-    }
-    window.oddsPlay = oddsPlay;
-    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      oddsPlay(el);
-      if (!reduce) setInterval(function () { oddsPlay(el); }, ${loopMs});
-    });
-  })();
+${Odds.script(ctx)}
 </script>
 </body>
 </html>

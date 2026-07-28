@@ -12,84 +12,48 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Badge from "./lib/components/badge.mjs";
+import * as Odds from "./lib/components/odds.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const elevationPrim = load("tokens/primitives/elevation.tokens.json").elevation;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const bc = load("tokens/components/bet-card.tokens.json").component.betCard;
-// The Single stake field IS the Input component (lg + currency prefix) — resolve its
-// real values here, never restyle, so a bet-card stake field == a standalone Input.
-const input = load("tokens/components/input.tokens.json").component.input;
-// Header LIVE/BB/FB pills ARE the Badge component (sm / named) — resolve its real
-// size + named colours, emit its real classes, never redraw.
-const badge = load("tokens/components/badge.tokens.json").component.badge;
-// The settlement-info / long-market / long-outcome reveals ARE the Tooltip component
-// (hover/focus, surface-6 bubble + caret, pure CSS) — resolve its real values.
-const tooltip = load("tokens/components/tooltip.tokens.json").component.tooltip;
-// The odds value IS the Odds component (static value + live up/down movement) —
-// resolve its real styling/animation, never restyle.
-const oddsComp = load("tokens/components/odds.tokens.json").component.odds;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,  elevation: elevationPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["bet-card", "input", "badge", "tooltip", "odds"]);
+const { resolve, resolveToken, get, px, cv, cvOf, renderRootVars } = ctx;
+const bc = ctx.tokens["bet-card"];
+// The Single stake field is an editable <input> laid out to Input's lg spec —
+// resolve Input's real values here (never restyle). It is NOT the display-only
+// .input component (spans + fake caret); a betslip stake must be editable, so
+// this stays a bespoke .betcard__amount that borrows Input's token values.
+const input = ctx.tokens.input;
+// Header LIVE/BB/FB pills ARE the Badge component (sm / named) — the full real
+// Badge CSS is emitted below via Badge.css(ctx) (true composition).
+const badge = ctx.tokens.badge;
+// The settlement-info / long-market / long-outcome reveals wrap arbitrary,
+// wrapping card content (white-space:normal, max-width) — the display-only DS
+// Tooltip is a nowrap label on a simple trigger, so this stays a bespoke .bc-tt
+// that resolves Tooltip's real token values (bubble/caret/shadow).
+const tooltip = ctx.tokens.tooltip;
+// The odds value IS the Odds component — the full real Odds CSS is emitted below
+// via Odds.css(ctx) (true composition).
+const oddsComp = ctx.tokens.odds;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
-// resolve a colour token's ROLE straight from its node — never hardcode a role name.
-const cvOf = (node) => cv(node.$value.replace(/[{}]/g, ""));
 
 // ---- colours this page uses, emitted as :root --tok-* vars ----
-const colorPaths = [
+// Card-own roles + the embedded bespoke stake field / tooltip roles, unioned with
+// the full Badge and Odds component colorPaths (those two are true-composed below,
+// so every var their full CSS references must be declared here).
+const colorPaths = [...new Set([
   "surface.raised", "surface.page", "surface.card",
   "outline.strong", "outline.active", "outline.default",
   "text.default", "text.active", "text.secondary",
   "icon.secondary", "icon.warning",
   "fill.neutralHover",
-  // Badge (sm / named live·betbuilder·freebet) header pills
-  "bg.active", "bg.accent", "text.accent",
-  // Tooltip (info / market / outcome reveals)
+  // bespoke stake field / tooltip reveal roles
   "text.onFill",
-  // Odds component (static + up/down movement)
-  "text.positive", "text.negative",
-];
+  ...Badge.colorPaths(ctx),
+  ...Odds.colorPaths,
+])];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
@@ -121,12 +85,6 @@ const bbRadius = px(resolve(bb.innerRadius.$value));
 const bbRowPadX = px(resolve(bb.rowPaddingX.$value));
 const bbRowPadY = px(resolve(bb.rowPaddingY.$value));
 const bbRowGap = px(resolve(bb.rowGap.$value));
-// Badge (sm size + named colours), resolved from badge.tokens.json
-const badgeSm = badge.size.sm;
-const badgeRadius = px(resolve(badge.radius.$value));
-const badgeSmH = px(resolve(badgeSm.height.$value));
-const badgeSmPadX = px(resolve(badgeSm.paddingX.$value));
-const HEADER_BADGES = ["live", "betbuilder", "freebet"];
 // Tooltip (surface-6 bubble + caret), resolved from tooltip.tokens.json
 const ttRadius = px(resolve(tooltip.radius.$value));
 const ttPadX = px(resolve(tooltip.paddingX.$value));
@@ -153,16 +111,11 @@ const eventType = typoOf(bc.header.event.type);
 const marketType = typoOf(bc.market.type);
 const outcomeType = typoOf(bc.outcome.type);
 const outcomeSingleType = typoOf(bc.outcome.singleType);
-// Odds component styling (resolved from odds.tokens.json — the card's odds IS this component)
-const oddsType = typoOf(oddsComp.type);
-const oddsGap = px(resolve(oddsComp.gap.$value));
-const oddsDur = px(resolveToken(oddsComp.movement.duration));
-const oddsCountMs = resolveToken(oddsComp.movement.countDuration).value;
-const oddsLoopMs = resolveToken(oddsComp.movement.duration).value + 2000;
+// Odds is true-composed via Odds.css/Odds.script; only the demo loop cadence is needed here.
+const oddsLoopMs = Odds.durationMs(ctx) + 2000;
 const amtLabelType = typoOf(inLg.label);
 const amtValueType = typoOf(inLg.value);
 const bbOddLabelType = typoOf(bb.oddLabel.type);
-const badgeSmLabel = typoOf(badgeSm.label);
 const ttLabel = typoOf(tooltip.label);
 
 // ---- the stylesheet — printed as code AND used to render the live previews ----
@@ -184,10 +137,9 @@ const css = `${rootVars}
 .betcard__remove:hover { background: ${cvOf(bc.header.remove.hoverFill)}; color: ${cvOf(bc.header.remove.hoverColor)}; }
 .betcard__remove svg { width: ${removeIcon}; height: ${removeIcon}; }
 
-/* header LIVE/BB/FB pills = the Badge component (sm / named), resolved from badge.tokens.json — real .badge classes, not a redraw */
-.badge { box-sizing: border-box; display: inline-flex; align-items: center; border-radius: ${badgeRadius}; font-family: ${cv("family.sans")}; white-space: nowrap; }
-.badge--sm { height: ${badgeSmH}; padding: 0 ${badgeSmPadX}; ${badgeSmLabel} }
-${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[n].bg)}; color: ${cvOf(badge.named[n].text)}; }`).join("\n")}
+/* header LIVE/BB/FB pills = the real Badge component — the full .badge CSS from
+   ./lib/components/badge.mjs (true composition), not a hand-tailored subset. */
+${Badge.css(ctx)}
 
 /* market line (+ optional settlement-rules info icon) */
 .betcard__market { display: flex; align-items: center; gap: ${marketGap}; color: ${cv("text.secondary")}; ${marketType} }
@@ -210,21 +162,9 @@ ${HEADER_BADGES.map((n) => `.badge--named-${n} { background: ${cvOf(badge.named[
 .betcard__outcome { display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${cv("text.default")}; ${outcomeType} }
 .betcard--amount .betcard__outcome { ${outcomeSingleType} }
 
-/* odds = the Odds component (static value + live up/down movement), resolved from odds.tokens.json — real .odds classes, not a redraw */
-.odds { display: inline-flex; align-items: baseline; gap: ${oddsGap}; ${oddsType} font-variant-numeric: tabular-nums; white-space: nowrap; color: ${cvOf(oddsComp.color.default)}; }
-.odds__value { color: inherit; }
-.odds__prev { color: ${cvOf(oddsComp.prev.color)}; text-decoration: line-through; }
-.odds--prev-left .odds__prev { order: -1; }
-.odds--up .odds__value { color: ${cvOf(oddsComp.color.up)}; }
-.odds--down .odds__value { color: ${cvOf(oddsComp.color.down)}; }
-@keyframes odds-up { 0%, 60% { color: ${cvOf(oddsComp.color.up)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
-@keyframes odds-down { 0%, 60% { color: ${cvOf(oddsComp.color.down)}; } 100% { color: ${cvOf(oddsComp.color.default)}; } }
-@keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
-@media (prefers-reduced-motion: no-preference) {
-  .odds--up .odds__value { animation: odds-up ${oddsDur} ease forwards; }
-  .odds--down .odds__value { animation: odds-down ${oddsDur} ease forwards; }
-  .odds--up .odds__prev, .odds--down .odds__prev { animation: odds-prev-out ${oddsDur} ease forwards; }
-}
+/* odds = the real Odds component — the full .odds CSS from ./lib/components/odds.mjs
+   (true composition), not a hand-tailored subset. */
+${Odds.css(ctx)}
 
 /* --- compact density (Combo / System): odds inline, no stake field --- */
 .betcard--compact .betcard__market { margin-top: ${sectionGap}; }
@@ -595,38 +535,7 @@ const html = `<!doctype html>
   </main>
 </div>
 <script>
-  // Odds movement = the Odds component's behaviour: colour flash (CSS) + a number
-  // count-up (this rAF tween, no library). In production the app calls oddsPlay(el)
-  // once per price change; here the demo loops it. (Same script as the Odds page.)
-  (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function countUp(el, from, to, ms) {
-      var f = parseFloat(from), t = parseFloat(to);
-      var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
-      var start = performance.now();
-      (function step(now) {
-        var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3);
-        el.textContent = (f + (t - f) * e).toFixed(dp);
-        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
-      })(performance.now());
-    }
-    function oddsPlay(el) {
-      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
-      if (!val) return;
-      var to = val.getAttribute('data-to') || val.textContent;
-      val.setAttribute('data-to', to);
-      var dir = el.getAttribute('data-dir');
-      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
-      if (dir) el.classList.add('odds--' + dir);
-      if (!reduce && prev) countUp(val, prev.textContent, to, ${oddsCountMs});
-    }
-    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      oddsPlay(el);
-      if (!reduce) setInterval(function () { oddsPlay(el); }, ${oddsLoopMs});
-    });
-  })();
+${Odds.script(ctx, { loopMs: oddsLoopMs })}
 </script>
 </body>
 </html>

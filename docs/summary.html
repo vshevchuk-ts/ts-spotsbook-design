@@ -81,6 +81,26 @@
   --tok-icon-secondary: #8E929F;
   --tok-icon-default: #8E929F;
   --tok-fill-neutral: #3E4351;
+  --tok-surface-disabled: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-negative: #F90643;
+  --tok-text-disabled: #8E929F;
+  --tok-outline-accent: #31A8FF;
+  --tok-icon-disabled: #8E929F;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-for-active-bg: #11141C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
+  --tok-fill-disabled: #282E3E;
+  --tok-color-white: #FFFFFF;
+  --tok-surface-card: #1C202B;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-darken-2: rgba(17, 20, 28, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -99,55 +119,226 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = the real Input component, the --action variant (field + a trailing Max
-   button), resolved from input.tokens.json — the exact .input classes the Input page
-   renders, not a re-draw. */
-.input { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: text; }
+/* stake field = the real Input component (--action variant: field + trailing Max
+   button). The full .input CSS from ./lib/components/input.mjs — byte-identical to
+   the Input page, not a hand-tailored subset (true composition). */
+.input {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: text;
+}
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-.input--lg { height: 48px; padding: 0 16px; }
-.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
-.input--lg .input__stack { gap: 4px; }
-.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
 .input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
 .input--action .input__stack { flex: 1; min-width: 0; }
 .input--action > .btn { flex-shrink: 0; }
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
-.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
-.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
-.btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
-.btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
-.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
+.input--sm { height: 32px; padding: 0 8px; }
+.input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
-/* System Combination = the real Select component (lg, floating label), resolved from
-   select.tokens.json — the exact .select classes the Select page renders. */
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.input--base { height: 40px; padding: 0 12px; }
+.input--base .input__placeholder, .input--base .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--base .input__stack { gap: 0px; }
+.input--base .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+.input--lg { height: 48px; padding: 0 16px; }
+.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--lg .input__stack { gap: 4px; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
+.input--active { border-color: var(--tok-outline-active); }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+.input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
+.input--error { border-color: var(--tok-outline-negative); }
+.input-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
+
+/* the Max button IS the real Button component (twoRow / secondary) — the full .btn
+   CSS from ./lib/components/button.mjs. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--tok-family-sans);
+}
+.btn__icon { flex-shrink: 0; }
+
+.btn--sm {
+  height: 32px;
+  padding: 0 8px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.btn--sm.btn--icon-only { width: 32px; padding: 0; }
+.btn--sm .btn__icon { width: 16px; height: 16px; }
+
+.btn--base {
+  height: 40px;
+  padding: 0 12px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.btn--base.btn--icon-only { width: 40px; padding: 0; }
+.btn--base .btn__icon { width: 20px; height: 20px; }
+
+.btn--lg {
+  height: 48px;
+  padding: 0 16px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.btn--lg.btn--icon-only { width: 48px; padding: 0; }
+.btn--lg .btn__icon { width: 24px; height: 24px; }
+
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.btn--primary .btn__icon { color: var(--tok-icon-for-active-bg); }
+.btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
+.btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
+.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+.btn--secondary .btn__icon { color: var(--tok-icon-default); }
+.btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--secondary:not(:disabled):hover .btn__icon, .btn--secondary:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--ghost { background: transparent; color: var(--tok-text-default); }
+.btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
+.btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--ghost:not(:disabled):hover .btn__icon, .btn--ghost:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow.btn--primary { height: 48px; }
+.btn--tworow.btn--secondary { height: 40px; }
+.btn--tworow.btn--primary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 40px; height: 40px; }
+.btn--round-base .btn__icon { width: 24px; height: 24px; }
+.btn--round-xs { width: 24px; height: 24px; }
+.btn--round-xs .btn__icon { width: 16px; height: 16px; }
+.btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
+.btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); color: var(--tok-text-default); }
+.btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
+.btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
+.btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
+.btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
+.btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* System Combination = the real Select component (lg) — the full .select CSS from
+   ./lib/components/select.mjs. */
+.select {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: pointer;
+}
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); transition: transform 0.12s ease; }
+.select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
+
+.select--sm { height: 32px; padding: 0 8px; gap: 8px; }
+.select--sm .select__chevron { width: 16px; height: 16px; }
+.select--sm .select__placeholder, .select--sm .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+
+.select--base { height: 40px; padding: 0 12px; gap: 8px; }
+.select--base .select__chevron { width: 20px; height: 20px; }
+.select--base .select__placeholder, .select--base .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--base .select__stack { gap: 0px; }
+.select--base .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
 .select--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .select--lg .select__chevron { width: 24px; height: 24px; }
-.select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--lg .select__placeholder, .select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--lg .select__stack { gap: 4px; }
 .select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: var(--tok-outline-active); }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.select--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
+.select--disabled .select__chevron { color: var(--tok-icon-disabled); }
+.select--error { border-color: var(--tok-outline-negative); }
+.select-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
 /* hint line with an inline link */
 .sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
 .sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
 
-/* Odds (total-odds movement), resolved from odds.tokens.json */
-.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+/* Odds (total-odds movement) — the full .odds CSS from ./lib/components/odds.mjs. */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
 .odds--prev-left .odds__prev { order: -1; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
@@ -241,6 +432,26 @@
   --tok-icon-secondary: #8E929F;
   --tok-icon-default: #8E929F;
   --tok-fill-neutral: #3E4351;
+  --tok-surface-disabled: #1C202B;
+  --tok-outline-default: #282E3E;
+  --tok-outline-negative: #F90643;
+  --tok-text-disabled: #8E929F;
+  --tok-outline-accent: #31A8FF;
+  --tok-icon-disabled: #8E929F;
+  --tok-fill-active: #FB8C33;
+  --tok-fill-active-hover: #DD7B2D;
+  --tok-fill-active-pressed: #BF6A27;
+  --tok-text-on-fill: #FFFFFF;
+  --tok-icon-on-fill: #FFFFFF;
+  --tok-text-for-active-bg: #11141C;
+  --tok-icon-for-active-bg: #11141C;
+  --tok-fill-neutral-hover: #555A66;
+  --tok-fill-neutral-pressed: #6C707B;
+  --tok-fill-disabled: #282E3E;
+  --tok-color-white: #FFFFFF;
+  --tok-surface-card: #1C202B;
+  --tok-lighten-2: rgba(255, 255, 255, 0.12);
+  --tok-darken-2: rgba(17, 20, 28, 0.12);
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -259,55 +470,226 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = the real Input component, the --action variant (field + a trailing Max
-   button), resolved from input.tokens.json — the exact .input classes the Input page
-   renders, not a re-draw. */
-.input { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: text; }
+/* stake field = the real Input component (--action variant: field + trailing Max
+   button). The full .input CSS from ./lib/components/input.mjs — byte-identical to
+   the Input page, not a hand-tailored subset (true composition). */
+.input {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: text;
+}
 .input__placeholder { color: var(--tok-text-secondary); }
 .input__value { color: var(--tok-text-default); }
 .input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
 .input__stack { display: flex; flex-direction: column; justify-content: center; }
 .input__label { color: var(--tok-text-secondary); }
-.input--lg { height: 48px; padding: 0 16px; }
-.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
-.input--lg .input__stack { gap: 4px; }
-.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+/* trailing action (e.g. a Max two-row button): value grows, button pinned right.
+   .input.input--action (two classes) outweighs the .input--lg size shorthand so
+   the tight right inset actually applies — the button sits 4px from the edge, matching
+   its 4px top/bottom inset (a 40px button in the 48px lg field) for a symmetric look. */
 .input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
 .input--action .input__stack { flex: 1; min-width: 0; }
 .input--action &gt; .btn { flex-shrink: 0; }
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
-.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
-.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
-.btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
-.btn--tworow.btn--secondary { height: 40px; }
-.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
-.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
+.input--sm { height: 32px; padding: 0 8px; }
+.input--sm .input__placeholder, .input--sm .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 
-/* System Combination = the real Select component (lg, floating label), resolved from
-   select.tokens.json — the exact .select classes the Select page renders. */
-.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
-.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.input--base { height: 40px; padding: 0 12px; }
+.input--base .input__placeholder, .input--base .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--base .input__stack { gap: 0px; }
+.input--base .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+.input--lg { height: 48px; padding: 0 16px; }
+.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--lg .input__stack { gap: 4px; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when the field is active/focused/error (those own their look) or disabled */
+.input:not(.input--disabled):not(.input--active):not(.input--focused):not(.input--error):hover, .input--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = pointer/editing focus: accent border + blinking caret. Label stays grey. */
+.input--active { border-color: var(--tok-outline-active); }
+/* focused = keyboard focus (:focus-visible): the active look + an additive ring */
+.input--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.input__caret { display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -0.16em; background: var(--tok-text-active); animation: input-caret 1.05s step-end infinite; }
+@keyframes input-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+.input--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.input--disabled .input__placeholder, .input--disabled .input__value, .input--disabled .input__label { color: var(--tok-text-disabled); }
+.input--error { border-color: var(--tok-outline-negative); }
+.input-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.input__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
+
+/* the Max button IS the real Button component (twoRow / secondary) — the full .btn
+   CSS from ./lib/components/button.mjs. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--tok-family-sans);
+}
+.btn__icon { flex-shrink: 0; }
+
+.btn--sm {
+  height: 32px;
+  padding: 0 8px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.btn--sm.btn--icon-only { width: 32px; padding: 0; }
+.btn--sm .btn__icon { width: 16px; height: 16px; }
+
+.btn--base {
+  height: 40px;
+  padding: 0 12px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.btn--base.btn--icon-only { width: 40px; padding: 0; }
+.btn--base .btn__icon { width: 20px; height: 20px; }
+
+.btn--lg {
+  height: 48px;
+  padding: 0 16px;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.btn--lg.btn--icon-only { width: 48px; padding: 0; }
+.btn--lg .btn__icon { width: 24px; height: 24px; }
+
+.btn--primary { background: var(--tok-fill-active); color: var(--tok-text-for-active-bg); }
+.btn--primary .btn__icon { color: var(--tok-icon-for-active-bg); }
+.btn--primary:not(:disabled):hover { background: var(--tok-fill-active-hover); }
+.btn--primary:not(:disabled):active { background: var(--tok-fill-active-pressed); }
+.btn--primary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+.btn--secondary .btn__icon { color: var(--tok-icon-default); }
+.btn--secondary:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--secondary:not(:disabled):hover .btn__icon, .btn--secondary:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--secondary:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--secondary:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--ghost { background: transparent; color: var(--tok-text-default); }
+.btn--ghost .btn__icon { color: var(--tok-icon-secondary); }
+.btn--ghost:not(:disabled):hover { background: var(--tok-fill-neutral-hover); }
+.btn--ghost:not(:disabled):hover .btn__icon, .btn--ghost:not(:disabled):active .btn__icon { color: var(--tok-text-default); }
+.btn--ghost:not(:disabled):active { background: var(--tok-fill-neutral-pressed); }
+.btn--ghost:not(:disabled):focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- sportsbook variants (from tokens/components/button.tokens.json: twoRow / roundIcon / betslip) ---- */
+/* twoRow: a layout+typography modifier on top of .btn--primary / .btn--secondary — fill and hover/pressed come from those variants; only the rows, per-row type, and the secondary bottom color are twoRow-specific. */
+.btn--tworow { flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow.btn--primary { height: 48px; }
+.btn--tworow.btn--secondary { height: 40px; }
+.btn--tworow.btn--primary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--primary .btn__bottom { font-weight: 500; font-size: 14px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; color: var(--tok-text-secondary); }
+
+/* roundIcon: circular icon-only, two sizes (base / xs) × two fills (outline / filled-neutral). */
+.btn--round { border-radius: 999px; padding: 0; gap: 0; }
+.btn--round-base { width: 40px; height: 40px; }
+.btn--round-base .btn__icon { width: 24px; height: 24px; }
+.btn--round-xs { width: 24px; height: 24px; }
+.btn--round-xs .btn__icon { width: 16px; height: 16px; }
+.btn--outline { background: transparent; border: 1px solid var(--tok-outline-strong); color: var(--tok-icon-default); }
+.btn--outline:not(:disabled):hover { background: var(--tok-lighten-2); color: var(--tok-text-default); }
+.btn--outline:not(:disabled):active { background: var(--tok-darken-2); color: var(--tok-text-default); }
+.btn--filled-neutral { background: var(--tok-surface-raised); color: var(--tok-icon-default); }
+.btn--filled-neutral:not(:disabled):hover { background: var(--tok-fill-neutral-hover); color: var(--tok-text-default); }
+.btn--filled-neutral:not(:disabled):active { background: var(--tok-fill-neutral-pressed); color: var(--tok-text-default); }
+
+/* betslip: fully-rounded outline pill with a trailing counter (counter.onNeutral). */
+.btn--betslip { box-sizing: border-box; border-radius: 999px; background: var(--tok-surface-card); border: 1px solid var(--tok-outline-default); color: var(--tok-text-default); gap: 10px; height: 40px; padding: 0 24px; font-weight: 500; font-size: 14px; }
+.btn--betslip:not(:disabled):hover { background: var(--tok-surface-raised); }
+.btn--betslip:not(:disabled):active { background: var(--tok-outline-strong); }
+.btn--tworow:disabled, .btn--round:disabled, .btn--betslip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* System Combination = the real Select component (lg) — the full .select CSS from
+   ./lib/components/select.mjs. */
+.select {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  background: var(--tok-surface-page);
+  border: 1px solid var(--tok-outline-strong);
+  border-radius: 8px;
+  font-family: var(--tok-family-sans);
+  cursor: pointer;
+}
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); transition: transform 0.12s ease; }
+.select__placeholder { color: var(--tok-text-secondary); }
 .select__value { color: var(--tok-text-default); }
 .select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
 .select__label { color: var(--tok-text-secondary); }
+
+.select--sm { height: 32px; padding: 0 8px; gap: 8px; }
+.select--sm .select__chevron { width: 16px; height: 16px; }
+.select--sm .select__placeholder, .select--sm .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+
+.select--base { height: 40px; padding: 0 12px; gap: 8px; }
+.select--base .select__chevron { width: 20px; height: 20px; }
+.select--base .select__placeholder, .select--base .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--base .select__stack { gap: 0px; }
+.select--base .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
 .select--lg { height: 48px; padding: 0 16px; gap: 8px; }
 .select--lg .select__chevron { width: 24px; height: 24px; }
-.select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--lg .select__placeholder, .select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
 .select--lg .select__stack { gap: 4px; }
 .select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+
+/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
+.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: var(--tok-surface-raised); border-color: var(--tok-surface-raised); }
+/* active = menu open: accent border + chevron flipped up (stays grey) */
+.select--active { border-color: var(--tok-outline-active); }
+.select--active .select__chevron { transform: rotate(180deg); }
+/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
+.select--focused { border-color: var(--tok-outline-active); box-shadow: 0 0 0 2px var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(2px + 4px) var(--tok-outline-accent); }
+.select--disabled { opacity: 0.5; background: var(--tok-surface-disabled); border-color: var(--tok-outline-default); cursor: not-allowed; }
+.select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: var(--tok-text-disabled); }
+.select--disabled .select__chevron { color: var(--tok-icon-disabled); }
+.select--error { border-color: var(--tok-outline-negative); }
+.select-field { display: inline-flex; flex-direction: column; gap: 4px; }
+.select__error { color: var(--tok-text-negative); font-family: var(--tok-family-sans); font-size: 12px; line-height: 1.4; }
 
 /* hint line with an inline link */
 .sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
 .sum-hint a { color: var(--tok-text-active); text-decoration: underline; }
 
-/* Odds (total-odds movement), resolved from odds.tokens.json */
-.odds { display: inline-flex; align-items: baseline; gap: 6px; font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
+/* Odds (total-odds movement) — the full .odds CSS from ./lib/components/odds.mjs. */
+.odds { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--tok-family-sans); font-weight: 500; font-size: 14px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--tok-text-default); }
 .odds__value { color: inherit; }
 .odds__prev { color: var(--tok-text-secondary); text-decoration: line-through; }
+/* previous-value placement: default is to the RIGHT of the new value; --prev-left flips
+   it to the left (for odds pinned to a right edge — compact line, betbuilder — so the new
+   value stays at the edge and the old value extends inward). Markup order stays value→prev. */
 .odds--prev-left .odds__prev { order: -1; }
+
+/* static / prefers-reduced-motion: the changed value simply holds its up/down colour */
 .odds--up .odds__value { color: var(--tok-text-positive); }
 .odds--down .odds__value { color: var(--tok-text-negative); }
+
+/* live: flash to the movement colour, then ease back to default over movement.duration; the previous value fades out */
 @keyframes odds-up { 0%, 60% { color: var(--tok-text-positive); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-down { 0%, 60% { color: var(--tok-text-negative); } 100% { color: var(--tok-text-default); } }
 @keyframes odds-prev-out { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
@@ -386,17 +768,19 @@
   </main>
 </div>
 <script>
-  // total-odds movement (Odds component) — loop the flash + count-up for the demo.
+  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
+  // shipped with the component — no library). In production the app calls oddsPlay(el)
+  // once per price change; here the demo loops it so the movement is visible.
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function countUp(el, from, to, ms) {
       var f = parseFloat(from), t = parseFloat(to);
       var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; }
+      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
       var start = performance.now();
       (function step(now) {
         var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3);
+        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
         el.textContent = (f + (t - f) * e).toFixed(dp);
         if (p < 1) requestAnimationFrame(step); else el.textContent = to;
       })(performance.now());
@@ -411,6 +795,7 @@
       if (dir) el.classList.add('odds--' + dir);
       if (!reduce && prev) countUp(val, prev.textContent, to, 600);
     }
+    window.oddsPlay = oddsPlay;
     document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
       oddsPlay(el);
       if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);

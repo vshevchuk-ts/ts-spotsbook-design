@@ -10,156 +10,35 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderNav } from "./lib/nav.mjs";
-import { cssVarName, renderRootVars } from "./lib/css-vars.mjs";
+import { createCtx } from "./lib/resolve.mjs";
+import * as Select from "./lib/components/select.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const load = (p) => JSON.parse(fs.readFileSync(path.join(root, p)));
 
-const colorPrim = load("tokens/primitives/color.tokens.json").color;
-const dim = load("tokens/primitives/dimension.tokens.json").spacing;
-const radiusPrim = load("tokens/primitives/radius.tokens.json").radius;
-const typo = load("tokens/primitives/typography.tokens.json");
-const textStyle = load("tokens/primitives/text-styles.tokens.json")["text-style"];
-const semantic = load("tokens/semantic/color.tokens.json");
-const select = load("tokens/components/select.tokens.json").component.select;
-
-const registry = {
-  color: colorPrim,
-  spacing: dim,  radius: radiusPrim,
-  family: typo.family,
-  weight: typo.weight,
-  size: typo.size,
-  leading: typo.leading,
-  tracking: typo.tracking,
-  "text-style": textStyle,
-  ...semantic,
-};
-function get(ref) {
-  const parts = ref.replace(/[{}]/g, "").split(".");
-  let node = registry;
-  for (const p of parts) node = node[p];
-  return node;
-}
-function resolveValue(v) {
-  if (typeof v === "string" && v.startsWith("{")) return resolveToken(get(v));
-  return v;
-}
-function resolveToken(node) {
-  const v = node.$value;
-  if (v && typeof v === "object" && !("value" in v)) {
-    const out = {};
-    for (const [k, sub] of Object.entries(v)) out[k] = resolveValue(sub);
-    return out;
-  }
-  if (v && typeof v === "object" && "value" in v) return v;
-  return resolveValue(v);
-}
-const resolve = (ref) => resolveToken(get(ref));
-const px = (d) => `${d.value}${d.unit}`;
+const ctx = createCtx(["select"]);
+const { resolve, px, renderRootVars } = ctx;
+const select = ctx.tokens.select;
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-const colorPaths = [
-  "surface.page", "surface.raised", "surface.disabled", "outline.strong", "outline.default", "outline.active", "outline.accent", "outline.negative",
-  "text.secondary", "text.default", "text.disabled", "text.negative", "icon.default", "icon.disabled",
-];
+const colorPaths = Select.colorPaths;
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
-const cv = (tokenPath) => `var(${cssVarName(tokenPath)})`;
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
-
-const fieldRadius = px(resolve(select.radius.$value));
-const sizes = ["sm", "base", "lg"].map((key) => {
-  const s = select.size[key];
-  const base = {
-    key,
-    height: resolve(s.height.$value),
-    paddingX: resolve(s.paddingX.$value),
-    gap: resolve(s.gap.$value),
-    iconSize: resolve(s.iconSize.$value),
-    value: resolveToken(s.value),
-  };
-  if (key !== "sm") {
-    base.label = resolveToken(s.label);
-    base.labelGap = resolve(s.labelGap.$value);
-  }
-  return base;
-});
-const errorTextSize = px(resolve("{size.sm}"));
-const errorGap = px(resolve("{spacing.1}"));
-// keyboard-focus ring (:focus-visible), accent, same additive treatment as Input/Button
-const ringWidth = px(resolve(select.state.focused.ringWidth.$value));
-const ringOffset = px(resolve(select.state.focused.ringOffset.$value));
-const ringShadow = `box-shadow: 0 0 0 ${ringOffset} var(--bg-card) /* substitute your own surface color */, 0 0 0 calc(${ringOffset} + ${ringWidth}) ${cv("outline.accent")};`;
 
 const iconChevron = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace("<svg ", '<svg class="select__chevron" ');
 
-function typoCss(t) {
-  return `font-weight: ${t.fontWeight}; font-size: ${px(t.fontSize)}; line-height: ${t.lineHeight};`;
-}
-
 const css = `${rootVars}
 
-.select {
-  display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
-  background: ${cv("surface.page")};
-  border: 1px solid ${cv("outline.strong")};
-  border-radius: ${fieldRadius};
-  font-family: ${cv("family.sans")};
-  cursor: pointer;
-}
-.select__chevron { flex-shrink: 0; margin-left: auto; color: ${cv("icon.default")}; transition: transform 0.12s ease; }
-.select__placeholder { color: ${cv("text.secondary")}; }
-.select__value { color: ${cv("text.default")}; }
-.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
-.select__label { color: ${cv("text.secondary")}; }
-
-${sizes
-  .map((s) => {
-    const lines = [
-      `.select--${s.key} { height: ${px(s.height)}; padding: 0 ${px(s.paddingX)}; gap: ${px(s.gap)}; }`,
-      `.select--${s.key} .select__chevron { width: ${px(s.iconSize)}; height: ${px(s.iconSize)}; }`,
-      `.select--${s.key} .select__placeholder, .select--${s.key} .select__value { ${typoCss(s.value)} }`,
-    ];
-    if (s.label) {
-      lines.push(`.select--${s.key} .select__stack { gap: ${px(s.labelGap)}; }`);
-      lines.push(`.select--${s.key} .select__label { ${typoCss(s.label)} }`);
-    }
-    return lines.join("\n");
-  })
-  .join("\n\n")}
-
-/* hover fills to surface-4 — but NOT when active/focused/error/disabled */
-.select:not(.select--disabled):not(.select--active):not(.select--focused):not(.select--error):hover, .select--hover { background: ${cv("surface.raised")}; border-color: ${cv("surface.raised")}; }
-/* active = menu open: accent border + chevron flipped up (stays grey) */
-.select--active { border-color: ${cv("outline.active")}; }
-.select--active .select__chevron { transform: rotate(180deg); }
-/* focused = keyboard focus on the closed trigger: active border + accent ring, chevron down */
-.select--focused { border-color: ${cv("outline.active")}; ${ringShadow} }
-.select--disabled { opacity: 0.5; background: ${cv("surface.disabled")}; border-color: ${cv("outline.default")}; cursor: not-allowed; }
-.select--disabled .select__placeholder, .select--disabled .select__value, .select--disabled .select__label { color: ${cv("text.disabled")}; }
-.select--disabled .select__chevron { color: ${cv("icon.disabled")}; }
-.select--error { border-color: ${cv("outline.negative")}; }
-.select-field { display: inline-flex; flex-direction: column; gap: ${errorGap}; }
-.select__error { color: ${cv("text.negative")}; font-family: ${cv("family.sans")}; font-size: ${errorTextSize}; line-height: 1.4; }`;
+${Select.css(ctx)}`;
 
 const chevron = (live) => (live ? iconChevron : `<svg class="select__chevron"><!-- icon: chevron --></svg>`);
-function restingMarkup(size, { placeholder = "Select", live = true } = {}) {
-  return `<div class="select select--${size}"><span class="select__placeholder">${placeholder}</span>${chevron(live)}</div>`;
-}
-// single-line filled trigger (sm — no floating label, chosen value shown directly)
-function filledMarkup(size, { value = "Last Added", live = true } = {}) {
-  return `<div class="select select--${size}"><span class="select__value">${value}</span>${chevron(live)}</div>`;
-}
-function floatedMarkup(size, { label = "Sort by", value = "Last Added", cls = "", live = true } = {}) {
-  return `<div class="select select--${size}${cls}"><div class="select__stack"><span class="select__label">${label}</span><span class="select__value">${value}</span></div>${chevron(live)}</div>`;
-}
-// error state wraps the trigger with a helper line below it
-function errorMarkup(size, { label = "Sort by", value = "Last Added", message = "Please choose a value", live = true } = {}) {
-  const field = floatedMarkup(size, { label, value, live }).replace('class="select select--' + size + '"', 'class="select select--' + size + ' select--error"');
-  return `<div class="select-field">${field}<span class="select__error">${message}</span></div>`;
-}
+const restingMarkup = (size, { live = true, ...opts } = {}) => Select.restingMarkup(size, chevron(live), opts);
+const filledMarkup = (size, { live = true, ...opts } = {}) => Select.filledMarkup(size, chevron(live), opts);
+const floatedMarkup = (size, { live = true, ...opts } = {}) => Select.floatedMarkup(size, chevron(live), opts);
+const errorMarkup = (size, { live = true, ...opts } = {}) => Select.errorMarkup(size, chevron(live), opts);
+
+// size key + height, for the "Sizes" story titles
+const sizes = ["sm", "base", "lg"].map((key) => ({ key, height: resolve(select.size[key].height.$value) }));
 
 function storyCard(title, liveHtml, codeHtml, note = "") {
   return `
