@@ -23,6 +23,7 @@ const summary = load("tokens/components/summary.tokens.json").component.summary;
 const input = load("tokens/components/input.tokens.json").component.input;      // stake field
 const select = load("tokens/components/select.tokens.json").component.select;   // system combination
 const oddsComp = load("tokens/components/odds.tokens.json").component.odds;      // total odds movement
+const button = load("tokens/components/button.tokens.json").component.button;    // Max = Button twoRow-secondary
 
 const registry = {
   color: colorPrim, spacing: dim, radius: radiusPrim,
@@ -59,6 +60,7 @@ const colorPaths = [
   "outline.strong", "outline.active",
   "text.default", "text.secondary", "text.positive", "text.negative", "text.active",
   "icon.active", "icon.secondary", "icon.default",
+  "fill.neutral", // Button secondary fill (Max)
 ];
 const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
@@ -96,6 +98,17 @@ const selIcon = px(resolve(selLg.iconSize.$value));
 const selLabel = typoOf(selLg.label);
 const selValue = typoOf(selLg.value);
 
+// ---- Max = Button / twoRow / secondary (resolved from button.tokens.json) ----
+const btnSecFill = cvOf(button.secondary.state.default.fill);
+const btnSecLabel = cvOf(button.secondary.state.default.label);
+const trGap = px(resolve(button.twoRow.gap.$value));
+const trPadX = px(resolve(button.twoRow.paddingX.$value));
+const trRadius = px(resolve(button.twoRow.radius.$value));
+const trSecH = px(resolve(button.twoRow.secondary.height.$value));
+const trTop = typoOf(button.twoRow.secondary.topLabel);
+const trBottom = typoOf(button.twoRow.secondary.bottomLabel);
+const trBottomColor = cvOf(button.twoRow.secondary.bottomLabelColor);
+
 // ---- Odds (total odds movement) ----
 const oddsType = typoOf(oddsComp.type);
 const oddsGap = px(resolve(oddsComp.gap.$value));
@@ -130,9 +143,14 @@ const css = `${rootVars}
 .sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${inValue} font-variant-numeric: tabular-nums; font-family: inherit; }
 .sum-stake__input::placeholder { color: ${cv("text.secondary")}; }
 .sum-stake--empty .sum-stake__input { width: 100%; }
-.sum-max { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0 ${px(resolve("spacing.3"))}; height: ${px(resolve("spacing.9"))}; border: none; border-radius: ${px(resolve("radius.full"))}; background: ${cv("surface.raised")}; cursor: pointer; font-family: inherit; }
-.sum-max__t { color: ${cv("text.secondary")}; font-size: 11px; line-height: 1; }
-.sum-max__v { color: ${cv("text.default")}; font-size: 12px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: ${cv("family.sans")}; }
+.btn--secondary { background: ${btnSecFill}; color: ${btnSecLabel}; }
+.btn--tworow { flex-direction: column; gap: ${trGap}; padding: 0 ${trPadX}; border-radius: ${trRadius}; line-height: 1.2; }
+.btn--tworow.btn--secondary { height: ${trSecH}; }
+.btn--tworow.btn--secondary .btn__top { ${trTop} }
+.btn--tworow.btn--secondary .btn__bottom { ${trBottom} color: ${trBottomColor}; }
 
 /* System Combination = Select / lg (floating label + value + chevron) */
 .sum-select { display: flex; align-items: center; gap: ${px(resolve("spacing.2"))}; height: ${selH}; padding: 0 ${selPadX}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${selRadius}; cursor: pointer; }
@@ -178,11 +196,11 @@ const oddsMove = (value, prev) => `<span class="odds odds--up odds--prev-left" d
 
 const stakeEmpty = (label, max) => `<label class="sum-stake sum-stake--empty">
       <span class="sum-stake__field"><input class="sum-stake__input" placeholder="${label}" aria-label="${label}" /></span>
-      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">${max}</span></button>
+      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">${max}</span></button>
     </label>`;
 const stakeValue = (label, value, max) => `<label class="sum-stake">
       <span class="sum-stake__field"><span class="sum-stake__label">${label}</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="${value}" aria-label="${label}" /></span></span>
-      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">${max}</span></button>
+      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">${max}</span></button>
     </label>`;
 const systemSelect = () => `<div class="sum-select" role="button" tabindex="0">
       <span class="sum-select__field"><span class="sum-select__label">System Combination</span><span class="sum-select__value">3/4</span></span>
@@ -315,7 +333,7 @@ const html = `<!doctype html>
     <div class="legend">
       <div class="row"><b>Row</b><span>The reusable part — <code class="tok">.summary__row</code>: label (text.secondary) left, value (bold, tabular-nums) right. <code class="tok">--win</code> = positive/green value; <code class="tok">--turbo</code> = active/orange value with the rocket; an optional info icon on the label opens a <a href="tooltip.html">Tooltip</a>.</span></div>
       <div class="row"><b>Values</b><span>Plain ($500.00), a range (7.02-10.00), or the <a href="odds.html">Odds</a> component (total-odds movement — struck-through old + new, prev-left).</span></div>
-      <div class="row"><b>Composed, not restyled</b><span>The stake field is <a href="input.html">Input</a> (lg) + a Max chip; the System-Combination is <a href="select.html">Select</a> (lg); total-odds is <a href="odds.html">Odds</a>. Summary owns only the rows; everything else is its own component.</span></div>
+      <div class="row"><b>Composed, not restyled</b><span>The stake field is <a href="input.html">Input</a> (lg) with the <strong>Max = the real <a href="button.html">Button</a> (twoRow / secondary)</strong> inside it; the System-Combination is <a href="select.html">Select</a> (lg); total-odds is <a href="odds.html">Odds</a>. Summary owns only the rows; everything else is its own component (real <code class="tok">.btn</code>/<code class="tok">.odds</code> classes, resolved from their token files).</span></div>
       <div class="row"><b>Three footers</b><span>Single (stake-for-all + total/​win) · Combo (stake + max-bet hint + turbo row + total-odds movement + win) · System (System-Combination select + stake + range total-odds/win). The Place-bet button and footer icon buttons are separate.</span></div>
     </div>
 

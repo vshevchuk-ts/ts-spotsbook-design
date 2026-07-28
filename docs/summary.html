@@ -80,6 +80,7 @@
   --tok-icon-active: #FB8C33;
   --tok-icon-secondary: #8E929F;
   --tok-icon-default: #8E929F;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -108,9 +109,14 @@
 .sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
 .sum-stake__input::placeholder { color: var(--tok-text-secondary); }
 .sum-stake--empty .sum-stake__input { width: 100%; }
-.sum-max { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0 12px; height: 36px; border: none; border-radius: 999px; background: var(--tok-surface-raised); cursor: pointer; font-family: inherit; }
-.sum-max__t { color: var(--tok-text-secondary); font-size: 11px; line-height: 1; }
-.sum-max__v { color: var(--tok-text-default); font-size: 12px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
+.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+.btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow.btn--secondary { height: 40px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
 
 /* System Combination = Select / lg (floating label + value + chevron) */
 .sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
@@ -205,7 +211,7 @@
     <div class="legend">
       <div class="row"><b>Row</b><span>The reusable part — <code class="tok">.summary__row</code>: label (text.secondary) left, value (bold, tabular-nums) right. <code class="tok">--win</code> = positive/green value; <code class="tok">--turbo</code> = active/orange value with the rocket; an optional info icon on the label opens a <a href="tooltip.html">Tooltip</a>.</span></div>
       <div class="row"><b>Values</b><span>Plain ($500.00), a range (7.02-10.00), or the <a href="odds.html">Odds</a> component (total-odds movement — struck-through old + new, prev-left).</span></div>
-      <div class="row"><b>Composed, not restyled</b><span>The stake field is <a href="input.html">Input</a> (lg) + a Max chip; the System-Combination is <a href="select.html">Select</a> (lg); total-odds is <a href="odds.html">Odds</a>. Summary owns only the rows; everything else is its own component.</span></div>
+      <div class="row"><b>Composed, not restyled</b><span>The stake field is <a href="input.html">Input</a> (lg) with the <strong>Max = the real <a href="button.html">Button</a> (twoRow / secondary)</strong> inside it; the System-Combination is <a href="select.html">Select</a> (lg); total-odds is <a href="odds.html">Odds</a>. Summary owns only the rows; everything else is its own component (real <code class="tok">.btn</code>/<code class="tok">.odds</code> classes, resolved from their token files).</span></div>
       <div class="row"><b>Three footers</b><span>Single (stake-for-all + total/​win) · Combo (stake + max-bet hint + turbo row + total-odds movement + win) · System (System-Combination select + stake + range total-odds/win). The Place-bet button and footer icon buttons are separate.</span></div>
     </div>
 
@@ -223,6 +229,7 @@
   --tok-icon-active: #FB8C33;
   --tok-icon-secondary: #8E929F;
   --tok-icon-default: #8E929F;
+  --tok-fill-neutral: #3E4351;
   --tok-family-sans: 'Rubik', sans-serif;
 }
 
@@ -251,9 +258,14 @@
 .sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
 .sum-stake__input::placeholder { color: var(--tok-text-secondary); }
 .sum-stake--empty .sum-stake__input { width: 100%; }
-.sum-max { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0 12px; height: 36px; border: none; border-radius: 999px; background: var(--tok-surface-raised); cursor: pointer; font-family: inherit; }
-.sum-max__t { color: var(--tok-text-secondary); font-size: 11px; line-height: 1; }
-.sum-max__v { color: var(--tok-text-default); font-size: 12px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+.btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
+.btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
+.btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
+.btn--tworow.btn--secondary { height: 40px; }
+.btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
+.btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
 
 /* System Combination = Select / lg (floating label + value + chevron) */
 .sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
@@ -303,7 +315,7 @@
         <div class="story-preview"><div class="sum-foot">
     <label class="sum-stake sum-stake--empty">
       <span class="sum-stake__field"><input class="sum-stake__input" placeholder="Set amount for all bets" aria-label="Set amount for all bets" /></span>
-      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
     </label>
     <div class="summary">
       <div class="summary__row"><span class="summary__label">Total bet amount</span><span class="summary__value">$500.00</span></div>
@@ -318,7 +330,7 @@
         <div class="story-preview"><div class="sum-foot">
     <label class="sum-stake">
       <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
-      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
     </label>
     <p class="sum-hint">Potential max bet $2,717, <a href="#">Deposit Now</a> to bet higher</p>
     <div class="summary">
@@ -339,7 +351,7 @@
     </div>
     <label class="sum-stake">
       <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
-      <button class="sum-max" type="button"><span class="sum-max__t">Max</span><span class="sum-max__v">$1,000.50</span></button>
+      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
     </label>
     <div class="summary">
       <div class="summary__row"><span class="summary__label">Total odds<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value">7.02-10.00</span></div>
