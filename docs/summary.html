@@ -99,18 +99,24 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = Input / lg (surface.page well) + a trailing Max chip */
-.sum-stake { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; }
-.sum-stake:focus-within { border-color: var(--tok-outline-active); }
-.sum-stake__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-.sum-stake__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.sum-stake__value { display: flex; align-items: baseline; gap: 4px; }
-.sum-stake__cur { color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.sum-stake__input::placeholder { color: var(--tok-text-secondary); }
-.sum-stake--empty .sum-stake__input { width: 100%; }
+/* stake field = the real Input component, the --action variant (field + a trailing Max
+   button), resolved from input.tokens.json — the exact .input classes the Input page
+   renders, not a re-draw. */
+.input { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: text; }
+.input__placeholder { color: var(--tok-text-secondary); }
+.input__value { color: var(--tok-text-default); }
+.input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
+.input__stack { display: flex; flex-direction: column; justify-content: center; }
+.input__label { color: var(--tok-text-secondary); }
+.input--lg { height: 48px; padding: 0 16px; }
+.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--lg .input__stack { gap: 4px; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+.input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action > .btn { flex-shrink: 0; }
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
 .btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
@@ -118,13 +124,18 @@
 .btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
 .btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
 
-/* System Combination = Select / lg (floating label + value + chevron) */
-.sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
-.sum-select__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-.sum-select__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.sum-select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.sum-select__chevron { flex-shrink: 0; width: 24px; height: 24px; color: var(--tok-icon-default); }
-.sum-select__chevron svg { display: block; width: 100%; height: 100%; }
+/* System Combination = the real Select component (lg, floating label), resolved from
+   select.tokens.json — the exact .select classes the Select page renders. */
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.select__value { color: var(--tok-text-default); }
+.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
+.select__label { color: var(--tok-text-secondary); }
+.select--lg { height: 48px; padding: 0 16px; gap: 8px; }
+.select--lg .select__chevron { width: 24px; height: 24px; }
+.select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--lg .select__stack { gap: 4px; }
+.select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
 /* hint line with an inline link */
 .sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
@@ -248,18 +259,24 @@
 .summary__rocket { flex-shrink: 0; width: 16px; height: 16px; color: var(--tok-icon-active); }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = Input / lg (surface.page well) + a trailing Max chip */
-.sum-stake { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; }
-.sum-stake:focus-within { border-color: var(--tok-outline-active); }
-.sum-stake__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-.sum-stake__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.sum-stake__value { display: flex; align-items: baseline; gap: 4px; }
-.sum-stake__cur { color: var(--tok-text-secondary); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; font-variant-numeric: tabular-nums; font-family: inherit; }
-.sum-stake__input::placeholder { color: var(--tok-text-secondary); }
-.sum-stake--empty .sum-stake__input { width: 100%; }
+/* stake field = the real Input component, the --action variant (field + a trailing Max
+   button), resolved from input.tokens.json — the exact .input classes the Input page
+   renders, not a re-draw. */
+.input { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: text; }
+.input__placeholder { color: var(--tok-text-secondary); }
+.input__value { color: var(--tok-text-default); }
+.input__prefix { color: var(--tok-text-secondary); margin-right: 4px; }
+.input__stack { display: flex; flex-direction: column; justify-content: center; }
+.input__label { color: var(--tok-text-secondary); }
+.input--lg { height: 48px; padding: 0 16px; }
+.input--lg .input__placeholder, .input--lg .input__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.input--lg .input__stack { gap: 4px; }
+.input--lg .input__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
+.input.input--action { justify-content: space-between; padding-right: 4px; gap: 4px; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action &gt; .btn { flex-shrink: 0; }
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
 .btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: var(--tok-family-sans); }
 .btn--secondary { background: var(--tok-fill-neutral); color: var(--tok-text-default); }
 .btn--tworow { flex-direction: column; gap: 2px; padding: 0 16px; border-radius: 8px; line-height: 1.2; }
@@ -267,13 +284,18 @@
 .btn--tworow.btn--secondary .btn__top { font-weight: 400; font-size: 12px; line-height: 1.4; }
 .btn--tworow.btn--secondary .btn__bottom { font-weight: 400; font-size: 12px; line-height: 1.4; color: var(--tok-text-secondary); }
 
-/* System Combination = Select / lg (floating label + value + chevron) */
-.sum-select { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; cursor: pointer; }
-.sum-select__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-.sum-select__label { color: var(--tok-text-secondary); font-weight: 400; font-size: 10px; line-height: 1.2; }
-.sum-select__value { color: var(--tok-text-default); font-weight: 400; font-size: 16px; line-height: 1.2; }
-.sum-select__chevron { flex-shrink: 0; width: 24px; height: 24px; color: var(--tok-icon-default); }
-.sum-select__chevron svg { display: block; width: 100%; height: 100%; }
+/* System Combination = the real Select component (lg, floating label), resolved from
+   select.tokens.json — the exact .select classes the Select page renders. */
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: var(--tok-surface-page); border: 1px solid var(--tok-outline-strong); border-radius: 8px; font-family: var(--tok-family-sans); cursor: pointer; }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: var(--tok-icon-default); }
+.select__value { color: var(--tok-text-default); }
+.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
+.select__label { color: var(--tok-text-secondary); }
+.select--lg { height: 48px; padding: 0 16px; gap: 8px; }
+.select--lg .select__chevron { width: 24px; height: 24px; }
+.select--lg .select__value { font-weight: 400; font-size: 16px; line-height: 1.2; }
+.select--lg .select__stack { gap: 4px; }
+.select--lg .select__label { font-weight: 400; font-size: 10px; line-height: 1.2; }
 
 /* hint line with an inline link */
 .sum-hint { color: var(--tok-text-secondary); font-weight: 400; font-size: 12px; line-height: 1.4; margin: 0; }
@@ -313,10 +335,10 @@
       <div class="story">
         <h3>Single</h3>
         <div class="story-preview"><div class="sum-foot">
-    <label class="sum-stake sum-stake--empty">
-      <span class="sum-stake__field"><input class="sum-stake__input" placeholder="Set amount for all bets" aria-label="Set amount for all bets" /></span>
+    <div class="input input--lg input--action">
+      <div class="input__stack"><span class="input__placeholder">Set amount for all bets</span></div>
       <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
-    </label>
+    </div>
     <div class="summary">
       <div class="summary__row"><span class="summary__label">Total bet amount</span><span class="summary__value">$500.00</span></div>
       <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$1,060.00</span></div>
@@ -328,10 +350,10 @@
       <div class="story">
         <h3>Combo</h3>
         <div class="story-preview"><div class="sum-foot">
-    <label class="sum-stake">
-      <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
+    <div class="input input--lg input--action">
+      <div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div>
       <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
-    </label>
+    </div>
     <p class="sum-hint">Potential max bet $2,717, <a href="#">Deposit Now</a> to bet higher</p>
     <div class="summary">
       <div class="summary__row summary__row--turbo"><span class="summary__label">Turbo combo<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value"><span class="summary__rocket"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.47279 4.89126C5.77279 6.79959 4.60612 9.54126 4.49779 9.79959L2.61445 8.99126C2.07279 8.75793 1.93945 8.04959 2.35612 7.63293L4.86445 5.12459C5.25612 4.73293 5.82279 4.55793 6.37279 4.66626L7.47279 4.89126ZM8.71445 13.3579C8.96445 13.6079 9.33112 13.6746 9.64779 13.5246C10.6145 13.0746 12.6895 12.0163 14.0311 10.6746C17.8561 6.84959 17.8895 3.73293 17.6645 2.39959C17.6061 2.06626 17.3395 1.79959 17.0061 1.74126C15.6728 1.51626 12.5561 1.54959 8.73112 5.37459C7.38945 6.71626 6.33945 8.79126 5.88112 9.75793C5.73112 10.0746 5.80612 10.4496 6.04779 10.6913L8.71445 13.3579ZM14.5228 11.9413C12.6145 13.6413 9.87279 14.8079 9.61445 14.9163L10.4228 16.7996C10.6561 17.3413 11.3645 17.4746 11.7811 17.0579L14.2895 14.5496C14.6811 14.1579 14.8561 13.5913 14.7478 13.0413L14.5228 11.9413ZM7.26445 14.1079C7.43112 14.9913 7.13945 15.8079 6.58112 16.3663C5.93945 17.0079 3.94779 17.4829 2.65612 17.7329C2.08112 17.8413 1.57279 17.3329 1.68112 16.7579C1.93112 15.4663 2.39779 13.4746 3.04779 12.8329C3.60612 12.2746 4.42279 11.9829 5.30612 12.1496C6.28112 12.3329 7.08112 13.1329 7.26445 14.1079ZM10.6478 7.09959C10.6478 6.18293 11.3978 5.43293 12.3145 5.43293C13.2311 5.43293 13.9811 6.18293 13.9811 7.09959C13.9811 8.01626 13.2311 8.76626 12.3145 8.76626C11.3978 8.76626 10.6478 8.01626 10.6478 7.09959Z" fill="currentColor"/></svg></span>×1.08</span></div>
@@ -345,14 +367,14 @@
       <div class="story">
         <h3>System</h3>
         <div class="story-preview"><div class="sum-foot">
-    <div class="sum-select" role="button" tabindex="0">
-      <span class="sum-select__field"><span class="sum-select__label">System Combination</span><span class="sum-select__value">3/4</span></span>
-      <span class="sum-select__chevron"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/></g></svg></span>
+    <div class="select select--lg" role="button" tabindex="0">
+      <div class="select__stack"><span class="select__label">System Combination</span><span class="select__value">3/4</span></div>
+      <svg class="select__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M13.825 7.15833L10 10.975L6.175 7.15833L5 8.33333L10 13.3333L15 8.33333L13.825 7.15833Z" fill="currentColor"/></g></svg>
     </div>
-    <label class="sum-stake">
-      <span class="sum-stake__field"><span class="sum-stake__label">Bet amount</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="10" aria-label="Bet amount" /></span></span>
+    <div class="input input--lg input--action">
+      <div class="input__stack"><span class="input__label">Bet amount</span><span class="input__value"><span class="input__prefix">$</span>10</span></div>
       <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button>
-    </label>
+    </div>
     <div class="summary">
       <div class="summary__row"><span class="summary__label">Total odds<span class="summary__info"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M9.16667 5.83332H10.8333V7.49999H9.16667V5.83332ZM9.16667 9.16666H10.8333V14.1667H9.16667V9.16666ZM10 1.66666C5.40001 1.66666 1.66667 5.39999 1.66667 9.99999C1.66667 14.6 5.40001 18.3333 10 18.3333C14.6 18.3333 18.3333 14.6 18.3333 9.99999C18.3333 5.39999 14.6 1.66666 10 1.66666ZM10 16.6667C6.32501 16.6667 3.33334 13.675 3.33334 9.99999C3.33334 6.32499 6.32501 3.33332 10 3.33332C13.675 3.33332 16.6667 6.32499 16.6667 9.99999C16.6667 13.675 13.675 16.6667 10 16.6667Z" fill="currentColor"/></g></svg></span></span><span class="summary__value">7.02-10.00</span></div>
       <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$70.20-100.00</span></div>

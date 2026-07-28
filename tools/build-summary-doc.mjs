@@ -133,18 +133,24 @@ const css = `${rootVars}
 .summary__rocket { flex-shrink: 0; width: ${sTurboIcon}; height: ${sTurboIcon}; color: ${cvOf(summary.turbo.iconColor)}; }
 .summary__rocket svg { display: block; width: 100%; height: 100%; }
 
-/* stake field = Input / lg (surface.page well) + a trailing Max chip */
-.sum-stake { display: flex; align-items: center; gap: ${px(resolve("spacing.2"))}; height: ${inH}; padding: 0 ${inPadX}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${inRadius}; }
-.sum-stake:focus-within { border-color: ${cv("outline.active")}; }
-.sum-stake__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: ${inLabelGap}; }
-.sum-stake__label { color: ${cv("text.secondary")}; ${inLabel} }
-.sum-stake__value { display: flex; align-items: baseline; gap: ${inPrefixGap}; }
-.sum-stake__cur { color: ${cv("text.secondary")}; ${inValue} }
-.sum-stake__input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: ${cv("text.default")}; ${inValue} font-variant-numeric: tabular-nums; font-family: inherit; }
-.sum-stake__input::placeholder { color: ${cv("text.secondary")}; }
-.sum-stake--empty .sum-stake__input { width: 100%; }
+/* stake field = the real Input component, the --action variant (field + a trailing Max
+   button), resolved from input.tokens.json — the exact .input classes the Input page
+   renders, not a re-draw. */
+.input { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${inRadius}; font-family: ${cv("family.sans")}; cursor: text; }
+.input__placeholder { color: ${cv("text.secondary")}; }
+.input__value { color: ${cv("text.default")}; }
+.input__prefix { color: ${cv("text.secondary")}; margin-right: ${inPrefixGap}; }
+.input__stack { display: flex; flex-direction: column; justify-content: center; }
+.input__label { color: ${cv("text.secondary")}; }
+.input--lg { height: ${inH}; padding: 0 ${inPadX}; }
+.input--lg .input__placeholder, .input--lg .input__value { ${inValue} }
+.input--lg .input__stack { gap: ${inLabelGap}; }
+.input--lg .input__label { ${inLabel} }
+.input.input--action { justify-content: space-between; padding-right: ${inPrefixGap}; gap: ${inPrefixGap}; }
+.input--action .input__stack { flex: 1; min-width: 0; }
+.input--action > .btn { flex-shrink: 0; }
 
-/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes */
+/* the Max button IS Button / twoRow / secondary, resolved from button.tokens.json — real .btn classes (same as the Input page's --action variant) */
 .btn { display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; white-space: nowrap; font-family: ${cv("family.sans")}; }
 .btn--secondary { background: ${btnSecFill}; color: ${btnSecLabel}; }
 .btn--tworow { flex-direction: column; gap: ${trGap}; padding: 0 ${trPadX}; border-radius: ${trRadius}; line-height: 1.2; }
@@ -152,13 +158,18 @@ const css = `${rootVars}
 .btn--tworow.btn--secondary .btn__top { ${trTop} }
 .btn--tworow.btn--secondary .btn__bottom { ${trBottom} color: ${trBottomColor}; }
 
-/* System Combination = Select / lg (floating label + value + chevron) */
-.sum-select { display: flex; align-items: center; gap: ${px(resolve("spacing.2"))}; height: ${selH}; padding: 0 ${selPadX}; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${selRadius}; cursor: pointer; }
-.sum-select__field { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: ${selLabelGap}; }
-.sum-select__label { color: ${cv("text.secondary")}; ${selLabel} }
-.sum-select__value { color: ${cv("text.default")}; ${selValue} }
-.sum-select__chevron { flex-shrink: 0; width: ${selIcon}; height: ${selIcon}; color: ${cvOf(select.state.default.chevron)}; }
-.sum-select__chevron svg { display: block; width: 100%; height: 100%; }
+/* System Combination = the real Select component (lg, floating label), resolved from
+   select.tokens.json — the exact .select classes the Select page renders. */
+.select { display: inline-flex; align-items: center; box-sizing: border-box; background: ${cv("surface.page")}; border: 1px solid ${cv("outline.strong")}; border-radius: ${selRadius}; font-family: ${cv("family.sans")}; cursor: pointer; }
+.select__chevron { flex-shrink: 0; margin-left: auto; color: ${cvOf(select.state.default.chevron)}; }
+.select__value { color: ${cv("text.default")}; }
+.select__stack { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
+.select__label { color: ${cv("text.secondary")}; }
+.select--lg { height: ${selH}; padding: 0 ${selPadX}; gap: ${px(resolve(selLg.gap.$value))}; }
+.select--lg .select__chevron { width: ${selIcon}; height: ${selIcon}; }
+.select--lg .select__value { ${selValue} }
+.select--lg .select__stack { gap: ${selLabelGap}; }
+.select--lg .select__label { ${selLabel} }
 
 /* hint line with an inline link */
 .sum-hint { color: ${cvOf(summary.hint.color)}; ${sHint} margin: 0; }
@@ -183,7 +194,7 @@ const css = `${rootVars}
 // ---- icons ----
 const iRocket = fs.readFileSync(path.join(root, "assets/icons/ui/turbo-combo.svg"), "utf8").replace(/\n/g, "");
 const iInfo = fs.readFileSync(path.join(root, "assets/icons/ui/info-outline.svg"), "utf8").replace(/\n/g, "");
-const iChevron = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace(/\n/g, "");
+const iChevron = fs.readFileSync(path.join(root, "assets/icons/ui/arrow-down.svg"), "utf8").replace(/\n/g, "").replace("<svg ", '<svg class="select__chevron" ');
 
 // ---- markup helpers ----
 function row(label, valueHtml, { win, turbo, info } = {}) {
@@ -194,17 +205,19 @@ function row(label, valueHtml, { win, turbo, info } = {}) {
 const turboVal = (mult) => `<span class="summary__rocket">${iRocket}</span>${mult}`;
 const oddsMove = (value, prev) => `<span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">${value}</span><span class="odds__prev">${prev}</span></span>`;
 
-const stakeEmpty = (label, max) => `<label class="sum-stake sum-stake--empty">
-      <span class="sum-stake__field"><input class="sum-stake__input" placeholder="${label}" aria-label="${label}" /></span>
-      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">${max}</span></button>
-    </label>`;
-const stakeValue = (label, value, max) => `<label class="sum-stake">
-      <span class="sum-stake__field"><span class="sum-stake__label">${label}</span><span class="sum-stake__value"><span class="sum-stake__cur">$</span><input class="sum-stake__input" value="${value}" aria-label="${label}" /></span></span>
-      <button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">${max}</span></button>
-    </label>`;
-const systemSelect = () => `<div class="sum-select" role="button" tabindex="0">
-      <span class="sum-select__field"><span class="sum-select__label">System Combination</span><span class="sum-select__value">3/4</span></span>
-      <span class="sum-select__chevron">${iChevron}</span>
+const maxButton = (max) => `<button class="btn btn--secondary btn--tworow" type="button"><span class="btn__top">Max</span><span class="btn__bottom">${max}</span></button>`;
+// Input / lg / --action — empty (placeholder) or populated (floating label + $value), + the Max button.
+const stakeEmpty = (label, max) => `<div class="input input--lg input--action">
+      <div class="input__stack"><span class="input__placeholder">${label}</span></div>
+      ${maxButton(max)}
+    </div>`;
+const stakeValue = (label, value, max) => `<div class="input input--lg input--action">
+      <div class="input__stack"><span class="input__label">${label}</span><span class="input__value"><span class="input__prefix">$</span>${value}</span></div>
+      ${maxButton(max)}
+    </div>`;
+const systemSelect = () => `<div class="select select--lg" role="button" tabindex="0">
+      <div class="select__stack"><span class="select__label">System Combination</span><span class="select__value">3/4</span></div>
+      ${iChevron}
     </div>`;
 
 const MAX = "$1,000.50";
