@@ -50,8 +50,6 @@ const colorValue = Object.fromEntries(colorPaths.map((p) => [p, resolve(p)]));
 const fontSans = resolve("family.sans");
 const rootVars = renderRootVars([...colorPaths.map((p) => [p, colorValue[p]]), ["family.sans", `'${fontSans}', sans-serif`]]);
 
-const oddsLoopMs = Odds.durationMs(ctx) + 2000;
-
 // ---- icons ----
 const icon = (name) => fs.readFileSync(path.join(root, `assets/icons/ui/${name}.svg`), "utf8").replace(/\n/g, "");
 const disc = (name) => fs.readFileSync(path.join(root, `assets/icons/sports/${name}.svg`), "utf8").replace(/\n/g, "");
@@ -108,21 +106,20 @@ ${componentCss}
 .bs-place { width: 100%; }`;
 
 // ---- markup, composed from the real component modules ----
-const oddsEl = (v, dir, prev) =>
-  dir
-    ? `<span class="odds odds--${dir}" data-dir="${dir}"><span class="odds__value">${v}</span><span class="odds__prev">${prev}</span></span>`
-    : `<span class="odds"><span class="odds__value">${v}</span></span>`;
+// Odds render STATIC here — a betslip screen shows settled prices, not a looping
+// flash. (The live up/down movement is demoed on odds.html / bet-card.html.)
+const oddsEl = (v) => `<span class="odds"><span class="odds__value">${v}</span></span>`;
 
 const picks = [
-  { sport: "football", event: "Arsenal — Chelsea", badges: ["live"], market: "Match Result — 1X2", outcome: "Arsenal to win", odds: "2.10", dir: "up", prev: "1.95" },
+  { sport: "football", event: "Arsenal — Chelsea", badges: ["live"], market: "Match Result — 1X2", outcome: "Arsenal to win", odds: "2.10" },
   { sport: "football", event: "Real Madrid — Sevilla", badges: [], market: "Total Goals", outcome: "Over 2.5 goals", odds: "1.72" },
   { sport: "tennis", event: "Alcaraz — Sinner", badges: [], market: "Match Winner", outcome: "C. Alcaraz", odds: "2.33" },
 ];
 const icons = (p) => ({ sport: disc(p.sport), close: iClose });
 
 // Multi / System list = compact cards; Single list = amount cards (per-selection stake)
-const compactList = picks.map((p) => BetCard.compactCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds, p.dir, p.prev), icons: icons(p) })).join("\n");
-const amountList = picks.map((p) => BetCard.amountCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds, p.dir, p.prev), amount: "20", icons: icons(p) })).join("\n");
+const compactList = picks.map((p) => BetCard.compactCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds), icons: icons(p) })).join("\n");
+const amountList = picks.map((p) => BetCard.amountCard({ event: p.event, badges: p.badges, market: p.market, outcome: p.outcome, oddsHtml: oddsEl(p.odds), amount: "20", icons: icons(p) })).join("\n");
 
 // footer pieces (real components)
 const stakeField = Input.actionMarkup("lg", { label: "Stake", value: "20.00", prefix: "$", max: { top: "Max", bottom: "$1,000.50" } });
@@ -132,7 +129,7 @@ const placeBtn = (win) => `<button class="btn btn--primary btn--tworow bs-place"
 const footMulti = `<div class="bs-foot-panel" data-foot="multi">
         ${stakeField}
         <div class="summary">
-          ${Summary.row("Total odds", Summary.oddsMove("8.42", "7.90"))}
+          ${Summary.row("Total odds", "8.42")}
           ${Summary.row("Total stake", "$20.00")}
           ${Summary.row("Possible win", "$168.40", { win: true }, iInfo)}
         </div>
@@ -271,10 +268,10 @@ const html = `<!doctype html>
           <li><b>Container</b> — real Drawer (<code class="tok">drawer--bottom</code>, native <code class="tok">&lt;dialog&gt;</code> + backdrop + slide-in).</li>
           <li><b>Count "3"</b> — real Counter (<code class="tok">onNeutral / active</code>) — a rounded pill, not an oval.</li>
           <li><b>Single / Multi / System</b> — real underline Tabs, clickable; each swaps the card set + footer.</li>
-          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (the first flashes + counts up).</li>
+          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (static prices here — the up/down movement is demoed on odds.html).</li>
           <li><b>Stake</b> — real Input <code class="tok">lg / --action</code> with the real Max Button inside.</li>
           <li><b>System Combination</b> — real Select <code class="tok">lg</code>.</li>
-          <li><b>Total odds / stake / win</b> — Summary rows (total odds = Odds movement).</li>
+          <li><b>Total odds / stake / win</b> — Summary rows.</li>
           <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>; Clear all — Button <code class="tok">ghost / sm</code>.</li>
         </ul>
         <h2>Scaffolding (not components)</h2>
@@ -291,9 +288,6 @@ const html = `<!doctype html>
     ${drawer}
   </main>
 </div>
-<script>
-${Odds.script(ctx, { loopMs: oddsLoopMs })}
-</script>
 <script>
   // Drawer open / light-dismiss (real Drawer component behaviour)
   ${Drawer.script}

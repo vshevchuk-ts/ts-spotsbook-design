@@ -578,10 +578,10 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
           <li><b>Container</b> — real Drawer (<code class="tok">drawer--bottom</code>, native <code class="tok">&lt;dialog&gt;</code> + backdrop + slide-in).</li>
           <li><b>Count "3"</b> — real Counter (<code class="tok">onNeutral / active</code>) — a rounded pill, not an oval.</li>
           <li><b>Single / Multi / System</b> — real underline Tabs, clickable; each swaps the card set + footer.</li>
-          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (the first flashes + counts up).</li>
+          <li><b>Selection cards</b> — Bet card <code class="tok">--compact</code> (Multi / System) and <code class="tok">--amount</code> with a per-selection stake (Single). LIVE = real Badge; odds = real Odds (static prices here — the up/down movement is demoed on odds.html).</li>
           <li><b>Stake</b> — real Input <code class="tok">lg / --action</code> with the real Max Button inside.</li>
           <li><b>System Combination</b> — real Select <code class="tok">lg</code>.</li>
-          <li><b>Total odds / stake / win</b> — Summary rows (total odds = Odds movement).</li>
+          <li><b>Total odds / stake / win</b> — Summary rows.</li>
           <li><b>Place bet</b> — Button <code class="tok">twoRow / primary</code>; Clear all — Button <code class="tok">ghost / sm</code>.</li>
         </ul>
         <h2>Scaffolding (not components)</h2>
@@ -621,7 +621,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     <div class="betcard__main">
       <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
       <span class="betcard__outcome">Arsenal to win</span>
-      <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+      <span class="odds"><span class="odds__value">2.10</span></span>
     </div>
     <label class="betcard__amount">
       <span class="betcard__amount-label">Bet amount</span>
@@ -676,7 +676,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
   <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
   <div class="betcard__line">
     <span class="betcard__outcome">Arsenal to win</span>
-    <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+    <span class="odds"><span class="odds__value">2.10</span></span>
   </div>
 </div>
 <div class="betcard betcard--compact">
@@ -714,7 +714,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
   <div class="betcard__market"><span class="betcard__market-name">Match Result — 1X2</span></div>
   <div class="betcard__line">
     <span class="betcard__outcome">Arsenal to win</span>
-    <span class="odds odds--up" data-dir="up"><span class="odds__value">2.10</span><span class="odds__prev">1.95</span></span>
+    <span class="odds"><span class="odds__value">2.10</span></span>
   </div>
 </div>
 <div class="betcard betcard--compact">
@@ -755,7 +755,7 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
           <div class="bs-foot-panel" data-foot="multi">
         <div class="input input--lg input--action"><div class="input__stack"><span class="input__label">Stake</span><span class="input__value"><span class="input__prefix">$</span>20.00</span></div><button class="btn btn--secondary btn--tworow"><span class="btn__top">Max</span><span class="btn__bottom">$1,000.50</span></button></div>
         <div class="summary">
-          <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value"><span class="odds odds--up odds--prev-left" data-dir="up"><span class="odds__value">8.42</span><span class="odds__prev">7.90</span></span></span></div>
+          <div class="summary__row"><span class="summary__label">Total odds</span><span class="summary__value">8.42</span></div>
           <div class="summary__row"><span class="summary__label">Total stake</span><span class="summary__value">$20.00</span></div>
           <div class="summary__row summary__row--win"><span class="summary__label">Possible win</span><span class="summary__value">$168.40</span></div>
         </div>
@@ -775,41 +775,6 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
     </dialog>
   </main>
 </div>
-<script>
-  // Odds movement: colour flash (CSS) + a number count-up (this ~15-line rAF tween,
-  // shipped with the component — no library). In production the app calls oddsPlay(el)
-  // once per price change; here the demo loops it so the movement is visible.
-  (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function countUp(el, from, to, ms) {
-      var f = parseFloat(from), t = parseFloat(to);
-      var dp = ((String(to).split('.')[1]) || '').length;
-      if (isNaN(f) || isNaN(t)) { el.textContent = to; return; } // fractional / non-numeric → no roll
-      var start = performance.now();
-      (function step(now) {
-        var p = Math.min(1, (now - start) / ms);
-        var e = 1 - Math.pow(1 - p, 3); // ease-out cubic
-        el.textContent = (f + (t - f) * e).toFixed(dp);
-        if (p < 1) requestAnimationFrame(step); else el.textContent = to;
-      })(performance.now());
-    }
-    function oddsPlay(el) {
-      var val = el.querySelector('.odds__value'), prev = el.querySelector('.odds__prev');
-      if (!val) return;
-      var to = val.getAttribute('data-to') || val.textContent;
-      val.setAttribute('data-to', to);
-      var dir = el.getAttribute('data-dir');
-      el.classList.remove('odds--up', 'odds--down'); void el.offsetWidth;
-      if (dir) el.classList.add('odds--' + dir);
-      if (!reduce && prev) countUp(val, prev.textContent, to, 600);
-    }
-    window.oddsPlay = oddsPlay;
-    document.querySelectorAll('.odds[data-dir]').forEach(function (el) {
-      oddsPlay(el);
-      if (!reduce) setInterval(function () { oddsPlay(el); }, 5000);
-    });
-  })();
-</script>
 <script>
   // Drawer open / light-dismiss (real Drawer component behaviour)
   document.querySelectorAll('[data-drawer-open]').forEach((btn) => {
