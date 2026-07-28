@@ -539,7 +539,10 @@ dialog.drawer--bottom[open] { transform: translateY(0); }
 .bs-foot { flex-direction: column; align-items: stretch; gap: 12px; }
 .bs-foot-panel { display: flex; flex-direction: column; gap: 12px; }
 .bs-foot-panel[hidden] { display: none; }
-.bs-foot .input { flex: 1; }
+/* the stake field keeps its real Input lg height (48px); in this flex column it
+   fills the width via align-items:stretch — NEVER flex-grow, which would stretch
+   its height off the token value. */
+.bs-foot .input { width: 100%; }
 .bs-foot .summary { gap: 6px; }
 .bs-place { width: 100%; }
 </style>
