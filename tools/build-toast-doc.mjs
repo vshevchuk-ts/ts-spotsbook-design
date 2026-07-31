@@ -108,8 +108,17 @@ const css = `${rootVars}
 ${roleCss}
 
 @keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }
+
+/* enter / exit motion — a toast slides IN from above with a fade; on dismiss it
+   slides back UP and fades out. Enter is the default (a toast animates when it
+   mounts); exit is triggered by adding .is-leaving before removal. */
+@keyframes toast-enter { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes toast-exit  { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-16px); } }
+
 @media (prefers-reduced-motion: no-preference) {
   .toast__progress-fill.is-running { animation: toast-countdown 5s linear forwards; }
+  .toast { animation: toast-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .toast.is-leaving { animation: toast-exit 180ms cubic-bezier(0.4, 0, 1, 1) both; }
 }
 
 /* global — the solid full-bleed app-wide bar (warning only this pass) */
@@ -247,6 +256,9 @@ const html = `<!doctype html>
   .story-preview { min-height: 72px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
   .story-note { font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
+  .demo-btn { font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--text-primary); background: var(--bg-card-hover); border: 0.5px solid var(--border-strong); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  .demo-btn:hover { border-color: var(--accent); color: var(--accent); }
+
   .placeholder-note { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 4px 10px; margin-top: 1.5rem; }
 
   ${css}
@@ -268,6 +280,7 @@ const html = `<!doctype html>
       <div class="row"><b>Roles</b><span>success (green) · warning (gold) · negative (red) · neutral (grey). The role colours the leading icon and the timer tint; each status uses its own glyph — success → check, warning/negative → triangle. The glyph is still passed per toast so non-status contexts (Quick Bet) can supply their own.</span></div>
       <div class="row"><b>Undo action</b><span>The trailing button <em>is</em> <a href="button.html">Button</a> / primary / base (40px) — its size, label and colours resolve from button.tokens.json, so it's a real primary button, not a shrunk-down lookalike.</span></div>
       <div class="row"><b>Timer</b><span>A 3px auto-dismiss meter along the bottom, tinted to the role over a faint lighten.2 track; animates to zero and respects prefers-reduced-motion. Combines with a close or an Undo.</span></div>
+      <div class="row"><b>Motion</b><span>On mount a toast slides in from above with a fade (<code class="tok">toast-enter</code>, 260ms ease-out); on dismiss add <code class="tok">.is-leaving</code> and it slides back up and fades out (<code class="tok">toast-exit</code>, 180ms ease-in). Both are gated by prefers-reduced-motion.</span></div>
       <div class="row"><b>Quick Bet toasts</b><span>Two dedicated toasts (activated / deactivated) — not the status roles but the mode's own bolt language: a filled gold bolt vs a grey crossed-out bolt. Built on the plain toast + close.</span></div>
       <div class="row"><b>Global bar</b><span><code class="tok">--global</code>: the solid, full-bleed app-wide notification (moved here from Alert — it is a docked toast, not an inline banner). Warning only this pass.</span></div>
     </div>
@@ -289,6 +302,20 @@ const html = `<!doctype html>
       ${story("With Undo (primary button)", { role: "success", icon: "check", heading: "Betslip cleared", secondary: "All bets have been removed", action: "Undo" })}
       ${story("With timer", { role: "success", icon: "check", heading: "Betslip loaded", secondary: "Your bets have been added to the betslip", progress: true })}
       ${story("Timer + Undo", { role: "success", icon: "check", heading: "Betslip cleared", secondary: "All bets have been removed", action: "Undo", progress: true }, "The timer runs while Undo is still available — it cancels the dismissal if tapped in time.")}
+    </div>
+
+    <h2 class="big-section">Motion — enter / exit</h2>
+    <p class="section-desc">A toast slides in from above with a fade on mount, and slides back up and fades out on dismiss. Click to play it live.</p>
+    <div class="story-grid" style="grid-template-columns:1fr; max-width:460px;">
+      <div class="story">
+        <h3>Enter / exit — live</h3>
+        <div class="story-preview" id="motion-stage" style="min-height:96px;"></div>
+        <div style="display:flex; gap:8px;">
+          <button class="demo-btn" id="motion-dismiss">Dismiss ↑</button>
+          <button class="demo-btn" id="motion-replay">Replay ↓</button>
+        </div>
+        <p class="story-note"><em>Dismiss</em> adds <code class="tok">.is-leaving</code> (slide up + fade) and removes the element on <code class="tok">animationend</code>. <em>Replay</em> re-mounts it, which re-fires <code class="tok">toast-enter</code>.</p>
+      </div>
     </div>
 
     <h2 class="big-section">Roles</h2>
@@ -321,6 +348,22 @@ const html = `<!doctype html>
     <p class="placeholder-note">Every code sample on this page is printed from the same resolved token values driving the live previews above it — copy it directly, nothing here is hand-typed.</p>
   </main>
 </div>
+<script>
+  (function () {
+    var stage = document.getElementById("motion-stage");
+    if (!stage) return;
+    var markup = ${JSON.stringify(toastEl({ role: "success", icon: "check", heading: "Betslip loaded", secondary: "Your bets have been added to the betslip", close: true }))};
+    function mount() { stage.innerHTML = markup; }
+    mount();
+    document.getElementById("motion-dismiss").addEventListener("click", function () {
+      var t = stage.querySelector(".toast");
+      if (!t || t.classList.contains("is-leaving")) return;
+      t.classList.add("is-leaving");
+      t.addEventListener("animationend", function () { t.remove(); }, { once: true });
+    });
+    document.getElementById("motion-replay").addEventListener("click", mount);
+  })();
+</script>
 </body>
 </html>
 `;
